@@ -1,0 +1,47 @@
+schema {
+    query: Query
+#    mutation: Mutation
+}
+
+type Query {
+    Adresy: [Adres]
+    Adres(idadres: ID): Adres!
+    Magazyny: [Magazyn]
+    Magazyn(idmagazyn: ID): Magazyn
+    Kontrahent: [Kontrahent]
+    Kontrahenci(idkontrahenci: ID): Kontrahent
+}
+
+#type Mutation {
+#
+#}
+
+type Adres {
+    idadres: ID
+    miasto: String!
+    kod_pocztowy: String!
+    ulica: String!
+    nr_lokalu: String
+    nr_posesji: String!
+    kraj: String!
+}
+
+type Magazyn {
+    idmagazyn: ID
+    rodzaj: String!
+    pojemnosc: Int!
+    adres: Adres!
+}
+
+type Kontrahent {
+    idkontrahenci: ID
+    NIP: String
+    nazwa_spolki: String!
+    telefon: String!
+    e_mail: String!
+    strona_www: String
+    KRS: String
+    nr_konta: String!
+    fax: String
+    adres: Adres!
+}
