@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b3f4ea3b-0c83-46f4-ac1e-4743831b727d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/api/graphql/resolvers.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/api/graphql/resolvers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/api/graphql/schema.graphql" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/api/graphql/schema.graphql" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -38,8 +35,9 @@
           <entry key="babelrc" value="2" />
           <entry key="graphql" value="5" />
           <entry key="graphqls" value="3" />
-          <entry key="js" value="16" />
+          <entry key="js" value="17" />
           <entry key="json" value="4" />
+          <entry key="sql" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -47,15 +45,17 @@
           <entry key="GraphQL" value="5" />
           <entry key="GraphQL Schema" value="3" />
           <entry key="JSON" value="6" />
-          <entry key="JavaScript" value="16" />
+          <entry key="JavaScript" value="17" />
+          <entry key="SQL" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="graphql" value="3523" />
           <entry key="graphqls" value="373" />
-          <entry key="js" value="1500" />
+          <entry key="js" value="1617" />
           <entry key="json" value="40" />
+          <entry key="sql" value="82" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -63,13 +63,14 @@
           <entry key="GraphQL" value="3523" />
           <entry key="GraphQL Schema" value="373" />
           <entry key="JSON" value="40" />
-          <entry key="JavaScript" value="1500" />
+          <entry key="JavaScript" value="1617" />
+          <entry key="SQL" value="82" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.6094448">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
@@ -106,7 +107,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/server/src/api/graphql/resolvers.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="443">
@@ -118,8 +119,26 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/server/package.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="119">
-                  <caret line="7" column="57" selection-start-line="7" selection-start-column="57" selection-end-line="7" selection-end-column="57" />
+                <state relative-caret-position="442">
+                  <caret line="26" column="24" lean-forward="true" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/server/src/sql/initBachusDB.sql">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="135">
+                  <caret line="9" column="28" lean-forward="true" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/server/src/connectDB.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="135">
+                  <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
                 </state>
               </provider>
             </entry>
@@ -192,6 +211,8 @@
         <option value="$PROJECT_DIR$/server/package.json" />
         <option value="$PROJECT_DIR$/server/src/api/graphql/resolvers.js" />
         <option value="$PROJECT_DIR$/server/src/api/graphql/schema.graphql" />
+        <option value="$PROJECT_DIR$/server/src/sql/initBachusDB.sql" />
+        <option value="$PROJECT_DIR$/server/src/connectDB.js" />
       </list>
     </option>
   </component>
@@ -248,15 +269,7 @@
               <item name="bachus-winery-management" type="462c0819:PsiDirectoryNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bachus-winery-management" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bachus-winery-management" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="graphql" type="462c0819:PsiDirectoryNode" />
+              <item name="sql" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="bachus-winery-management" type="b2602c69:ProjectViewProjectNode" />
@@ -318,12 +331,12 @@
       <workItem from="1538981802163" duration="520000" />
       <workItem from="1539103756779" duration="5884000" />
       <workItem from="1539188811422" duration="3378000" />
-      <workItem from="1539442510155" duration="4083000" />
+      <workItem from="1539442510155" duration="7829000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29472000" />
+    <option name="totallyTimeSpent" value="33218000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="18" y="18" width="1884" height="1025" extended-state="0" />
@@ -433,13 +446,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="57" selection-start-line="7" selection-start-column="57" selection-end-line="7" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/src/api/graphql/schema.graphql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -451,6 +457,27 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="443">
           <caret line="71" column="40" lean-forward="true" selection-start-line="71" selection-start-column="40" selection-end-line="71" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="24" lean-forward="true" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/sql/initBachusDB.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="28" lean-forward="true" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/src/connectDB.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
         </state>
       </provider>
     </entry>
