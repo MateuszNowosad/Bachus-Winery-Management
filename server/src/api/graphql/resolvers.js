@@ -42,8 +42,8 @@ const magazyny = [
 
 const kontrahenci = [
     {
-        idkontrahenci: 1,
-        NIP: 123-456-32-18,
+        idkontrahenci: '1',
+        NIP: '123-456-32-18',
         nazwa_spolki: 'Spolka1',
         telefon: '432-321-123',
         e_mail: 'mail1@cos.pl',
@@ -54,8 +54,8 @@ const kontrahenci = [
         idadres: '2'
     },
     {
-        idkontrahenci: 2,
-        NIP: 223-446-32-18,
+        idkontrahenci: '2',
+        NIP: '223-446-32-18',
         nazwa_spolki: 'Spolka2',
         telefon: '765-543-432',
         e_mail: 'mail3@cos.pl',
@@ -65,7 +65,7 @@ const kontrahenci = [
         fax: '+44-208-1234567',
         idadres: '1'
     }
-]
+];
 
 export default {
     Query: {
@@ -78,14 +78,17 @@ export default {
         Magazyny: (_, input, context) => {
             return magazyny;
         },
-        Magazyn: (_, input, context) => {
-            return magazyny.find(magazyn => magazyn.idmagazyn === input.idmagazyn)
+        Magazyn: (_, { idmagazyn }, context) => {
+            return magazyny.find(magazyn => magazyn.idmagazyn === idmagazyn)
         },
         Kontrahenci:  (_, input, context) => {
-            return kontrachenci;
+            console.log('85, _ filip: ', _);
+            console.log('86, input filip: ', input);
+            console.log('87, context filip: ', context);
+            return kontrahenci;
         },
-        Kontrahent:  (_, input, context) => {
-            return kontrachenci;
+        Kontrahent:  (_, { idkontrahenci }, context) => {
+            return kontrahenci.find(kontrahent => kontrahent.idkontrahenci === idkontrahenci);
         }
     },
     Magazyn: {
