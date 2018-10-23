@@ -44,7 +44,7 @@ type Kontrahent {
     nr_konta: String!
     fax: String
     adres: Adres!
-    listprzewozowy: [ListPrzewozowy]
+    listprzewozowy: [ListPrzewozowy] # many-to-many
 }
 # list_przewozowy_has_kontrachenci check ???
 

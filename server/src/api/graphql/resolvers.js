@@ -72,22 +72,22 @@ export default {
         Adresy: (_, input, context) => {
             return adresy;
         },
-        Adres: (_, { idadres }, context) => {
+        Adres: (_, {idadres}, context) => {
             return adresy.find(adres => adres.idadres === idadres);
         },
         Magazyny: (_, input, context) => {
             return magazyny;
         },
-        Magazyn: (_, { idmagazyn }, context) => {
+        Magazyn: (_, {idmagazyn}, context) => {
             return magazyny.find(magazyn => magazyn.idmagazyn === idmagazyn)
         },
-        Kontrahenci:  (_, input, context) => {
+        Kontrahenci: (_, input, context) => {
             console.log('85, _ filip: ', _);
             console.log('86, input filip: ', input);
             console.log('87, context filip: ', context);
             return kontrahenci;
         },
-        Kontrahent:  (_, { idkontrahenci }, context) => {
+        Kontrahent: (_, {idkontrahenci}, context) => {
             return kontrahenci.find(kontrahent => kontrahent.idkontrahenci === idkontrahenci);
         }
     },
@@ -99,6 +99,16 @@ export default {
     Kontrahent: {
         adres: (_, input, context) => {
             return adresy.find(adres => adres.idadres === _.idadres);
+        },
+        listprzewozowy: (_, input, context) => {
+            // return w jaki sposób znaleźć listy przewozowe dla danego kontrahenta
+            // dane obecnego kontrahenta są w obiekcie _
+            console.log('106, _ filip: ', _);
+            // return adresy.find(adres => adres.idadres === _.idadres);
+        },
+        e_mail: (_, input, context) => {
+            //return zamień e-mail na e_mail
+            // return e_mail = _.'e-mail';
         }
     }
     // Mutation: {}

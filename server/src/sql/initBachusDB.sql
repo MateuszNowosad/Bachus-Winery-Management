@@ -1,3 +1,4 @@
+CREATE DATABASE bachus_winery;
 use bachus_winery;
 
 Create table adres (
