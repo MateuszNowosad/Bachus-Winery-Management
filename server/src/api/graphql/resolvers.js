@@ -67,18 +67,69 @@ const kontrahenci = [
     }
 ];
 
+const listyPrzewozowe = [
+    {
+        idlist_przewozowy: '1',
+        imie_kierowcy: 'Jan',
+        nazwisko_kierowcy: 'Kowalski',
+        uwagi_przewoznika: '',
+        zastrzezenia_odbiorcy: '',
+        edokument: '/dokumenty/5.pdf',
+        idkontrahent: '1',
+        idprzesylka: '1'
+    },
+    {
+        idlist_przewozowy: '2',
+        imie_kierowcy: 'Michal',
+        nazwisko_kierowcy: 'Kwit',
+        uwagi_przewoznika: '',
+        zastrzezenia_odbiorcy: '',
+        edokument: '/dokumenty/7.pdf',
+        idkontrahent: '2',
+        idprzesylka: '2'
+    }
+];
+
+const przesylki = [
+    {
+        idprzesylka: '1',
+        nazwa_przesylki: 'butelki',
+        ciezar_ladunku: '300',
+        date: '15-10-2018'
+    },
+    {
+        idprzesylka: '2',
+        nazwa_przesylki: 'korek',
+        ciezar_ladunku: '220',
+        date: '18-9-2018'
+    }
+];
+
+const dictOperacjeNaWinnicy = [
+    {
+        iddict_operacje_na_winnicy: '1',
+        nazwa: 'zbieranie winogron',
+        opis: 'zbieranie winogron z winnicy',
+    },
+    {
+        iddict_operacje_na_winnicy: '2',
+        nazwa: 'podlewanie winogron',
+        opis: 'podlewanie winogron w winnicy',
+    }
+];
+
 export default {
     Query: {
         Adresy: (_, input, context) => {
             return adresy;
         },
-        Adres: (_, {idadres}, context) => {
+        Adres: (_, { idadres }, context) => {
             return adresy.find(adres => adres.idadres === idadres);
         },
         Magazyny: (_, input, context) => {
             return magazyny;
         },
-        Magazyn: (_, {idmagazyn}, context) => {
+        Magazyn: (_, { idmagazyn }, context) => {
             return magazyny.find(magazyn => magazyn.idmagazyn === idmagazyn)
         },
         Kontrahenci: (_, input, context) => {
@@ -87,8 +138,26 @@ export default {
             console.log('87, context filip: ', context);
             return kontrahenci;
         },
-        Kontrahent: (_, {idkontrahenci}, context) => {
+        Kontrahent: (_, { idkontrahenci }, context) => {
             return kontrahenci.find(kontrahent => kontrahent.idkontrahenci === idkontrahenci);
+        },
+        ListyPrzewozowe: (_, input, context) => {
+            return listyPrzewozowe;
+        },
+        ListPrzewozowy: (_, { idlist_przewozowy }, context) => {
+            return listyPrzewozowe.find(listPrzewozowy => listPrzewozowy.idlist_przewozowy === idlist_przewozowy)
+        },
+        Przesylki: (_, input, context) => {
+            return przesylki;
+        },
+        Przesylka: (_, { idprzesylka }, context) => {
+            return przesylki.find(przesylka => przesylka.idprzesylka === idprzesylka);
+        },
+        DictOperacjeNaWinnicy: (_, input, context) => {
+            return dictOperacjeNaWinnicy;
+        },
+        DictOperacjaNaWinnicy: (_, { iddict_operacje_na_winnicy }, context) => {
+            return dictOperacjeNaWinnicy.find(operacja => operacja.iddict_operacje_na_winnicy === iddict_operacje_na_winnicy);
         }
     },
     Magazyn: {

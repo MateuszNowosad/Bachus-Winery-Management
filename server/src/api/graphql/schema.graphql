@@ -8,8 +8,14 @@ type Query {
     Adres(idadres: ID): Adres!
     Magazyny: [Magazyn]
     Magazyn(idmagazyn: ID): Magazyn
-    Kontrahent(idkontrahenci: ID): Kontrahent
     Kontrahenci: [Kontrahent]
+    Kontrahent(idkontrahenci: ID): Kontrahent
+    ListyPrzewozowe: [ListPrzewozowy]
+    ListPrzewozowy(idlist_przewozowy: ID): ListPrzewozowy!
+    Przesylki: [Przesylka]
+    Przesylka(idprzesylka: ID): Przesylka!
+    DictOperacjeNaWinnicy: [DictOperacjeNaWinnicy]
+    DictOperacjaNaWinnicy(iddict_operacje_na_winnicy: ID): DictOperacjeNaWinnicy!
 }
 
 #type Mutation {
