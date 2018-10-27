@@ -10,6 +10,11 @@ import {FormUsers} from "./FormUsers";
 import {FormVineyard} from "./FormVineyard";
 import {FormWarehouse} from "./FormWarehouse";
 import {FormContractors} from "./FormContractors";
+import  {FormVineyardOperation} from './FormVineyardOperation';
+import {
+    vineyardOperations,
+    vineyards
+} from './StaticData'
 
 export class Forms extends React.Component {
     constructor(props) {
@@ -23,7 +28,7 @@ export class Forms extends React.Component {
             dictProcesses: [],
             dictBatchTypes: [],
             dictUserRoles: [],
-            dictVineyardOperations: [],
+            dictVineyardOperations: vineyardOperations,
             dictWineCategories: [],
             users: [],
             vineyards: [],
@@ -144,6 +149,10 @@ export class Forms extends React.Component {
                 <FormVineyard onSubmit={this.handleVineyardSubmit}/>
                 <FormWarehouse onSubmit={this.handleWarehouseSubmit}/>
                 <FormContractors onSubmit={this.handleContractorsSubmit}/>
+                <FormVineyardOperation
+                    dictOperations={this.state.dictVineyardOperations}
+                    vineyards = {vineyards}
+                />
             </Fragment>
         );
     }

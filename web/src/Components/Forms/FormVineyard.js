@@ -12,7 +12,7 @@ const odmiany = [
     'Agat doński',
     'Ajwaz',
     'Alden'
-]
+];
 
 
 export class FormVineyard extends React.Component {
@@ -20,7 +20,7 @@ export class FormVineyard extends React.Component {
         super(props);
         this.state = {
             name: '',
-            area: '',
+            area: null,
             terroir: '',
             dateOfPlanting: '',
             registrationPlotId: '',
