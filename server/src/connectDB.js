@@ -1,13 +1,12 @@
-var mysql      = require('mysql');
+var mysql = require('mysql');
 var fs = require('fs');
 
 var sql = fs.readFileSync('sql/initBachusDB.sql').toString();
-console.log('5, sql filip: ', sql);
 var connection = mysql.createConnection({
-    host     : '172.17.0.2',
+    host     : '172.17.0.3',
     user     : 'test',
     password : 'test',
-    database : 'mysql',
+    database : 'bachus-winery',
     insecureAuth : true
 });
 
@@ -16,12 +15,27 @@ connection.connect(function(err) {
         console.error('error connecting: ' + err.stack);
         return;
     }
-
-    console.log('connected as id ' + connection.threadId);
-    connection.query('SELECT * FROM employees', (err,rows) => {
+    console.log('==========================================================================================');
+    console.log('Connected as id ' + connection.threadId);
+    console.log('==========================================================================================');
+    // connection.query('use bachusWinery', (err,rows) => {
+    //     console.log('22,  filip: ');
+    //     if(err) throw err;
+    //     console.log('Using bachus-winery Database:\n');
+    // });
+    connection.query('show tables', (err,rows) => {
         if(err) throw err;
-
-        console.log('Data received from Db:\n');
         console.log(rows);
     });
+    // connection.query(sql, (err,rows) => {
+    //     if(err) throw err;
+    //
+    //     console.log('Data received from Db:\n');
+    //     console.log(rows);
+    // });
+    // connection.query('show tables', (err,rows) => {
+    //     if(err) throw err;
+    //     console.log(rows);
+    // });
+    connection.end();
 });
