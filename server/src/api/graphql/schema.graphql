@@ -5,17 +5,17 @@ schema {
 
 type Query {
     Adresy: [Adres]
-    Adres(idadres: ID): Adres!
+    Adres(idAdres: ID): Adres!
     Magazyny: [Magazyn]
-    Magazyn(idmagazyn: ID): Magazyn
-    Kontrahenci: [Kontrahent]
-    Kontrahent(idkontrahenci: ID): Kontrahent
+    Magazyn(idMagazyn: ID): Magazyn
+    Kontrahenci: [Kontrahenci]
+    KontrahentPlural(idKontrahenci: ID): Kontrahenci
     ListyPrzewozowe: [ListPrzewozowy]
-    ListPrzewozowy(idlist_przewozowy: ID): ListPrzewozowy!
+    ListPrzewozowy(idListPrzewozowy: ID): ListPrzewozowy!
     Przesylki: [Przesylka]
-    Przesylka(idprzesylka: ID): Przesylka!
+    Przesylka(idPrzesylka: ID): Przesylka!
     DictOperacjeNaWinnicy: [DictOperacjeNaWinnicy]
-    DictOperacjaNaWinnicy(iddict_operacje_na_winnicy: ID): DictOperacjeNaWinnicy!
+    DictOperacjaNaWinnicy(idDictOperacjeNaWinnicy: ID): DictOperacjeNaWinnicy!
 }
 
 #type Mutation {
@@ -85,7 +85,7 @@ type InformacjeOWinie {
     kategoriaWina: DictKategoriaWina #
 }
 
-type Kontrahenci { # Kontrahent
+type Kontrahenci {
     idKontrahenci: ID
     NIP: String
     nazwaSpolki: String!
@@ -107,7 +107,7 @@ type ListPrzewozowy {
     uwagiPrzewoznika: String
     zastrzezeniaOdbiorcy: String
     eDokument: String
-    kontrahent: [Kontrahent]
+    kontrahent: [Kontrahenci]
     przesylka: Przesylka
 }
 

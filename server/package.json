@@ -24,13 +24,15 @@
     "http": "0.0.0",
     "moment": "^2.22.2",
     "mysql": "^2.16.0",
+    "mysql2": "^1.6.1",
     "passport": "^0.4.0",
-    "sequelize": "^4.39.0"
+    "sequelize": "^4.41.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/node": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
-    "babel-cli": "^6.26.0"
+    "babel-cli": "^7.0.0-beta.3",
+    "prettier": "1.14.3"
   }
 }
