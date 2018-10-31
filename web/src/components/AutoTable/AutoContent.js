@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TableCell from "@material-ui/core/TableCell/TableCell";
 import TableRow from "@material-ui/core/TableRow/TableRow";
+import TableBody from "@material-ui/core/TableBody/TableBody";
 
 
 const AutoContent = (props) => {
@@ -15,7 +16,11 @@ const AutoContent = (props) => {
         }
         row.push(<TableRow key={values[0]}>{cells}</TableRow>);
     });
-    return row;
+    return (
+        <TableBody>
+            {row}
+        </TableBody>
+    );
 };
 
 AutoContent.propTypes = {

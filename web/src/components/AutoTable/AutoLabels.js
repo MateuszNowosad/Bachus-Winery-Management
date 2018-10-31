@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableCell from "@material-ui/core/TableCell/TableCell";
+import TableHead from "@material-ui/core/TableHead/TableHead";
+import TableRow from "@material-ui/core/TableRow/TableRow";
 
 
 const AutoLabels = (props) => {
@@ -10,7 +12,13 @@ const AutoLabels = (props) => {
         if (record.hasOwnProperty(property)) {
             labels.push(<TableCell key={property}>{property}</TableCell>);
         }
-    return labels;
+    return (
+        <TableHead>
+            <TableRow>
+                {labels}
+            </TableRow>
+        </TableHead>
+    );
 };
 
 AutoLabels.propTypes = {

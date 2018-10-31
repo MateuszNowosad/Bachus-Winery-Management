@@ -11,6 +11,7 @@ import AutoTable from "../../components/AutoTable/AutoTable";
 import data from '../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../components/Tab/OCBigTab.js';
 import TabContainer from "../../components/Tab/TabContainer";
+import StyledTable from "../../components/StyledTable/StyledTable";
 
 const labels = ['1', '2', '3', '4', '5', '6', '7'];
 
@@ -41,6 +42,7 @@ class AdminDashboard extends React.Component {
                 {/*Produkty*/}
                 {/*</Typography>*/}
                 <AutoTable data={data} subject='hero'/>
+                <StyledTable data={data} subject={'hero'} labelsArr={['ID', 'Nazwa', 'Wiek']}/>
             </React.Fragment>
         );
     }
