@@ -15,3 +15,5 @@ TabContainer.propTypes = {
     children: PropTypes.node.isRequired,
     key: PropTypes.number,
 };
+
+export default TabContainer;

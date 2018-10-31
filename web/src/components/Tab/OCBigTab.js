@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import TabContainer from './TabContainer'
+import TabView from "./TabView";
 
 
 class OCBigTab extends React.Component {
@@ -16,7 +16,7 @@ class OCBigTab extends React.Component {
     };
 
     render() {
-        const {labels} = this.props;
+        const {labels, children} = this.props;
         const {value} = this.state;
 
         return (
@@ -35,20 +35,17 @@ class OCBigTab extends React.Component {
                         )}
                     </Tabs>
                 </AppBar>
-                {value === 1 && <TabContainer>Item Two</TabContainer>}
-                {value === 2 && <TabContainer>Item Three</TabContainer>}
-                {value === 3 && <TabContainer>Item Four</TabContainer>}
-                {value === 4 && <TabContainer>Item Five</TabContainer>}
-                {value === 5 && <TabContainer>Item Six</TabContainer>}
-                {value === 6 && <TabContainer>Item Seven</TabContainer>}
+                <TabView value={value}>
+                    {children}
+                </TabView>
             </React.Fragment>
         );
     }
 }
 
 OCBigTab.propTypes = {
-    classes: PropTypes.object.isRequired,
     labels: PropTypes.array.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 export default OCBigTab;
