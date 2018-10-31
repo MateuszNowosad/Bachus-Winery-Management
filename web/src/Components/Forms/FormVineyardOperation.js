@@ -4,9 +4,11 @@ import {
     TextField,
     Button,
     Grid,
-    MenuItem
+    MenuItem,
+    Typography
 } from '@material-ui/core'
-import {DialogVineyard} from "./DialogVineyard";
+// import {DialogForForm} from "./DialogForForm";
+// import {TableVineyards} from "./TableVineyards";
 
 
 export class FormVineyardOperation extends React.Component {
@@ -16,18 +18,18 @@ export class FormVineyardOperation extends React.Component {
             dateOfOperation: '',
             desc: '',
             dictOperation: '',
-            selectedVineyard: {},
-            open: true,
+            // selectedVineyard: {},
+            // open: false,
         }
     }
 
-    handleClickOpen = () => {
-        this.setState({open: true});
-    };
-
-    handleClose = () => {
-        this.setState({open: false});
-    };
+    // handleClickOpen = () => {
+    //     this.setState({open: true});
+    // };
+    //
+    // handleClose = () => {
+    //     this.setState({open: false});
+    // };
 
 
     handleChange = name => event => {
@@ -36,10 +38,28 @@ export class FormVineyardOperation extends React.Component {
         });
     };
 
-    handleVineyardSelect = vineyard => {
-        this.setState({
-            selectedVineyard: vineyard,
-        })
+    // handleVineyardSelect = vineyard => {
+    //     this.setState({
+    //         selectedVineyard: vineyard,
+    //     })
+    // };
+
+    handleSubmit = () => {
+        const {
+            dateOfOperation,
+            desc,
+            dictOperation,
+           // selectedVineyard,
+        } = this.state;
+
+        this.props.onSubmit(
+            {
+                dateOfOperation,
+                desc,
+                dictOperation,
+              //  selectedVineyard,
+            }
+        );
     };
 
     render() {
@@ -47,18 +67,24 @@ export class FormVineyardOperation extends React.Component {
             dateOfOperation,
             desc,
             dictOperation,
-            selectedVineyard,
-            open
+           // selectedVineyard,
+           // open
         } = this.state;
         const {
             dictOperations,
-            vineyards
+            //vineyards
         } = this.props;
 
         return (
             <Paper
                 style={{margin: '2% 20%'}}
             >
+                <Typography
+                    variant={"h6"}
+                    align={"center"}
+                >
+                    Nowa operacja na winnicy
+                </Typography>
                 <form
                     style={{margin: '0% 25%'}}
                 >
@@ -117,30 +143,37 @@ export class FormVineyardOperation extends React.Component {
                                 ))}
                             </TextField>
                         </Grid>
-                        <Grid item sm={12}>
-                            <TextField
-                                id="selectedVineyard"
-                                label="Wybrana winnica"
-                                value={selectedVineyard.name ? selectedVineyard.name : 'Nie wybrano winnicy'}
-                                margin="dense"
-                                variant="outlined"
-                                InputProps={{
-                                    readOnly: true,
-                                }}
-                                onClick={this.handleClickOpen}
-                            />
-                            <DialogVineyard
-                                open={open}
-                                vineyards={vineyards}
-                                onClose={this.handleClose}
-                                onSelect = {this.handleVineyardSelect}
-                            />
-                        </Grid>
+                        {/*<Grid item sm={12}>*/}
+                            {/*<TextField*/}
+                                {/*id="selectedVineyard"*/}
+                                {/*label="Wybrana winnica"*/}
+                                {/*value={selectedVineyard.name ? selectedVineyard.name : 'Nie wybrano winnicy'}*/}
+                                {/*margin="dense"*/}
+                                {/*variant="outlined"*/}
+                                {/*InputProps={{*/}
+                                    {/*readOnly: true,*/}
+                                {/*}}*/}
+                                {/*onClick={this.handleClickOpen}*/}
+                            {/*/>*/}
+                            {/*<DialogForForm*/}
+                                {/*title={"Winnice"}*/}
+                                {/*open={open}*/}
+                                {/*onClose={this.handleClose}*/}
+                                {/*onSelect = {this.handleVineyardSelect}*/}
+                                {/*children={*/}
+                                    {/*<TableVineyards*/}
+                                        {/*vineyards={vineyards}*/}
+                                        {/*id={selectedVineyard.id}*/}
+                                        {/*onClose={this.handleClose}*/}
+                                        {/*onSelect = {this.handleVineyardSelect}*/}
+                                    {/*/>}*/}
+                            {/*/>*/}
+                        {/*</Grid>*/}
                         <Grid item>
                             <Button
                                 variant={"outlined"}
                                 style={{margin: '10% 0 5% 0'}}
-                                //onClick={this.handleSubmit}
+                                onClick={this.handleSubmit}
                             >
                                 Dodaj
                             </Button>

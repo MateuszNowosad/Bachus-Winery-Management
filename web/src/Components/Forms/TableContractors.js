@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core'
 
 
-export class TableVineyards extends React.Component {
+export class TableContractors extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -37,7 +37,7 @@ export class TableVineyards extends React.Component {
             rowsPerPage,
         } = this.state;
         const {
-            vineyards,
+            contractors,
         } = this.props;
 
 
@@ -46,12 +46,11 @@ export class TableVineyards extends React.Component {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Nazwa winnicy</TableCell>
-                            <TableCell>Powierzchnia</TableCell>
+                            <TableCell>Nazwa kontrahenta</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {vineyards.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                        {contractors.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                             return (
                                 <TableRow
                                     hover
@@ -61,7 +60,6 @@ export class TableVineyards extends React.Component {
                                     <TableCell>
                                         {row.name}
                                     </TableCell>
-                                    <TableCell>{row.area}</TableCell>
                                 </TableRow>
                             );
                         })}
@@ -69,7 +67,7 @@ export class TableVineyards extends React.Component {
                 </Table>
                 <TablePagination
                     component={"div"}
-                    count={vineyards.length}
+                    count={contractors.length}
                     onChangePage={this.handleChangePage}
                     page={page}
                     rowsPerPage={rowsPerPage}

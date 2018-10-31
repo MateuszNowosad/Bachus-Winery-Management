@@ -3,7 +3,8 @@ import {
     Paper,
     TextField,
     Button,
-    Grid
+    Grid,
+    Typography
 } from '@material-ui/core'
 
 export class FormDictGrapeType extends React.Component {
@@ -33,6 +34,12 @@ export class FormDictGrapeType extends React.Component {
             <Paper
                 style={{margin: '2% 40%'}}
             >
+                <Typography
+                    variant={"h6"}
+                    align={"center"}
+                >
+                    Nowa odmiana winogron
+                </Typography>
                 <form
                     style={{margin: '0% 25%'}}
                 >

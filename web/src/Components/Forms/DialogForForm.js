@@ -6,16 +6,14 @@ import {
     DialogActions,
     Button,
 } from '@material-ui/core'
-import {TableVineyards} from './TableVineyards'
 
 
-export class DialogVineyard extends React.Component{
+export class DialogForForm extends React.Component{
     render() {
         const {
             open,
-            vineyards,
             onClose,
-            onSelect
+            title,
         } = this.props;
 
         return (
@@ -24,12 +22,9 @@ export class DialogVineyard extends React.Component{
                 onClose={()=>onClose()}
                 aria-labelledby="form-dialog-title"
             >
-                <DialogTitle id="form-dialog-title">Winnice</DialogTitle>
+                <DialogTitle id="form-dialog-title">{title}</DialogTitle>
                 <DialogContent>
-                    <TableVineyards
-                        vineyards={vineyards}
-                        onSelect={onSelect}
-                    />
+                    {this.props.children}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={()=>onClose()} color="primary">

@@ -5,13 +5,19 @@ import {
     Button,
     Grid,
     MenuItem,
-    InputAdornment
+    InputAdornment,
+    Typography
 } from '@material-ui/core'
 
 const odmiany = [
     'Agat doński',
     'Ajwaz',
     'Alden'
+];
+
+const stany = [
+    'czynna',
+    'rośnie'
 ];
 
 
@@ -24,7 +30,8 @@ export class FormVineyard extends React.Component {
             terroir: '',
             dateOfPlanting: '',
             registrationPlotId: '',
-            grapeType: ''
+            grapeType: '',
+            state: ''
         }
     }
 
@@ -41,7 +48,8 @@ export class FormVineyard extends React.Component {
             terroir,
             dateOfPlanting,
             registrationPlotId,
-            grapeType
+            grapeType,
+            state
         } = this.state;
         this.props.onSubmit(
             {
@@ -50,7 +58,8 @@ export class FormVineyard extends React.Component {
                 terroir,
                 dateOfPlanting,
                 registrationPlotId,
-                grapeType
+                grapeType,
+                state
             }
         );
     };
@@ -63,14 +72,20 @@ export class FormVineyard extends React.Component {
             terroir,
             dateOfPlanting,
             registrationPlotId,
-            grapeType
+            grapeType,
+            state
         } = this.state;
 
         return (
             <Paper
                 style={{margin: '2% 20%'}}
             >
-
+                <Typography
+                    variant={"h6"}
+                    align={"center"}
+                >
+                    Nowa winnica
+                </Typography>
                 <form
                     style={{margin: '0% 25%'}}
                 >
@@ -108,6 +123,25 @@ export class FormVineyard extends React.Component {
                                     startAdornment: <InputAdornment position="start">Ha</InputAdornment>,
                                 }}
                             />
+                        </Grid>
+                        <Grid item sm={12}>
+                            <TextField
+                                fullWidth
+                                id="state"
+                                select
+                                label="Stan winnicy"
+                                placeholder="Stan winnicy"
+                                value={state}
+                                onChange={this.handleChange('state')}
+                                margin="dense"
+                                variant={"outlined"}
+                            >
+                                {stany.map(option => (
+                                    <MenuItem key={option} value={option}>
+                                        {option}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
                         </Grid>
                         <Grid item sm={12}>
                             <TextField

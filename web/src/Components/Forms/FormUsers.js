@@ -8,6 +8,7 @@ import {
     IconButton,
     Grid,
     Avatar,
+    Typography
 } from '@material-ui/core'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
@@ -18,7 +19,7 @@ const roles = [
     'administrator',
     'pracownik produkcji',
     'pracownik magazynu'
-]
+];
 
 
 export class FormUsers extends React.Component {
@@ -109,7 +110,12 @@ export class FormUsers extends React.Component {
             <Paper
                 style={{margin: '2% 20%'}}
             >
-
+                <Typography
+                    variant={"h6"}
+                    align={"center"}
+                >
+                    Nowy użytkownik
+                </Typography>
                 <form
                     style={{margin: '0% 25%'}}
                 >
@@ -295,5 +301,5 @@ export class FormUsers extends React.Component {
             </Paper>
         );
     }
-};
+}
 

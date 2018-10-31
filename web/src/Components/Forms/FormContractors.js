@@ -3,7 +3,8 @@ import {
     Paper,
     TextField,
     Button,
-    Grid
+    Grid,
+    Typography
 } from '@material-ui/core'
 import {FormAddress} from "./FormAddress";
 
@@ -72,7 +73,12 @@ export class FormContractors extends React.Component {
             <Paper
                 style={{margin: '2% 20%'}}
             >
-
+                <Typography
+                    variant={"h6"}
+                    align={"center"}
+                >
+                    Nowy kontrahent
+                </Typography>
                 <form
                     style={{margin: '0% 25%'}}
                 >
@@ -218,5 +224,5 @@ export class FormContractors extends React.Component {
             </Paper>
         );
     }
-};
+}
 

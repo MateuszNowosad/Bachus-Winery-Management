@@ -3,7 +3,8 @@ import {
     Paper,
     TextField,
     Button,
-    Grid
+    Grid,
+    Typography
 } from '@material-ui/core'
 
 export class FormDictProcesses extends React.Component {
@@ -32,6 +33,12 @@ export class FormDictProcesses extends React.Component {
         const {name, desc, additional} = this.state;
         return (
             <Paper style={{margin: '2% 40%'}}>
+                <Typography
+                    variant={"h6"}
+                    align={"center"}
+                >
+                    Nowy rodzaj procesu
+                </Typography>
                 <form
                     style={{margin: '0% 25%'}}
                 >

@@ -3,7 +3,8 @@ import {
     Paper,
     TextField,
     Button,
-    Grid
+    Grid,
+    Typography
 } from '@material-ui/core'
 
 export class FormDictUserRole extends React.Component {
@@ -34,6 +35,12 @@ export class FormDictUserRole extends React.Component {
             <Paper
                 style={{margin: '2% 40%'}}
             >
+                <Typography
+                    variant={"h6"}
+                    align={"center"}
+                >
+                    Nowa rola użytkownika
+                </Typography>
                 <form
                     style={{margin: '0% 25%'}}
                 >

@@ -3,7 +3,8 @@ import {
     Paper,
     TextField,
     Button,
-    Grid
+    Grid,
+    Typography
 } from '@material-ui/core'
 
 export class FormDictWineCategory extends React.Component {
@@ -28,11 +29,17 @@ export class FormDictWineCategory extends React.Component {
     };
 
     render() {
-        const {name, desc} = this.state
+        const {name, desc} = this.state;
         return (
             <Paper
                 style={{margin: '2% 40%'}}
             >
+                <Typography
+                    variant={"h6"}
+                    align={"center"}
+                >
+                    Nowa kateogria wina
+                </Typography>
                 <form
                     style={{margin: '0% 25%'}}
                 >

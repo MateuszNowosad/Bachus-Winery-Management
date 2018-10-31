@@ -4,25 +4,17 @@ import {
     TextField,
     Button,
     Grid,
-    MenuItem,
     InputAdornment,
     Typography
 } from '@material-ui/core'
-import {FormAddress} from "./FormAddress";
 
-
-const types = [
-    'magazyn produktów',
-    'magazyn półproduktów',
-];
-
-
-export class FormWarehouse extends React.Component {
+export class FormGrapeHarvest extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            type: '',
-            capacity: ''
+            dateOfHarvest: '',
+            amount: 0,
         }
     }
 
@@ -33,17 +25,12 @@ export class FormWarehouse extends React.Component {
     };
 
     handleSubmit = () => {
-        const {type,capacity} = this.state;
-        this.props.onSubmit({type,capacity});
+        const {dateOfHarvest,amount} = this.state;
+        this.props.onSubmit({dateOfHarvest,amount});
     };
 
-
     render() {
-        const {
-            type,
-            capacity
-        } = this.state;
-
+        const {dateOfHarvest, amount} = this.state;
         return (
             <Paper
                 style={{margin: '2% 20%'}}
@@ -52,7 +39,7 @@ export class FormWarehouse extends React.Component {
                     variant={"h6"}
                     align={"center"}
                 >
-                    Nowy magazyn
+                    Nowe winobranie
                 </Typography>
                 <form
                     style={{margin: '0% 25%'}}
@@ -65,44 +52,37 @@ export class FormWarehouse extends React.Component {
                         <Grid item sm={12}>
                             <TextField
                                 fullWidth
-                                id="type"
-                                select
-                                label="Rodzaj magazynu"
-                                placeholder="Rodzaj magazynu"
-                                value={type}
-                                onChange={this.handleChange('type')}
+                                id="dateOfHarvest"
+                                label="Data zbioru"
+                                type="date"
+                                value={dateOfHarvest}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                                 margin="dense"
+                                onChange={this.handleChange('dateOfHarvest')}
                                 variant={"outlined"}
-                            >
-                                {types.map(option => (
-                                    <MenuItem key={option} value={option}>
-                                        {option}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
+                            />
                         </Grid>
                         <Grid item sm={12}>
                             <TextField
                                 fullWidth
-                                id="capacity"
-                                label="Pojemność"
-                                value={capacity}
+                                id="amount"
+                                label="Ilość"
+                                value={amount}
                                 type="number"
                                 margin="dense"
-                                onChange={this.handleChange('capacity')}
+                                onChange={this.handleChange('amount')}
                                 variant={"outlined"}
                                 InputProps={{
-                                    endAdornment: <InputAdornment position="end">m<sub>3</sub></InputAdornment>,
+                                    startAdornment: <InputAdornment position="start">Kg</InputAdornment>,
                                 }}
                             />
                         </Grid>
                         <Grid item>
-                            <FormAddress/>
-                        </Grid>
-                        <Grid item>
                             <Button
                                 variant={"outlined"}
-                                style={{margin: '10% 0 5% 0'}}
+                                style={{margin: '5% 0'}}
                                 onClick={this.handleSubmit}
                             >
                                 Dodaj
@@ -113,5 +93,4 @@ export class FormWarehouse extends React.Component {
             </Paper>
         );
     }
-
 }

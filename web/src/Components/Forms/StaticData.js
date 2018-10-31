@@ -9,6 +9,35 @@ export const vineyardOperations = [
     }
 ];
 
+export const dictWineCategories = [
+    {
+        name: "Czerwone wytrawne"
+    },
+    {
+        name: "Białe półsłodkie"
+    }
+];
+
+export const dictBatchType = [
+    {
+        name: "Partia winogron",
+    },
+    {
+        name: "Partia moszczu",
+    }
+];
+
+export const contractors = [
+    {
+        id:0,
+        name: "Kontrahent 1"
+    },
+    {
+        id: 1,
+        name: "Kontrahent 2"
+    }
+];
+
 export const vineyards = [
     {
         id: 0,

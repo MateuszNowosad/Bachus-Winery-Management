@@ -3,7 +3,8 @@ import {
     Paper,
     TextField,
     Button,
-    Grid
+    Grid,
+    Typography
 } from '@material-ui/core'
 
 export class FormDictCategories extends React.Component {
@@ -26,7 +27,7 @@ export class FormDictCategories extends React.Component {
     handleSubmit = () => {
         const {name,unit,desc} = this.state;
         this.props.onSubmit({name,unit,desc});
-    }
+    };
 
     render() {
         const {name, unit, desc} = this.state;
@@ -34,6 +35,12 @@ export class FormDictCategories extends React.Component {
             <Paper
                 style={{margin: '2% 40%'}}
             >
+                <Typography
+                    variant={"h6"}
+                    align={"center"}
+                >
+                    Nowa kategoria
+                </Typography>
                 <form
                     style={{margin: '0% 25%'}}
                 >

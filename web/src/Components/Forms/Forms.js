@@ -11,10 +11,15 @@ import {FormVineyard} from "./FormVineyard";
 import {FormWarehouse} from "./FormWarehouse";
 import {FormContractors} from "./FormContractors";
 import  {FormVineyardOperation} from './FormVineyardOperation';
+import {FormGrapeHarvest} from './FormGrapeHarvest'
 import {
     vineyardOperations,
-    vineyards
+    vineyards,
+    dictWineCategories
 } from './StaticData'
+import {FormWineInformation} from "./FormWineInformation";
+import {FormBatches} from "./FormBatches";
+import {FormWaybill} from "./FormWaybill";
 
 export class Forms extends React.Component {
     constructor(props) {
@@ -29,10 +34,11 @@ export class Forms extends React.Component {
             dictBatchTypes: [],
             dictUserRoles: [],
             dictVineyardOperations: vineyardOperations,
-            dictWineCategories: [],
+            dictWineCategories: dictWineCategories,
             users: [],
-            vineyards: [],
+            vineyards: vineyards,
             warehouses: [],
+            vineyardOperations: []
         };
     }
 
@@ -135,6 +141,15 @@ export class Forms extends React.Component {
         }))
     };
 
+    handleVineyardOpertaionSubmit = (vineyardOperation) => {
+        this.setState(({vineyardOperations}) => ({
+            vineyardOperations: [
+                ...vineyardOperations,
+                vineyardOperation
+            ]
+        }))
+    };
+
     render() {
         return (
             <Fragment>
@@ -150,9 +165,14 @@ export class Forms extends React.Component {
                 <FormWarehouse onSubmit={this.handleWarehouseSubmit}/>
                 <FormContractors onSubmit={this.handleContractorsSubmit}/>
                 <FormVineyardOperation
+                    onSubmit = {this.handleVineyardOpertaionSubmit}
                     dictOperations={this.state.dictVineyardOperations}
                     vineyards = {vineyards}
                 />
+                <FormGrapeHarvest/>
+                <FormWineInformation/>
+                <FormBatches/>
+                <FormWaybill/>
             </Fragment>
         );
     }

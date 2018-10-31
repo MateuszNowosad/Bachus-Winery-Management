@@ -3,7 +3,8 @@ import {
     Paper,
     TextField,
     Button,
-    Grid
+    Grid,
+    Typography
 } from '@material-ui/core'
 
 export class FormDictVineyardOperations extends React.Component {
@@ -31,6 +32,12 @@ export class FormDictVineyardOperations extends React.Component {
         const {name, desc} = this.state;
         return (
             <Paper style={{margin: '2% 40%'}}>
+                <Typography
+                    variant={"h6"}
+                    align={"center"}
+                >
+                    Nowy rodzaj operacji na winnicy
+                </Typography>
                 <form
                     style={{margin: '0% 25%'}}
                 >
