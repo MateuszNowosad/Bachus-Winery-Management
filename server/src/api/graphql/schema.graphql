@@ -23,6 +23,7 @@ type Query {
 #}
 
 type Adres {
+    id: ID
     idAdres: ID
     miasto: String!
     kodPocztowy: String!
@@ -30,6 +31,8 @@ type Adres {
     nrLokalu: String
     nrPosesji: String!
     kraj: String!
+    createdAt: String
+    updatedAt: String
 }
 
 type DictKategoriaWina {

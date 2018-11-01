@@ -1,3 +1,5 @@
+import * as sequelize from '../../sequelizeDB';
+
 const adresy = [
     {
         idAdres: '1',
@@ -120,8 +122,8 @@ const dictOperacjeNaWinnicy = [
 
 export default {
     Query: {
-        Adresy: (_, input, context) => {
-            return adresy;
+        Adresy: async (_, input, context) => {
+            return await sequelize.getAdresses();
         },
         Adres: (_, { idAdres }, context) => {
             return adresy.find(adres => adres.idAdres === idAdres);

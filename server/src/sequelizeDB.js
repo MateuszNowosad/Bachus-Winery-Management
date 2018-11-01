@@ -22,13 +22,11 @@ sequelize.authenticate().then(() => {
         console.error('Unable to connect to the database:', err);
     });
 
-const User = sequelize.define('user', {
-    username: Sequelize.STRING,
-    birthday: Sequelize.DATE
-});
-
 const Adres = sequelize.define('Adres', {
-    idAdres: Sequelize.STRING,
+    idAdres: {
+        type: Sequelize.STRING,
+        primaryKey: true
+    },
     miasto: Sequelize.STRING,
     kodPocztowy: Sequelize.STRING,
     ulica: Sequelize.STRING,
@@ -36,18 +34,29 @@ const Adres = sequelize.define('Adres', {
     nrPosesji: Sequelize.STRING,
     kraj: Sequelize.STRING
 });
+export function createAdres() {
+    sequelize.sync().then(() => Adres.create({
+        idAdres: 2,
+        miasto: 'Lublin',
+        kodPocztowy: '20-060',
+        ulica: 'Polna',
+        nrLokalu: '5',
+        nrPosesji: '2',
+        kraj: 'Polska'
+    })).then(adres => {
+        console.log(adres.toJSON());
+    });
+}
 
-sequelize.sync().then(() => Adres.create({
-    idAdres: '1',
-    miasto: 'Lublin',
-    kodPocztowy: '20-060',
-    ulica: 'Polna',
-    nrLokalu: '5',
-    nrPosesji: '2',
-    kraj: 'Polska'
-})).then(adres => {
-    console.log(adres.toJSON());
-});
+export async function getAdresses() {
+    return await sequelize.query("SELECT * FROM `Adres`", { type: sequelize.QueryTypes.SELECT})
+
+    // Adres.findAll({
+    //     attributes: [ idAdres, miasto, kodPocztowy, ulica, nrLokalu, nrPosesji, kraj ]
+    // }).then(adres => {
+    //     console.log(adres.toJSON());
+    // });
+}
 
 // sequelize.sync().then(() => User.create({
 //         username: 'janedoe',
