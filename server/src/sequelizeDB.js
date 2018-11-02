@@ -1,10 +1,11 @@
 // import Sequelize from 'sequelize';
-
 // import jwt from 'jsonwebtoken';
 // import createJwtToken from '../utils/createJwtToken';
 // import { getSetQueryFragments } from '../utils/sequelize';
 // import moment from 'moment';
 // import ConnectDataService from '../services/ConnectDataService';
+// var faker = require('faker/locale/pl');
+var faker = require('faker');
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize({
     database: 'bachusWinery',
@@ -24,8 +25,9 @@ sequelize.authenticate().then(() => {
 
 const Adres = sequelize.define('Adres', {
     idAdres: {
-        type: Sequelize.STRING,
-        primaryKey: true
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     },
     miasto: Sequelize.STRING,
     kodPocztowy: Sequelize.STRING,
@@ -34,15 +36,17 @@ const Adres = sequelize.define('Adres', {
     nrPosesji: Sequelize.STRING,
     kraj: Sequelize.STRING
 });
-export function createAdres() {
-    sequelize.sync().then(() => Adres.create({
-        idAdres: 2,
-        miasto: 'Lublin',
-        kodPocztowy: '20-060',
-        ulica: 'Polna',
-        nrLokalu: '5',
-        nrPosesji: '2',
-        kraj: 'Polska'
+for(let i =0; i< 10000; i+=1) {
+    createAdres();
+}
+export async function createAdres() {
+    await sequelize.sync().then(() => Adres.create({
+        miasto: faker.fake("{{address.city}}"),
+        kodPocztowy: faker.fake("{{address.zipCode}}"),
+        ulica: faker.fake("{{address.streetName}}"),
+        nrLokalu: faker.random.number(20),
+        nrPosesji: faker.random.number(100),
+        kraj: faker.fake("{{address.country}}")
     })).then(adres => {
         console.log(adres.toJSON());
     });
