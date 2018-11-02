@@ -42,8 +42,8 @@ const magazyny = [
 
 const kontrahenci = [
     {
-        idkontrahenci: 1,
-        NIP: 123-456-32-18,
+        idkontrahenci: '1',
+        NIP: '123-456-32-18',
         nazwa_spolki: 'Spolka1',
         telefon: '432-321-123',
         e_mail: 'mail1@cos.pl',
@@ -54,8 +54,8 @@ const kontrahenci = [
         idadres: '2'
     },
     {
-        idkontrahenci: 2,
-        NIP: 223-446-32-18,
+        idkontrahenci: '2',
+        NIP: '223-446-32-18',
         nazwa_spolki: 'Spolka2',
         telefon: '765-543-432',
         e_mail: 'mail3@cos.pl',
@@ -65,27 +65,30 @@ const kontrahenci = [
         fax: '+44-208-1234567',
         idadres: '1'
     }
-]
+];
 
 export default {
     Query: {
         Adresy: (_, input, context) => {
             return adresy;
         },
-        Adres: (_, { idadres }, context) => {
+        Adres: (_, {idadres}, context) => {
             return adresy.find(adres => adres.idadres === idadres);
         },
         Magazyny: (_, input, context) => {
             return magazyny;
         },
-        Magazyn: (_, input, context) => {
-            return magazyny.find(magazyn => magazyn.idmagazyn === input.idmagazyn)
+        Magazyn: (_, {idmagazyn}, context) => {
+            return magazyny.find(magazyn => magazyn.idmagazyn === idmagazyn)
         },
-        Kontrahenci:  (_, input, context) => {
-            return kontrachenci;
+        Kontrahenci: (_, input, context) => {
+            console.log('85, _ filip: ', _);
+            console.log('86, input filip: ', input);
+            console.log('87, context filip: ', context);
+            return kontrahenci;
         },
-        Kontrahent:  (_, input, context) => {
-            return kontrachenci;
+        Kontrahent: (_, {idkontrahenci}, context) => {
+            return kontrahenci.find(kontrahent => kontrahent.idkontrahenci === idkontrahenci);
         }
     },
     Magazyn: {
@@ -96,6 +99,16 @@ export default {
     Kontrahent: {
         adres: (_, input, context) => {
             return adresy.find(adres => adres.idadres === _.idadres);
+        },
+        listprzewozowy: (_, input, context) => {
+            // return w jaki sposób znaleźć listy przewozowe dla danego kontrahenta
+            // dane obecnego kontrahenta są w obiekcie _
+            console.log('106, _ filip: ', _);
+            // return adresy.find(adres => adres.idadres === _.idadres);
+        },
+        e_mail: (_, input, context) => {
+            //return zamień e-mail na e_mail
+            // return e_mail = _.'e-mail';
         }
     }
     // Mutation: {}

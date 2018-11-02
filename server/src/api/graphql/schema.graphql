@@ -8,8 +8,8 @@ type Query {
     Adres(idadres: ID): Adres!
     Magazyny: [Magazyn]
     Magazyn(idmagazyn: ID): Magazyn
-    Kontrahent: [Kontrahent]
-    Kontrahenci(idkontrahenci: ID): Kontrahent
+    Kontrahent(idkontrahenci: ID): Kontrahent
+    Kontrahenci: [Kontrahent]
 }
 
 #type Mutation {
@@ -17,7 +17,7 @@ type Query {
 #}
 
 type Adres {
-    idadres: ID
+    idAdres: ID
     miasto: String!
     kod_pocztowy: String!
     ulica: String!
@@ -29,7 +29,7 @@ type Adres {
 type Magazyn {
     idmagazyn: ID
     rodzaj: String!
-    pojemnosc: Int!
+    pojemnosc: Float!
     adres: Adres!
 }
 
@@ -44,4 +44,185 @@ type Kontrahent {
     nr_konta: String!
     fax: String
     adres: Adres!
+    listprzewozowy: [ListPrzewozowy] # many-to-many
 }
+# list_przewozowy_has_kontrachenci check ???
+
+type ListPrzewozowy {
+    idlist_przewozowy: ID
+    imie_kierowcy: String
+    nazwisko_kierowcy: String
+    uwagi_przewoznika: String
+    zastrzezenia_odbiorcy: String
+    edokument: String
+    kontrahent: [Kontrahent]
+    przesylka: Przesylka
+}
+
+type Przesylka {
+    idprzesylka: ID
+    nazwa_przesylki: String
+    ciezar_ladunku: Float
+    date: String
+}
+
+type DictOperacjeNaWinnicy {
+    iddict_operacje_na_winnicy: ID
+    nazwa: String!
+    opis: String
+}
+
+type OperacjeNaWinnicy {
+    idoperacja: ID
+    data: String!
+    opis: String!
+    dictOperacjeNaWinnicy: DictOperacjeNaWinnicy!
+    winnica: Winnica!
+}
+
+type Winnica {
+    idwinnica: ID
+    nazwa: String!
+    powierzchnia: Float!
+    stan: String!
+    terroir: String
+    data_ostatniego_zbioru: String
+    data_zasadzenia: String!
+    ewidencyjny_id_dzialki: String!
+    dictOdmianaWinogron: DictOdmianaWinogron
+}
+
+type DictOdmianaWinogron {
+    idodmiana_winogron: ID
+    nazwa: String!
+    opis: String
+}
+
+type Winobranie {
+    idwinobranie: ID
+    data_winobrania: String!
+    ilosc_zebranych_winogron: Float!
+    winnica: Winnica!
+}
+
+type Partie {
+    idpartie: ID
+    ilosc: Float!
+    opis: String!
+    data_utworzenia: String!
+    winobranie: Winobranie
+    partie: Partie # unary relation
+    typ_artii: DictTypPartii
+    informacje_o_winie: InformacjeOWinie
+}
+
+type DictTypPartii {
+    idtyp_partii: ID
+    nazwa: String!
+    jednostka: String!
+}
+
+type InformacjeOWinie {
+    idinformacje_o_winie: ID
+    nazwa: String!
+    motto: String!
+    zawartosc_pot_alergenow: String
+    wartosc_energetyczna: String!
+    kategoria_wina: DictKategoriaWina
+}
+
+type DictKategoriaWina {
+    iddict_kategoria_wina: ID
+    nazwa_kategoria: String!
+    opis: String
+}
+
+type Operacja {
+    idoperacja: ID
+    ilosc_przed: Float!
+    ilosc_po: Float
+    data_poczatku: String!
+    data_zakonczenia: String!
+    zawartosc_alkoholu: Float
+    ilosc_dodatku: Float
+    zawartosc_cukru: Float
+    kwasowosc: Float
+    temperatura: Float
+    opis: String
+    uzytkownicy: Uzytkownicy
+    procesy: DictProcesy
+}
+
+type DictProcesy {
+    iddict_procesy: ID
+    nazwa: String!
+    opis: String
+    dodatkowe: String
+}
+
+type Uzytkownicy {
+    iduzytkownika: ID
+    imie: String!
+    nazwisko: String!
+    login: String!
+    haslo: String!
+    PESEL: String!
+    e_mail: String!
+    nr_telefonu: String!
+    dataOstatniegoLogowania: String!
+    zdjecie: String
+    czyAktywne: String!
+    adres: Adres!
+    rola: DictRolaUzytkownikow!
+}
+
+type DictRolaUzytkownikow {
+    idrola_uzytkownikow: ID
+    nazwa: String!
+    opis: String
+}
+
+type Raporty {
+    idraport: ID
+    nazwa: String!
+    eDokument: String!
+    dataUtworzenia: String!
+}
+
+type PlanyProdukcyjne {
+    idplany_produkcyjne: ID
+    nazwa: String!
+    opis: String
+    rodzaj_winogron: DictOdmianaWinogron
+    typ_partii: DictTypPartii
+    kategorie: DictKategorie
+}
+
+type DictKategorie {
+    idkategorie: ID
+    nazwa: String!
+    jednostka: String!
+    opis: String
+}
+
+type PozycjaWMagazynie {
+    idpozycja: ID
+    nazwa: String!
+    opis: String
+    ilosc: Float!
+    kod_kreskowy: String!
+    stan_aktualny: String!
+    data_przyjecia: String!
+    data_wydania: String
+    nazwa_sektora: String!
+    kategorie: DictKategorie
+    magazyn: Magazyn
+    partie: Partie
+    # many-to-many with additional fields - check DB structure
+}
+
+
+
+
+
+

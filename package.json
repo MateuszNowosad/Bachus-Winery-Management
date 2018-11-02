@@ -1,0 +1,14 @@
+{
+  "name": "bachus-winery-management",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "createDefaultDB": "NODE_ENV=staging babel-node ./testing/common/createDefaultDB.js",
+    "startLocalDB": "docker stop bachus-winery 2> /dev/null|| true && docker rm bachus-winery 2> /dev/null || true && docker run -p 27017:27017 --name bachus-winery -d mongo",
+    "generateSchema": "node testing/generateSchema.js > ./schema.graphql"
+  },
+  "author": "",
+  "license": "ISC"
+}
