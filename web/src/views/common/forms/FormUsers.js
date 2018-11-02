@@ -1,5 +1,15 @@
 import React from 'react'
-import {Avatar, Button, Grid, IconButton, InputAdornment, MenuItem, TextField,} from '@material-ui/core'
+import {
+    Paper,
+    TextField,
+    Button,
+    MenuItem,
+    InputAdornment,
+    IconButton,
+    Grid,
+    Avatar,
+    Typography
+} from '@material-ui/core'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import {FormAddress} from "./FormAddress";
@@ -97,8 +107,15 @@ export class FormUsers extends React.Component {
             showPassword
         } = this.state;
         return (
-            <div style={{width: "800px"}}>
-
+            <Paper
+                style={{margin: '2% 20%'}}
+            >
+                <Typography
+                    variant={"h6"}
+                    align={"center"}
+                >
+                    Nowy użytkownik
+                </Typography>
                 <form
                     style={{margin: '0% 25%'}}
                 >
@@ -281,7 +298,7 @@ export class FormUsers extends React.Component {
                         </Grid>
                     </Grid>
                 </form>
-            </div>
+            </Paper>
         );
     }
 }
