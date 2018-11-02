@@ -6,10 +6,12 @@ export const standard = {
         secondary: {
             main: '#ab47bc',
         },
-        common:
-            {
-                grey: '#9E9E9E',
-            }
+        common: {
+            grey: '#9E9E9E',
+        },
+        success: {
+            main: '#32CD32',
+        }
     },
 };
 

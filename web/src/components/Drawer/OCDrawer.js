@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import Divider from "@material-ui/core/Divider/Divider";
-import List from "@material-ui/core/List/List";
-import {mainListItems} from "../../variables/ListItems"; //, secondaryListItems
 //styles
 import {withStyles} from "@material-ui/core";
 import OCDrawerStyle from "../../assets/jss/common/components/OCDrawerStyle.js";
@@ -22,7 +20,7 @@ class OCDrawer extends React.Component {
 
 
     render() {
-        const {classes, drawerOpen} = this.props;
+        const {classes, drawerOpen, children} = this.props;
         return (
             <Drawer
                 variant="permanent"
@@ -42,9 +40,10 @@ class OCDrawer extends React.Component {
                     </IconButton>
                 </div>
                 <Divider/>
-                <List>{mainListItems}</List>
-                {/*<Divider />*/}
-                {/*<List>{secondaryListItems}</List>*/}
+                <div className={classes.content}>
+                    <div className={classes.appBarSpacer}/>
+                    {children}
+                </div>
             </Drawer>
         );
     }
@@ -52,6 +51,7 @@ class OCDrawer extends React.Component {
 
 OCDrawer.propTypes = {
     classes: PropTypes.object.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 

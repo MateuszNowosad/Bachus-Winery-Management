@@ -8,10 +8,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
-import InputBase from '@material-ui/core/InputBase';
 //Style
 import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
@@ -54,18 +52,6 @@ class OCAppBar extends React.Component {
                         >
                             Panel sterowania
                         </Typography>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon/>
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                            />
-                        </div>
                         <IconButton color="inherit">
                             <Badge badgeContent={4} color="secondary">
                                 <MailIcon/>

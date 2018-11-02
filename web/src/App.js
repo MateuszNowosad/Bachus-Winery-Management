@@ -28,7 +28,8 @@ class App extends Component {
                     <MuiThemeProvider theme={currentTheme}>
                         <Switch>
                             {indexRoutes.map((prop, key) => {
-                                return <Route path={prop.path} component={prop.component} key={key}/>;
+                                return <Route path={prop.path} component={prop.component} key={key}
+                                              exact={prop.exact}/>;
                             })}
                         </Switch>
                     </MuiThemeProvider>
