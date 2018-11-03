@@ -1,4 +1,4 @@
-const ScrollableModalFormStyle = () => ({
+const ScrollableDialogFormStyle = () => ({
     dialog: {
         position: 'fixed',
         width: 'auto',
@@ -6,5 +6,5 @@ const ScrollableModalFormStyle = () => ({
     }
 });
 
-export default ScrollableModalFormStyle;
+export default ScrollableDialogFormStyle;
 
