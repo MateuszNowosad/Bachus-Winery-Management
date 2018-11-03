@@ -11,7 +11,6 @@ import InputBase from "@material-ui/core/InputBase/InputBase";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button/Button';
 import ScrollableDialogForm from '../ScrollableDialogForm/ScrollableDialogForm';
-import {FormUsers} from "../../views/common/forms/FormUsers";
 
 
 class AutoTable extends React.Component {
@@ -37,7 +36,7 @@ class AutoTable extends React.Component {
     };
 
     render() {
-        const {classes, data, subject, dialogFormTitle} = this.props;
+        const {classes, queryData, querySubject, dialogFormTitle, dialogForm} = this.props;
         const {querySize, open} = this.state;
 
         return (
@@ -67,8 +66,8 @@ class AutoTable extends React.Component {
                 </div>
                 <Paper className={classes.root}>
                     <Table className={classes.table}>
-                        <AutoLabels data={data} subject={subject}/>
-                        <AutoContent data={data} subject={subject}/>
+                        <AutoLabels queryData={queryData} querySubject={querySubject}/>
+                        <AutoContent queryData={queryData} querySubject={querySubject}/>
                     </Table>
                 </Paper>
                 <div className={classes.buttonDiv}>
@@ -76,7 +75,7 @@ class AutoTable extends React.Component {
                 </div>
                 <ScrollableDialogForm dialogTitle={dialogFormTitle} isOpen={open}
                                       onClose={() => this.setState({open: false})}>
-                    <FormUsers/>
+                    {dialogForm}
                 </ScrollableDialogForm>
             </React.Fragment>
         );
@@ -86,9 +85,10 @@ class AutoTable extends React.Component {
 
 AutoTable.propTypes = {
     classes: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
-    subject: PropTypes.string.isRequired,
+    queryData: PropTypes.object.isRequired,
+    querySubject: PropTypes.string.isRequired,
     dialogFormTitle: PropTypes.string.isRequired,
+    dialogForm: PropTypes.object.isRequired,
 };
 
 export default withStyles(AutoTableStyle)(AutoTable);

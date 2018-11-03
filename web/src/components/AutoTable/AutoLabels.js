@@ -6,7 +6,7 @@ import TableRow from "@material-ui/core/TableRow/TableRow";
 
 
 const AutoLabels = (props) => {
-    let record = props.data["data"][props.subject][0];
+    let record = props.queryData["data"][props.querySubject][0];
     let labels = [];
     for (let property in record)
         if (record.hasOwnProperty(property)) {
@@ -22,8 +22,8 @@ const AutoLabels = (props) => {
 };
 
 AutoLabels.propTypes = {
-    data: PropTypes.object.isRequired,
-    subject: PropTypes.string.isRequired,
+    queryData: PropTypes.object.isRequired,
+    querySubject: PropTypes.string.isRequired,
 };
 
 export default AutoLabels;

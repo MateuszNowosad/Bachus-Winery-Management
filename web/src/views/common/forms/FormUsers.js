@@ -97,7 +97,7 @@ export class FormUsers extends React.Component {
             showPassword
         } = this.state;
         return (
-            <div
+            <React.Fragment
             >
                 <Typography
                     variant={"h6"}
@@ -287,7 +287,7 @@ export class FormUsers extends React.Component {
                         </Grid>
                     </Grid>
                 </form>
-            </div>
+            </React.Fragment>
         );
     }
 }

@@ -14,7 +14,7 @@ function StyledTable(props) {
         <Paper className={classes.root}>
             <Table className={classes.table}>
                 <LabelGenerator labelsArr={labelsArr}/>
-                <AutoContent data={data} subject={subject}/>
+                <AutoContent queryData={data} querySubject={subject}/>
             </Table>
         </Paper>
     );

@@ -13,6 +13,8 @@ import OCBigTab from '../../components/Tab/OCBigTab.js';
 import TabContainer from "../../components/Tab/TabContainer";
 import StyledTable from "../../components/StyledTable/StyledTable";
 
+import {FormUsers} from "../common/forms/FormUsers";
+
 
 const labels = ['1', '2', '3', '4', '5', '6', '7'];
 
@@ -31,8 +33,8 @@ class AdminDashboard extends React.Component {
                 {/*<OCTabs theme={standard} labels={['Użytkownicy', 'Kontrahenci', 'Coś tam jeszcze']}/>*/}
                 <OCBigTab labels={labels}>
                     <TabContainer><ExampleTable/></TabContainer>
-                    <TabContainer><AutoTable dialogFormTitle={"Nowy użytkownik"} data={data}
-                                             subject='hero'/></TabContainer>
+                    <TabContainer><AutoTable dialogFormTitle={"Nowy użytkownik"} queryData={data} querySubject='hero'
+                                             dialogForm={<FormUsers/>}/></TabContainer>
                     <TabContainer>Item Three</TabContainer>
                     <TabContainer>Item Four</TabContainer>
                     <TabContainer>Item Five</TabContainer>
@@ -43,7 +45,8 @@ class AdminDashboard extends React.Component {
                 {/*<Typography variant="h4" gutterBottom component="h2">*/}
                 {/*Produkty*/}
                 {/*</Typography>*/}
-                <AutoTable dialogFormTitle={"Nowy użytkownik"} data={data} subject='hero'/>
+                <AutoTable dialogFormTitle={"Nowy użytkownik"} queryData={data} querySubject='hero'
+                           dialogForm={<FormUsers/>}/>
                 <StyledTable data={data} subject={'hero'} labelsArr={['ID', 'Nazwa', 'Wiek']}/>
             </React.Fragment>
         );

@@ -7,7 +7,7 @@ import TableBody from "@material-ui/core/TableBody/TableBody";
 
 const AutoContent = (props) => {
     let row = [];
-    props.data["data"][props.subject].map(currElement => {
+    props.queryData["data"][props.querySubject].map(currElement => {
         let values = Object.values(currElement);
         let cells = [];
         for (let value in values) {
@@ -24,8 +24,8 @@ const AutoContent = (props) => {
 };
 
 AutoContent.propTypes = {
-    data: PropTypes.object.isRequired,
-    subject: PropTypes.string.isRequired,
+    queryData: PropTypes.object.isRequired,
+    querySubject: PropTypes.string.isRequired,
 };
 
 export default AutoContent;
