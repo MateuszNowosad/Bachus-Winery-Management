@@ -7,22 +7,23 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import {withStyles} from '@material-ui/core/styles';
 import ScrollableModalFormStyle from '../../assets/jss/common/components/ScorllableDialogFormStyle.js';
 import Button from '@material-ui/core/Button/Button';
+import UniversalSubmitHander from "../../views/common/forms/UniversalSubmitHandler";
 
 class ScrollableDialogForm extends React.Component {
 
     state = {
         open: false,
+        submit: false,
     };
-
-    handleClose = () => {
+    handleSubmit = () => {
+        this.setState({submit: true});
         this.setState({open: false});
         this.props.onClose();
     };
 
-    handleSumbit = () => {
-        this.handleClose();
+    formSubmitted = () => {
+        this.setState({submit: false});
     };
-
 
     render() {
         const {classes, children, isOpen, dialogTitle} = this.props;
@@ -40,13 +41,17 @@ class ScrollableDialogForm extends React.Component {
             >
                 <DialogContent>
                     <DialogTitle>{dialogTitle}</DialogTitle>
-                    {children}
+                    {React.cloneElement(children, {
+                        submitFromOutside: this.state.submit,
+                        onSubmit: UniversalSubmitHander,
+                        formSubmitted: this.formSubmitted
+                    })}
                 </DialogContent>
                 <DialogActions>
                     <Button variant="contained" onClick={this.handleClose} color="secondary">
                         Anuluj
                     </Button>
-                    <Button variant="contained" onClick={this.handleSumbit} color="primary">
+                    <Button variant="contained" onClick={this.handleSubmit} color="primary">
                         Zapisz
                     </Button>
                 </DialogActions>

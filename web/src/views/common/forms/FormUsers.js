@@ -1,15 +1,17 @@
 import React from 'react'
-import {Avatar, Button, Grid, IconButton, InputAdornment, MenuItem, TextField, Typography} from '@material-ui/core'
+import {Avatar, Button, Grid, IconButton, InputAdornment, MenuItem, TextField} from '@material-ui/core'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import {FormAddress} from "./FormAddress";
-
+import PropTypes from 'prop-types';
 
 const roles = [
     'administrator',
     'pracownik produkcji',
     'pracownik magazynu'
 ];
+
+export const formTitle = "Nowy użytkownik";
 
 
 export class FormUsers extends React.Component {
@@ -63,6 +65,7 @@ export class FormUsers extends React.Component {
                 imagePreviewUrl,
             }
         );
+        this.props.formSubmitted();
     };
 
     handleClickShowPassword = () => {
@@ -83,6 +86,13 @@ export class FormUsers extends React.Component {
         reader.readAsDataURL(photo)
     };
 
+
+    componentDidUpdate(prevProps) {
+        if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+            this.handleSubmit();
+        }
+    }
+
     render() {
         const {
             firstName,
@@ -96,15 +106,11 @@ export class FormUsers extends React.Component {
             imagePreviewUrl,
             showPassword
         } = this.state;
+
+
         return (
-            <React.Fragment
+            <div
             >
-                <Typography
-                    variant={"h6"}
-                    align={"center"}
-                >
-                    Nowy użytkownik
-                </Typography>
                 <form
                     style={{margin: '0% 25%'}}
                 >
@@ -152,7 +158,7 @@ export class FormUsers extends React.Component {
                                 onChange={this.handleFileChange}
                             />
                             <label htmlFor="addImage">
-                                <Button variant="raised" component="span">
+                                <Button variant="contained" component="span">
                                     Dodaj zdjęcie
                                 </Button>
                             </label>
@@ -276,19 +282,15 @@ export class FormUsers extends React.Component {
                         <Grid item sm={12}>
                             <FormAddress/>
                         </Grid>
-                        <Grid item>
-                            <Button
-                                variant={"outlined"}
-                                style={{margin: '10% 0 5% 0'}}
-                                onClick={this.handleSubmit}
-                            >
-                                Dodaj
-                            </Button>
-                        </Grid>
                     </Grid>
                 </form>
-            </React.Fragment>
+            </div>
         );
     }
 }
 
+FormUsers.propTypes = {
+    submitFromOutside: PropTypes.bool,
+    onSubmit: PropTypes.func,
+    formSubmitted: PropTypes.func,
+};

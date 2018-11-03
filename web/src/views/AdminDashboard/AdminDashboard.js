@@ -13,7 +13,7 @@ import OCBigTab from '../../components/Tab/OCBigTab.js';
 import TabContainer from "../../components/Tab/TabContainer";
 import StyledTable from "../../components/StyledTable/StyledTable";
 
-import {FormUsers} from "../common/forms/FormUsers";
+import {formTitle, FormUsers} from "../common/forms/FormUsers";
 
 
 const labels = ['1', '2', '3', '4', '5', '6', '7'];
@@ -33,7 +33,7 @@ class AdminDashboard extends React.Component {
                 {/*<OCTabs theme={standard} labels={['Użytkownicy', 'Kontrahenci', 'Coś tam jeszcze']}/>*/}
                 <OCBigTab labels={labels}>
                     <TabContainer><ExampleTable/></TabContainer>
-                    <TabContainer><AutoTable dialogFormTitle={"Nowy użytkownik"} queryData={data} querySubject='hero'
+                    <TabContainer><AutoTable dialogFormTitle={formTitle} queryData={data} querySubject='hero'
                                              dialogForm={<FormUsers/>}/></TabContainer>
                     <TabContainer>Item Three</TabContainer>
                     <TabContainer>Item Four</TabContainer>
