@@ -1,15 +1,5 @@
 import React from 'react'
-import {
-    Paper,
-    TextField,
-    Button,
-    MenuItem,
-    InputAdornment,
-    IconButton,
-    Grid,
-    Avatar,
-    Typography
-} from '@material-ui/core'
+import {Avatar, Button, Grid, IconButton, InputAdornment, MenuItem, TextField, Typography} from '@material-ui/core'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import {FormAddress} from "./FormAddress";
@@ -107,8 +97,7 @@ export class FormUsers extends React.Component {
             showPassword
         } = this.state;
         return (
-            <Paper
-                style={{margin: '2% 20%'}}
+            <div
             >
                 <Typography
                     variant={"h6"}
@@ -298,7 +287,7 @@ export class FormUsers extends React.Component {
                         </Grid>
                     </Grid>
                 </form>
-            </Paper>
+            </div>
         );
     }
 }

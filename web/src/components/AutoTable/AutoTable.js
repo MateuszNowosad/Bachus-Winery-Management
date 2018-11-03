@@ -10,28 +10,9 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button/Button';
-import Modal from '@material-ui/core/Modal/Modal';
-import Typography from '@material-ui/core/Typography/Typography';
+import ScrollableDialogForm from '../ScrollableDialogForm/ScrollableDialogForm';
 import {FormUsers} from "../../views/common/forms/FormUsers";
 
-const data = {
-    "data": {
-        "hero": [
-            {
-                "id": "0",
-                "name": "R2-D2",
-                "age": "100"
-            },
-            {
-                "id": "1",
-                "name": "R2-D3",
-                "age": "120"
-            }
-        ]
-    }
-};
-
-const subject = "hero";
 
 class AutoTable extends React.Component {
     state = {
@@ -55,13 +36,9 @@ class AutoTable extends React.Component {
         this.setState({open: true});
     };
 
-    handleClose = () => {
-        this.setState({open: false});
-    };
-
     render() {
-        const {classes} = this.props;
-        const {querySize} = this.state;
+        const {classes, data, subject, dialogFormTitle} = this.props;
+        const {querySize, open} = this.state;
 
         return (
             <React.Fragment>
@@ -97,20 +74,10 @@ class AutoTable extends React.Component {
                 <div className={classes.buttonDiv}>
                     <Button onClick={this.handleOpen}>Dodaj</Button>
                 </div>
-                <Modal
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                    open={this.state.open}
-                    onClose={this.handleClose}
-                    className={classes.modal}
-                >
-                    <div className={classes.paper}>
-                        <Typography variant="title" id="modal-title">
-                            Formularz
-                        </Typography>
-                        <FormUsers/> {/*przykładowy*/}
-                    </div>
-                </Modal>
+                <ScrollableDialogForm dialogTitle={dialogFormTitle} isOpen={open}
+                                      onClose={() => this.setState({open: false})}>
+                    <FormUsers/>
+                </ScrollableDialogForm>
             </React.Fragment>
         );
     }
@@ -121,6 +88,7 @@ AutoTable.propTypes = {
     classes: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     subject: PropTypes.string.isRequired,
+    dialogFormTitle: PropTypes.string.isRequired,
 };
 
 export default withStyles(AutoTableStyle)(AutoTable);
