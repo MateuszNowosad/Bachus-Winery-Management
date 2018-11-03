@@ -17,6 +17,10 @@ class ScrollableDialogForm extends React.Component {
     };
     handleSubmit = () => {
         this.setState({submit: true});
+        this.handleClose();
+    };
+
+    handleClose = () => {
         this.setState({open: false});
         this.props.onClose();
     };
