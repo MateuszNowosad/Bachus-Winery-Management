@@ -11,7 +11,6 @@ import AutoTable from "../../components/AutoTable/AutoTable";
 import data from '../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../components/Tab/OCBigTab.js';
 import TabContainer from "../../components/Tab/TabContainer";
-import StyledTable from "../../components/StyledTable/StyledTable";
 
 import {formTitle, FormUsers} from "../common/forms/FormUsers";
 
@@ -34,7 +33,7 @@ class AdminDashboard extends React.Component {
                 <OCBigTab labels={labels}>
                     <TabContainer><ExampleTable/></TabContainer>
                     <TabContainer><AutoTable dialogFormTitle={formTitle} queryData={data} querySubject='hero'
-                                             dialogForm={<FormUsers/>}/></TabContainer>
+                                             dialogForm={<FormUsers/>} editMode={true}/></TabContainer>
                     <TabContainer>Item Three</TabContainer>
                     <TabContainer>Item Four</TabContainer>
                     <TabContainer>Item Five</TabContainer>
@@ -46,8 +45,8 @@ class AdminDashboard extends React.Component {
                 {/*Produkty*/}
                 {/*</Typography>*/}
                 <AutoTable dialogFormTitle={"Nowy użytkownik"} queryData={data} querySubject='hero'
-                           dialogForm={<FormUsers/>}/>
-                <StyledTable queryData={data} querySubject={'hero'} labelsArr={['ID', 'Nazwa', 'Wiek']}/>
+                           dialogForm={<FormUsers/>} editMode={true}/>
+                <AutoTable queryData={data} querySubject={'hero'} labelsArr={['ID', 'Nazwa', 'Wiek']} editMode={false}/>
             </React.Fragment>
         );
     }

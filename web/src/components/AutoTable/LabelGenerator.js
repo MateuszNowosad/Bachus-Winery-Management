@@ -14,6 +14,7 @@ const LabelGenerator = (props) => {
         <TableHead>
             <TableRow>
                 {labels}
+                {props.editMode && <TableCell/>}
             </TableRow>
         </TableHead>
     );
@@ -21,6 +22,7 @@ const LabelGenerator = (props) => {
 
 LabelGenerator.propTypes = {
     labelsArr: PropTypes.array,
+    editMode: PropTypes.bool.isRequired,
 };
 
 export default LabelGenerator;

@@ -60,7 +60,9 @@ const AutoTableStyle = theme => ({
         float: 'right',
     },
     buttonDiv: {
-        paddingTop: theme.spacing.unit,
+        padding: theme.spacing.unit,
+        display: 'flex',
+        justifyContent: 'flex-end',
     },
 });
 
