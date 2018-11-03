@@ -8,13 +8,13 @@ import AutoTableStyle from '../../assets/jss/common/components/AutoTableStyle.js
 import LabelGenerator from "./LabelGenerator";
 
 function StyledTable(props) {
-    const {classes, data, subject, labelsArr} = props;
+    const {classes, queryData, querySubject, labelsArr} = props;
 
     return (
         <Paper className={classes.root}>
             <Table className={classes.table}>
                 <LabelGenerator labelsArr={labelsArr}/>
-                <AutoContent queryData={data} querySubject={subject}/>
+                <AutoContent queryData={queryData} querySubject={querySubject}/>
             </Table>
         </Paper>
     );
@@ -22,8 +22,8 @@ function StyledTable(props) {
 
 StyledTable.propTypes = {
     classes: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
-    subject: PropTypes.string.isRequired,
+    queryData: PropTypes.object.isRequired,
+    querySubject: PropTypes.string.isRequired,
     labelsArr: PropTypes.array,
 };
 

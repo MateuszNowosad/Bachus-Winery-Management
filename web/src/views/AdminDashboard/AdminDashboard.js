@@ -47,7 +47,7 @@ class AdminDashboard extends React.Component {
                 {/*</Typography>*/}
                 <AutoTable dialogFormTitle={"Nowy użytkownik"} queryData={data} querySubject='hero'
                            dialogForm={<FormUsers/>}/>
-                <StyledTable data={data} subject={'hero'} labelsArr={['ID', 'Nazwa', 'Wiek']}/>
+                <StyledTable queryData={data} querySubject={'hero'} labelsArr={['ID', 'Nazwa', 'Wiek']}/>
             </React.Fragment>
         );
     }
