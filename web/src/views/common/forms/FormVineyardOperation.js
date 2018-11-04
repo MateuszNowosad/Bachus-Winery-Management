@@ -1,5 +1,8 @@
 import React from 'react';
-import { Button, Grid, MenuItem, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, MenuItem, Paper, TextField, Typography } from '@material-ui/core';
+import { FormUsers } from './FormUsers';
+import PropTypes from 'prop-types';
+
 // import {DialogForForm} from "./DialogForForm";
 // import {TableVineyards} from "./TableVineyards";
 
@@ -49,7 +52,14 @@ export class FormVineyardOperation extends React.Component {
       dictOperation
       //  selectedVineyard,
     });
+    this.props.formSubmitted();
   };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
 
   render() {
     const {
@@ -147,14 +157,15 @@ export class FormVineyardOperation extends React.Component {
             {/*/>}*/}
             {/*/>*/}
             {/*</Grid>*/}
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '10% 0 5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
           </Grid>
         </form>
       </Paper>
     );
   }
 }
+
+FormUsers.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};

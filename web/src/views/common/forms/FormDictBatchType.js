@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, Paper, TextField, Typography } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { FormUsers } from './FormUsers';
 
 export class FormDictBatchType extends React.Component {
   constructor(props) {
@@ -20,7 +22,14 @@ export class FormDictBatchType extends React.Component {
   handleSubmit = () => {
     const { name, unit } = this.state;
     this.props.onSubmit({ name, unit });
+    this.props.formSubmitted();
   };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
 
   render() {
     const { name, unit } = this.state;
@@ -59,14 +68,15 @@ export class FormDictBatchType extends React.Component {
                 }}
               />
             </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
           </Grid>
         </form>
       </Paper>
     );
   }
 }
+
+FormUsers.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};

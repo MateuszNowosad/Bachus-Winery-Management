@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, Paper, TextField, Typography } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { FormUsers } from './FormUsers';
 
 export class FormDictUserRole extends React.Component {
   constructor(props) {
@@ -21,7 +23,14 @@ export class FormDictUserRole extends React.Component {
   handleSubmit = () => {
     const { name, desc, type } = this.state;
     this.props.onSubmit({ name, desc, type });
+    this.props.formSubmitted();
   };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
 
   render() {
     const { name, desc, type } = this.state;
@@ -75,14 +84,15 @@ export class FormDictUserRole extends React.Component {
                 }}
               />
             </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
           </Grid>
         </form>
       </Paper>
     );
   }
 }
+
+FormUsers.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};

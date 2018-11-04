@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button, Grid, MenuItem, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, MenuItem, Paper, TextField, Typography } from '@material-ui/core';
 import { dictBatchType } from './StaticData';
+import PropTypes from 'prop-types';
+import { FormUsers } from './FormUsers';
 
 export class FormBatches extends React.Component {
   constructor(props) {
@@ -23,7 +25,14 @@ export class FormBatches extends React.Component {
   handleSubmit = () => {
     const { amount, desc, creationDate, batchType } = this.state;
     this.props.onSubmit({ amount, desc, creationDate, batchType });
+    this.props.formSubmitted();
   };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
 
   render() {
     const { amount, desc, creationDate, batchType } = this.state;
@@ -91,14 +100,15 @@ export class FormBatches extends React.Component {
                 ))}
               </TextField>
             </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
           </Grid>
         </form>
       </Paper>
     );
   }
 }
+
+FormUsers.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};

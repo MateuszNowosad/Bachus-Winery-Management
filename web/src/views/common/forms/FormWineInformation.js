@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button, Grid, MenuItem, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, MenuItem, Paper, TextField, Typography } from '@material-ui/core';
 import { dictWineCategories } from './StaticData';
+import PropTypes from 'prop-types';
+import { FormUsers } from './FormUsers';
 
 export class FormWineInformation extends React.Component {
   constructor(props) {
@@ -24,7 +26,14 @@ export class FormWineInformation extends React.Component {
   handleSubmit = () => {
     const { name, motto, allergens, energyValue, wineCategory } = this.state;
     this.props.onSubmit({ name, motto, allergens, energyValue, wineCategory });
+    this.props.formSubmitted();
   };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
 
   render() {
     const { name, motto, allergens, energyValue, wineCategory } = this.state;
@@ -110,14 +119,15 @@ export class FormWineInformation extends React.Component {
                 ))}
               </TextField>
             </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
           </Grid>
         </form>
       </Paper>
     );
   }
 }
+
+FormUsers.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};

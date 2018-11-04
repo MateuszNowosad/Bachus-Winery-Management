@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Grid, InputAdornment, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, InputAdornment, Paper, TextField, Typography } from '@material-ui/core';
+import { FormUsers } from './FormUsers';
+import PropTypes from 'prop-types';
 
 export class FormGrapeHarvest extends React.Component {
   constructor(props) {
@@ -20,7 +22,14 @@ export class FormGrapeHarvest extends React.Component {
   handleSubmit = () => {
     const { dateOfHarvest, amount } = this.state;
     this.props.onSubmit({ dateOfHarvest, amount });
+    this.props.formSubmitted();
   };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
 
   render() {
     const { dateOfHarvest, amount } = this.state;
@@ -61,14 +70,15 @@ export class FormGrapeHarvest extends React.Component {
                 }}
               />
             </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
           </Grid>
         </form>
       </Paper>
     );
   }
 }
+
+FormUsers.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};

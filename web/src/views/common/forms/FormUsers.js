@@ -100,7 +100,11 @@ export class FormUsers extends React.Component {
     } = this.state;
     return (
       <div>
-        <form style={{ margin: '0% 25%' }}>
+        <form
+          style={{
+            margin: '0% 25%'
+          }}
+        >
           <Grid container spacing={8} justify={'center'}>
             <Grid item md={6}>
               <TextField
@@ -113,7 +117,8 @@ export class FormUsers extends React.Component {
                 onChange={this.handleChange('firstName')}
                 variant={'outlined'}
                 inputProps={{
-                  maxLength: '30'
+                  maxLength: '30',
+                  minWidth: '400'
                 }}
               />
             </Grid>

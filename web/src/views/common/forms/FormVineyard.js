@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Grid, InputAdornment, MenuItem, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, InputAdornment, MenuItem, Paper, TextField, Typography } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { FormUsers } from './FormUsers';
 
 const odmiany = ['Agat doński', 'Ajwaz', 'Alden'];
 
@@ -36,7 +38,14 @@ export class FormVineyard extends React.Component {
       grapeType,
       state
     });
+    this.props.formSubmitted();
   };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
 
   render() {
     const { name, area, terroir, dateOfPlanting, registrationPlotId, grapeType, state } = this.state;
@@ -162,14 +171,15 @@ export class FormVineyard extends React.Component {
                 ))}
               </TextField>
             </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '10% 0 5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
           </Grid>
         </form>
       </Paper>
     );
   }
 }
+
+FormUsers.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};

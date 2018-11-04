@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { FormAddress } from './FormAddress';
+import { FormUsers } from './FormUsers';
+import PropTypes from 'prop-types';
 
 export class FormContractors extends React.Component {
   constructor(props) {
@@ -36,8 +38,14 @@ export class FormContractors extends React.Component {
       accountNumber,
       fax
     });
+    this.props.formSubmitted();
   };
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
   render() {
     const { NIP, companyName, phoneNumber, eMail, wwwSite, KRS, accountNumber, fax } = this.state;
 
@@ -171,14 +179,15 @@ export class FormContractors extends React.Component {
             <Grid item md={12}>
               <FormAddress />
             </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '10% 0 5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
           </Grid>
         </form>
       </Paper>
     );
   }
 }
+
+FormUsers.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};

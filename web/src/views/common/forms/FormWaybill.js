@@ -3,6 +3,8 @@ import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
 import { contractors } from './StaticData';
 import { DialogForForm } from './DialogForForm';
 import { TableContractors } from './TableContractors';
+import { FormUsers } from './FormUsers';
+import PropTypes from 'prop-types';
 
 export class FormWaybill extends React.Component {
   constructor(props) {
@@ -28,6 +30,7 @@ export class FormWaybill extends React.Component {
   handleSubmit = () => {
     const { driverName, driverSurname, comments, reservations, file } = this.state;
     this.props.onSubmit({ driverName, driverSurname, comments, reservations, file });
+    this.props.formSubmitted();
   };
 
   handleClickOpen = () => {
@@ -43,6 +46,13 @@ export class FormWaybill extends React.Component {
       selectedContractor: vineyard
     });
   };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
+
   render() {
     const { driverName, driverSurname, comments, reservations, selectedContractor, open } = this.state;
     return (
@@ -137,14 +147,15 @@ export class FormWaybill extends React.Component {
                 }
               />
             </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
           </Grid>
         </form>
       </Paper>
     );
   }
 }
+
+FormUsers.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};
