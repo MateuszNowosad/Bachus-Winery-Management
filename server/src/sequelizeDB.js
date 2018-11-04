@@ -5,61 +5,94 @@
 // import moment from 'moment';
 // import ConnectDataService from '../services/ConnectDataService';
 // var faker = require('faker/locale/pl');
-var faker = require('faker');
+const _ = require('underscore');
+const faker = require('faker');
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize({
-    database: 'bachusWinery',
-    username: 'test',
-    password: 'test',
-    dialect: 'mysql',
-    host: '172.17.0.2',
+  database: 'bachusWinery',
+  username: 'test',
+  password: 'test',
+  dialect: 'mysql',
+  host: '172.17.0.2',
+  connectionTimeout: 0,
+  pool: {
+    max: 100,
+    min: 1,
+    idle: 200000
+  },
+  retry: { max: 2 },
+  logging: false
 });
 
 // const sequelize = new Sequelize('mysql://test@172.17.0.2:3306/bachusWinery');
 
-sequelize.authenticate().then(() => {
-        console.log('Connection has been established successfully.');
-    }).catch(err => {
-        console.error('Unable to connect to the database:', err);
-    });
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 
 const Adres = sequelize.define('Adres', {
-    idAdres: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    miasto: Sequelize.STRING,
-    kodPocztowy: Sequelize.STRING,
-    ulica: Sequelize.STRING,
-    nrLokalu: Sequelize.STRING,
-    nrPosesji: Sequelize.STRING,
-    kraj: Sequelize.STRING
+  idAdres: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  miasto: Sequelize.STRING(30),
+  kodPocztowy: Sequelize.STRING,
+  ulica: Sequelize.STRING,
+  nrLokalu: Sequelize.STRING,
+  nrPosesji: Sequelize.STRING,
+  kraj: Sequelize.STRING
 });
-for(let i =0; i< 10000; i+=1) {
-    createAdres();
+for (let i = 0; i < 1000; i += 1) {
+  createAdres();
 }
+// Array.from(Array(10000)).forEach(async () => {
+//     await createAdres();
+// });
+
 export async function createAdres() {
-    await sequelize.sync().then(() => Adres.create({
-        miasto: faker.fake("{{address.city}}"),
-        kodPocztowy: faker.fake("{{address.zipCode}}"),
-        ulica: faker.fake("{{address.streetName}}"),
-        nrLokalu: faker.random.number(20),
-        nrPosesji: faker.random.number(100),
-        kraj: faker.fake("{{address.country}}")
-    })).then(adres => {
-        console.log(adres.toJSON());
-    });
+  await sequelize.sync().then(() =>
+    Adres.create({
+      miasto: faker.fake('{{address.city}}'),
+      kodPocztowy: faker.fake('{{address.zipCode}}'),
+      ulica: faker.fake('{{address.streetName}}'),
+      nrLokalu: faker.random.number(20),
+      nrPosesji: faker.random.number(100),
+      kraj: faker.fake('{{address.country}}')
+    })
+  );
+  // .then(adres => {
+  //   console.log(adres.toJSON());
+  // });
 }
 
-export async function getAdresses() {
-    return await sequelize.query("SELECT * FROM `Adres`", { type: sequelize.QueryTypes.SELECT})
+export async function getAdresses(address) {
+  // const foundAddress = await sequelize.query('Select * from Adres where idAdres = :idAdres', {
+  //   raw: true,
+  //   type: Sequelize.QueryTypes.SELECT,
+  //   replacements: { idAdres }
+  // });
+  // // return await sequelize.query("SELECT * FROM `Adres`", { type: sequelize.QueryTypes.SELECT})
+  // return foundAddress;
 
-    // Adres.findAll({
-    //     attributes: [ idAdres, miasto, kodPocztowy, ulica, nrLokalu, nrPosesji, kraj ]
-    // }).then(adres => {
-    //     console.log(adres.toJSON());
-    // });
+  if (address) Object.keys(address).forEach(key => address[key] === undefined && delete address[key]);
+  let sqlQuery = 'select * from Adres where 1=1';
+  _.each(address, (value, key) => {
+    sqlQuery += ` and ${key} = "${value}"`;
+  });
+  console.log('90, sqlQuery filip: ', sqlQuery);
+
+  const result = await sequelize.query(sqlQuery, {
+    raw: true,
+    type: Sequelize.QueryTypes.SELECT
+  });
+  console.log('94, result filip: ', result);
+  return result;
 }
 
 // sequelize.sync().then(() => User.create({
