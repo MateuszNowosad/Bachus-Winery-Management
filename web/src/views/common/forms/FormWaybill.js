@@ -18,7 +18,9 @@ export class FormWaybill extends React.Component {
       sender: {},
       recipent: {},
       carrier: {},
-      open: false
+      openSender: false,
+      openRecipent: false,
+      openCarrier: false
     };
   }
 
@@ -43,17 +45,17 @@ export class FormWaybill extends React.Component {
     this.props.formSubmitted();
   };
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
+  handleClickOpen = name => {
+    this.setState({ [name]: true });
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
+  handleClose = name => {
+    this.setState({ [name]: false });
   };
 
-  handleContractorSelect = sender => {
+  handleSelectContractor = (name, contractor) => {
     this.setState({
-      sender: sender
+      [name]: contractor
     });
   };
 
@@ -64,7 +66,18 @@ export class FormWaybill extends React.Component {
   }
 
   render() {
-    const { driverName, driverSurname, comments, reservations, sender, open } = this.state;
+    const {
+      driverName,
+      driverSurname,
+      comments,
+      reservations,
+      sender,
+      recipent,
+      carrier,
+      openSender,
+      openRecipent,
+      openCarrier
+    } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -114,6 +127,93 @@ export class FormWaybill extends React.Component {
             />
           </Grid>
           <Grid item md={12}>
+            <TextField
+              fullWidth
+              id="sender"
+              label="Nadawca"
+              value={sender.name ? sender.name : 'Nie wybrano nadawcy'}
+              margin="dense"
+              variant="outlined"
+              InputProps={{
+                readOnly: true
+              }}
+              onClick={() => this.handleClickOpen('openSender')}
+            />
+            <DialogForForm
+              title={'Kontrahenci'}
+              open={openSender}
+              onClose={() => this.handleClose('openSender')}
+              children={
+                <SelectableAutoTable
+                  queryData={data}
+                  querySubject="contractors"
+                  funParam="sender"
+                  onSelect={this.handleSelectContractor}
+                  onClose={() => this.handleClose('openSender')}
+                  id={sender.id}
+                />
+              }
+            />
+          </Grid>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              id="recipent"
+              label="Odbiorca"
+              value={recipent.name ? recipent.name : 'Nie wybrano odbiorcy'}
+              margin="dense"
+              variant="outlined"
+              InputProps={{
+                readOnly: true
+              }}
+              onClick={() => this.handleClickOpen('openRecipent')}
+            />
+            <DialogForForm
+              title={'Kontrahenci'}
+              open={openRecipent}
+              onClose={() => this.handleClose('openRecipent')}
+              children={
+                <SelectableAutoTable
+                  queryData={data}
+                  querySubject="contractors"
+                  funParam="recipent"
+                  onSelect={this.handleSelectContractor}
+                  onClose={() => this.handleClose('openRecipent')}
+                  id={recipent.id}
+                />
+              }
+            />
+          </Grid>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              id="carrier"
+              label="Przewoźnik"
+              value={carrier.name ? carrier.name : 'Nie wybrano odbiorcy'}
+              margin="dense"
+              variant="outlined"
+              InputProps={{
+                readOnly: true
+              }}
+              onClick={() => this.handleClickOpen('openCarrier')}
+            />
+            <DialogForForm
+              title={'Kontrahenci'}
+              open={openCarrier}
+              onClose={() => this.handleClose('openCarrier')}
+              children={
+                <SelectableAutoTable
+                  queryData={data}
+                  querySubject="contractors"
+                  funParam="carrier"
+                  onSelect={this.handleSelectContractor}
+                  onClose={() => this.handleClose('openCarrier')}
+                  id={carrier.id}
+                />
+              }
+            />
+          </Grid>
+          <Grid item md={12}>
             <input
               hidden
               accept="application/pdf"
@@ -126,34 +226,6 @@ export class FormWaybill extends React.Component {
                 Dodaj dokument
               </Button>
             </label>
-          </Grid>
-          <Grid item md={12}>
-            <TextField
-              fullWidth
-              id="sender"
-              label="Nadawca"
-              value={sender.name ? sender.name : 'Nie wybrano nadawcy'}
-              margin="dense"
-              variant="outlined"
-              InputProps={{
-                readOnly: true
-              }}
-              onClick={this.handleClickOpen}
-            />
-            <DialogForForm
-              title={'Kontrahenci'}
-              open={open}
-              onClose={this.handleClose}
-              children={
-                <SelectableAutoTable
-                  queryData={data}
-                  querySubject="contractors"
-                  onSelect={this.handleContractorSelect}
-                  onClose={this.handleClose}
-                  id={sender.id}
-                />
-              }
-            />
           </Grid>
         </Grid>
       </form>

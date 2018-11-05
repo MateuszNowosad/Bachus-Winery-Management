@@ -31,7 +31,9 @@ class SelectableAutoTable extends React.Component {
   };
 
   handleRowClick = row => {
-    this.props.onSelect(row);
+    const param = this.props.funParam;
+    console.log('35, param jakub: ', param);
+    this.props.onSelect(param, row);
     this.props.onClose();
   };
 
