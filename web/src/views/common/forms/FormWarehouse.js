@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, InputAdornment, MenuItem, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, InputAdornment, MenuItem, TextField } from '@material-ui/core';
 import { FormAddress } from './FormAddress';
 import PropTypes from 'prop-types';
 import { FormUsers } from './FormUsers';
@@ -44,56 +44,51 @@ export class FormWarehouse extends React.Component {
     const { type, capacity } = this.state;
 
     return (
-      <Paper style={{ margin: '2% 20%' }}>
-        <Typography variant={'h6'} align={'center'}>
-          Nowy magazyn
-        </Typography>
-        <form style={{ margin: '0% 25%' }}>
-          <Grid container spacing={8} justify={'center'}>
-            <Grid item md={12}>
-              <TextField
-                fullWidth
-                id="type"
-                select
-                label="Rodzaj magazynu"
-                placeholder="Rodzaj magazynu"
-                value={type}
-                onChange={this.handleChange('type')}
-                margin="dense"
-                variant={'outlined'}
-              >
-                {types.map(option => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item md={12}>
-              <TextField
-                fullWidth
-                id="capacity"
-                label="Pojemność"
-                value={capacity}
-                type="number"
-                margin="dense"
-                onChange={this.handleChange('capacity')}
-                variant={'outlined'}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      m<sub>3</sub>
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <FormAddress onChange={this.handleAddressChange} />
-            </Grid>
+      <form style={{ margin: '0% 25%' }}>
+        <Grid container spacing={8} justify={'center'}>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              id="type"
+              select
+              label="Rodzaj magazynu"
+              placeholder="Rodzaj magazynu"
+              value={type}
+              onChange={this.handleChange('type')}
+              margin="dense"
+              variant={'outlined'}
+            >
+              {types.map(option => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
-        </form>
-      </Paper>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              id="capacity"
+              label="Pojemność"
+              value={capacity}
+              type="number"
+              margin="dense"
+              onChange={this.handleChange('capacity')}
+              variant={'outlined'}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    m<sub>3</sub>
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>
+          <Grid item>
+            <FormAddress onChange={this.handleAddressChange} />
+          </Grid>
+        </Grid>
+      </form>
     );
   }
 }
