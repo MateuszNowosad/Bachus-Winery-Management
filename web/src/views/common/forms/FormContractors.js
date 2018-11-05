@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import { FormAddress } from './FormAddress';
-import { FormUsers } from './FormUsers';
 import PropTypes from 'prop-types';
 
 export class FormContractors extends React.Component {
@@ -190,7 +189,7 @@ export class FormContractors extends React.Component {
   }
 }
 
-FormUsers.propTypes = {
+FormContractors.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
   formSubmitted: PropTypes.func

@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
 import { dictBatchType } from './StaticData';
 import PropTypes from 'prop-types';
-import { FormUsers } from './FormUsers';
 
 export class FormBatches extends React.Component {
   constructor(props) {
@@ -102,7 +101,7 @@ export class FormBatches extends React.Component {
   }
 }
 
-FormUsers.propTypes = {
+FormBatches.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
   formSubmitted: PropTypes.func

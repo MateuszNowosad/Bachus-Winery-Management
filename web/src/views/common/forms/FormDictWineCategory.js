@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { FormUsers } from './FormUsers';
 
 export class FormDictWineCategory extends React.Component {
   constructor(props) {
@@ -71,7 +70,7 @@ export class FormDictWineCategory extends React.Component {
   }
 }
 
-FormUsers.propTypes = {
+FormDictWineCategory.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
   formSubmitted: PropTypes.func

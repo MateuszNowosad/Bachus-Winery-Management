@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, InputAdornment, TextField } from '@material-ui/core';
-import { FormUsers } from './FormUsers';
 import PropTypes from 'prop-types';
 
 export class FormGrapeHarvest extends React.Component {
@@ -72,7 +71,7 @@ export class FormGrapeHarvest extends React.Component {
   }
 }
 
-FormUsers.propTypes = {
+FormGrapeHarvest.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
   formSubmitted: PropTypes.func

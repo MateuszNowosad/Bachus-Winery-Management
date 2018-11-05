@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
-import { FormUsers } from './FormUsers';
 import PropTypes from 'prop-types';
 
 export class FormVineyardOperation extends React.Component {
@@ -99,7 +98,7 @@ export class FormVineyardOperation extends React.Component {
   }
 }
 
-FormUsers.propTypes = {
+FormVineyardOperation.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
   formSubmitted: PropTypes.func

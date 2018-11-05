@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid, InputAdornment, MenuItem, TextField } from '@material-ui/core';
 import { FormAddress } from './FormAddress';
 import PropTypes from 'prop-types';
-import { FormUsers } from './FormUsers';
 
 const types = ['magazyn produktów', 'magazyn półproduktów'];
 
@@ -93,7 +92,7 @@ export class FormWarehouse extends React.Component {
   }
 }
 
-FormUsers.propTypes = {
+FormWarehouse.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
   formSubmitted: PropTypes.func

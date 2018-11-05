@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Grid, TextField } from '@material-ui/core';
-import { FormUsers } from './FormUsers';
 import PropTypes from 'prop-types';
 import { DialogForForm } from './DialogForForm';
 import { data } from './StaticData';
@@ -145,7 +144,6 @@ export class FormWaybill extends React.Component {
               title={'Kontrahenci'}
               open={open}
               onClose={this.handleClose}
-              onSelect={this.handleContractorSelect}
               children={
                 <SelectableAutoTable
                   queryData={data}
@@ -163,7 +161,7 @@ export class FormWaybill extends React.Component {
   }
 }
 
-FormUsers.propTypes = {
+FormWaybill.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
   formSubmitted: PropTypes.func

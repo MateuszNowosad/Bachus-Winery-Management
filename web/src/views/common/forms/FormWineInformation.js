@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
 import { dictWineCategories } from './StaticData';
 import PropTypes from 'prop-types';
-import { FormUsers } from './FormUsers';
 
 export class FormWineInformation extends React.Component {
   constructor(props) {
@@ -121,7 +120,7 @@ export class FormWineInformation extends React.Component {
   }
 }
 
-FormUsers.propTypes = {
+FormWineInformation.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
   formSubmitted: PropTypes.func
