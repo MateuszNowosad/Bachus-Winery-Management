@@ -20,6 +20,7 @@ export class FormUsers extends React.Component {
       PESEL: '',
       eMail: '',
       phoneNumber: '',
+      address: {},
       userRole: '',
       photo: null,
       showPassword: false
@@ -32,6 +33,12 @@ export class FormUsers extends React.Component {
     });
   };
 
+  handleAddressChange = address => {
+    this.setState({
+      address: address
+    });
+  };
+
   handleSubmit = () => {
     const {
       firstName,
@@ -41,6 +48,7 @@ export class FormUsers extends React.Component {
       PESEL,
       eMail,
       phoneNumber,
+      address,
       userRole,
       photo,
       imagePreviewUrl
@@ -54,6 +62,7 @@ export class FormUsers extends React.Component {
       PESEL,
       eMail,
       phoneNumber,
+      address,
       userRole,
       photo,
       imagePreviewUrl
@@ -259,7 +268,7 @@ export class FormUsers extends React.Component {
               </TextField>
             </Grid>
             <Grid item md={12}>
-              <FormAddress />
+              <FormAddress onChange={this.handleAddressChange} />
             </Grid>
           </Grid>
         </form>

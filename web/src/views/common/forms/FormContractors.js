@@ -15,7 +15,8 @@ export class FormContractors extends React.Component {
       wwwSite: '',
       KRS: '',
       accountNumber: '',
-      fax: ''
+      fax: '',
+      address: {}
     };
   }
 
@@ -25,8 +26,14 @@ export class FormContractors extends React.Component {
     });
   };
 
+  handleAddressChange = address => {
+    this.setState({
+      address: address
+    });
+  };
+
   handleSubmit = () => {
-    const { NIP, companyName, phoneNumber, eMail, wwwSite, KRS, accountNumber, fax } = this.state;
+    const { NIP, companyName, phoneNumber, eMail, wwwSite, KRS, accountNumber, fax, address } = this.state;
 
     this.props.onSubmit({
       NIP,
@@ -36,7 +43,8 @@ export class FormContractors extends React.Component {
       wwwSite,
       KRS,
       accountNumber,
-      fax
+      fax,
+      address
     });
     this.props.formSubmitted();
   };
@@ -46,6 +54,7 @@ export class FormContractors extends React.Component {
       this.handleSubmit();
     }
   }
+
   render() {
     const { NIP, companyName, phoneNumber, eMail, wwwSite, KRS, accountNumber, fax } = this.state;
 
@@ -177,7 +186,7 @@ export class FormContractors extends React.Component {
               />
             </Grid>
             <Grid item md={12}>
-              <FormAddress />
+              <FormAddress onChange={this.handleAddressChange} />
             </Grid>
           </Grid>
         </form>

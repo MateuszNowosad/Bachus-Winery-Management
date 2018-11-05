@@ -11,7 +11,8 @@ export class FormWarehouse extends React.Component {
     super(props);
     this.state = {
       type: '',
-      capacity: ''
+      capacity: '',
+      address: {}
     };
   }
 
@@ -21,9 +22,15 @@ export class FormWarehouse extends React.Component {
     });
   };
 
+  handleAddressChange = address => {
+    this.setState({
+      address: address
+    });
+  };
+
   handleSubmit = () => {
-    const { type, capacity } = this.state;
-    this.props.onSubmit({ type, capacity });
+    const { type, capacity, address } = this.state;
+    this.props.onSubmit({ type, capacity, address });
     this.props.formSubmitted();
   };
 
@@ -82,7 +89,7 @@ export class FormWarehouse extends React.Component {
               />
             </Grid>
             <Grid item>
-              <FormAddress />
+              <FormAddress onChange={this.handleAddressChange} />
             </Grid>
           </Grid>
         </form>

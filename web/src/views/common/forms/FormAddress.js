@@ -19,6 +19,15 @@ export class FormAddress extends React.Component {
     this.setState({
       [name]: event.target.value
     });
+    const { street, buildingNumber, apartmentNumber, postalCode, city, country } = this.state;
+    this.props.onChange({
+      street,
+      buildingNumber,
+      apartmentNumber,
+      postalCode,
+      city,
+      country
+    });
   };
 
   render() {
