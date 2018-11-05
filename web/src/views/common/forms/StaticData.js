@@ -35,6 +35,22 @@ export const data = {
       {
         id: 1,
         name: 'Kontrahent 2'
+      },
+      {
+        id: 2,
+        name: 'Kontrahent 3'
+      },
+      {
+        id: 3,
+        name: 'Kontrahent 4'
+      },
+      {
+        id: 4,
+        name: 'Kontrahent 5'
+      },
+      {
+        id: 5,
+        name: 'Kontrahent 6'
       }
     ],
 

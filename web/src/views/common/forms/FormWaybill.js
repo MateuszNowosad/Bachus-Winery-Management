@@ -2,7 +2,9 @@ import React from 'react';
 import { Button, Grid, TextField } from '@material-ui/core';
 import { FormUsers } from './FormUsers';
 import PropTypes from 'prop-types';
-import OCAutoSuggest from '../../../components/AutoSuggest/OCAutoSuggest';
+import { DialogForForm } from './DialogForForm';
+import { data } from './StaticData';
+import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 
 export class FormWaybill extends React.Component {
   constructor(props) {
@@ -50,9 +52,9 @@ export class FormWaybill extends React.Component {
     this.setState({ open: false });
   };
 
-  handleContractorSelect = vineyard => {
+  handleContractorSelect = sender => {
     this.setState({
-      selectedContractor: vineyard
+      sender: sender
     });
   };
 
@@ -63,7 +65,7 @@ export class FormWaybill extends React.Component {
   }
 
   render() {
-    const { driverName, driverSurname, comments, reservations, sender } = this.state;
+    const { driverName, driverSurname, comments, reservations, sender, open } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -128,6 +130,7 @@ export class FormWaybill extends React.Component {
           </Grid>
           <Grid item md={12}>
             <TextField
+              fullWidth
               id="sender"
               label="Nadawca"
               value={sender.name ? sender.name : 'Nie wybrano nadawcy'}
@@ -138,23 +141,21 @@ export class FormWaybill extends React.Component {
               }}
               onClick={this.handleClickOpen}
             />
-            {/*<DialogForForm*/}
-            {/*title={'Kontrahenci'}*/}
-            {/*open={open}*/}
-            {/*onClose={this.handleClose}*/}
-            {/*onSelect={this.handleContractorSelect}*/}
-            {/*children={*/}
-            {/*<TableContractors*/}
-            {/*contractors={contractors}*/}
-            {/*id={sender.id}*/}
-            {/*onClose={this.handleClose}*/}
-            {/*onSelect={this.handleContractorSelect}*/}
-            {/*/>*/}
-            {/*}*/}
-            {/*/>*/}
-          </Grid>
-          <Grid item md={12}>
-            <OCAutoSuggest />
+            <DialogForForm
+              title={'Kontrahenci'}
+              open={open}
+              onClose={this.handleClose}
+              onSelect={this.handleContractorSelect}
+              children={
+                <SelectableAutoTable
+                  queryData={data}
+                  querySubject="contractors"
+                  onSelect={this.handleContractorSelect}
+                  onClose={this.handleClose}
+                  id={sender.id}
+                />
+              }
+            />
           </Grid>
         </Grid>
       </form>
