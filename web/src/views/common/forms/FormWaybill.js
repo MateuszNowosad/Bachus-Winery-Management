@@ -1,10 +1,8 @@
 import React from 'react';
 import { Button, Grid, TextField } from '@material-ui/core';
-import { contractors } from './StaticData';
-import { DialogForForm } from './DialogForForm';
-import { TableContractors } from './TableContractors';
 import { FormUsers } from './FormUsers';
 import PropTypes from 'prop-types';
+import OCAutoSuggest from '../../../components/AutoSuggest/OCAutoSuggest';
 
 export class FormWaybill extends React.Component {
   constructor(props) {
@@ -16,7 +14,9 @@ export class FormWaybill extends React.Component {
       comments: '',
       reservations: '',
       file: '',
-      selectedContractor: {},
+      sender: {},
+      recipent: {},
+      carrier: {},
       open: false
     };
   }
@@ -28,8 +28,17 @@ export class FormWaybill extends React.Component {
   };
 
   handleSubmit = () => {
-    const { driverName, driverSurname, comments, reservations, file } = this.state;
-    this.props.onSubmit({ driverName, driverSurname, comments, reservations, file });
+    const { driverName, driverSurname, comments, reservations, file, sender, recipent, carrier } = this.state;
+    this.props.onSubmit({
+      driverName,
+      driverSurname,
+      comments,
+      reservations,
+      file,
+      sender,
+      recipent,
+      carrier
+    });
     this.props.formSubmitted();
   };
 
@@ -54,7 +63,8 @@ export class FormWaybill extends React.Component {
   }
 
   render() {
-    const { driverName, driverSurname, comments, reservations, selectedContractor, open } = this.state;
+    const { driverName, driverSurname, comments, reservations, sender } = this.state;
+
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
@@ -118,9 +128,9 @@ export class FormWaybill extends React.Component {
           </Grid>
           <Grid item md={12}>
             <TextField
-              id="selectedContractor"
-              label="Wybrany kontrahent"
-              value={selectedContractor.name ? selectedContractor.name : 'Nie wybrano kontrahenta'}
+              id="sender"
+              label="Nadawca"
+              value={sender.name ? sender.name : 'Nie wybrano nadawcy'}
               margin="dense"
               variant="outlined"
               InputProps={{
@@ -128,20 +138,23 @@ export class FormWaybill extends React.Component {
               }}
               onClick={this.handleClickOpen}
             />
-            <DialogForForm
-              title={'Kontrahenci'}
-              open={open}
-              onClose={this.handleClose}
-              onSelect={this.handleContractorSelect}
-              children={
-                <TableContractors
-                  contractors={contractors}
-                  id={selectedContractor.id}
-                  onClose={this.handleClose}
-                  onSelect={this.handleContractorSelect}
-                />
-              }
-            />
+            {/*<DialogForForm*/}
+            {/*title={'Kontrahenci'}*/}
+            {/*open={open}*/}
+            {/*onClose={this.handleClose}*/}
+            {/*onSelect={this.handleContractorSelect}*/}
+            {/*children={*/}
+            {/*<TableContractors*/}
+            {/*contractors={contractors}*/}
+            {/*id={sender.id}*/}
+            {/*onClose={this.handleClose}*/}
+            {/*onSelect={this.handleContractorSelect}*/}
+            {/*/>*/}
+            {/*}*/}
+            {/*/>*/}
+          </Grid>
+          <Grid item md={12}>
+            <OCAutoSuggest />
           </Grid>
         </Grid>
       </form>
