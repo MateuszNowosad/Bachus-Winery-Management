@@ -20,7 +20,6 @@ const AutoLabels = props => {
     <TableHead>
       <TableRow>
         {labels}
-        {console.log('25, props.editMode Mateusz: ', props.editMode)}
         {props.editMode && <TableCell />}
       </TableRow>
     </TableHead>
