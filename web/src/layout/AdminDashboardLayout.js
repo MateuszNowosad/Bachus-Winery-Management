@@ -8,6 +8,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import AdminDashboardRoutes from '../routes/AdminDashboardRoutes';
 import List from '@material-ui/core/List/List';
 import ListItemLink from '../components/Drawer/ListItemLink';
+import MainListItems from '../components/Drawer/MainListItems';
 
 //to prevent unexpected unmounting
 
@@ -54,7 +55,8 @@ class AdminDashboardLayout extends React.Component {
           </OCDrawer>
           <div className={classes.content}>
             <div className={classes.appBarSpacer} />
-            {switchRoutes}
+            {/*{switchRoutes}*/}
+            <MainListItems />
           </div>
         </div>
       </React.Fragment>
