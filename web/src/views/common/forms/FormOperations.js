@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import currentDate from './CurrentDate';
 
 const operations = ['fermentacja', 'dojrzewanie'];
 
@@ -8,15 +9,15 @@ export class FormOperations extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      beginAmount: null,
-      endAmount: null,
-      beginDate: '',
-      endDate: '',
+      beginAmount: '',
+      endAmount: '',
+      beginDate: currentDate('dateTime'),
+      endDate: currentDate('dateTime'),
       alcoholContent: '',
-      additiveAmount: null,
-      sugarContent: null,
-      acidity: null,
-      temperature: null,
+      additiveAmount: '',
+      sugarContent: '',
+      acidity: '',
+      temperature: '',
       desc: '',
       process: ''
     };
@@ -91,6 +92,7 @@ export class FormOperations extends React.Component {
               placeholder="Rodzaj operacji"
               value={process}
               onChange={this.handleChange('process')}
+              // onChange={this.currentDate}
               margin="dense"
               variant={'outlined'}
             >
@@ -130,7 +132,9 @@ export class FormOperations extends React.Component {
               fullWidth
               id="beginDate"
               label="Data początku"
-              type="date"
+              type="datetime-local"
+              // defaultValue={this.currentDate}
+              defaultValue={'2018-10-11T10:11'}
               value={beginDate}
               InputLabelProps={{
                 shrink: true
@@ -145,7 +149,7 @@ export class FormOperations extends React.Component {
               fullWidth
               id="endDate"
               label="Data zakończenia"
-              type="date"
+              type="datetime-local"
               value={endDate}
               InputLabelProps={{
                 shrink: true

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, InputAdornment, MenuItem, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import currentDate from './CurrentDate';
 
 const odmiany = ['Agat doński', 'Ajwaz', 'Alden'];
 
@@ -13,7 +14,7 @@ export class FormVineyard extends React.Component {
       name: '',
       area: null,
       terroir: '',
-      dateOfPlanting: '',
+      dateOfPlanting: currentDate('date'),
       registrationPlotId: '',
       grapeType: '',
       state: ''

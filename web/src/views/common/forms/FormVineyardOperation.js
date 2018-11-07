@@ -1,12 +1,13 @@
 import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import currentDate from './CurrentDate';
 
 export class FormVineyardOperation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dateOfOperation: '',
+      dateOfOperation: currentDate('date'),
       desc: '',
       dictOperation: ''
     };

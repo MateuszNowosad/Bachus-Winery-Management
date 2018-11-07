@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
 import { dictBatchType } from './StaticData';
 import PropTypes from 'prop-types';
+import currentDate from './CurrentDate';
 
 export class FormBatches extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ export class FormBatches extends React.Component {
     this.state = {
       amount: 0,
       desc: '',
-      creationDate: '',
+      creationDate: currentDate('dateTime'),
       batchType: ''
     };
   }
@@ -66,7 +67,7 @@ export class FormBatches extends React.Component {
               fullWidth
               id="creationDate"
               label="Data utworzenia"
-              type="date"
+              type="datetime-local"
               value={creationDate}
               InputLabelProps={{
                 shrink: true
