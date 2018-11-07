@@ -11,6 +11,9 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import DnsIcon from '@material-ui/icons/Dns';
+import Person from '@material-ui/icons/Person';
+import Flower from '@material-ui/icons/LocalFlorist';
+import Bar from '@material-ui/icons/LocalBar';
 
 const AdminDashboardRoutes = [
   {
@@ -27,7 +30,33 @@ const AdminDashboardRoutes = [
     navbarName: 'Baza danych',
     drawerIcon: <DnsIcon />,
     component: Database,
-    exact: false
+    exact: true,
+    childRoutes: [
+      {
+        path: '/admindashboard/database/winnice',
+        drawerName: 'Winnice',
+        navbarName: 'Winnice',
+        drawerIcon: <Flower />,
+        component: Database,
+        exact: false
+      },
+      {
+        path: '/admindashboard/database/produkcja',
+        drawerName: 'Produkcja',
+        navbarName: 'Produkcja',
+        drawerIcon: <Bar />,
+        component: Database,
+        exact: false
+      },
+      {
+        path: '/admindashboard/database/personalia',
+        drawerName: 'Personalia',
+        navbarName: 'Personalia',
+        drawerIcon: <Person />,
+        component: Database,
+        exact: false
+      }
+    ]
   },
   {
     path: '/admindashboard/users',
