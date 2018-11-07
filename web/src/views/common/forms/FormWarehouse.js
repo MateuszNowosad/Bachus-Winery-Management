@@ -21,9 +21,9 @@ export class FormWarehouse extends React.Component {
     });
   };
 
-  handleAddressChange = address => {
+  handleAddressChange = (name, address) => {
     this.setState({
-      address: address
+      [name]: address
     });
   };
 
@@ -84,7 +84,7 @@ export class FormWarehouse extends React.Component {
             />
           </Grid>
           <Grid item>
-            <FormAddress onChange={this.handleAddressChange} />
+            <FormAddress varName="address" onChange={this.handleAddressChange} />
           </Grid>
         </Grid>
       </form>

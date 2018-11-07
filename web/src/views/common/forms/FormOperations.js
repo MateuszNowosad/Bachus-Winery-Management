@@ -133,8 +133,6 @@ export class FormOperations extends React.Component {
               id="beginDate"
               label="Data początku"
               type="datetime-local"
-              // defaultValue={this.currentDate}
-              defaultValue={'2018-10-11T10:11'}
               value={beginDate}
               InputLabelProps={{
                 shrink: true

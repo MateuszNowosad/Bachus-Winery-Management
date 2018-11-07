@@ -20,7 +20,8 @@ export class FormAddress extends React.Component {
       [name]: event.target.value
     });
     const { street, buildingNumber, apartmentNumber, postalCode, city, country } = this.state;
-    this.props.onChange({
+    const { varName } = this.props;
+    this.props.onChange(varName, {
       street,
       buildingNumber,
       apartmentNumber,

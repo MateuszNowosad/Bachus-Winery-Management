@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { DialogForForm } from './DialogForForm';
 import { data } from './StaticData';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
+import { FormAddress } from './FormAddress';
 
 export class FormWaybill extends React.Component {
   constructor(props) {
@@ -18,6 +19,8 @@ export class FormWaybill extends React.Component {
       sender: {},
       recipent: {},
       carrier: {},
+      pickupAddress: {},
+      mailingAddress: {},
       openSender: false,
       openRecipent: false,
       openCarrier: false
@@ -31,7 +34,18 @@ export class FormWaybill extends React.Component {
   };
 
   handleSubmit = () => {
-    const { driverName, driverSurname, comments, reservations, file, sender, recipent, carrier } = this.state;
+    const {
+      driverName,
+      driverSurname,
+      comments,
+      reservations,
+      file,
+      sender,
+      recipent,
+      carrier,
+      pickupAddress,
+      mailingAddress
+    } = this.state;
     this.props.onSubmit({
       driverName,
       driverSurname,
@@ -40,7 +54,9 @@ export class FormWaybill extends React.Component {
       file,
       sender,
       recipent,
-      carrier
+      carrier,
+      pickupAddress,
+      mailingAddress
     });
     this.props.formSubmitted();
   };
@@ -56,6 +72,12 @@ export class FormWaybill extends React.Component {
   handleSelectContractor = (name, contractor) => {
     this.setState({
       [name]: contractor
+    });
+  };
+
+  handleAddressChange = (name, address) => {
+    this.setState({
+      [name]: address
     });
   };
 
@@ -226,6 +248,9 @@ export class FormWaybill extends React.Component {
                 Dodaj dokument
               </Button>
             </label>
+          </Grid>
+          <Grid item md={12}>
+            <FormAddress varName="pickupAddress" onChange={this.handleAddressChange} />
           </Grid>
         </Grid>
       </form>

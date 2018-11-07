@@ -33,9 +33,9 @@ export class FormUsers extends React.Component {
     });
   };
 
-  handleAddressChange = address => {
+  handleAddressChange = (name, address) => {
     this.setState({
-      address: address
+      [name]: address
     });
   };
 
@@ -268,7 +268,7 @@ export class FormUsers extends React.Component {
               </TextField>
             </Grid>
             <Grid item md={12}>
-              <FormAddress onChange={this.handleAddressChange} />
+              <FormAddress varName="address" onChange={this.handleAddressChange} />
             </Grid>
           </Grid>
         </form>
