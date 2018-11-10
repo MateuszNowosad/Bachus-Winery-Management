@@ -21,7 +21,17 @@ const AdminDashboardStyle = theme => ({
   img: {
     maxWidth: '100%',
     maxHeight: '100%'
-  }
+  },
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+    },
+    flexForm: {
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+    },
 });
 
 export default AdminDashboardStyle;

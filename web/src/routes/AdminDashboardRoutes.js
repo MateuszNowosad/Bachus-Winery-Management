@@ -11,6 +11,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import DnsIcon from '@material-ui/icons/Dns';
 import LocalShipping from '@material-ui/icons/LocalShipping';
+import SaveIcon from '@material-ui/icons/Save';
 import Flower from '@material-ui/icons/LocalFlorist';
 import Bar from '@material-ui/icons/LocalBar';
 import UserInfo from '../views/AdminDashboard/UserInfo';
@@ -97,9 +98,9 @@ const AdminDashboardRoutes = [
   },
   {
     path: '/admindashboard/backup',
-    drawerName: 'Dashboard',
-    navbarName: 'Panel administratora',
-    drawerIcon: <LayersIcon />,
+    drawerName: 'Kopie zapasowe',
+    navbarName: 'Kopie zapasowe',
+    drawerIcon: <SaveIcon />,
     component: Backup,
     exact: false
   }
