@@ -17,6 +17,10 @@ const AdminDashboardStyle = theme => ({
   },
   h5: {
     marginBottom: theme.spacing.unit * 2
+  },
+  img: {
+    maxWidth: '100%',
+    maxHeight: '100%'
   }
 });
 
