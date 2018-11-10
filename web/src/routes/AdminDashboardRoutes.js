@@ -14,9 +14,11 @@ import Person from '@material-ui/icons/Person';
 import Flower from '@material-ui/icons/LocalFlorist';
 import Bar from '@material-ui/icons/LocalBar';
 import UserInfo from '../views/AdminDashboard/UserInfo';
+import FaceIcon from '@material-ui/icons/Face'
 import DatabaseVineyard from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseVineyard';
 import DatabaseProduction from "../views/AdminDashboard/DatabaseSubdirectories/DatabaseProduction";
 import DatabaseContactsAndUsers from "../views/AdminDashboard/DatabaseSubdirectories/DatabaseContactsAndUsers";
+import DatabaseLogistics from "../views/AdminDashboard/DatabaseSubdirectories/DatabaseLogistics";
 
 const AdminDashboardRoutes = [
   {
@@ -65,7 +67,7 @@ const AdminDashboardRoutes = [
     path: '/admindashboard/profile',
     drawerName: 'Twój profil',
     navbarName: 'Twój profil',
-    drawerIcon: <PeopleIcon />,
+    drawerIcon: <FaceIcon />,
     component: UserInfo,
     exact: false
   },
