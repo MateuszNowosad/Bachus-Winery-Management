@@ -57,7 +57,7 @@ const AdminDashboardRoutes = [
         path: '/admindashboard/database/personalia',
         drawerName: 'Personalia',
         navbarName: 'Personalia',
-        drawerIcon: <Person />,
+        drawerIcon: <PeopleIcon />,
         component: DatabaseContactsAndUsers,
         exact: false
       }
