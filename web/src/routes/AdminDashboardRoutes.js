@@ -15,6 +15,7 @@ import Flower from '@material-ui/icons/LocalFlorist';
 import Bar from '@material-ui/icons/LocalBar';
 import UserInfo from '../views/AdminDashboard/UserInfo';
 import DatabaseVineyard from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseVineyard';
+import DatabaseProduction from "../views/AdminDashboard/DatabaseSubdirectories/DatabaseProduction";
 
 const AdminDashboardRoutes = [
   {
@@ -46,7 +47,7 @@ const AdminDashboardRoutes = [
         drawerName: 'Produkcja',
         navbarName: 'Produkcja',
         drawerIcon: <Bar />,
-        component: Database,
+        component: DatabaseProduction,
         exact: false
       },
       {
