@@ -10,7 +10,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import DnsIcon from '@material-ui/icons/Dns';
-import Person from '@material-ui/icons/Person';
+import LocalShipping from '@material-ui/icons/LocalShipping';
 import Flower from '@material-ui/icons/LocalFlorist';
 import Bar from '@material-ui/icons/LocalBar';
 import UserInfo from '../views/AdminDashboard/UserInfo';
@@ -60,7 +60,15 @@ const AdminDashboardRoutes = [
         drawerIcon: <PeopleIcon />,
         component: DatabaseContactsAndUsers,
         exact: false
-      }
+      },
+        {
+            path: '/admindashboard/database/logistyka',
+            drawerName: 'Logistyka',
+            navbarName: 'Logistyka',
+            drawerIcon: <LocalShipping />,
+            component: DatabaseLogistics,
+            exact: false
+        }
     ]
   },
   {
