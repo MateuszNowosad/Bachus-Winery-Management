@@ -16,6 +16,7 @@ import Bar from '@material-ui/icons/LocalBar';
 import UserInfo from '../views/AdminDashboard/UserInfo';
 import DatabaseVineyard from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseVineyard';
 import DatabaseProduction from "../views/AdminDashboard/DatabaseSubdirectories/DatabaseProduction";
+import DatabaseContactsAndUsers from "../views/AdminDashboard/DatabaseSubdirectories/DatabaseContactsAndUsers";
 
 const AdminDashboardRoutes = [
   {
@@ -55,7 +56,7 @@ const AdminDashboardRoutes = [
         drawerName: 'Personalia',
         navbarName: 'Personalia',
         drawerIcon: <Person />,
-        component: Database,
+        component: DatabaseContactsAndUsers,
         exact: false
       }
     ]
