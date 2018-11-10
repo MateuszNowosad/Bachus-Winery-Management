@@ -105,6 +105,8 @@ class AutoTable extends React.Component {
                   onChangePage={this.handleChangePage}
                   onChangeRowsPerPage={this.handleChangeRowsPerPage}
                   ActionsComponent={TablePaginationActions}
+                  labelRowsPerPage={'Wiesze na stronę'}
+                  rowsPerPageOptions={[5,25,100,250]}
                 />
               </TableRow>
             </TableFooter>
