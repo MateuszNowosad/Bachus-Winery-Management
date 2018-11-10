@@ -1,7 +1,6 @@
 import React from 'react';
 import AdminDashboard from '../views/AdminDashboard/AdminDashboard';
 import Database from '../views/AdminDashboard/Database';
-import Users from '../views/AdminDashboard/Users';
 import Diagnostics from '../views/AdminDashboard/Diagnostics';
 import News from '../views/AdminDashboard/News';
 import Backup from '../views/AdminDashboard/Backup';
@@ -14,6 +13,8 @@ import DnsIcon from '@material-ui/icons/Dns';
 import Person from '@material-ui/icons/Person';
 import Flower from '@material-ui/icons/LocalFlorist';
 import Bar from '@material-ui/icons/LocalBar';
+import UserInfo from '../views/AdminDashboard/UserInfo';
+import DatabaseVineyard from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseVineyard';
 
 const AdminDashboardRoutes = [
   {
@@ -37,7 +38,7 @@ const AdminDashboardRoutes = [
         drawerName: 'Winnice',
         navbarName: 'Winnice',
         drawerIcon: <Flower />,
-        component: Database,
+        component: DatabaseVineyard,
         exact: false
       },
       {
@@ -59,11 +60,11 @@ const AdminDashboardRoutes = [
     ]
   },
   {
-    path: '/admindashboard/users',
-    drawerName: 'Użytkownicy',
-    navbarName: 'Użytkownicy',
+    path: '/admindashboard/profile',
+    drawerName: 'Twój profil',
+    navbarName: 'Twój profil',
     drawerIcon: <PeopleIcon />,
-    component: Users,
+    component: UserInfo,
     exact: false
   },
   {
