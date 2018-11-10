@@ -1,3 +1,13 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LastPageIcon from '@material-ui/icons/LastPage';
+import TablePaginationActionsStyle from '../../assets/jss/common/components/TablePaginationActionStyle';
+
 class TablePaginationActions extends React.Component {
   handleFirstPageButtonClick = event => {
     this.props.onChangePage(event, 0);
@@ -20,23 +30,23 @@ class TablePaginationActions extends React.Component {
 
     return (
       <div className={classes.root}>
-        <IconButton onClick={this.handleFirstPageButtonClick} disabled={page === 0} aria-label="First Page">
+        <IconButton onClick={this.handleFirstPageButtonClick} disabled={page === 0} aria-label="Pierwsza strona">
           {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
         </IconButton>
-        <IconButton onClick={this.handleBackButtonClick} disabled={page === 0} aria-label="Previous Page">
+        <IconButton onClick={this.handleBackButtonClick} disabled={page === 0} aria-label="Poprzednia Strona">
           {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
         </IconButton>
         <IconButton
           onClick={this.handleNextButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="Next Page"
+          aria-label="Następna strona"
         >
           {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
         </IconButton>
         <IconButton
           onClick={this.handleLastPageButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="Last Page"
+          aria-label="Ostatnia Strona"
         >
           {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
         </IconButton>
@@ -54,4 +64,4 @@ TablePaginationActions.propTypes = {
   theme: PropTypes.object.isRequired
 };
 
-const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(TablePaginationActions);
+export default withStyles(TablePaginationActionsStyle, { withTheme: true })(TablePaginationActions);

@@ -53,7 +53,7 @@ const AutoTableStyle = theme => ({
   },
   actions: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center'
   },
   button: {

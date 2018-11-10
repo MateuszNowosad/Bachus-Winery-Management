@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell/TableCell';
-import TableHead from '@material-ui/core/TableHead/TableHead';
 import TableRow from '@material-ui/core/TableRow/TableRow';
 
 const AutoLabels = props => {
@@ -15,14 +14,12 @@ const AutoLabels = props => {
   } else
     for (let currLabel in props.labelsArr)
       labels.push(<TableCell key={currLabel}>{props.labelsArr[currLabel]}</TableCell>);
-
+  props.labelCountChange(labels.length + (props.editMode ? 1 : 0));
   return (
-    <TableHead>
-      <TableRow>
-        {labels}
-        {props.editMode && <TableCell />}
-      </TableRow>
-    </TableHead>
+    <TableRow>
+      {labels}
+      {props.editMode && <TableCell />}
+    </TableRow>
   );
 };
 
@@ -30,7 +27,8 @@ AutoLabels.propTypes = {
   queryData: PropTypes.object,
   querySubject: PropTypes.string,
   editMode: PropTypes.bool.isRequired,
-  labelArr: PropTypes.array
+  labelArr: PropTypes.array,
+  labelCountChange: PropTypes.func
 };
 
 export default AutoLabels;

@@ -8,28 +8,30 @@ import AutoContent from './AutoContent';
 import AutoTableStyle from '../../assets/jss/common/components/AutoTableStyle.js';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase/InputBase';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button/Button';
 import ScrollableDialogForm from '../ScrollableDialogForm/ScrollableDialogForm';
-import LabelGenerator from './LabelGenerator';
+import TablePaginationActions from './TablePaginationActions';
+import TableBody from '@material-ui/core/TableBody/TableBody';
+import TableFooter from '@material-ui/core/TableFooter/TableFooter';
+import TableRow from '@material-ui/core/TableRow/TableRow';
+import TablePagination from '@material-ui/core/TablePagination/TablePagination';
+import TableCell from '@material-ui/core/TableCell/TableCell';
 
 class AutoTable extends React.Component {
   state = {
-    querySize: 100,
     open: false,
-    editMode: this.props.editMode
+    editMode: this.props.editMode,
+    page: 0,
+    rowsPerPage: 5,
+    labelCount: -1
   };
 
-  handleChange = event => {
-    if (event.target.value >= 0)
-      this.setState({
-        querySize: event.target.value
-      });
-    if (event.target.value > 5000) {
-      this.setState({
-        querySize: 5000
-      });
-    }
+  handleChangePage = (event, page) => {
+    this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ rowsPerPage: event.target.value });
   };
 
   handleOpen = () => {
@@ -44,22 +46,17 @@ class AutoTable extends React.Component {
     console.log('45, recordId DEMateusz: ', recordId);
   };
 
-  render() {
-    const { classes, queryData, querySubject, dialogFormTitle, dialogForm, labelsArr } = this.props;
-    const { querySize, open, editMode } = this.state;
+  labelCountChange = newLabelCount => {
+    if (this.state.labelCount === -1) this.setState({ labelCount: newLabelCount });
+  };
 
+  render() {
+    const { classes, queryData, querySubject, querySize, dialogFormTitle, dialogForm, labelsArr } = this.props;
+    const { open, editMode, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, querySize - page * rowsPerPage);
     return (
       <div>
         <div className={classes.actions}>
-          <TextField
-            id="querySize"
-            label="Ile wierszy na stronę"
-            value={querySize}
-            onChange={this.handleChange}
-            type="number"
-            className={classes.textField}
-            margin="normal"
-          />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -75,18 +72,42 @@ class AutoTable extends React.Component {
         </div>
         <Paper className={classes.root}>
           <Table className={classes.table}>
-            {labelsArr !== undefined ? (
-              <LabelGenerator labelsArr={labelsArr} editMode={editMode} />
-            ) : (
-              <AutoLabels queryData={queryData} querySubject={querySubject} editMode={editMode} />
-            )}
-            <AutoContent
+            <AutoLabels
+              labelsArr={labelsArr}
               queryData={queryData}
               querySubject={querySubject}
               editMode={editMode}
-              handleEdit={this.handleEdit}
-              handleDeletion={this.handleDeletion}
+              labelCountChange={this.labelCountChange}
             />
+            <TableBody>
+              <AutoContent
+                queryData={queryData}
+                querySubject={querySubject}
+                editMode={editMode}
+                handleEdit={this.handleEdit}
+                handleDeletion={this.handleDeletion}
+                page={page}
+                rowsPerPage={rowsPerPage}
+              />
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 48 * emptyRows }}>
+                  <TableCell colSpan={this.state.labelCount} />
+                </TableRow>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  colSpan={this.state.labelCount}
+                  count={querySize}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
         </Paper>
         {editMode && (
@@ -117,7 +138,8 @@ AutoTable.propTypes = {
   dialogFormTitle: PropTypes.string,
   dialogForm: PropTypes.object,
   editMode: PropTypes.bool.isRequired,
-  labelsArr: PropTypes.array
+  labelsArr: PropTypes.array,
+  querySize: PropTypes.number
 };
 
 export default withStyles(AutoTableStyle)(AutoTable);

@@ -36,6 +36,7 @@ class AdminDashboard extends React.Component {
               dialogFormTitle={formTitle}
               queryData={data}
               querySubject="hero"
+              querySize={2}
               dialogForm={<FormUsers />}
               editMode={true}
             />
@@ -54,10 +55,17 @@ class AdminDashboard extends React.Component {
           dialogFormTitle={'Nowy użytkownik'}
           queryData={data}
           querySubject="hero"
+          querySize={2}
           dialogForm={<FormUsers />}
           editMode={true}
         />
-        <AutoTable queryData={data} querySubject={'hero'} labelsArr={['ID', 'Nazwa', 'Wiek']} editMode={false} />
+        <AutoTable
+          queryData={data}
+          querySubject={'hero'}
+          querySize={2}
+          labelsArr={['ID', 'Nazwa', 'Wiek']}
+          editMode={false}
+        />
       </React.Fragment>
     );
   }

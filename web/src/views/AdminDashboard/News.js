@@ -21,10 +21,10 @@ class News extends React.Component {
         </Typography>
         <OCBigTab labels={labels}>
           <TabContainer>
-            <AutoTable queryData={data} querySubject="hero" editMode={false} />
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
-            <AutoTable queryData={data} querySubject="hero" editMode={false} />
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
         </OCBigTab>
       </React.Fragment>

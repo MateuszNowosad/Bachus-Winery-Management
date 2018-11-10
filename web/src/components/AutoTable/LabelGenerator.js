@@ -5,6 +5,7 @@ import TableRow from '@material-ui/core/TableRow/TableRow';
 import TableHead from '@material-ui/core/TableHead/TableHead';
 
 const LabelGenerator = props => {
+  //deprecated
   let labels = [];
   for (let currLabel in props.labelsArr)
     labels.push(<TableCell key={currLabel}>{props.labelsArr[currLabel]}</TableCell>);
