@@ -11,7 +11,7 @@ import TabContainer from '../../../components/Tab/TabContainer';
 
 const labels = ['Użytkownicy', 'Kontrachenci','Spis adresów', 'Słowniki'];
 
-class DatabaseProduction extends React.Component {
+class DatabaseContactsAndUsers extends React.Component {
   render() {
     return (
       <React.Fragment>
@@ -52,8 +52,8 @@ class DatabaseProduction extends React.Component {
   }
 }
 
-DatabaseProduction.propTypes = {
+DatabaseContactsAndUsers.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(AdminDashboardStyle)(DatabaseProduction);
+export default withStyles(AdminDashboardStyle)(DatabaseContactsAndUsers);
