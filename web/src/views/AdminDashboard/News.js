@@ -16,7 +16,7 @@ class News extends React.Component {
     return (
       <React.Fragment>
         <Typography variant="h4" gutterBottom component="h2">
-          Najnowsze operacje
+          Najnowsze zdarzenia
         </Typography>
             <OCBigTab labels={labels}>
                 <TabContainer>
