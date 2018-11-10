@@ -21,12 +21,21 @@ class DatabaseVineyard extends React.Component {
         </Typography>
         <OCBigTab labels={labels}>
           <TabContainer>
+              <Typography variant="h5" gutterBottom component="h1">
+                  Winnice
+              </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
+              <Typography variant="h5" gutterBottom component="h1">
+                  Winobrania
+              </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
+              <Typography variant="h5" gutterBottom component="h1">
+                  Operacje na winnicy
+              </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
