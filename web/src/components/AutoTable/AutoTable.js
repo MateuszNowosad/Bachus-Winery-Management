@@ -20,11 +20,10 @@ import TableCell from '@material-ui/core/TableCell/TableCell';
 class AutoTable extends React.Component {
   state = {
     open: false,
-    editMode: this.props.editMode,
     page: 0,
-    rowsPerPage: 5,
-    labelCount: -1
+    rowsPerPage: 5
   };
+
 
   handleChangePage = (event, page) => {
     this.setState({ page });
@@ -46,14 +45,16 @@ class AutoTable extends React.Component {
     console.log('45, recordId DEMateusz: ', recordId);
   };
 
-  labelCountChange = newLabelCount => {
-    if (this.state.labelCount === -1) this.setState({ labelCount: newLabelCount });
-  };
-
   render() {
-    const { classes, queryData, querySubject, querySize, dialogFormTitle, dialogForm, labelsArr } = this.props;
-    const { open, editMode, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, querySize - page * rowsPerPage);
+    let labelCount = 0;
+    let labels = AutoLabels({queryData: this.props.queryData,
+        querySubject: this.props.querySubject,
+        labelsArr: this.props.labelsArr,
+        editMode: this.props.editMode,
+        labelCountChange: (newlabelCount)=>{labelCount = newlabelCount} });
+      const { classes, queryData, querySubject, querySize, dialogFormTitle, dialogForm, editMode } = this.props;
+      const { open, rowsPerPage, page } = this.state;
+      const emptyRows = rowsPerPage - Math.min(rowsPerPage, querySize - page * rowsPerPage);
     return (
       <div>
         <div className={classes.actions}>
@@ -72,13 +73,7 @@ class AutoTable extends React.Component {
         </div>
         <Paper className={classes.root}>
           <Table className={classes.table}>
-            <AutoLabels
-              labelsArr={labelsArr}
-              queryData={queryData}
-              querySubject={querySubject}
-              editMode={editMode}
-              labelCountChange={this.labelCountChange}
-            />
+              {labels}
             <TableBody>
               <AutoContent
                 queryData={queryData}
