@@ -8,6 +8,7 @@ import AutoTable from '../../../components/AutoTable/AutoTable';
 import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
+import {FormUsers} from "../../common/forms/FormUsers";
 
 const labels = ['Użytkownicy', 'Kontrachenci','Spis adresów', 'Słowniki'];
 
@@ -23,7 +24,7 @@ class DatabaseContactsAndUsers extends React.Component {
               <Typography variant="h5" gutterBottom component="h1">
                   Użytkownicy
               </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <AutoTable queryData={data} querySubject="hero" querySize={2} dialogForm={<FormUsers/>} dialogFormTitle={'Użytkownik'} editMode={true} />
           </TabContainer>
           <TabContainer>
               <Typography variant="h5" gutterBottom component="h1">
