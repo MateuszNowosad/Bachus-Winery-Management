@@ -12,12 +12,8 @@ class AlertDialog extends React.Component {
         open: this.props.open,
     };
 
-    handleCancel = () => {
-        this.setState({ open: false });
-    };
-
     render() {
-        const {dialogTitle, handleAgree, dialogMessage} = this.props;
+        const {dialogTitle, handleAgree, handleCancel, dialogMessage} = this.props;
         return (
             <div>
                 <Dialog
@@ -33,7 +29,7 @@ class AlertDialog extends React.Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleCancel} color="primary">
+                        <Button onClick={handleCancel} color="primary">
                             Anuluj
                         </Button>
                         <Button onClick={handleAgree} color="primary" autoFocus>
@@ -50,6 +46,7 @@ AlertDialog.propTypes = {
     dialogTitle: PropTypes.string.isRequired,
     dialogMessage: PropTypes.string.isRequired,
     handleAgree: PropTypes.func.isRequired,
+    handleCancel: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
 };
 
