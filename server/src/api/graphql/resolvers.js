@@ -4,17 +4,15 @@ import * as testData from '../../../.variables/graphGLStaticData';
 export default {
   Query: {
     Adresy: async (_, input, context) => {
-      return await sequelize.getAdresses();
+      return await sequelize.getAddresses();
     },
     Adres: async (_, { idAdres, ulica }, context) => {
-      const addresses = await sequelize.getAdresses({ idAdres, ulica });
+      const addresses = await sequelize.getAddresses({ idAdres, ulica });
       console.log('12,  filip: ', addresses);
       return addresses;
-      // console.log('16, foundAddress filip: ', adresses);
-      // return adresses.find(adres => {
-      //   if (idAdres) return adres.idAdres.toString() === idAdres.toString();
-      //   return adres.ulica.toString() === ulica.toString();
-      // });
+    },
+    DictKategorie: async (_, input, context) => {
+      return await sequelize.getDictKategorie();
     },
     Magazyny: (_, input, context) => {
       return testData.MAGAZYN;
@@ -32,6 +30,7 @@ export default {
       return testData.KONTRAHENCI.find(kontrahent => kontrahent.idKontrahenci === idKontrahenci);
     },
     ListyPrzewozowe: (_, input, context) => {
+      // TODO ogranicz dane z parametru typ
       return testData.LISTPRZEWOZOWY;
     },
     ListPrzewozowy: (_, { idListPrzewozowy }, context) => {

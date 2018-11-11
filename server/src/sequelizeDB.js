@@ -5,9 +5,14 @@
 // import moment from 'moment';
 // import ConnectDataService from '../services/ConnectDataService';
 // var faker = require('faker/locale/pl');
+// import * as table from './sql/tableDefinition';
+// import * as generate from './sql/generateTableData';
+
 const _ = require('underscore');
 const faker = require('faker');
 const Sequelize = require('sequelize');
+
+// const sequelize = new Sequelize('mysql://test@172.17.0.2:3306/bachusWinery');
 const sequelize = new Sequelize({
   database: 'bachusWinery',
   username: 'test',
@@ -21,79 +26,442 @@ const sequelize = new Sequelize({
     idle: 200000
   },
   retry: { max: 2 },
-  logging: false
+  logging: false,
+  define: {
+    freezeTableName: true
+  }
 });
-
-// const sequelize = new Sequelize('mysql://test@172.17.0.2:3306/bachusWinery');
 
 sequelize
   .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
+  .then(() => console.log('Connection has been established successfully.'))
+  .catch(err => console.error('Unable to connect to the database:', err));
 
-const Adres = sequelize.define('Adres', {
+// for (let i = 0; i < 10; i += 1) {
+//   createAdres();
+//   createDictKategoriaWina();
+//   createDictKategorie();
+// }
+
+// TODO klucze obce jako id, które obsłuży resolver
+
+export async function getAddresses(query) {
+  let sqlQuery = 'select * from Adres where 1=1';
+  if (query) {
+    Object.keys(query).forEach(key => query[key] === undefined && delete query[key]);
+    _.each(query, (value, key) => {
+      sqlQuery += ` and ${key} = "${value}"`;
+    });
+  }
+  return await sequelize.query(sqlQuery, { raw: true, type: Sequelize.QueryTypes.SELECT });
+}
+
+export async function getDictKategorie(query) {
+  let sqlQuery = 'select * from DictKategorie where 1=1';
+  if (query) {
+    Object.keys(query).forEach(key => query[key] === undefined && delete query[key]);
+    _.each(query, (value, key) => {
+      sqlQuery += ` and ${key} = "${value}"`;
+    });
+  }
+  return await sequelize.query(sqlQuery, { raw: true, type: Sequelize.QueryTypes.SELECT });
+}
+
+async function createAdres() {
+  await sequelize.sync().then(() =>
+    ADRES.create({
+      miasto: faker.fake('{{address.city}}'),
+      kodPocztowy: faker.fake('{{address.zipCode}}'),
+      ulica: faker.fake('{{address.streetName}}'),
+      nrLokalu: faker.random.number(20),
+      nrPosesji: faker.random.number(9999),
+      kraj: faker.fake('{{address.country}}')
+    })
+  ); // .then(adres => { console.log(adres.toJSON())});
+}
+
+export async function createDictKategoriaWina() {
+  await sequelize.sync().then(() =>
+    DICTKATEGORIAWINA.create({
+      nazwaKategoria: faker.lorem.word(faker.random.number(10)),
+      opis: faker.lorem.words(8) // fake random text
+    })
+  );
+}
+
+export async function createDictKategorie() {
+  await sequelize.sync().then(() =>
+    DICTKATEGORIE.create({
+      nazwa: faker.lorem.word(faker.random.number(100)),
+      jednostka: faker.random.arrayElement(['sztuki', 'kilogramy', 'gramy', 'tony', 'mililitry', 'litry']),
+      opis: faker.lorem.words(8)
+    })
+  );
+}
+/*
+export async function createDictOdmianaWinogron() {
+  await sequelize.sync().then(() => DICTODMIANAWINOGRON.create({}));
+}
+
+export async function createDictOperacjeNaWinnicy() {
+  await sequelize.sync().then(() => DICTOPERACJENAWINNICY.create({}));
+}
+
+export async function createDictProcesy() {
+  await sequelize.sync().then(() => DICTPROCESY.create({}));
+}
+
+export async function createDictRolaUzytkownikow() {
+  await sequelize.sync().then(() => DICTROLAUZYTKOWNIKOW.create({}));
+}
+
+export async function createDictTypPartii() {
+  await sequelize.sync().then(() => DICTTYPPARTII.create({}));
+}
+
+export async function createInformacjeOWinie() {
+  await sequelize.sync().then(() => INFORMACJEOWINIE.create({}));
+}
+
+export async function createKontrahenci() {
+  await sequelize.sync().then(() => KONTRAHENCI.create({}));
+}
+
+export async function createListPrzewozowy() {
+  await sequelize.sync().then(() => LISTPRZEWOZOWY.create({}));
+}
+
+export async function createMagazyn() {
+  await sequelize.sync().then(() => MAGAZYN.create({}));
+}
+
+export async function createOperacje() {
+  await sequelize.sync().then(() => OPERACJE.create({}));
+}
+
+export async function createOperacjeNaWinnicy() {
+  await sequelize.sync().then(() => OPERACJENAWINNICY.create({}));
+}
+
+export async function createPartie() {
+  await sequelize.sync().then(() => PARTIE.create({}));
+}
+
+export async function createPlanyProdukcyjne() {
+  await sequelize.sync().then(() => PLANYPRODUKCYJNE.create({}));
+}
+
+export async function createPozycjaWMagazynie() {
+  await sequelize.sync().then(() => POZYCJAWMAGAZYNIE.create({}));
+}
+
+export async function createPrzesylka() {
+  await sequelize.sync().then(() => PRZESYLKA.create({}));
+}
+
+export async function createUzytkownicy() {
+  await sequelize.sync().then(() => UZYTKOWNICY.create({}));
+}
+
+export async function createWinnica() {
+  await sequelize.sync().then(() => WINNICA.create({}));
+}
+
+export async function createWinobranie() {
+  await sequelize.sync().then(() => WINOBRANIE.create({}));
+}
+*/
+const ADRES = sequelize.define('Adres', {
   idAdres: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  miasto: Sequelize.STRING(30),
-  kodPocztowy: Sequelize.STRING,
-  ulica: Sequelize.STRING,
-  nrLokalu: Sequelize.STRING,
-  nrPosesji: Sequelize.STRING,
-  kraj: Sequelize.STRING
+  miasto: Sequelize.STRING(20),
+  kodPocztowy: Sequelize.STRING(10),
+  ulica: Sequelize.STRING(45),
+  nrLokalu: Sequelize.STRING(2),
+  nrPosesji: Sequelize.STRING(4),
+  kraj: Sequelize.STRING(60)
 });
-for (let i = 0; i < 1000; i += 1) {
-  createAdres();
-}
-// Array.from(Array(10000)).forEach(async () => {
-//     await createAdres();
-// });
 
-export async function createAdres() {
-  await sequelize.sync().then(() =>
-    Adres.create({
-      miasto: faker.fake('{{address.city}}'),
-      kodPocztowy: faker.fake('{{address.zipCode}}'),
-      ulica: faker.fake('{{address.streetName}}'),
-      nrLokalu: faker.random.number(20),
-      nrPosesji: faker.random.number(100),
-      kraj: faker.fake('{{address.country}}')
-    })
-  );
-  // .then(adres => {
-  //   console.log(adres.toJSON());
-  // });
-}
+const DICTKATEGORIAWINA = sequelize.define('DictKategoriaWina', {
+  idDictKategoriaWina: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwaKategoria: Sequelize.STRING(45),
+  opis: Sequelize.STRING(255)
+});
 
-export async function getAdresses(address) {
-  // const foundAddress = await sequelize.query('Select * from Adres where idAdres = :idAdres', {
-  //   raw: true,
-  //   type: Sequelize.QueryTypes.SELECT,
-  //   replacements: { idAdres }
-  // });
-  // // return await sequelize.query("SELECT * FROM `Adres`", { type: sequelize.QueryTypes.SELECT})
-  // return foundAddress;
+const DICTKATEGORIE = sequelize.define('DictKategorie', {
+  idKategorie: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwa: Sequelize.STRING(20),
+  jednostka: Sequelize.STRING(20),
+  opis: Sequelize.STRING(250)
+});
+/*
+const DICTODMIANAWINOGRON = sequelize.define('DictOdmianaWinogron', {
+  idOdmianaWinogron: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwa: Sequelize.STRING(45),
+  opis: Sequelize.STRING(255)
+});
 
-  if (address) Object.keys(address).forEach(key => address[key] === undefined && delete address[key]);
-  let sqlQuery = 'select * from Adres where 1=1';
-  _.each(address, (value, key) => {
-    sqlQuery += ` and ${key} = "${value}"`;
-  });
-  console.log('90, sqlQuery filip: ', sqlQuery);
+const DICTOPERACJENAWINNICY = sequelize.define('DictOperacjeNaWinnicy', {
+  idDictOperacjeNaWinnicy: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwa: Sequelize.STRING(45),
+  opis: Sequelize.STRING(255)
+});
 
-  const result = await sequelize.query(sqlQuery, {
-    raw: true,
-    type: Sequelize.QueryTypes.SELECT
-  });
-  console.log('94, result filip: ', result);
-  return result;
-}
+const DICTPROCESY = sequelize.define('DictProcesy', {
+  idDictProcesy: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwa: Sequelize.STRING(40),
+  opis: Sequelize.STRING(255),
+  dodatkowe: Sequelize.STRING(80)
+});
+
+const DICTROLAUZYTKOWNIKOW = sequelize.define('DictRolaUzytkownikow', {
+  idRolaUzytkownikow: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwa: Sequelize.STRING(45),
+  opis: Sequelize.STRING(255),
+  typ: Sequelize.STRING(45)
+});
+
+const DICTTYPPARTII = sequelize.define('DictTypPartii', {
+  idTypPartii: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwa: Sequelize.STRING(45),
+  jednostka: Sequelize.STRING(45)
+});
+
+const INFORMACJEOWINIE = sequelize.define('InformacjeOWinie', {
+  idInformacjeOWinie: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwa: Sequelize.STRING(45),
+  motto: Sequelize.STRING(100),
+  zawartoscPotAlergenow: Sequelize.STRING(20),
+  wartoscEnergetyczna: Sequelize.INTEGER(3)
+  // kategoriaWina: { define foreign key } ,
+});
+
+const KONTRAHENCI = sequelize.define('Kontrahenci', {
+  idKontrahenci: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  NIP: Sequelize.STRING(10),
+  nazwaSpolki: Sequelize.STRING(40),
+  telefon: Sequelize.STRING(11),
+  eMail: Sequelize.STRING(90),
+  stronaWww: Sequelize.STRING(255),
+  KRS: Sequelize.STRING(10),
+  nrKonta: Sequelize.STRING(26),
+  fax: Sequelize.STRING(45)
+  // adres: Adres
+  // listprzewozowy: [ListPrzewozowy] # many-to-many
+});
+
+const LISTPRZEWOZOWY = sequelize.define('ListPrzewozowy', {
+  idListPrzewozowy: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  imieKierowcy: Sequelize.STRING(45),
+  nazwiskoKierowcy: Sequelize.STRING(60),
+  uwagiPrzewoznika: Sequelize.STRING(255),
+  zastrzezeniaOdbiorcy: Sequelize.STRING(255),
+  eDokument: Sequelize.STRING(255)
+  // przesylka: Przesylka // fk
+});
+
+const MAGAZYN = sequelize.define('Magazyn', {
+  idMagazyn: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  rodzaj: Sequelize.ENUM('producja', 'towary', 'sklad'), // enum
+  pojemnosc: Sequelize.FLOAT(7) // Decimal 6,1
+  // adres: Adres, // fk
+});
+
+const OPERACJE = sequelize.define('Operacje', {
+  idOperacja: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  iloscPrzed: Sequelize.FLOAT(8), // 6,2
+  iloscPo: Sequelize.FLOAT(8), // 6,2
+  dataPoczatku: Sequelize.STRING(45), // date time
+  dataZakonczenia: Sequelize.STRING(45), // date time
+  zawartoscAlkoholu: Sequelize.FLOAT(3), // 2,1
+  iloscDodatku: Sequelize.FLOAT(4), // 3,1
+  zawartoscCukru: Sequelize.FLOAT(3), // 2,1
+  kwasowosc: Sequelize.FLOAT(3), // 2,1
+  temperatura: Sequelize.FLOAT(3), // 2,1
+  opis: Sequelize.STRING(255)
+  // uzytkownicy: Uzytkownicy, // fk
+  // procesy: DictProcesy // fk
+});
+
+const OPERACJENAWINNICY = sequelize.define('OperacjeNaWinnicy', {
+  idOperacja: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  data: Sequelize.STRING(45),
+  opis: Sequelize.STRING(45)
+  // dictOperacjeNaWinnicy: DictOperacjeNaWinnicy,
+  // winnica: Winnica
+});
+
+const PARTIE = sequelize.define('Partie', {
+  idPartie: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  ilosc: Sequelize.FLOAT(5), // 4,1
+  opis: Sequelize.STRING(255),
+  dataUtworzenia: Sequelize.STRING(45) // date time
+  // winobranie: Winobranie // fk
+  // partie: Partie // fk
+  // typPartii: DictTypPartii // fk
+  // informacjeOWinie: InformacjeOWinie // fk
+});
+
+const PLANYPRODUKCYJNE = sequelize.define('PlanyProdukcyjne', {
+  idPlanyProdukcyjne: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwa: Sequelize.STRING(45),
+  opis: Sequelize.STRING(255),
+  // rodzajWinogron: DictOdmianaWinogron, // fk
+  // typPartii: DictTypPartii, // fk
+  // kategorie: DictKategorie, // fk
+  eDokument: Sequelize.STRING(255)
+});
+
+const POZYCJAWMAGAZYNIE = sequelize.define('PozycjaWMagazynie', {
+  idPozycja: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwa: Sequelize.STRING(45),
+  opis: Sequelize.STRING(255),
+  ilosc: Sequelize.FLOAT(5), // 4,1
+  kodKreskowy: Sequelize.STRING(13),
+  stanAktualny: Sequelize.BOOLEAN, // true false or 1 0
+  dataPrzyjecia: Sequelize.STRING(45), // date time
+  dataWydania: Sequelize.STRING(45), // date time
+  nazwaSektora: Sequelize.STRING(45)
+  // kategorie: DictKategorie // fk
+  // magazyn: Magazyn // fk
+  // partie: Partie // fk
+});
+
+const PRZESYLKA = sequelize.define('Przesylka', {
+  idPrzesylka: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwaPrzesylki: Sequelize.STRING(45),
+  ciezarLadunku: Sequelize.FLOAT(8), // 6,2
+  date: Sequelize.STRING(45) // date time
+});
+
+const RAPORTY = sequelize.define('Raporty', {
+  idRaport: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwa: Sequelize.STRING(45),
+  eDokument: Sequelize.STRING(255),
+  dataUtworzenia: Sequelize.STRING(45) // date time
+});
+
+const UZYTKOWNICY = sequelize.define('Uzytkownicy', {
+  idUzytkownika: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  imie: Sequelize.STRING(30),
+  nazwisko: Sequelize.STRING(30),
+  login: Sequelize.STRING(10),
+  haslo: Sequelize.STRING(60), // bcrypt - binary
+  PESEL: Sequelize.STRING(11),
+  eMail: Sequelize.STRING(40),
+  nrTelefonu: Sequelize.STRING(11),
+  dataOstatniegoLogowania: Sequelize.STRING(45), // date time
+  zdjecie: Sequelize.STRING(100),
+  czyAktywne: Sequelize.BOOLEAN // true false
+  // adres: Adres, // fk
+  // rola: DictRolaUzytkownikow, // fk
+});
+
+const WINNICA = sequelize.define('Winnica', {
+  idWinnica: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  nazwa: Sequelize.STRING(40),
+  powierzchnia: Sequelize.FLOAT(8), // 6,2
+  stan: Sequelize.ENUM('dziala', 'nie dziala'),
+  terroir: Sequelize.STRING(255),
+  dataOstatniegoZbioru: Sequelize.STRING(45), // date time
+  dataZasadzenia: Sequelize.STRING(45), // date time
+  ewidencyjnyIdDzialki: Sequelize.STRING(45)
+  // dictOdmianaWinogron: DictOdmianaWinogron // fk
+});
+
+const WINOBRANIE = sequelize.define('Winobranie', {
+  idWinobranie: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  dataWinobrania: Sequelize.STRING(45), // date time
+  iloscZebranychWinogron: Sequelize.FLOAT(5) // 4,1
+  // winnica: Winnica, // fk
+});
 
 // sequelize.sync().then(() => User.create({
 //         username: 'janedoe',

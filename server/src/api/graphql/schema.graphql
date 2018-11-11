@@ -6,6 +6,7 @@ schema {
 type Query {
     Adresy: [Adres]
     Adres(idAdres: ID, ulica: String): [Adres]!
+    DictKategorie: [DictKategorie]
     Magazyny: [Magazyn]
     Magazyn(idMagazyn: ID): Magazyn
     Kontrahenci: [Kontrahenci]
@@ -76,6 +77,7 @@ type DictTypPartii {
     idTypPartii: ID
     nazwa: String!
     jednostka: String!
+    typ: String!
 }
 
 type InformacjeOWinie {
