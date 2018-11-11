@@ -9,24 +9,13 @@ import data from '../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../components/Tab/OCBigTab.js';
 import TabContainer from '../../components/Tab/TabContainer';
 
-const labels = ['Kopie przyrostowe', 'Kopie pełne', 'Akcje'];
-
 class Diagnostics extends React.Component {
   render() {
-    const { classes } = this.props;
     return (
       <React.Fragment>
         <Typography variant="h4" gutterBottom component="h2">
           Diagnostyka
         </Typography>
-        <OCBigTab labels={labels}>
-          <TabContainer>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
-          </TabContainer>
-          <TabContainer>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
-          </TabContainer>
-        </OCBigTab>
       </React.Fragment>
     );
   }
