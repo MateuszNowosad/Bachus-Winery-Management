@@ -8,15 +8,18 @@ import { withStyles } from '@material-ui/core/styles';
 import ScrollableDialogFormStyle from '../../assets/jss/common/components/ScorllableDialogFormStyle.js';
 import Button from '@material-ui/core/Button/Button';
 import UniversalSubmitHander from '../../views/common/forms/UniversalSubmitHandler';
+import OCSnackbar from "../../views/common/prompts/OCSnackbar";
 
 class ScrollableDialogForm extends React.Component {
   state = {
     open: false,
-    submit: false
+    submit: false,
+      openSnackbar:false,
   };
   handleSubmit = () => {
     this.setState({ submit: true });
     this.handleClose();
+
   };
 
   handleClose = () => {
@@ -25,13 +28,14 @@ class ScrollableDialogForm extends React.Component {
   };
 
   formSubmitted = () => {
-    this.setState({ submit: false });
+    this.setState({ submit: false, openSnackbar: true });
   };
 
   render() {
     const { classes, children, isOpen, dialogTitle } = this.props;
 
     return (
+        <div>
       <Dialog
         aria-labelledby="modal-form-popup"
         aria-describedby="modal-form-popup"
@@ -49,6 +53,7 @@ class ScrollableDialogForm extends React.Component {
             onSubmit: UniversalSubmitHander,
             formSubmitted: this.formSubmitted
           })}
+
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={this.handleClose} color="secondary">
@@ -59,6 +64,8 @@ class ScrollableDialogForm extends React.Component {
           </Button>
         </DialogActions>
       </Dialog>
+        <OCSnackbar message={'Zapisano do bazy danych'} open={this.state.openSnackbar}/>
+      </div>
     );
   }
 }
