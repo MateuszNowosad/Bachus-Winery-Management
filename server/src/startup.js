@@ -10,7 +10,6 @@ const serverListen = async function serverListen() {
   const typeDefs = importSchema(`${__dirname}/api/graphql/schema.graphql`);
   const server = new ApolloServer({ typeDefs, resolvers, context: ({ req, res }) => {}, playground: true });
   server.applyMiddleware({ app });
-  // const server = createServer(app);
   const port = process.env.PORT || 8080;
 
   app.listen(port, undefined, undefined, () =>

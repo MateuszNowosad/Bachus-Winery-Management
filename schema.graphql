@@ -1,0 +1,223 @@
+type Query {
+  Adresy: [Adres]
+  Adres(idAdres: ID, ulica: String): [Adres]!
+  DictKategorie: [DictKategorie]
+  Magazyny: [Magazyn]
+  Magazyn(idMagazyn: ID): Magazyn
+  Kontrahenci: [Kontrahenci]
+  KontrahentPlural(idKontrahenci: ID): Kontrahenci
+  ListyPrzewozowe: [ListPrzewozowy]
+  ListPrzewozowy(idListPrzewozowy: ID): ListPrzewozowy!
+  Przesylki: [Przesylka]
+  Przesylka(idPrzesylka: ID): Przesylka!
+  DictOperacjeNaWinnicy: [DictOperacjeNaWinnicy]
+  DictOperacjaNaWinnicy(idDictOperacjeNaWinnicy: ID): DictOperacjeNaWinnicy!
+}
+
+type Adres {
+  idAdres: ID
+  miasto: String!
+  kodPocztowy: String!
+  ulica: String!
+  nrLokalu: String
+  nrPosesji: String!
+  kraj: String!
+  createdAt: String
+  updatedAt: String
+}
+
+type DictKategoriaWina {
+  idDictKategoriaWina: ID
+  nazwaKategoria: String!
+  opis: String
+}
+
+type DictKategorie {
+  idKategorie: ID
+  nazwa: String!
+  jednostka: String!
+  opis: String
+}
+
+type DictOdmianaWinogron {
+  idOdmianaWinogron: ID
+  nazwa: String!
+  opis: String
+}
+
+type DictOperacjeNaWinnicy {
+  idDictOperacjeNaWinnicy: ID
+  nazwa: String!
+  opis: String
+}
+
+type DictProcesy {
+  idDictProcesy: ID
+  nazwa: String!
+  opis: String
+  dodatkowe: String
+}
+
+type DictRolaUzytkownikow {
+  idRolaUzytkownikow: ID
+  nazwa: String!
+  opis: String
+}
+
+type DictTypPartii {
+  idTypPartii: ID
+  nazwa: String!
+  jednostka: String!
+  typ: String!
+}
+
+type InformacjeOWinie {
+  idInformacjeOWinie: ID
+  nazwa: String!
+  motto: String!
+  zawartoscPotAlergenow: String
+  wartoscEnergetyczna: String!
+  kategoriaWina: DictKategoriaWina
+}
+
+type Kontrahenci {
+  idKontrahenci: ID
+  NIP: String
+  nazwaSpolki: String!
+  telefon: String!
+  eMail: String!
+  stronaWww: String
+  KRS: String
+  nrKonta: String!
+  fax: String
+  adres: Adres!
+  listprzewozowy: [ListPrzewozowy]
+}
+
+type ListPrzewozowy {
+  idListPrzewozowy: ID
+  imieKierowcy: String
+  nazwiskoKierowcy: String
+  uwagiPrzewoznika: String
+  zastrzezeniaOdbiorcy: String
+  eDokument: String
+  kontrahent: [Kontrahenci]
+  przesylka: Przesylka
+}
+
+type Magazyn {
+  idMagazyn: ID
+  rodzaj: String!
+  pojemnosc: Float!
+  adres: Adres!
+}
+
+type Operacje {
+  idOperacja: ID
+  iloscPrzed: Float!
+  iloscPo: Float
+  dataPoczatku: String!
+  dataZakonczenia: String!
+  zawartoscAlkoholu: Float
+  iloscDodatku: Float
+  zawartoscCukru: Float
+  kwasowosc: Float
+  temperatura: Float
+  opis: String
+  uzytkownicy: Uzytkownicy
+  procesy: DictProcesy
+}
+
+type OperacjeNaWinnicy {
+  idOperacja: ID
+  data: String!
+  opis: String!
+  dictOperacjeNaWinnicy: DictOperacjeNaWinnicy!
+  winnica: Winnica!
+}
+
+type Partie {
+  idPartie: ID
+  ilosc: Float!
+  opis: String!
+  dataUtworzenia: String!
+  winobranie: Winobranie
+  partie: Partie
+  typPartii: DictTypPartii
+  informacjeOWinie: InformacjeOWinie
+}
+
+type PlanyProdukcyjne {
+  idPlanyProdukcyjne: ID
+  nazwa: String!
+  opis: String
+  rodzajWinogron: DictOdmianaWinogron
+  typPartii: DictTypPartii
+  kategorie: DictKategorie
+  eDokument: String!
+}
+
+type PozycjaWMagazynie {
+  idPozycja: ID
+  nazwa: String!
+  opis: String
+  ilosc: Float!
+  kodKreskowy: String!
+  stanAktualny: String!
+  dataPrzyjecia: String!
+  dataWydania: String
+  nazwaSektora: String!
+  kategorie: DictKategorie
+  magazyn: Magazyn
+  partie: Partie
+}
+
+type Przesylka {
+  idPrzesylka: ID
+  nazwaPrzesylki: String
+  ciezarLadunku: Float
+  date: String
+}
+
+type Raporty {
+  idRaport: ID
+  nazwa: String!
+  eDokument: String!
+  dataUtworzenia: String!
+}
+
+type Uzytkownicy {
+  idUzytkownika: ID
+  imie: String!
+  nazwisko: String!
+  login: String!
+  haslo: String!
+  PESEL: String!
+  eMail: String!
+  nrTelefonu: String!
+  dataOstatniegoLogowania: String!
+  zdjecie: String
+  czyAktywne: String!
+  adres: Adres!
+  rola: DictRolaUzytkownikow!
+}
+
+type Winnica {
+  idWinnica: ID
+  nazwa: String!
+  powierzchnia: Float!
+  stan: String!
+  terroir: String
+  dataOstatniegoZbioru: String
+  dataZasadzenia: String!
+  ewidencyjnyIdDzialki: String!
+  dictOdmianaWinogron: DictOdmianaWinogron
+}
+
+type Winobranie {
+  idWinobranie: ID
+  dataWinobrania: String!
+  iloscZebranychWinogron: Float!
+  winnica: Winnica!
+}
+
