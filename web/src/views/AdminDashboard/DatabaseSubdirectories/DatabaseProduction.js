@@ -20,39 +20,39 @@ class DatabaseProduction extends React.Component {
         </Typography>
         <OCBigTab labels={labels}>
           <TabContainer>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Partie
-              </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Partie
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Informacje o winie
-              </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Informacje o winie
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Operacje
-              </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Operacje
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
-              <Typography variant="h4" gutterBottom component="h1">
-                  Słowniki
-              </Typography>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Typ partii
-              </Typography>
+            <Typography variant="h4" gutterBottom component="h1">
+              Słowniki
+            </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Typ partii
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
-              <Typography variant="h5" gutterBottom component="h1">
-                  Kategorie wina
-              </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Kategorie wina
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
-              <Typography variant="h5" gutterBottom component="h1">
-                  Procesy
-              </Typography>
-              <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Typography variant="h5" gutterBottom component="h1">
+              Procesy
+            </Typography>
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
         </OCBigTab>
       </React.Fragment>

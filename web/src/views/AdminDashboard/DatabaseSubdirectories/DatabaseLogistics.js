@@ -9,7 +9,7 @@ import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
 
-const labels = ['Pozycje w magazynie','Przesyłki', 'Listy przwozowe','Magazyny', 'Słowniki'];
+const labels = ['Pozycje w magazynie', 'Przesyłki', 'Listy przwozowe', 'Magazyny', 'Słowniki'];
 
 class DatabaseProduction extends React.Component {
   render() {
@@ -20,36 +20,36 @@ class DatabaseProduction extends React.Component {
         </Typography>
         <OCBigTab labels={labels}>
           <TabContainer>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Pozycje w magazynie
-              </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Pozycje w magazynie
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
-            <TabContainer>
-                <Typography variant="h5" gutterBottom component="h1">
-                    Przesyłki
-                </Typography>
-                <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
-            </TabContainer>
           <TabContainer>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Listy przwozowe
-              </Typography>
-              <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Typography variant="h5" gutterBottom component="h1">
+              Przesyłki
+            </Typography>
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
-            <TabContainer>
-                <Typography variant="h5" gutterBottom component="h1">
-                    Magazyny
-                </Typography>
-                <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
-            </TabContainer>
-        <TabContainer>
-              <Typography variant="h4" gutterBottom component="h1">
-                  Słowniki
-              </Typography>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Kategorie przedmiotów w magazynie
-              </Typography>
+          <TabContainer>
+            <Typography variant="h5" gutterBottom component="h1">
+              Listy przwozowe
+            </Typography>
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+          </TabContainer>
+          <TabContainer>
+            <Typography variant="h5" gutterBottom component="h1">
+              Magazyny
+            </Typography>
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+          </TabContainer>
+          <TabContainer>
+            <Typography variant="h4" gutterBottom component="h1">
+              Słowniki
+            </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Kategorie przedmiotów w magazynie
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
         </OCBigTab>

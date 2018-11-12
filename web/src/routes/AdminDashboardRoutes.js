@@ -15,11 +15,11 @@ import SaveIcon from '@material-ui/icons/Save';
 import Flower from '@material-ui/icons/LocalFlorist';
 import Bar from '@material-ui/icons/LocalBar';
 import UserInfo from '../views/AdminDashboard/UserInfo';
-import FaceIcon from '@material-ui/icons/Face'
+import FaceIcon from '@material-ui/icons/Face';
 import DatabaseVineyard from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseVineyard';
-import DatabaseProduction from "../views/AdminDashboard/DatabaseSubdirectories/DatabaseProduction";
-import DatabaseContactsAndUsers from "../views/AdminDashboard/DatabaseSubdirectories/DatabaseContactsAndUsers";
-import DatabaseLogistics from "../views/AdminDashboard/DatabaseSubdirectories/DatabaseLogistics";
+import DatabaseProduction from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseProduction';
+import DatabaseContactsAndUsers from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseContactsAndUsers';
+import DatabaseLogistics from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseLogistics';
 
 const AdminDashboardRoutes = [
   {
@@ -62,14 +62,14 @@ const AdminDashboardRoutes = [
         component: DatabaseContactsAndUsers,
         exact: false
       },
-        {
-            path: '/admindashboard/database/logistyka',
-            drawerName: 'Logistyka',
-            navbarName: 'Logistyka',
-            drawerIcon: <LocalShipping />,
-            component: DatabaseLogistics,
-            exact: false
-        }
+      {
+        path: '/admindashboard/database/logistyka',
+        drawerName: 'Logistyka',
+        navbarName: 'Logistyka',
+        drawerIcon: <LocalShipping />,
+        component: DatabaseLogistics,
+        exact: false
+      }
     ]
   },
   {

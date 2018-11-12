@@ -10,7 +10,6 @@ import data from '../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../components/Tab/OCBigTab.js';
 import TabContainer from '../../components/Tab/TabContainer';
 
-import { formTitle, FormUsers } from '../common/forms/FormUsers';
 
 const labels = ['Ostatnie wydarzenia', 'Plany produkcyjne', 'Ostatnie operacje na partiach', 'Ostatnie na winnicach'];
 
@@ -28,48 +27,52 @@ class AdminDashboard extends React.Component {
         {/*<OCTabs theme={standard} labels={['Użytkownicy', 'Kontrahenci', 'Coś tam jeszcze']}/>*/}
         <OCBigTab labels={labels}>
           <TabContainer>
-              <AutoTable
-                  queryData={data}
-                  querySubject={'hero'}
-                  querySize={2}
-                  labelsArr={['ID', 'Nazwa', 'Wiek']}
-                  editMode={false}
-              />
+            <AutoTable
+              queryData={data}
+              querySubject={'hero'}
+              querySize={2}
+              labelsArr={['ID', 'Nazwa', 'Wiek']}
+              editMode={false}
+            />
           </TabContainer>
           <TabContainer>
-              <AutoTable
-                  queryData={data}
-                  querySubject={'hero'}
-                  querySize={2}
-                  labelsArr={['ID', 'Nazwa', 'Wiek']}
-                  editMode={false}
-              />
+            <AutoTable
+              queryData={data}
+              querySubject={'hero'}
+              querySize={2}
+              labelsArr={['ID', 'Nazwa', 'Wiek']}
+              editMode={false}
+            />
           </TabContainer>
-          <TabContainer><AutoTable
+          <TabContainer>
+            <AutoTable
               queryData={data}
               querySubject={'hero'}
               querySize={2}
               labelsArr={['ID', 'Nazwa', 'Wiek']}
               editMode={false}
-          /></TabContainer>
-          <TabContainer><AutoTable
+            />
+          </TabContainer>
+          <TabContainer>
+            <AutoTable
               queryData={data}
               querySubject={'hero'}
               querySize={2}
               labelsArr={['ID', 'Nazwa', 'Wiek']}
               editMode={false}
-          /></TabContainer>
+            />
+          </TabContainer>
         </OCBigTab>
         <Typography variant="h4" gutterBottom component="h2">
-        Najnowsze zamówienia
+          Najnowsze zamówienia
         </Typography>
-          <AutoTable
-              queryData={data}
-              querySubject={'hero'}
-              querySize={2}
-              labelsArr={['ID', 'Nazwa', 'Wiek']}
-              editMode={false}
-          />
+        <AutoTable
+          queryData={data}
+          querySubject={'hero'}
+          querySize={2}
+          labelsArr={['ID', 'Nazwa', 'Wiek']}
+          editMode={false}
+        />
       </React.Fragment>
     );
   }

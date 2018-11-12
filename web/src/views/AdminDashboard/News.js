@@ -18,33 +18,35 @@ class News extends React.Component {
         <Typography variant="h4" gutterBottom component="h2">
           Najnowsze zdarzenia
         </Typography>
-            <OCBigTab labels={labels}>
-                <TabContainer>
-                    <AutoTable
-                        queryData={data}
-                        querySubject={'hero'}
-                        querySize={2}
-                        labelsArr={['ID', 'Nazwa', 'Wiek']}
-                        editMode={false}
-                    />
-                </TabContainer>
-                <TabContainer>
-                    <AutoTable
-                        queryData={data}
-                        querySubject={'hero'}
-                        querySize={2}
-                        labelsArr={['ID', 'Nazwa', 'Wiek']}
-                        editMode={false}
-                    />
-                </TabContainer>
-                <TabContainer><AutoTable
-                    queryData={data}
-                    querySubject={'hero'}
-                    querySize={2}
-                    labelsArr={['ID', 'Nazwa', 'Wiek']}
-                    editMode={false}
-                /></TabContainer>
-            </OCBigTab>
+        <OCBigTab labels={labels}>
+          <TabContainer>
+            <AutoTable
+              queryData={data}
+              querySubject={'hero'}
+              querySize={2}
+              labelsArr={['ID', 'Nazwa', 'Wiek']}
+              editMode={false}
+            />
+          </TabContainer>
+          <TabContainer>
+            <AutoTable
+              queryData={data}
+              querySubject={'hero'}
+              querySize={2}
+              labelsArr={['ID', 'Nazwa', 'Wiek']}
+              editMode={false}
+            />
+          </TabContainer>
+          <TabContainer>
+            <AutoTable
+              queryData={data}
+              querySubject={'hero'}
+              querySize={2}
+              labelsArr={['ID', 'Nazwa', 'Wiek']}
+              editMode={false}
+            />
+          </TabContainer>
+        </OCBigTab>
       </React.Fragment>
     );
   }

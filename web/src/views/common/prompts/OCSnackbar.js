@@ -7,71 +7,70 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 const styles = theme => ({
-    close: {
-        padding: theme.spacing.unit / 2,
-    },
+  close: {
+    padding: theme.spacing.unit / 2
+  }
 });
 
 class OCSnackbar extends React.Component {
-    state = {
-        open: false,
-    };
+  state = {
+    open: false
+  };
 
-    componentDidUpdate(prevProps){
-        if (this.props.open !== prevProps.open)
-            this.setState({open: this.props.open});
+  componentDidUpdate(prevProps) {
+    if (this.props.open !== prevProps.open) this.setState({ open: this.props.open });
+  }
+
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
     }
 
-    handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+    this.setState({ open: false });
+  };
+  handleUndo = () => {
+    this.setState({ open: false });
+  };
 
-        this.setState({ open: false });
-    };
-    handleUndo = () => {
-        this.setState({ open: false });
-    };
-
-    render(){
-        const { classes, message } = this.props;
-        return (
-            <div>
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                    open={this.state.open}
-                    autoHideDuration={5000}
-                    onClose={this.handleClose}
-                    ContentProps={{
-                        'aria-describedby': 'message-id',
-                    }}
-                    message={<span id="message-id">{message}</span>}
-                    action={[
-                        <Button key="undo" color="secondary" size="small" onClick={this.handleUndo}>
-                            COFNIJ
-                        </Button>,
-                        <IconButton
-                            key="close"
-                            aria-label="Close"
-                            color="inherit"
-                            className={classes.close}
-                            onClick={this.handleClose}
-                        >
-                            <CloseIcon />
-                        </IconButton>,
-                    ]}
-                />
-            </div>
-        );
-    }
+  render() {
+    const { classes, message } = this.props;
+    return (
+      <div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          open={this.state.open}
+          autoHideDuration={5000}
+          onClose={this.handleClose}
+          ContentProps={{
+            'aria-describedby': 'message-id'
+          }}
+          message={<span id="message-id">{message}</span>}
+          action={[
+            <Button key="undo" color="secondary" size="small" onClick={this.handleUndo}>
+              COFNIJ
+            </Button>,
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              className={classes.close}
+              onClick={this.handleClose}
+            >
+              <CloseIcon />
+            </IconButton>
+          ]}
+        />
+      </div>
+    );
+  }
 }
 
 OCSnackbar.propTypes = {
-    classes: PropTypes.object.isRequired,
-    message: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+  message: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(OCSnackbar);

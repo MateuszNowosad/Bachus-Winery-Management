@@ -13,7 +13,6 @@ const labels = ['Winnice', 'Winobrania', 'Operacje na winnicy', 'Słowniki'];
 
 class DatabaseVineyard extends React.Component {
   render() {
-    const { classes } = this.props;
     return (
       <React.Fragment>
         <Typography variant="h4" gutterBottom component="h2">
@@ -21,31 +20,31 @@ class DatabaseVineyard extends React.Component {
         </Typography>
         <OCBigTab labels={labels}>
           <TabContainer>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Winnice
-              </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Winnice
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Winobrania
-              </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Winobrania
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Operacje na winnicy
-              </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Operacje na winnicy
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Dozwolone operacje na winnicy
-              </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Dozwolone operacje na winnicy
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
-              <Typography variant="h5" gutterBottom component="h1">
-                  Odmiany winogron
-              </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Odmiany winogron
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
         </OCBigTab>
