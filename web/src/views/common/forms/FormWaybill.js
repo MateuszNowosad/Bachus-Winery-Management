@@ -169,6 +169,7 @@ export class FormWaybill extends React.Component {
                 <SelectableAutoTable
                   queryData={data}
                   querySubject="contractors"
+                  querySize={2}
                   funParam="sender"
                   onSelect={this.handleSelectContractor}
                   onClose={() => this.handleClose('openSender')}

@@ -8,14 +8,26 @@ import SelectableAutoContent from './SelectableAutoContent';
 import AutoTableStyle from '../../assets/jss/common/components/AutoTableStyle.js';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase/InputBase';
-import TextField from '@material-ui/core/TextField';
-import LabelGenerator from '../AutoTable/LabelGenerator';
+import TablePaginationActions from '../AutoTable/TablePaginationActions';
+import TableBody from '@material-ui/core/TableBody/TableBody';
+import TableFooter from '@material-ui/core/TableFooter/TableFooter';
+import TableRow from '@material-ui/core/TableRow/TableRow';
+import TablePagination from '@material-ui/core/TablePagination/TablePagination';
+import TableCell from '@material-ui/core/TableCell/TableCell';
 
 class SelectableAutoTable extends React.Component {
   state = {
-    querySize: 100,
-    open: false,
-    selected: this.props.id
+    selected: this.props.id,
+    page: 0,
+    rowsPerPage: 5
+  };
+
+  handleChangePage = (event, page) => {
+    this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ rowsPerPage: event.target.value });
   };
 
   handleChange = event => {
@@ -38,21 +50,23 @@ class SelectableAutoTable extends React.Component {
   };
 
   render() {
-    const { classes, queryData, querySubject, labelsArr } = this.props;
-    const { querySize, selected } = this.state;
+    let labelCount = 0;
+    let labels = AutoLabels({
+      queryData: this.props.queryData,
+      querySubject: this.props.querySubject,
+      labelsArr: this.props.labelsArr,
+      editMode: false,
+      labelCountChange: newlabelCount => {
+        labelCount = newlabelCount;
+      }
+    });
 
+    const { classes, queryData, querySubject, querySize, selected } = this.props;
+    const { rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, querySize - page * rowsPerPage);
     return (
       <div>
         <div className={classes.actions}>
-          <TextField
-            id="querySize"
-            label="Ile wierszy na stronę"
-            value={querySize}
-            onChange={this.handleChange}
-            type="number"
-            className={classes.textField}
-            margin="normal"
-          />
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -68,19 +82,46 @@ class SelectableAutoTable extends React.Component {
         </div>
         <Paper className={classes.root}>
           <Table className={classes.table}>
-            {labelsArr !== undefined ? (
-              <LabelGenerator labelsArr={labelsArr} editMode={false} />
-            ) : (
-              <AutoLabels queryData={queryData} querySubject={querySubject} editMode={false} />
-            )}
-            <SelectableAutoContent
-              queryData={queryData}
-              querySubject={querySubject}
-              selected={selected}
-              onClick={this.handleRowClick}
-            />
+            {labels}
+            <TableBody>
+              <SelectableAutoContent
+                queryData={queryData}
+                querySubject={querySubject}
+                page={page}
+                rowsPerPage={rowsPerPage}
+                selected={selected}
+                onClick={this.handleRowClick}
+              />
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 48 * emptyRows }}>
+                  <TableCell colSpan={this.state.labelCount} />
+                </TableRow>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  colSpan={this.state.labelCount}
+                  count={querySize}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                  labelRowsPerPage={'Wiesze na stronę'}
+                  rowsPerPageOptions={[5, 25, 100, 250]}
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
         </Paper>
+
+        {/*<SelectableAutoContent*/}
+        {/*queryData={queryData}*/}
+        {/*querySubject={querySubject}*/}
+        {/*selected={selected}*/}
+        {/*onClick={this.handleRowClick}*/}
+        {/*/>*/}
       </div>
     );
   }
@@ -90,9 +131,8 @@ SelectableAutoTable.propTypes = {
   classes: PropTypes.object.isRequired,
   queryData: PropTypes.object.isRequired,
   querySubject: PropTypes.string.isRequired,
-  dialogFormTitle: PropTypes.string,
-  dialogForm: PropTypes.object,
-  labelsArr: PropTypes.array
+  labelsArr: PropTypes.array,
+  querySize: PropTypes.number
 };
 
 export default withStyles(AutoTableStyle)(SelectableAutoTable);
