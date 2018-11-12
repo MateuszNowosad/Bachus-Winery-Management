@@ -8,63 +8,80 @@ import { withStyles } from '@material-ui/core/styles';
 import ScrollableDialogFormStyle from '../../assets/jss/common/components/ScorllableDialogFormStyle.js';
 import Button from '@material-ui/core/Button/Button';
 import UniversalSubmitHander from '../../views/common/forms/UniversalSubmitHandler';
-import OCSnackbar from "../../views/common/prompts/OCSnackbar";
+import OCSnackbar from '../../views/common/prompts/OCSnackbar';
+import ConfirmationSlide from "./ConfirmationSlide";
 
 class ScrollableDialogForm extends React.Component {
   state = {
-    open: false,
     submit: false,
-      openSnackbar:false,
+    openSnackbar: false,
+    openConfirmationPrompt: false
   };
+
+  handleStage = () => {
+    this.setState({ openConfirmationPrompt: true });
+  };
+  handleUnstage = () => {
+    this.setState({ openConfirmationPrompt: false });
+  };
+
   handleSubmit = () => {
-    this.setState({ submit: true });
-    this.handleClose();
-
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-    this.props.onClose();
+    this.setState({ submit: true, openConfirmationPrompt: false }, () => {this.handleClose()}); //callback
+      console.log('37, "test" Mateusz: ', "test");
   };
 
   formSubmitted = () => {
     this.setState({ submit: false, openSnackbar: true });
   };
 
+  handleClose = () =>{
+      this.props.closeForm();
+  };
+
   render() {
-    const { classes, children, isOpen, dialogTitle } = this.props;
-
+    const { classes, children, dialogTitle, open } = this.props;
+    const { openConfirmationPrompt, openSnackbar, submit } = this.state;
     return (
-        <div>
-      <Dialog
-        aria-labelledby="modal-form-popup"
-        aria-describedby="modal-form-popup"
-        open={isOpen}
-        onClose={this.handleClose}
-        className={classes.dialog}
-        scroll="body"
-        fullWidth={true}
-        maxWidth={'lg'}
-      >
-        <DialogContent>
-          <DialogTitle>{dialogTitle}</DialogTitle>
-          {React.cloneElement(children, {
-            submitFromOutside: this.state.submit,
-            onSubmit: UniversalSubmitHander,
-            formSubmitted: this.formSubmitted
-          })}
-
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" onClick={this.handleClose} color="secondary">
-            Anuluj
-          </Button>
-          <Button variant="contained" onClick={this.handleSubmit} color="primary">
-            Zapisz
-          </Button>
-        </DialogActions>
-      </Dialog>
-        <OCSnackbar message={'Zapisano do bazy danych'} open={this.state.openSnackbar}/>
+      <div>
+        <Dialog
+          aria-labelledby="modal-form-popup"
+          aria-describedby="modal-form-popup"
+          open={open}
+          onClose={this.props.closeForm}
+          className={classes.dialog}
+          scroll="body"
+          fullWidth={true}
+          maxWidth={'lg'}
+        >
+          <DialogContent>
+            <DialogTitle>{dialogTitle}</DialogTitle>
+            {React.cloneElement(children, {
+                submitFromOutside: submit,
+                onSubmit: UniversalSubmitHander,
+                formSubmitted: this.formSubmitted
+            })}
+          </DialogContent>
+          <DialogActions classes={{root: classes.root}}>
+              {openConfirmationPrompt ?
+                  <ConfirmationSlide
+                      dialogMessage={'Czy na pewno chcesz dodać ten wpis do bazy danych?'}
+                      handleAgree={this.handleSubmit}
+                      handleCancel={this.handleUnstage}
+                      open={openConfirmationPrompt}
+                  />
+              :
+                  <React.Fragment>
+                  <Button variant="contained" onClick={this.props.closeForm} color="secondary">
+                      Anuluj
+                  </Button>
+                  <Button variant="contained" onClick={this.handleStage} color="primary">
+                  Zapisz
+                  </Button>
+                  </React.Fragment>
+              }
+          </DialogActions>
+        </Dialog>
+        <OCSnackbar message={'Zapisano zmiany do bazy danych'} open={openSnackbar} />
       </div>
     );
   }
@@ -73,8 +90,9 @@ class ScrollableDialogForm extends React.Component {
 ScrollableDialogForm.propTypes = {
   classes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  dialogTitle: PropTypes.string.isRequired
+  open: PropTypes.bool.isRequired,
+  closeForm: PropTypes.func.isRequired,
+  openForm: PropTypes.func.isRequired
 };
 
 export default withStyles(ScrollableDialogFormStyle)(ScrollableDialogForm);

@@ -24,7 +24,6 @@ class AutoTable extends React.Component {
     rowsPerPage: 5
   };
 
-
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
@@ -47,14 +46,18 @@ class AutoTable extends React.Component {
 
   render() {
     let labelCount = 0;
-    let labels = AutoLabels({queryData: this.props.queryData,
-        querySubject: this.props.querySubject,
-        labelsArr: this.props.labelsArr,
-        editMode: this.props.editMode,
-        labelCountChange: (newlabelCount)=>{labelCount = newlabelCount} });
-      const { classes, queryData, querySubject, querySize, dialogFormTitle, dialogForm, editMode } = this.props;
-      const { open, rowsPerPage, page } = this.state;
-      const emptyRows = rowsPerPage - Math.min(rowsPerPage, querySize - page * rowsPerPage);
+    let labels = AutoLabels({
+      queryData: this.props.queryData,
+      querySubject: this.props.querySubject,
+      labelsArr: this.props.labelsArr,
+      editMode: this.props.editMode,
+      labelCountChange: newlabelCount => {
+        labelCount = newlabelCount;
+      }
+    });
+    const { classes, queryData, querySubject, querySize, dialogFormTitle, dialogForm, editMode } = this.props;
+    const { open, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, querySize - page * rowsPerPage);
     return (
       <div>
         <div className={classes.actions}>
@@ -73,7 +76,7 @@ class AutoTable extends React.Component {
         </div>
         <Paper className={classes.root}>
           <Table className={classes.table}>
-              {labels}
+            {labels}
             <TableBody>
               <AutoContent
                 queryData={queryData}
@@ -101,7 +104,7 @@ class AutoTable extends React.Component {
                   onChangeRowsPerPage={this.handleChangeRowsPerPage}
                   ActionsComponent={TablePaginationActions}
                   labelRowsPerPage={'Wiesze na stronę'}
-                  rowsPerPageOptions={[5,25,100,250]}
+                  rowsPerPageOptions={[5, 25, 100, 250]}
                 />
               </TableRow>
             </TableFooter>
@@ -116,8 +119,9 @@ class AutoTable extends React.Component {
             </div>
             <ScrollableDialogForm
               dialogTitle={dialogFormTitle}
-              isOpen={open}
-              onClose={() => this.setState({ open: false })}
+              open={open}
+              closeForm={() => this.setState({ open: false })}
+              openForm={() => this.setState({ open: true })}
             >
               {dialogForm}
             </ScrollableDialogForm>

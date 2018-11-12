@@ -8,9 +8,9 @@ import AutoTable from '../../../components/AutoTable/AutoTable';
 import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
-import {FormUsers} from "../../common/forms/FormUsers";
+import { FormUsers } from '../../common/forms/FormUsers';
 
-const labels = ['Użytkownicy', 'Kontrachenci','Spis adresów', 'Słowniki'];
+const labels = ['Użytkownicy', 'Kontrachenci', 'Spis adresów', 'Słowniki'];
 
 class DatabaseContactsAndUsers extends React.Component {
   render() {
@@ -21,30 +21,37 @@ class DatabaseContactsAndUsers extends React.Component {
         </Typography>
         <OCBigTab labels={labels}>
           <TabContainer>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Użytkownicy
-              </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} dialogForm={<FormUsers/>} dialogFormTitle={'Użytkownik'} editMode={true} />
+            <Typography variant="h5" gutterBottom component="h1">
+              Użytkownicy
+            </Typography>
+            <AutoTable
+              queryData={data}
+              querySubject="hero"
+              querySize={2}
+              dialogForm={<FormUsers />}
+              dialogFormTitle={'Użytkownik'}
+              editMode={true}
+            />
           </TabContainer>
           <TabContainer>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Kontrachenci
-              </Typography>
-              <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Typography variant="h5" gutterBottom component="h1">
+              Kontrachenci
+            </Typography>
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
-            <TabContainer>
-                <Typography variant="h5" gutterBottom component="h1">
-                    Spis adresów
-                </Typography>
-                <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
-            </TabContainer>
-        <TabContainer>
-              <Typography variant="h4" gutterBottom component="h1">
-                  Słowniki
-              </Typography>
-              <Typography variant="h5" gutterBottom component="h1">
-                  Role użytkowników
-              </Typography>
+          <TabContainer>
+            <Typography variant="h5" gutterBottom component="h1">
+              Spis adresów
+            </Typography>
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+          </TabContainer>
+          <TabContainer>
+            <Typography variant="h4" gutterBottom component="h1">
+              Słowniki
+            </Typography>
+            <Typography variant="h5" gutterBottom component="h1">
+              Role użytkowników
+            </Typography>
             <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
         </OCBigTab>
