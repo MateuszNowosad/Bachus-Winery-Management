@@ -80,7 +80,7 @@ export class FormUsers extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (this.props.submitFromOutside !== prevProps.submitFromOutside ) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
     }
   }
