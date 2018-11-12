@@ -10,5 +10,8 @@
     "generateSchema": "node testing/generateSchema.js > ./schema.graphql"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^1.14.3"
+  }
 }
