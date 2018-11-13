@@ -53,3 +53,8 @@ export const userRoleDictValidationKeys = {
     desc: new RegExp("^(|[\\s\\S]{2,255})$","u"),
     type: new RegExp("^[\\S]{2,45}$","u")
 };
+
+export const batchTypeDictValidationKeys = {
+    name: new RegExp("^\\p{L}{3,45}$","u"),
+    unit: new RegExp("^[\\w]{1,45}$","u")
+};
