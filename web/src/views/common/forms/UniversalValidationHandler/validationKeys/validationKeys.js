@@ -58,3 +58,10 @@ export const batchTypeDictValidationKeys = {
     name: new RegExp("^\\p{L}{3,45}$","u"),
     unit: new RegExp("^[\\w]{1,45}$","u")
 };
+
+export const wineInformationValidationKeys = {
+    nazwa: new RegExp("^\\p{L}{3,45}$","u"),
+    motto: new RegExp("^(|[\\s\\S]{2,100})$","u"),
+    zawartoscPotAlergenow: new RegExp("^(|[\\s\\S]{2,20})$","u"),
+    wartoscEnergetyczna: /^\d{1,3}$/
+};
