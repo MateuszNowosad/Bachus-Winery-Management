@@ -36,3 +36,8 @@ export const grapeTypeDictValidationKeys = {
     name: new RegExp("^\\p{L}{3,45}$","u"),
     desc: new RegExp("^(|[\\s\\S]{2,255})$","u")
 };
+
+export const vineyardOperationsDictValidationKeys = {
+    name: new RegExp("^\\p{L}{3,45}$","u"),
+    desc: new RegExp("^(|[\\s\\S]{2,255})$","u")
+};
