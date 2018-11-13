@@ -76,3 +76,11 @@ export const contractorsValidationKeys = {
     accountNumber: /^\d{26}$/,
     fax: /^(\+?\d{1,}(\s?|-?)\d*(\s?|-?)\(?\d{2,}\)?(\s?|-?)\d{3,}\s?\d{3,})$/
 };
+
+export const waybillValidationKeys = {
+    driverName: new RegExp("^\\p{L}{2,45}$","u"),
+    driverSurname: new RegExp("^\\p{L}{2,60}$","u"),
+    comments: new RegExp("^(|[\\s\\S]{2,255})$","u"),
+    reservations: new RegExp("^(|[\\s\\S]{2,255})$","u"),
+    file: new RegExp("^(|[\\w\\d]{2,255})$","u"),
+};
