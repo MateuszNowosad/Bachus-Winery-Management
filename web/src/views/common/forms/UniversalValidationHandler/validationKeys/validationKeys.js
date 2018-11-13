@@ -26,3 +26,8 @@ export const categoriesDictValidationKeys = {
     unit: new RegExp("^\\p{L}{2,20}$","u"),
     desc: new RegExp("^(|[\\s\\S]{2,250})$","u")
 };
+
+export const wineCategoriesDictValidationKeys = {
+    name: new RegExp("^\\p{L}{3,45}$","u"),
+    desc: new RegExp("^(|[\\s\\S]{2,255})$","u")
+};
