@@ -84,3 +84,8 @@ export const waybillValidationKeys = {
     reservations: new RegExp("^(|[\\s\\S]{2,255})$","u"),
     file: new RegExp("^(|[\\w\\d]{2,255})$","u"),
 };
+
+export const warehouseValidationKeys = {
+    type: /^[1-3]$/,
+    capacity: /^(\d|\d+\.\d+){1,7}$/
+};
