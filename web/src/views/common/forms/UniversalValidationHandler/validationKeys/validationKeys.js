@@ -47,3 +47,9 @@ export const processesDictValidationKeys = {
     desc: new RegExp("^(|[\\s\\S]{2,255})$","u"),
     additional: new RegExp("^(|[\\s\\S]{2,80})$","u")
 };
+
+export const userRoleDictValidationKeys = {
+    name: new RegExp("^\\p{L}{3,45}$","u"),
+    desc: new RegExp("^(|[\\s\\S]{2,255})$","u"),
+    type: new RegExp("^[\\S]{2,45}$","u")
+};
