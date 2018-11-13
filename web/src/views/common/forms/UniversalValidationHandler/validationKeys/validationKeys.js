@@ -65,3 +65,14 @@ export const wineInformationValidationKeys = {
     zawartoscPotAlergenow: new RegExp("^(|[\\s\\S]{2,20})$","u"),
     wartoscEnergetyczna: /^\d{1,3}$/
 };
+
+export const contractorsValidationKeys = {
+    NIP: /^\d{10}$/,
+    companyName: new RegExp("^(|[\\s\\S]{2,40})$","u"),
+    phoneNumber: /^\d{11}$/,
+    eMail: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g,
+    wwwSite: /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
+    KRS: /^\d{10}$/,
+    accountNumber: /^\d{26}$/,
+    fax: /^(\+?\d{1,}(\s?|-?)\d*(\s?|-?)\(?\d{2,}\)?(\s?|-?)\d{3,}\s?\d{3,})$/
+};
