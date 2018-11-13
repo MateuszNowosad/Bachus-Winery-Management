@@ -13,3 +13,12 @@ export const usersValidationKeys = {
   userRole: /.+/g,
   imagePreviewUrl: /.+/g
 };
+
+export const addressValidationKeys = {
+    street: new RegExp("^\\p{L}{2,45}$","u"),
+    buildingNumber: /\d{1,4}/,
+    apartmentNumber: /^(\s*|\d{1,2})$/,
+    postalCode: /^(\s*|\d{1,10})$/,
+    city: new RegExp("^\\p{L}{2,20}$","u"),
+    country: new RegExp("^\\p{L}{2,60}$","u")
+};
