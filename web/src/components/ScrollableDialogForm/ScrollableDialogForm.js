@@ -9,7 +9,7 @@ import ScrollableDialogFormStyle from '../../assets/jss/common/components/Scorll
 import Button from '@material-ui/core/Button/Button';
 import UniversalSubmitHander from '../../views/common/forms/UniversalSubmitHandler';
 import OCSnackbar from '../../views/common/prompts/OCSnackbar';
-import ConfirmationSlide from "./ConfirmationSlide";
+import ConfirmationSlide from './ConfirmationSlide';
 
 class ScrollableDialogForm extends React.Component {
   state = {
@@ -26,16 +26,16 @@ class ScrollableDialogForm extends React.Component {
   };
 
   handleSubmit = () => {
-    this.setState({ submit: true, openConfirmationPrompt: false }, () => {this.handleClose()}); //callback
-      console.log('37, "test" Mateusz: ', "test");
+    this.setState({ submit: true, openConfirmationPrompt: false });
   };
 
   formSubmitted = () => {
     this.setState({ submit: false, openSnackbar: true });
+    this.handleClose();
   };
 
-  handleClose = () =>{
-      this.props.closeForm();
+  handleClose = () => {
+    this.props.closeForm();
   };
 
   render() {
@@ -56,29 +56,29 @@ class ScrollableDialogForm extends React.Component {
           <DialogContent>
             <DialogTitle>{dialogTitle}</DialogTitle>
             {React.cloneElement(children, {
-                submitFromOutside: submit,
-                onSubmit: UniversalSubmitHander,
-                formSubmitted: this.formSubmitted
+              submitFromOutside: submit,
+              onSubmit: UniversalSubmitHander,
+              formSubmitted: this.formSubmitted
             })}
           </DialogContent>
-          <DialogActions classes={{root: classes.root}}>
-              {openConfirmationPrompt ?
-                  <ConfirmationSlide
-                      dialogMessage={'Czy na pewno chcesz dodać ten wpis do bazy danych?'}
-                      handleAgree={this.handleSubmit}
-                      handleCancel={this.handleUnstage}
-                      open={openConfirmationPrompt}
-                  />
-              :
-                  <React.Fragment>
-                  <Button variant="contained" onClick={this.props.closeForm} color="secondary">
-                      Anuluj
-                  </Button>
-                  <Button variant="contained" onClick={this.handleStage} color="primary">
+          <DialogActions classes={{ root: classes.root }}>
+            {openConfirmationPrompt ? (
+              <ConfirmationSlide
+                dialogMessage={'Czy na pewno chcesz dodać ten wpis do bazy danych?'}
+                handleAgree={this.handleSubmit}
+                handleCancel={this.handleUnstage}
+                open={openConfirmationPrompt}
+              />
+            ) : (
+              <React.Fragment>
+                <Button variant="contained" onClick={this.props.closeForm} color="secondary">
+                  Anuluj
+                </Button>
+                <Button variant="contained" onClick={this.handleStage} color="primary">
                   Zapisz
-                  </Button>
-                  </React.Fragment>
-              }
+                </Button>
+              </React.Fragment>
+            )}
           </DialogActions>
         </Dialog>
         <OCSnackbar message={'Zapisano zmiany do bazy danych'} open={openSnackbar} />
