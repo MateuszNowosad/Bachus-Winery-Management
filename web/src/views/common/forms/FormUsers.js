@@ -4,8 +4,22 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { FormAddress } from './FormAddress';
 import PropTypes from 'prop-types';
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler.js';
+import { usersValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 
 const roles = ['administrator', 'pracownik produkcji', 'pracownik magazynu'];
+
+const errorMap= {
+    firstName: false,
+    lastName: false,
+    login: false,
+    password: false,
+    PESEL: false,
+    eMail: false,
+    phoneNumber: false,
+    userRole: false,
+    photo: false
+};
 
 export const formTitle = 'Nowy użytkownik';
 
@@ -21,8 +35,10 @@ export class FormUsers extends React.Component {
       eMail: '',
       phoneNumber: '',
       userRole: '',
-      photo: null,
-      showPassword: false
+      photo: '',
+      imagePreviewUrl: '',
+      showPassword: false,
+      error: errorMap
     };
   }
 
@@ -46,7 +62,7 @@ export class FormUsers extends React.Component {
       imagePreviewUrl
     } = this.state;
 
-    this.props.onSubmit({
+    let dataObject = {
       firstName,
       lastName,
       login,
@@ -57,8 +73,19 @@ export class FormUsers extends React.Component {
       userRole,
       photo,
       imagePreviewUrl
-    });
-    this.props.formSubmitted();
+    };
+
+    let arrayOfErrors = UniversalValidationHandler(dataObject, usersValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else{
+        let error = Object.assign({}, errorMap);
+        for (let errorField in arrayOfErrors) {
+            error[arrayOfErrors[errorField]] = true;
+    }
+        this.setState({error: error});
+        this.props.submitAborted();
+  }
   };
 
   handleClickShowPassword = () => {
@@ -96,7 +123,8 @@ export class FormUsers extends React.Component {
       phoneNumber,
       userRole,
       imagePreviewUrl,
-      showPassword
+      showPassword,
+      error
     } = this.state;
 
     return (
@@ -106,6 +134,7 @@ export class FormUsers extends React.Component {
             <Grid item sm={6}>
               <TextField
                 fullWidth
+                error={error.firstName}
                 id="firstName"
                 label="Imię"
                 placeholder="Imię"
@@ -121,6 +150,7 @@ export class FormUsers extends React.Component {
             <Grid item sm={6}>
               <TextField
                 fullWidth
+                error={error.lastName}
                 id="lastName"
                 label="Nazwisko"
                 placeholder="Nazwisko"
@@ -155,6 +185,7 @@ export class FormUsers extends React.Component {
             <Grid item sm={12}>
               <TextField
                 fullWidth
+                error={error.eMail}
                 id="eMail"
                 label="Adres e-mail"
                 placeholder="Adres e-mail"
@@ -170,6 +201,7 @@ export class FormUsers extends React.Component {
             <Grid item sm={6}>
               <TextField
                 fullWidth
+                error={error.login}
                 id="login"
                 label="Login"
                 placeholder="Login"
@@ -185,6 +217,7 @@ export class FormUsers extends React.Component {
             <Grid item sm={6}>
               <TextField
                 fullWidth
+                error={error.password}
                 id="password"
                 label="Haslo"
                 placeholder="Haslo"
@@ -208,6 +241,7 @@ export class FormUsers extends React.Component {
             <Grid item sm={6}>
               <TextField
                 fullWidth
+                error={error.PESEL}
                 id="PESEL"
                 label="PESEL"
                 placeholder="PESEL"
@@ -223,6 +257,7 @@ export class FormUsers extends React.Component {
             <Grid item sm={6}>
               <TextField
                 fullWidth
+                error={error.phoneNumber}
                 id="phoneNumber"
                 label="Numer telefonu"
                 placeholder="Numer telefonu"
@@ -238,6 +273,7 @@ export class FormUsers extends React.Component {
             <Grid item sm={6}>
               <TextField
                 fullWidth
+                error={error.userRole}
                 id="userRole"
                 select
                 label="Rola użytkownika"
@@ -267,5 +303,6 @@ export class FormUsers extends React.Component {
 FormUsers.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
-  formSubmitted: PropTypes.func
+  formSubmitted: PropTypes.func,
+    submitAborted: PropTypes.func,
 };
