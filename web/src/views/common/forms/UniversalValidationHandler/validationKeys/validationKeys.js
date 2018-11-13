@@ -22,3 +22,9 @@ export const addressValidationKeys = {
     city: new RegExp("^\\p{L}{2,20}$","u"),
     country: new RegExp("^\\p{L}{2,60}$","u")
 };
+
+export const categoriesDictValidationKeys = {
+    name: new RegExp("^\\p{L}{3,20}$","u"),
+    unit: new RegExp("^\\p{L}{2,20}$","u"),
+    desc: new RegExp("(^$|[\\s\\S]{2,250})","u")
+};
