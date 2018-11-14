@@ -94,3 +94,10 @@ export const vineyardOperationsValidationKeys = {
     dateOfOperation: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
     desc: new RegExp("^(|[\\s\\S]{2,45})$","u"),
 };
+
+export const batchValidationKeys = {
+    amount: /^(\d|\d+\.\d+){1,7}$/,
+    desc: new RegExp("^(|[\\s\\S]{2,255})$","u"),
+    creationDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
+    batchType: /^.+$/
+};
