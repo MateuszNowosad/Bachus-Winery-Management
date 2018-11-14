@@ -101,3 +101,13 @@ export const batchValidationKeys = {
     creationDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
     batchType: /^.+$/
 };
+
+export const vineyardValidationKeys = {
+    name: new RegExp("^(|[\\s\\S]{2,40})$","u"),
+    area: /^(\d|\d+\.\d+){1,8}$/,
+    terroir: new RegExp("^([\\s\\S]{2,255})$","u"),
+    dateOfPlanting: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
+    registrationPlotId: new RegExp("^(|[\\s\\S]{2,40})$","u"),
+    grapeType: /^.+$/,
+    state: /^[01]$/
+};
