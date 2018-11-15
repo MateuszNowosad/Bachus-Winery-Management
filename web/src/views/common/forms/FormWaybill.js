@@ -1,5 +1,14 @@
 import React from 'react';
-import { Button, Grid, TextField } from '@material-ui/core';
+import {
+  Button,
+  Grid,
+  TextField,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Typography
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PropTypes from 'prop-types';
 import { DialogForForm } from './DialogForForm';
 import { data } from './StaticData';
@@ -251,7 +260,24 @@ export class FormWaybill extends React.Component {
             </label>
           </Grid>
           <Grid item md={12}>
-            <FormAddress varName="pickupAddress" onChange={this.handleAddressChange} />
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="inherit">Adres odbiorcy</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <FormAddress varName="pickupAddress" onChange={this.handleAddressChange} />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </Grid>
+          <Grid item md={12}>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="inherit">Adres nadawcy</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <FormAddress varName="mailingAddress" onChange={this.handleAddressChange} />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>{' '}
           </Grid>
         </Grid>
       </form>
