@@ -26,7 +26,26 @@ export const data = {
         name: 'Partia moszczu'
       }
     ],
-
+    dictCategories: [
+      {
+        name: 'Korki',
+        jednostka: 'sztuki'
+      },
+      {
+        name: 'Butelki',
+        jednostka: 'sztuki'
+      }
+    ],
+    batches: [
+      {
+        id: 1,
+        name: 'Partia 1'
+      },
+      {
+        id: 2,
+        name: 'Partia 2'
+      }
+    ],
     contractors: [
       {
         id: 0,

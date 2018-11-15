@@ -1,7 +1,19 @@
 import React from 'react';
-import { Grid, MenuItem, TextField, Switch, InputAdornment } from '@material-ui/core';
+import {
+  Grid,
+  MenuItem,
+  TextField,
+  Switch,
+  InputAdornment,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  Typography,
+  ExpansionPanelDetails
+} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { FormAddress } from './FormAddress';
 
 const operations = ['fermentacja', 'dojrzewanie'];
 
@@ -245,6 +257,16 @@ export class FormOperations extends React.Component {
                 maxLength: '255'
               }}
             />
+          </Grid>
+          <Grid item md={12}>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="inherit">Produkty z magazynu</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <FormAddress varName="mailingAddress" onChange={this.handleAddressChange} />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
           </Grid>
         </Grid>
       </form>

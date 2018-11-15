@@ -277,7 +277,7 @@ export class FormWaybill extends React.Component {
               <ExpansionPanelDetails>
                 <FormAddress varName="mailingAddress" onChange={this.handleAddressChange} />
               </ExpansionPanelDetails>
-            </ExpansionPanel>{' '}
+            </ExpansionPanel>
           </Grid>
         </Grid>
       </form>
