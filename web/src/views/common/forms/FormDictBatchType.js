@@ -37,6 +37,7 @@ export class FormDictBatchType extends React.Component {
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
+              fullWidth
               id="name"
               label="Nazwa typu partii"
               placeholder="Nazwa typu partii"
@@ -51,6 +52,7 @@ export class FormDictBatchType extends React.Component {
           </Grid>
           <Grid item md={12}>
             <TextField
+              fullWidth
               id="unit"
               label="Jednostka"
               placeholder="Jednostka"

@@ -38,6 +38,7 @@ export class FormDictUserRole extends React.Component {
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
+              fullWidth
               id="name"
               label="Nazwa roli"
               placeholder="Nazwa roli"
@@ -52,6 +53,7 @@ export class FormDictUserRole extends React.Component {
           </Grid>
           <Grid item md={12}>
             <TextField
+              fullWidth
               id="desc"
               label="Opis roli"
               placeholder="Opis"
@@ -67,6 +69,7 @@ export class FormDictUserRole extends React.Component {
           </Grid>
           <Grid item md={12}>
             <TextField
+              fullWidth
               id="type"
               label="Typ roli użytkownika"
               placeholder="Typ roli użytkownika"

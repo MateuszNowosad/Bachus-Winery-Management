@@ -37,6 +37,7 @@ export class FormDictWineCategory extends React.Component {
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
+              fullWidth
               id="name"
               label="Nazwa kategorii wina"
               placeholder="Nazwa kategorii wina"
@@ -51,6 +52,7 @@ export class FormDictWineCategory extends React.Component {
           </Grid>
           <Grid item md={12}>
             <TextField
+              fullWidth
               id="desc"
               label="Opis kategorii wina"
               placeholder="Opis"

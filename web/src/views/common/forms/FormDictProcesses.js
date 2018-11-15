@@ -38,6 +38,7 @@ export class FormDictProcesses extends React.Component {
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
+              fullWidth
               id="name"
               label="Nazwa procesu"
               placeholder="Nazwa procesu"
@@ -52,6 +53,7 @@ export class FormDictProcesses extends React.Component {
           </Grid>
           <Grid item md={12}>
             <TextField
+              fullWidth
               id="desc"
               label="Opis procesu"
               placeholder="Opis"
@@ -67,6 +69,7 @@ export class FormDictProcesses extends React.Component {
           </Grid>
           <Grid item md={12}>
             <TextField
+              fullWidth
               id="additional"
               label="Dodatkowe informacje"
               placeholder="Dodatkowe informacje"

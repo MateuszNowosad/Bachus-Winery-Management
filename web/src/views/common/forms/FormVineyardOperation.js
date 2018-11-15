@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
+import { data } from './StaticData';
 
 export class FormVineyardOperation extends React.Component {
   constructor(props) {
@@ -38,7 +39,6 @@ export class FormVineyardOperation extends React.Component {
 
   render() {
     const { dateOfOperation, desc, dictOperation } = this.state;
-    const { dictOperations } = this.props;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -86,7 +86,7 @@ export class FormVineyardOperation extends React.Component {
               margin="dense"
               variant={'outlined'}
             >
-              {dictOperations.map(option => (
+              {data.data.vineyardOperations.map(option => (
                 <MenuItem key={option.name} value={option.name}>
                   {option.name}
                 </MenuItem>

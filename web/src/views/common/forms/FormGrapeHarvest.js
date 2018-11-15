@@ -1,13 +1,14 @@
 import React from 'react';
 import { Grid, InputAdornment, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import currentDate from './CurrentDate';
 
 export class FormGrapeHarvest extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      dateOfHarvest: '',
+      dateOfHarvest: currentDate('date'),
       amount: 0
     };
   }

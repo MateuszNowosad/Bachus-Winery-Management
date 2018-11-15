@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
-import { dictBatchType } from './StaticData';
+import { data } from './StaticData';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 
@@ -89,7 +89,7 @@ export class FormBatches extends React.Component {
               margin="dense"
               variant={'outlined'}
             >
-              {dictBatchType.map(option => (
+              {data.data.dictBatchType.map(option => (
                 <MenuItem key={option.name} value={option.name}>
                   {option.name}
                 </MenuItem>

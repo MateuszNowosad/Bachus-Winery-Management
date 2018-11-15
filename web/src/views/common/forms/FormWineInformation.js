@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
-import { dictWineCategories } from './StaticData';
+import { data } from './StaticData';
 import PropTypes from 'prop-types';
 
 export class FormWineInformation extends React.Component {
@@ -107,7 +107,7 @@ export class FormWineInformation extends React.Component {
               margin="dense"
               variant={'outlined'}
             >
-              {dictWineCategories.map(option => (
+              {data.data.dictWineCategories.map(option => (
                 <MenuItem key={option.name} value={option.name}>
                   {option.name}
                 </MenuItem>
