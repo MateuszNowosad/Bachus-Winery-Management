@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, MenuItem, TextField } from '@material-ui/core';
+import { Grid, MenuItem, TextField, Switch, InputAdornment } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 
@@ -19,7 +19,8 @@ export class FormOperations extends React.Component {
       acidity: '',
       temperature: '',
       desc: '',
-      process: ''
+      process: '',
+      checkedA: false
     };
   }
 
@@ -27,6 +28,10 @@ export class FormOperations extends React.Component {
     this.setState({
       [name]: event.target.value
     });
+  };
+
+  handleInputToggle = name => event => {
+    this.setState({ [name]: event.target.checked });
   };
 
   handleSubmit = () => {
@@ -77,7 +82,8 @@ export class FormOperations extends React.Component {
       acidity,
       temperature,
       desc,
-      process
+      process,
+      checkedA
     } = this.state;
 
     return (
@@ -92,7 +98,6 @@ export class FormOperations extends React.Component {
               placeholder="Rodzaj operacji"
               value={process}
               onChange={this.handleChange('process')}
-              // onChange={this.currentDate}
               margin="dense"
               variant={'outlined'}
             >
@@ -118,6 +123,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              disabled={!checkedA}
               id="endAmount"
               label="Ilość końcowa"
               value={endAmount}
@@ -125,6 +131,13 @@ export class FormOperations extends React.Component {
               type="number"
               onChange={this.handleChange('endAmount')}
               variant={'outlined'}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Switch checked={checkedA} onChange={this.handleInputToggle('checkedA')} value="checkedA" />
+                  </InputAdornment>
+                )
+              }}
             />
           </Grid>
           <Grid item md={6}>
