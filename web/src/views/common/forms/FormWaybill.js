@@ -14,6 +14,7 @@ import { DialogForForm } from './DialogForForm';
 import { data } from './StaticData';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 import { FormAddress } from './FormAddress';
+import { FormParcel } from './FormParcel';
 
 export class FormWaybill extends React.Component {
   constructor(props) {
@@ -35,12 +36,6 @@ export class FormWaybill extends React.Component {
       openCarrier: false
     };
   }
-
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-  };
 
   handleSubmit = () => {
     const {
@@ -84,7 +79,13 @@ export class FormWaybill extends React.Component {
     });
   };
 
-  handleAddressChange = (name, address) => {
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value
+    });
+  };
+
+  handleObjectChange = (name, address) => {
     this.setState({
       [name]: address
     });
@@ -246,13 +247,7 @@ export class FormWaybill extends React.Component {
             />
           </Grid>
           <Grid item md={12}>
-            <input
-              hidden
-              accept="application/pdf"
-              id="addFile"
-              type="file"
-              //onChange={this.handleFileChange}
-            />
+            <input hidden accept="application/pdf" id="addFile" type="file" onChange={this.handleFileChange} />
             <label htmlFor="addImage">
               <Button variant="raised" component="span">
                 Dodaj dokument
@@ -265,7 +260,7 @@ export class FormWaybill extends React.Component {
                 <Typography variant="inherit">Adres odbiorcy</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <FormAddress varName="pickupAddress" onChange={this.handleAddressChange} />
+                <FormAddress varName="pickupAddress" onChange={this.handleObjectChange} />
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>
@@ -275,7 +270,17 @@ export class FormWaybill extends React.Component {
                 <Typography variant="inherit">Adres nadawcy</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <FormAddress varName="mailingAddress" onChange={this.handleAddressChange} />
+                <FormAddress varName="mailingAddress" onChange={this.handleObjectChange} />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </Grid>
+          <Grid item md={12}>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="inherit">Przesyłka</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <FormParcel varName="parcel" onChange={this.handleObjectChange} />
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>

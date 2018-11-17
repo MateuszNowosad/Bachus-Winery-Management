@@ -1,5 +1,39 @@
 export const data = {
   data: {
+    warehouses: [
+      {
+        id: 0,
+        name: 'magazyn 1'
+      },
+      {
+        id: 1,
+        name: 'magazyn 2'
+      }
+    ],
+    iteminstock0: [
+      {
+        id: 1,
+        name: 'produkt 1',
+        warehouse: 0
+      },
+      {
+        id: 3,
+        name: 'produkt 4',
+        warehouse: 0
+      }
+    ],
+    iteminstock1: [
+      {
+        id: 0,
+        name: 'produkt 2',
+        warehouse: 1
+      },
+      {
+        id: 2,
+        name: 'produkt 3',
+        warehouse: 1
+      }
+    ],
     vineyardOperations: [
       {
         name: 'Przycinannie',
