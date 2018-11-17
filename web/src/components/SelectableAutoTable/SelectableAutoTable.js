@@ -44,9 +44,13 @@ class SelectableAutoTable extends React.Component {
 
   handleRowClick = row => {
     const param = this.props.funParam;
+    console.log('48, this.props.id jakub: ', this.state.selected);
     console.log('35, param jakub: ', param);
+    this.setState({
+      selected: row.id
+    });
     this.props.onSelect(param, row);
-    this.props.onClose();
+    this.props.onClose ? this.props.onClose() : null;
   };
 
   render() {
@@ -61,8 +65,8 @@ class SelectableAutoTable extends React.Component {
       }
     });
 
-    const { classes, queryData, querySubject, querySize, selected } = this.props;
-    const { rowsPerPage, page } = this.state;
+    const { classes, queryData, querySubject, querySize } = this.props;
+    const { rowsPerPage, page, selected } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, querySize - page * rowsPerPage);
     return (
       <div>
@@ -115,13 +119,6 @@ class SelectableAutoTable extends React.Component {
             </TableFooter>
           </Table>
         </Paper>
-
-        {/*<SelectableAutoContent*/}
-        {/*queryData={queryData}*/}
-        {/*querySubject={querySubject}*/}
-        {/*selected={selected}*/}
-        {/*onClick={this.handleRowClick}*/}
-        {/*/>*/}
       </div>
     );
   }
