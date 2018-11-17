@@ -5,7 +5,6 @@ import "./index.css";
 import registerServiceWorker from "./registerServiceWorker";
 import apolloClient from "./apolloClient";
 import App from "./App";
-import gql from "graphql-tag";
 
 ReactDOM.render(
   <ApolloProvider client={apolloClient}>

@@ -3,33 +3,22 @@ import logo from "./logo.svg";
 import "./App.css";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import apolloClient from "./apolloClient";
-
-// const getAdresyQuery = gql`
-//   query Adresy {
-//     Adresy {
-//       idAdres
-//       miasto
-//       ulica
-//       kodPocztowy
-//     }
-//   }
-// `;
-
-apolloClient
-  .query({
-    query: gql`
-      {
-        Adresy {
-          idAdres
-          miasto
-          kodPocztowy
-          kraj
-        }
-      }
-    `
-  })
-  .then(result => console.log(result));
+// import apolloClient from "./apolloClient";
+//
+// apolloClient
+//   .query({
+//     query: gql`
+//       {
+//         Adresy {
+//           idAdres
+//           miasto
+//           kodPocztowy
+//           kraj
+//         }
+//       }
+//     `
+//   })
+//   .then(result => console.log(result));
 
 const adresyQuery = () => (
   <Query
@@ -49,11 +38,8 @@ const adresyQuery = () => (
       if (error) return <p>Error :(</p>;
 
       return data.Adresy.map(args => (
-        <div>
-          {console.log("52, props filip: ", args)}
-          <div key={args.idAdres}>
-            <p>{`${args.idAdres}: ${args.miasto}`}</p>
-          </div>
+        <div key={args.idAdres}>
+          <p>{`${args.idAdres}. ${args.miasto} ${args.kodPocztowy}`}</p>
         </div>
       ));
     }}
@@ -61,10 +47,6 @@ const adresyQuery = () => (
 );
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="App">
