@@ -2,6 +2,12 @@ import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
+const errorMap = {
+  name: false,
+  desc: false,
+  additional: false
+};
+
 export class FormDictProcesses extends React.Component {
   constructor(props) {
     super(props);
@@ -9,7 +15,8 @@ export class FormDictProcesses extends React.Component {
     this.state = {
       name: '',
       desc: '',
-      additional: ''
+      additional: '',
+      error: errorMap
     };
   }
 
@@ -32,13 +39,14 @@ export class FormDictProcesses extends React.Component {
   }
 
   render() {
-    const { name, desc, additional } = this.state;
+    const { name, desc, additional, error } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.name}
               id="name"
               label="Nazwa procesu"
               placeholder="Nazwa procesu"
@@ -54,6 +62,7 @@ export class FormDictProcesses extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.desc}
               id="desc"
               label="Opis procesu"
               placeholder="Opis"
@@ -70,6 +79,7 @@ export class FormDictProcesses extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.additional}
               id="additional"
               label="Dodatkowe informacje"
               placeholder="Dodatkowe informacje"
