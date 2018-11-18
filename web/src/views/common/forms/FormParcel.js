@@ -12,7 +12,7 @@ export class FormParcel extends React.Component {
       packageName: '',
       weight: '',
       date: currentDate('date'),
-      content: [{ key: 0, label: 'Wino' }],
+      content: [],
       open: false
     };
   }
@@ -36,6 +36,12 @@ export class FormParcel extends React.Component {
       date,
       content
     });
+  };
+
+  handleAddContent = data => {
+    this.setState(prevState => ({
+      content: [...prevState.content, data]
+    }));
   };
 
   handleDelete = data => () => {
@@ -96,7 +102,7 @@ export class FormParcel extends React.Component {
         </Grid>
         <Grid item md={12}>
           {this.state.content.map(data => {
-            return <Chip key={data.key} label={data.label} onDelete={this.handleDelete(data)} />;
+            return <Chip key={data.key} label={data.name} onDelete={this.handleDelete(data)} />;
           })}
         </Grid>
         <Grid item md={12}>
@@ -106,8 +112,8 @@ export class FormParcel extends React.Component {
           <DialogForForm
             title={'Magazyn'}
             open={open}
-            onClose={() => this.handleClose('openCarrier')}
-            children={<StepperParcelContent />}
+            onClose={this.handleClose}
+            children={<StepperParcelContent onSubmit={this.handleAddContent} onClose={this.handleClose} />}
           />
         </Grid>
       </Grid>

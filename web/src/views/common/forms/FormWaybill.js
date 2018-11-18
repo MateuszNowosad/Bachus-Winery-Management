@@ -31,6 +31,7 @@ export class FormWaybill extends React.Component {
       carrier: {},
       pickupAddress: {},
       mailingAddress: {},
+      parcel: {},
       openSender: false,
       openRecipent: false,
       openCarrier: false
@@ -48,7 +49,8 @@ export class FormWaybill extends React.Component {
       recipent,
       carrier,
       pickupAddress,
-      mailingAddress
+      mailingAddress,
+      parcel
     } = this.state;
     this.props.onSubmit({
       driverName,
@@ -60,7 +62,8 @@ export class FormWaybill extends React.Component {
       recipent,
       carrier,
       pickupAddress,
-      mailingAddress
+      mailingAddress,
+      parcel
     });
     this.props.formSubmitted();
   };

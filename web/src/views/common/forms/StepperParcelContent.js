@@ -142,6 +142,13 @@ class StepperParcelContent extends React.Component {
     }));
   };
 
+  handleSubmit = () => {
+    const { selectedItem } = this.state;
+    selectedItem.key = selectedItem.id;
+    this.props.onSubmit(selectedItem);
+    this.props.onClose();
+  };
+
   isSelected = step => {
     if (step === 0) {
       return this.state.selectedWarehouse.id === undefined;
@@ -180,7 +187,7 @@ class StepperParcelContent extends React.Component {
                 disabled={this.isSelected(activeStep)}
                 variant="contained"
                 color="primary"
-                onClick={this.handleNext}
+                onClick={activeStep === steps.length - 1 ? this.handleSubmit : this.handleNext}
                 className={classes.button}
               >
                 {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
