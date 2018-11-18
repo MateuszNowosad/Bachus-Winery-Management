@@ -7,6 +7,18 @@ import { data } from './StaticData';
 import { DialogForForm } from './DialogForForm';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 
+const errorMap = {
+  name: false,
+  desc: false,
+  amount: false,
+  barcode: false,
+  actualState: false,
+  acceptanceDate: false,
+  releaseDate: false,
+  sectorName: false,
+  category: false
+};
+
 export class FormItemInStock extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +33,8 @@ export class FormItemInStock extends React.Component {
       sectorName: '',
       category: '',
       batch: {},
-      open: false
+      open: false,
+      error: errorMap
     };
   }
 
@@ -79,7 +92,7 @@ export class FormItemInStock extends React.Component {
   }
 
   render() {
-    const { name, desc, amount, acceptanceDate, releaseDate, sectorName, category, batch, open } = this.state;
+    const { name, desc, amount, acceptanceDate, releaseDate, sectorName, category, batch, open, error } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -87,6 +100,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.name}
               id="name"
               label="Nazwa"
               placeholder="Nazwa"
@@ -99,6 +113,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.desc}
               id="desc"
               label="Opis"
               value={desc}
@@ -110,6 +125,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.amount}
               id="amount"
               label="Ilość"
               value={amount}
@@ -122,6 +138,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.acceptanceDate}
               id="acceptanceDate"
               label="Data przyjęcia"
               type="date"
@@ -137,6 +154,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.releaseDate}
               id="releaseDate"
               label="Data wydania"
               type="date"
@@ -152,6 +170,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.sectorName}
               id="sectorName"
               label="Nazwa sektora"
               value={sectorName}
@@ -163,6 +182,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.category}
               id="category"
               label="Kategoria"
               select
