@@ -1,5 +1,11 @@
 import React from 'react';
-import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, TextField } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
+const errorMap = {
+  name: false,
+  unit: false
+};
 
 export class FormDictBatchType extends React.Component {
   constructor(props) {
@@ -7,7 +13,8 @@ export class FormDictBatchType extends React.Component {
 
     this.state = {
       name: '',
-      unit: ''
+      unit: '',
+      error: errorMap
     };
   }
 
@@ -20,53 +27,60 @@ export class FormDictBatchType extends React.Component {
   handleSubmit = () => {
     const { name, unit } = this.state;
     this.props.onSubmit({ name, unit });
+    this.props.formSubmitted();
   };
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
+
   render() {
-    const { name, unit } = this.state;
+    const { name, unit, error } = this.state;
     return (
-      <Paper style={{ margin: '2% 40%' }}>
-        <Typography variant={'h6'} align={'center'}>
-          Nowy typ partii
-        </Typography>
-        <form style={{ margin: '0% 25%' }}>
-          <Grid container spacing={8} justify={'center'}>
-            <Grid item>
-              <TextField
-                id="name"
-                label="Nazwa typu partii"
-                placeholder="Nazwa typu partii"
-                value={name}
-                margin="dense"
-                onChange={this.handleChange('name')}
-                variant={'outlined'}
-                inputProps={{
-                  maxLength: '45'
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="unit"
-                label="Jednostka"
-                placeholder="Jednostka"
-                value={unit}
-                margin="dense"
-                onChange={this.handleChange('unit')}
-                variant={'outlined'}
-                inputProps={{
-                  maxLength: '45'
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
+      <form style={{ margin: '0% 25%' }}>
+        <Grid container spacing={8} justify={'center'}>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.name}
+              id="name"
+              label="Nazwa typu partii"
+              placeholder="Nazwa typu partii"
+              value={name}
+              margin="dense"
+              onChange={this.handleChange('name')}
+              variant={'outlined'}
+              inputProps={{
+                maxLength: '45'
+              }}
+            />
           </Grid>
-        </form>
-      </Paper>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.unit}
+              id="unit"
+              label="Jednostka"
+              placeholder="Jednostka"
+              value={unit}
+              margin="dense"
+              onChange={this.handleChange('unit')}
+              variant={'outlined'}
+              inputProps={{
+                maxLength: '45'
+              }}
+            />
+          </Grid>
+        </Grid>
+      </form>
     );
   }
 }
+
+FormDictBatchType.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};

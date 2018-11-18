@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 export class DialogForForm extends React.Component {
   render() {
@@ -18,3 +19,9 @@ export class DialogForForm extends React.Component {
     );
   }
 }
+
+DialogForForm.propTypes = {
+  open: PropTypes.bool.isRequired,
+  title: PropTypes.string,
+  onClose: PropTypes.func
+};

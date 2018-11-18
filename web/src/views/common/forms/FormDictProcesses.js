@@ -1,5 +1,12 @@
 import React from 'react';
-import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, TextField } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
+const errorMap = {
+  name: false,
+  desc: false,
+  additional: false
+};
 
 export class FormDictProcesses extends React.Component {
   constructor(props) {
@@ -8,7 +15,8 @@ export class FormDictProcesses extends React.Component {
     this.state = {
       name: '',
       desc: '',
-      additional: ''
+      additional: '',
+      error: errorMap
     };
   }
 
@@ -21,69 +29,78 @@ export class FormDictProcesses extends React.Component {
   handleSubmit = () => {
     const { name, desc, additional } = this.state;
     this.props.onSubmit({ name, desc, additional });
+    this.props.formSubmitted();
   };
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
+
   render() {
-    const { name, desc, additional } = this.state;
+    const { name, desc, additional, error } = this.state;
     return (
-      <Paper style={{ margin: '2% 40%' }}>
-        <Typography variant={'h6'} align={'center'}>
-          Nowy rodzaj procesu
-        </Typography>
-        <form style={{ margin: '0% 25%' }}>
-          <Grid container spacing={8} justify={'center'}>
-            <Grid item>
-              <TextField
-                id="name"
-                label="Nazwa procesu"
-                placeholder="Nazwa procesu"
-                value={name}
-                margin="dense"
-                onChange={this.handleChange('name')}
-                variant={'outlined'}
-                inputProps={{
-                  maxLength: '40'
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="desc"
-                label="Opis procesu"
-                placeholder="Opis"
-                value={desc}
-                multiline
-                margin="dense"
-                onChange={this.handleChange('desc')}
-                variant={'outlined'}
-                inputProps={{
-                  maxLength: '255'
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="additional"
-                label="Dodatkowe informacje"
-                placeholder="Dodatkowe informacje"
-                value={additional}
-                multiline
-                margin="dense"
-                onChange={this.handleChange('additional')}
-                variant={'outlined'}
-                inputProps={{
-                  maxLength: '80'
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
+      <form style={{ margin: '0% 25%' }}>
+        <Grid container spacing={8} justify={'center'}>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.name}
+              id="name"
+              label="Nazwa procesu"
+              placeholder="Nazwa procesu"
+              value={name}
+              margin="dense"
+              onChange={this.handleChange('name')}
+              variant={'outlined'}
+              inputProps={{
+                maxLength: '40'
+              }}
+            />
           </Grid>
-        </form>
-      </Paper>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.desc}
+              id="desc"
+              label="Opis procesu"
+              placeholder="Opis"
+              value={desc}
+              multiline
+              margin="dense"
+              onChange={this.handleChange('desc')}
+              variant={'outlined'}
+              inputProps={{
+                maxLength: '255'
+              }}
+            />
+          </Grid>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.additional}
+              id="additional"
+              label="Dodatkowe informacje"
+              placeholder="Dodatkowe informacje"
+              value={additional}
+              multiline
+              margin="dense"
+              onChange={this.handleChange('additional')}
+              variant={'outlined'}
+              inputProps={{
+                maxLength: '80'
+              }}
+            />
+          </Grid>
+        </Grid>
+      </form>
     );
   }
 }
+
+FormDictProcesses.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};
