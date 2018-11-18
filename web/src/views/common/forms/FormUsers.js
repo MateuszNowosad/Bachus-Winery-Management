@@ -9,6 +9,18 @@ const roles = ['administrator', 'pracownik produkcji', 'pracownik magazynu'];
 
 export const formTitle = 'Nowy użytkownik';
 
+const errorMap = {
+  firstName: false,
+  lastName: false,
+  login: false,
+  password: false,
+  PESEL: false,
+  eMail: false,
+  phoneNumber: false,
+  userRole: false,
+  photo: false
+};
+
 export class FormUsers extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +35,8 @@ export class FormUsers extends React.Component {
       address: {},
       userRole: '',
       photo: null,
-      showPassword: false
+      showPassword: false,
+      error: errorMap
     };
   }
 
@@ -105,7 +118,8 @@ export class FormUsers extends React.Component {
       phoneNumber,
       userRole,
       imagePreviewUrl,
-      showPassword
+      showPassword,
+      error
     } = this.state;
     return (
       <div>
@@ -118,6 +132,7 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
+                error={error.firstName}
                 id="firstName"
                 label="Imię"
                 placeholder="Imię"
@@ -134,6 +149,7 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
+                error={error.lastName}
                 id="lastName"
                 label="Nazwisko"
                 placeholder="Nazwisko"
@@ -168,6 +184,7 @@ export class FormUsers extends React.Component {
             <Grid item md={12}>
               <TextField
                 fullWidth
+                error={error.eMail}
                 id="eMail"
                 label="Adres e-mail"
                 placeholder="Adres e-mail"
@@ -183,6 +200,7 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
+                error={error.login}
                 id="login"
                 label="Login"
                 placeholder="Login"
@@ -198,6 +216,7 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
+                error={error.password}
                 id="password"
                 label="Haslo"
                 placeholder="Haslo"
@@ -221,6 +240,7 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
+                error={error.PESEL}
                 id="PESEL"
                 label="PESEL"
                 placeholder="PESEL"
@@ -236,6 +256,7 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
+                error={error.phoneNumber}
                 id="phoneNumber"
                 label="Numer telefonu"
                 placeholder="Numer telefonu"
@@ -251,6 +272,7 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
+                error={error.userRole}
                 id="userRole"
                 select
                 label="Rola użytkownika"
