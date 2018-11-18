@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
+import PropTypes from 'prop-types';
 
 export class FormAddress extends React.Component {
   constructor(props) {
@@ -129,3 +130,8 @@ export class FormAddress extends React.Component {
     );
   }
 }
+
+FormAddress.propTypes = {
+  varName: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
+};
