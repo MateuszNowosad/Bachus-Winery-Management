@@ -2,6 +2,12 @@ import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
+const errorMap = {
+  name: false,
+  unit: false,
+  desc: false
+};
+
 export class FormDictCategories extends React.Component {
   constructor(props) {
     super(props);
@@ -9,7 +15,8 @@ export class FormDictCategories extends React.Component {
     this.state = {
       name: '',
       unit: '',
-      desc: ''
+      desc: '',
+      error: errorMap
     };
   }
 
@@ -32,13 +39,14 @@ export class FormDictCategories extends React.Component {
   }
 
   render() {
-    const { name, unit, desc } = this.state;
+    const { name, unit, desc, error } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.name}
               id="name"
               label="Nazwa kategorii"
               placeholder="Nazwa kategorii"
@@ -54,6 +62,7 @@ export class FormDictCategories extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.unit}
               id="unit"
               label="Jednostka"
               placeholder="Jednostka"
@@ -69,6 +78,7 @@ export class FormDictCategories extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.desc}
               id="desc"
               label="Opis kategorii"
               placeholder="Opis"
