@@ -21,10 +21,10 @@ class Database extends React.Component {
         </Typography>
         <OCBigTab labels={labels}>
           <TabContainer>
-            <AutoTable data={data} subject="hero" />
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
-            <AutoTable data={data} subject="hero" />
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
         </OCBigTab>
       </React.Fragment>

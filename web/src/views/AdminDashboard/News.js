@@ -9,22 +9,42 @@ import data from '../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../components/Tab/OCBigTab.js';
 import TabContainer from '../../components/Tab/TabContainer';
 
-const labels = ['Kopie przyrostowe', 'Kopie pełne', 'Akcje'];
+const labels = ['Ostatnie wydarzenia', 'Ostatnie operacje na partiach', 'Ostatnie na winnicach'];
 
 class News extends React.Component {
   render() {
-    const { classes } = this.props;
     return (
       <React.Fragment>
         <Typography variant="h4" gutterBottom component="h2">
-          Najnowsze operacjie
+          Najnowsze zdarzenia
         </Typography>
         <OCBigTab labels={labels}>
           <TabContainer>
-            <AutoTable data={data} subject="hero" />
+            <AutoTable
+              queryData={data}
+              querySubject={'hero'}
+              querySize={2}
+              labelsArr={['ID', 'Nazwa', 'Wiek']}
+              editMode={false}
+            />
           </TabContainer>
           <TabContainer>
-            <AutoTable data={data} subject="hero" />
+            <AutoTable
+              queryData={data}
+              querySubject={'hero'}
+              querySize={2}
+              labelsArr={['ID', 'Nazwa', 'Wiek']}
+              editMode={false}
+            />
+          </TabContainer>
+          <TabContainer>
+            <AutoTable
+              queryData={data}
+              querySubject={'hero'}
+              querySize={2}
+              labelsArr={['ID', 'Nazwa', 'Wiek']}
+              editMode={false}
+            />
           </TabContainer>
         </OCBigTab>
       </React.Fragment>

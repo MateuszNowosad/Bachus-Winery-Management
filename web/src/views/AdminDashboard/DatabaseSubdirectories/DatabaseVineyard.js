@@ -13,7 +13,6 @@ const labels = ['Winnice', 'Winobrania', 'Operacje na winnicy', 'Słowniki'];
 
 class DatabaseVineyard extends React.Component {
   render() {
-    const { classes } = this.props;
     return (
       <React.Fragment>
         <Typography variant="h4" gutterBottom component="h2">

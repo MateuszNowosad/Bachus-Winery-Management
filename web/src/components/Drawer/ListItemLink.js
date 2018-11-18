@@ -25,7 +25,8 @@ class ListItemLink extends React.Component {
 ListItemLink.propTypes = {
   icon: PropTypes.node.isRequired,
   primary: PropTypes.node.isRequired,
-  to: PropTypes.string.isRequired
+  to: PropTypes.string.isRequired,
+  nested: PropTypes.bool
 };
 
 export default ListItemLink;
