@@ -4,6 +4,13 @@ import { data } from './StaticData';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 
+const errorMap = {
+  amount: false,
+  desc: false,
+  creationDate: false,
+  batchType: false
+};
+
 export class FormBatches extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +19,8 @@ export class FormBatches extends React.Component {
       amount: 0,
       desc: '',
       creationDate: currentDate('dateTime'),
-      batchType: ''
+      batchType: '',
+      error: errorMap
     };
   }
 
@@ -35,13 +43,14 @@ export class FormBatches extends React.Component {
   }
 
   render() {
-    const { amount, desc, creationDate, batchType } = this.state;
+    const { amount, desc, creationDate, batchType, error } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.amount}
               id="amount"
               label="Ilość"
               tpye={'number'}
@@ -54,6 +63,7 @@ export class FormBatches extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.desc}
               id="desc"
               label="Opis"
               value={desc}
@@ -65,6 +75,7 @@ export class FormBatches extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.creationDate}
               id="creationDate"
               label="Data utworzenia"
               type="datetime-local"
@@ -80,6 +91,7 @@ export class FormBatches extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.batchType}
               id="batchType"
               select
               label="Typ partii"
