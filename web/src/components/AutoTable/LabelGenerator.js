@@ -5,19 +5,24 @@ import TableRow from '@material-ui/core/TableRow/TableRow';
 import TableHead from '@material-ui/core/TableHead/TableHead';
 
 const LabelGenerator = props => {
+  //deprecated
   let labels = [];
   for (let currLabel in props.labelsArr)
     labels.push(<TableCell key={currLabel}>{props.labelsArr[currLabel]}</TableCell>);
 
   return (
     <TableHead>
-      <TableRow>{labels}</TableRow>
+      <TableRow>
+        {labels}
+        {props.editMode && <TableCell />}
+      </TableRow>
     </TableHead>
   );
 };
 
 LabelGenerator.propTypes = {
-  labelsArr: PropTypes.array
+  labelsArr: PropTypes.array,
+  editMode: PropTypes.bool.isRequired
 };
 
 export default LabelGenerator;
