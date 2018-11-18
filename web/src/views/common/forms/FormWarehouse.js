@@ -1,15 +1,23 @@
 import React from 'react';
-import { Button, Grid, InputAdornment, MenuItem, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, InputAdornment, MenuItem, TextField } from '@material-ui/core';
 import { FormAddress } from './FormAddress';
+import PropTypes from 'prop-types';
 
 const types = ['magazyn produktów', 'magazyn półproduktów'];
+
+const errorMap = {
+  type: false,
+  capacity: false
+};
 
 export class FormWarehouse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       type: '',
-      capacity: ''
+      capacity: '',
+      address: {},
+      error: errorMap
     };
   }
 
@@ -19,70 +27,81 @@ export class FormWarehouse extends React.Component {
     });
   };
 
-  handleSubmit = () => {
-    const { type, capacity } = this.state;
-    this.props.onSubmit({ type, capacity });
+  handleAddressChange = (name, address) => {
+    this.setState({
+      [name]: address
+    });
   };
 
+  handleSubmit = () => {
+    const { type, capacity, address } = this.state;
+    this.props.onSubmit({ type, capacity, address });
+    this.props.formSubmitted();
+  };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
+
   render() {
-    const { type, capacity } = this.state;
+    const { type, capacity, error } = this.state;
 
     return (
-      <Paper style={{ margin: '2% 20%' }}>
-        <Typography variant={'h6'} align={'center'}>
-          Nowy magazyn
-        </Typography>
-        <form style={{ margin: '0% 25%' }}>
-          <Grid container spacing={8} justify={'center'}>
-            <Grid item sm={12}>
-              <TextField
-                fullWidth
-                id="type"
-                select
-                label="Rodzaj magazynu"
-                placeholder="Rodzaj magazynu"
-                value={type}
-                onChange={this.handleChange('type')}
-                margin="dense"
-                variant={'outlined'}
-              >
-                {types.map(option => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item sm={12}>
-              <TextField
-                fullWidth
-                id="capacity"
-                label="Pojemność"
-                value={capacity}
-                type="number"
-                margin="dense"
-                onChange={this.handleChange('capacity')}
-                variant={'outlined'}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      m<sub>3</sub>
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <FormAddress />
-            </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '10% 0 5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
+      <form style={{ margin: '0% 25%' }}>
+        <Grid container spacing={8} justify={'center'}>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.type}
+              id="type"
+              select
+              label="Rodzaj magazynu"
+              placeholder="Rodzaj magazynu"
+              value={type}
+              onChange={this.handleChange('type')}
+              margin="dense"
+              variant={'outlined'}
+            >
+              {types.map(option => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
           </Grid>
-        </form>
-      </Paper>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.capacity}
+              id="capacity"
+              label="Pojemność"
+              value={capacity}
+              type="number"
+              margin="dense"
+              onChange={this.handleChange('capacity')}
+              variant={'outlined'}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    m<sub>3</sub>
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>
+          <Grid item>
+            <FormAddress varName="address" onChange={this.handleAddressChange} />
+          </Grid>
+        </Grid>
+      </form>
     );
   }
 }
+
+FormWarehouse.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};
