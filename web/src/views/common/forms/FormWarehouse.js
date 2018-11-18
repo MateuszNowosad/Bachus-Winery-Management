@@ -5,13 +5,19 @@ import PropTypes from 'prop-types';
 
 const types = ['magazyn produktów', 'magazyn półproduktów'];
 
+const errorMap = {
+  type: false,
+  capacity: false
+};
+
 export class FormWarehouse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       type: '',
       capacity: '',
-      address: {}
+      address: {},
+      error: errorMap
     };
   }
 
@@ -40,7 +46,7 @@ export class FormWarehouse extends React.Component {
   }
 
   render() {
-    const { type, capacity } = this.state;
+    const { type, capacity, error } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -48,6 +54,7 @@ export class FormWarehouse extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.type}
               id="type"
               select
               label="Rodzaj magazynu"
@@ -67,6 +74,7 @@ export class FormWarehouse extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.capacity}
               id="capacity"
               label="Pojemność"
               value={capacity}
