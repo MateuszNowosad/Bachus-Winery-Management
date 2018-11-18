@@ -3,13 +3,19 @@ import { Grid, InputAdornment, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 
+const errorMap = {
+  dateOfHarvest: false,
+  amount: false
+};
+
 export class FormGrapeHarvest extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       dateOfHarvest: currentDate('date'),
-      amount: 0
+      amount: 0,
+      error: errorMap
     };
   }
 
@@ -32,13 +38,14 @@ export class FormGrapeHarvest extends React.Component {
   }
 
   render() {
-    const { dateOfHarvest, amount } = this.state;
+    const { dateOfHarvest, amount, error } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.dateOfHarvest}
               id="dateOfHarvest"
               label="Data zbioru"
               type="date"
@@ -54,6 +61,7 @@ export class FormGrapeHarvest extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.amount}
               id="amount"
               label="Ilość"
               value={amount}
