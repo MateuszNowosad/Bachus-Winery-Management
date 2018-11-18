@@ -3,6 +3,14 @@ import { Grid, MenuItem, TextField } from '@material-ui/core';
 import { data } from './StaticData';
 import PropTypes from 'prop-types';
 
+const errorMap = {
+  name: false,
+  motto: false,
+  allergens: false,
+  energyValue: false,
+  wineCategory: false
+};
+
 export class FormWineInformation extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +20,8 @@ export class FormWineInformation extends React.Component {
       motto: '',
       allergens: '',
       energyValue: 0,
-      wineCategory: ''
+      wineCategory: '',
+      error: errorMap
     };
   }
 
@@ -35,13 +44,14 @@ export class FormWineInformation extends React.Component {
   }
 
   render() {
-    const { name, motto, allergens, energyValue, wineCategory } = this.state;
+    const { name, motto, allergens, energyValue, wineCategory, error } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.name}
               id="name"
               label="Nazwa wina"
               value={name}
@@ -53,6 +63,7 @@ export class FormWineInformation extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.motto}
               id="motto"
               label="Motto"
               value={motto}
@@ -64,6 +75,7 @@ export class FormWineInformation extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.allergens}
               id="allergens"
               label="Zawarte alergeny"
               value={allergens}
@@ -75,23 +87,13 @@ export class FormWineInformation extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.energyValue}
               id="energyValue"
               label="Wartość energetyczna"
               type="number"
               value={energyValue}
               margin="dense"
               onChange={this.handleChange('energyValue')}
-              variant={'outlined'}
-            />
-          </Grid>
-          <Grid item md={12}>
-            <TextField
-              fullWidth
-              id="motto"
-              label="Motto"
-              value={motto}
-              margin="dense"
-              onChange={this.handleChange('motto')}
               variant={'outlined'}
             />
           </Grid>
