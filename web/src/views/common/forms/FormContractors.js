@@ -3,6 +3,17 @@ import { Grid, TextField } from '@material-ui/core';
 import { FormAddress } from './FormAddress';
 import PropTypes from 'prop-types';
 
+const errorMap = {
+  NIP: false,
+  companyName: false,
+  phoneNumber: false,
+  eMail: false,
+  wwwSite: false,
+  KRS: false,
+  accountNumber: false,
+  fax: false
+};
+
 export class FormContractors extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +26,8 @@ export class FormContractors extends React.Component {
       KRS: '',
       accountNumber: '',
       fax: '',
-      address: {}
+      address: {},
+      error: errorMap
     };
   }
 
@@ -55,7 +67,7 @@ export class FormContractors extends React.Component {
   }
 
   render() {
-    const { NIP, companyName, phoneNumber, eMail, wwwSite, KRS, accountNumber, fax } = this.state;
+    const { NIP, companyName, phoneNumber, eMail, wwwSite, KRS, accountNumber, fax, error } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -63,6 +75,7 @@ export class FormContractors extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.NIP}
               id="NIP"
               label="NIP"
               placeholder="NIP"
@@ -78,6 +91,7 @@ export class FormContractors extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.companyName}
               id="companyName"
               label="Nazwa spółki"
               placeholder="Nazwa spółki"
@@ -93,6 +107,7 @@ export class FormContractors extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.eMail}
               id="eMail"
               label="Adres e-mail"
               placeholder="Adres e-mail"
@@ -108,6 +123,7 @@ export class FormContractors extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.wwwSite}
               id="wwwSite"
               label="Strona www"
               placeholder="Strona www"
@@ -123,6 +139,7 @@ export class FormContractors extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.fax}
               id="fax"
               label="Fax"
               placeholder="Fax"
@@ -138,6 +155,7 @@ export class FormContractors extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.phoneNumber}
               id="phoneNumber"
               label="Numer telefonu"
               placeholder="Numer telefonu"
@@ -153,6 +171,7 @@ export class FormContractors extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.KRS}
               id="KRS"
               label="KRS"
               placeholder="KRS"
@@ -168,6 +187,7 @@ export class FormContractors extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.accountNumber}
               id="accountNumber"
               label="Numer konta"
               placeholder="Numer konta"
