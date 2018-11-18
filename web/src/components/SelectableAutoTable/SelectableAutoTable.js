@@ -129,7 +129,11 @@ SelectableAutoTable.propTypes = {
   queryData: PropTypes.object.isRequired,
   querySubject: PropTypes.string.isRequired,
   labelsArr: PropTypes.array,
-  querySize: PropTypes.number
+  querySize: PropTypes.number,
+  funParam: PropTypes.string,
+  onSelect: PropTypes.func,
+  onClose: PropTypes.func,
+  id: PropTypes.number
 };
 
 export default withStyles(AutoTableStyle)(SelectableAutoTable);

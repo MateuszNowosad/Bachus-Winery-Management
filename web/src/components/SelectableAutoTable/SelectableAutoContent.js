@@ -32,7 +32,9 @@ SelectableAutoContent.propTypes = {
   queryData: PropTypes.object.isRequired,
   querySubject: PropTypes.string.isRequired,
   page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired
+  rowsPerPage: PropTypes.number.isRequired,
+  selected: PropTypes.number,
+  onClick: PropTypes.func
 };
 
 export default SelectableAutoContent;
