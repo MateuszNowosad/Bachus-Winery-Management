@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import {
   Stepper,
   Step,
@@ -15,19 +14,6 @@ import {
 } from '@material-ui/core';
 import { data } from './StaticData';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
-
-const styles = theme => ({
-  root: {
-    width: '90%'
-  },
-  button: {
-    marginRight: theme.spacing.unit
-  },
-  instructions: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit
-  }
-});
 
 function getSteps() {
   return ['Wybierz magazyn', 'Wybierz produkt', 'Określ rozmiar'];
@@ -67,7 +53,6 @@ class StepperParcelContent extends React.Component {
     // TODO naprawić zmianę stanu
     switch (step) {
       case 0:
-        console.log('46,  jakub: step 0');
         return (
           <SelectableAutoTable
             queryData={data}
@@ -78,7 +63,6 @@ class StepperParcelContent extends React.Component {
           />
         );
       case 1:
-        console.log('59,  jakub: step 1');
         return (
           <SelectableAutoTable
             queryData={data}
@@ -143,9 +127,13 @@ class StepperParcelContent extends React.Component {
   };
 
   handleSubmit = () => {
-    const { selectedItem } = this.state;
-    selectedItem.key = selectedItem.id;
-    this.props.onSubmit(selectedItem);
+    const { selectedItem, value, fullItem } = this.state;
+    const object = {
+      key: selectedItem.id,
+      selectedItem: selectedItem,
+      amount: fullItem ? selectedItem.amount : value
+    };
+    this.props.onSubmit(object);
     this.props.onClose();
   };
 
@@ -159,7 +147,6 @@ class StepperParcelContent extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
     const steps = getSteps();
     const { activeStep } = this.state;
 
@@ -180,7 +167,7 @@ class StepperParcelContent extends React.Component {
           <div>
             {this.getStepContent(activeStep)}
             <div>
-              <Button disabled={activeStep === 0} onClick={this.handleBack} className={classes.button}>
+              <Button disabled={activeStep === 0} onClick={this.handleBack}>
                 Back
               </Button>
               <Button
@@ -188,7 +175,6 @@ class StepperParcelContent extends React.Component {
                 variant="contained"
                 color="primary"
                 onClick={activeStep === steps.length - 1 ? this.handleSubmit : this.handleNext}
-                className={classes.button}
               >
                 {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
               </Button>
@@ -201,7 +187,8 @@ class StepperParcelContent extends React.Component {
 }
 
 StepperParcelContent.propTypes = {
-  classes: PropTypes.object
+  onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(StepperParcelContent);
+export default StepperParcelContent;
