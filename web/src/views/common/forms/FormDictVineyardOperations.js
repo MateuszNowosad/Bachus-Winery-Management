@@ -2,13 +2,19 @@ import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
+const errorMap = {
+  name: false,
+  desc: false
+};
+
 export class FormDictVineyardOperations extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       name: '',
-      desc: ''
+      desc: '',
+      error: errorMap
     };
   }
 
@@ -31,13 +37,14 @@ export class FormDictVineyardOperations extends React.Component {
   }
 
   render() {
-    const { name, desc } = this.state;
+    const { name, desc, error } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.name}
               id="name"
               label="Nazwa operacji"
               placeholder="Nazwa operacji"
@@ -53,6 +60,7 @@ export class FormDictVineyardOperations extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.desc}
               id="desc"
               label="Opis operacji"
               placeholder="Opis"
