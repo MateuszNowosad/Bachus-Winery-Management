@@ -2,13 +2,19 @@ import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
+const errorMap = {
+  name: false,
+  unit: false
+};
+
 export class FormDictBatchType extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       name: '',
-      unit: ''
+      unit: '',
+      error: errorMap
     };
   }
 
@@ -31,13 +37,14 @@ export class FormDictBatchType extends React.Component {
   }
 
   render() {
-    const { name, unit } = this.state;
+    const { name, unit, error } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.name}
               id="name"
               label="Nazwa typu partii"
               placeholder="Nazwa typu partii"
@@ -53,6 +60,7 @@ export class FormDictBatchType extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.unit}
               id="unit"
               label="Jednostka"
               placeholder="Jednostka"
