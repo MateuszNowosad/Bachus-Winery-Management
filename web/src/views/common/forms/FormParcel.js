@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid/Grid';
 import currentDate from './CurrentDate';
 import { DialogForForm } from './DialogForForm';
 import StepperParcelContent from './StepperParcelContent';
+import PropTypes from 'prop-types';
 
 export class FormParcel extends React.Component {
   constructor(props) {
@@ -102,7 +103,13 @@ export class FormParcel extends React.Component {
         </Grid>
         <Grid item md={12}>
           {this.state.content.map(data => {
-            return <Chip key={data.key} label={data.name} onDelete={this.handleDelete(data)} />;
+            return (
+              <Chip
+                key={data.key}
+                label={data.selectedItem.name + ' ' + data.amount}
+                onDelete={this.handleDelete(data)}
+              />
+            );
           })}
         </Grid>
         <Grid item md={12}>
@@ -120,3 +127,8 @@ export class FormParcel extends React.Component {
     );
   }
 }
+
+FormParcel.propTypes = {
+  varName: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
+};
