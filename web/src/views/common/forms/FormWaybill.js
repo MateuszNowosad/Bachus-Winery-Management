@@ -16,6 +16,14 @@ import SelectableAutoTable from '../../../components/SelectableAutoTable/Selecta
 import { FormAddress } from './FormAddress';
 import { FormParcel } from './FormParcel';
 
+const errorMap = {
+  driverName: false,
+  driverSurname: false,
+  comments: false,
+  reservations: false,
+  file: false
+};
+
 export class FormWaybill extends React.Component {
   constructor(props) {
     super(props);
@@ -34,7 +42,8 @@ export class FormWaybill extends React.Component {
       parcel: {},
       openSender: false,
       openRecipent: false,
-      openCarrier: false
+      openCarrier: false,
+      error: errorMap
     };
   }
 
@@ -111,7 +120,8 @@ export class FormWaybill extends React.Component {
       carrier,
       openSender,
       openRecipent,
-      openCarrier
+      openCarrier,
+      error
     } = this.state;
 
     return (
@@ -120,6 +130,7 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.driverName}
               id="driverName"
               label="Imię kierowcy"
               value={driverName}
@@ -131,6 +142,7 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.driverSurname}
               id="driverSurname"
               label="Nazwisko kierowcy"
               value={driverSurname}
@@ -142,6 +154,7 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.comments}
               id="comments"
               label="Uwagi przewoźnika"
               value={comments}
@@ -153,6 +166,7 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.reservations}
               id="reservations"
               label="Zastrzeżenia odbiorcy"
               value={reservations}
