@@ -14,24 +14,28 @@ export const data = {
       {
         id: 1,
         name: 'produkt 1',
-        warehouse: 0
+        warehouse: 0,
+        amount: 250
       },
       {
         id: 3,
         name: 'produkt 4',
-        warehouse: 0
+        warehouse: 0,
+        amount: 100
       }
     ],
     iteminstock1: [
       {
         id: 0,
         name: 'produkt 2',
-        warehouse: 1
+        warehouse: 1,
+        amount: 200
       },
       {
         id: 2,
         name: 'produkt 3',
-        warehouse: 1
+        warehouse: 1,
+        amount: 300
       }
     ],
     vineyardOperations: [

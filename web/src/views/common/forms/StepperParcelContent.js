@@ -1,10 +1,18 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
+import {
+  Stepper,
+  Step,
+  StepLabel,
+  Button,
+  Switch,
+  FormControlLabel,
+  Typography,
+  TextField,
+  InputAdornment,
+  Paper
+} from '@material-ui/core';
 import { data } from './StaticData';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 
@@ -31,13 +39,27 @@ class StepperParcelContent extends React.Component {
     this.state = {
       activeStep: 0,
       selectedWarehouse: {},
-      selectedItem: {}
+      selectedItem: {},
+      fullItem: false,
+      valuePercent: '',
+      value: ''
     };
   }
 
   handleSelect = (name, object) => {
     this.setState({
       [name]: object
+    });
+  };
+
+  handleChangeCheck = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
+
+  handleValueChange = event => {
+    this.setState({
+      valuePercent: event.target.value,
+      value: (event.target.value / 100) * this.state.selectedItem.amount
     });
   };
 
@@ -67,7 +89,41 @@ class StepperParcelContent extends React.Component {
           />
         );
       case 2:
-        return 'This is the bit I really care about!';
+        return (
+          <Paper
+            style={{
+              padding: '5% 5%'
+            }}
+          >
+            <FormControlLabel
+              control={<Switch checked={this.state.fullItem} onChange={this.handleChangeCheck('fullItem')} />}
+              label="Całość"
+            />
+            {!this.state.fullItem && (
+              <div>
+                <TextField
+                  id="value"
+                  label="Ilość"
+                  value={this.state.valuePercent}
+                  onChange={this.handleValueChange}
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  InputProps={{
+                    inputProps: { min: 1, max: 99, maxLength: 2 },
+                    endAdornment: <InputAdornment position="end">%</InputAdornment>
+                  }}
+                  margin="dense"
+                  variant="outlined"
+                />
+                <Typography variant={'body1'}>
+                  {this.state.value} of {this.state.selectedItem.amount}
+                </Typography>
+              </div>
+            )}
+          </Paper>
+        );
       default:
         return 'Unknown step';
     }
