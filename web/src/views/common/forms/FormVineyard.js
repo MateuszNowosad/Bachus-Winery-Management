@@ -7,6 +7,16 @@ const odmiany = ['Agat doński', 'Ajwaz', 'Alden'];
 
 const stany = ['czynna', 'rośnie'];
 
+const errorMap = {
+  name: false,
+  area: false,
+  terroir: false,
+  dateOfPlanting: false,
+  registrationPlotId: false,
+  grapeType: false,
+  state: false
+};
+
 export class FormVineyard extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +27,8 @@ export class FormVineyard extends React.Component {
       dateOfPlanting: currentDate('date'),
       registrationPlotId: '',
       grapeType: '',
-      state: ''
+      state: '',
+      error: errorMap
     };
   }
 
@@ -48,7 +59,7 @@ export class FormVineyard extends React.Component {
   }
 
   render() {
-    const { name, area, terroir, dateOfPlanting, registrationPlotId, grapeType, state } = this.state;
+    const { name, area, terroir, dateOfPlanting, registrationPlotId, grapeType, state, error } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -56,6 +67,7 @@ export class FormVineyard extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.name}
               id="name"
               label="Nazwa winnicy"
               placeholder="Nazwa"
@@ -71,6 +83,7 @@ export class FormVineyard extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.area}
               id="area"
               label="Powierzchnia"
               value={area}
@@ -86,6 +99,7 @@ export class FormVineyard extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.state}
               id="state"
               select
               label="Stan winnicy"
@@ -105,6 +119,7 @@ export class FormVineyard extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.terroir}
               id="terroir"
               label="Terroir"
               placeholder="Terroir"
@@ -121,6 +136,7 @@ export class FormVineyard extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.dateOfPlanting}
               id="dateOfPlanting"
               label="Data zasadzenie"
               type="date"
@@ -136,6 +152,7 @@ export class FormVineyard extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.registrationPlotId}
               id="registrationPlotId"
               label="Ewidencyjny numer działki"
               placeholder="Nr. działki"
@@ -151,6 +168,7 @@ export class FormVineyard extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.grapeType}
               id="grapeType"
               select
               label="Odmiana winogron"
