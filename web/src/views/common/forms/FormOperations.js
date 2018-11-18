@@ -3,8 +3,6 @@ import {
   Grid,
   MenuItem,
   TextField,
-  Switch,
-  InputAdornment,
   ExpansionPanel,
   ExpansionPanelSummary,
   Typography,
@@ -13,9 +11,22 @@ import {
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { FormAddress } from './FormAddress';
 
 const operations = ['fermentacja', 'dojrzewanie'];
+
+const errorMap = {
+  beginAmount: false,
+  endAmount: false,
+  beginDate: false,
+  endDate: false,
+  alcoholContent: false,
+  additiveAmount: false,
+  sugarContent: false,
+  acidity: false,
+  temperature: false,
+  desc: false,
+  process: false
+};
 
 export class FormOperations extends React.Component {
   constructor(props) {
@@ -32,7 +43,7 @@ export class FormOperations extends React.Component {
       temperature: '',
       desc: '',
       process: '',
-      checkedA: false
+      error: errorMap
     };
   }
 
@@ -40,10 +51,6 @@ export class FormOperations extends React.Component {
     this.setState({
       [name]: event.target.value
     });
-  };
-
-  handleInputToggle = name => event => {
-    this.setState({ [name]: event.target.checked });
   };
 
   handleSubmit = () => {
@@ -95,7 +102,7 @@ export class FormOperations extends React.Component {
       temperature,
       desc,
       process,
-      checkedA
+      error
     } = this.state;
 
     return (
@@ -104,6 +111,7 @@ export class FormOperations extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.process}
               id="process"
               select
               label="Rodzaj operacji"
@@ -123,6 +131,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.beginAmount}
               id="beginAmount"
               label="Ilość początkowa"
               value={beginAmount}
@@ -135,7 +144,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              disabled={!checkedA}
+              error={error.endAmount}
               id="endAmount"
               label="Ilość końcowa"
               value={endAmount}
@@ -143,18 +152,12 @@ export class FormOperations extends React.Component {
               type="number"
               onChange={this.handleChange('endAmount')}
               variant={'outlined'}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Switch checked={checkedA} onChange={this.handleInputToggle('checkedA')} value="checkedA" />
-                  </InputAdornment>
-                )
-              }}
             />
           </Grid>
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.beginData}
               id="beginDate"
               label="Data początku"
               type="datetime-local"
@@ -170,6 +173,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.endDate}
               id="endDate"
               label="Data zakończenia"
               type="datetime-local"
@@ -185,6 +189,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.alcoholContent}
               id="alcoholContent"
               label="Zawartość alkoholu"
               value={alcoholContent}
@@ -197,6 +202,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.additiveAmount}
               id="additiveAmount"
               label="Ilość dodatku"
               value={additiveAmount}
@@ -209,6 +215,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.sugarContent}
               id="sugarContent"
               label="Zawartość cukru"
               value={sugarContent}
@@ -221,6 +228,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.acidity}
               id="acidity"
               label="Kwasowość"
               value={acidity}
@@ -233,6 +241,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
+              error={error.temperature}
               id="temperature"
               label="Temperatura"
               value={temperature}
@@ -245,6 +254,7 @@ export class FormOperations extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.desc}
               id="desc"
               label="Opis"
               placeholder="Opis"
@@ -263,9 +273,7 @@ export class FormOperations extends React.Component {
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="inherit">Produkty z magazynu</Typography>
               </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <FormAddress varName="mailingAddress" onChange={this.handleAddressChange} />
-              </ExpansionPanelDetails>
+              <ExpansionPanelDetails />
             </ExpansionPanel>
           </Grid>
         </Grid>
