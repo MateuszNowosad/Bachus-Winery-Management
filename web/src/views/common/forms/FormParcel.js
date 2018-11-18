@@ -6,6 +6,12 @@ import { DialogForForm } from './DialogForForm';
 import StepperParcelContent from './StepperParcelContent';
 import PropTypes from 'prop-types';
 
+const errorMap = {
+  packageName: false,
+  weight: false,
+  date: false
+};
+
 export class FormParcel extends React.Component {
   constructor(props) {
     super(props);
@@ -14,7 +20,8 @@ export class FormParcel extends React.Component {
       weight: '',
       date: currentDate('date'),
       content: [],
-      open: false
+      open: false,
+      error: errorMap
     };
   }
 
@@ -55,12 +62,13 @@ export class FormParcel extends React.Component {
   };
 
   render() {
-    const { packageName, weight, date, open } = this.state;
+    const { packageName, weight, date, open, error } = this.state;
     return (
       <Grid container spacing={8}>
         <Grid item md={6}>
           <TextField
             fullWidth
+            error={error.packageName}
             id="packageName"
             label="Nazwa przesyłki"
             placeholder="Nazwa przesyłki"
@@ -76,6 +84,7 @@ export class FormParcel extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
+            error={error.weight}
             id="weight"
             label="Waga"
             placeholder="Waga"
@@ -89,6 +98,7 @@ export class FormParcel extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
+            error={error.date}
             id="date"
             label="Data odbioru/dostarczenia"
             type="date"

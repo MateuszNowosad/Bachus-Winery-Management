@@ -188,7 +188,7 @@ class StepperParcelContent extends React.Component {
 
 StepperParcelContent.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired
 };
 
 export default StepperParcelContent;
