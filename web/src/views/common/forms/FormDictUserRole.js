@@ -2,6 +2,12 @@ import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
+const errorMap = {
+  name: false,
+  desc: false,
+  type: false
+};
+
 export class FormDictUserRole extends React.Component {
   constructor(props) {
     super(props);
@@ -9,7 +15,8 @@ export class FormDictUserRole extends React.Component {
     this.state = {
       name: '',
       desc: '',
-      type: ''
+      type: '',
+      error: errorMap
     };
   }
 
@@ -32,13 +39,14 @@ export class FormDictUserRole extends React.Component {
   }
 
   render() {
-    const { name, desc, type } = this.state;
+    const { name, desc, type, error } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.name}
               id="name"
               label="Nazwa roli"
               placeholder="Nazwa roli"
@@ -54,6 +62,7 @@ export class FormDictUserRole extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.desc}
               id="desc"
               label="Opis roli"
               placeholder="Opis"
@@ -70,6 +79,7 @@ export class FormDictUserRole extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.type}
               id="type"
               label="Typ roli użytkownika"
               placeholder="Typ roli użytkownika"
