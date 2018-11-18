@@ -4,13 +4,20 @@ import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 import { data } from './StaticData';
 
+const errorMap = {
+  dateOfOperation: false,
+  desc: false,
+  dictOperation: false
+};
+
 export class FormVineyardOperation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       dateOfOperation: currentDate('date'),
       desc: '',
-      dictOperation: ''
+      dictOperation: '',
+      error: errorMap
     };
   }
 
@@ -38,7 +45,7 @@ export class FormVineyardOperation extends React.Component {
   }
 
   render() {
-    const { dateOfOperation, desc, dictOperation } = this.state;
+    const { dateOfOperation, desc, dictOperation, error } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -46,6 +53,7 @@ export class FormVineyardOperation extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.dateOfOperation}
               id="dateOfOperation"
               label="Data operacji"
               type="date"
@@ -61,6 +69,7 @@ export class FormVineyardOperation extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.desc}
               id="desc"
               label="Opis operacji"
               placeholder="Opis"
@@ -77,6 +86,7 @@ export class FormVineyardOperation extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              error={error.dictOperation}
               id="dictOperation"
               select
               label="Operacja"
