@@ -21,14 +21,15 @@ const sequelize = new Sequelize({
   host: '172.17.0.2',
   connectionTimeout: 0,
   pool: {
-    max: 100,
+    max: 500,
     min: 1,
     idle: 200000
   },
   retry: { max: 2 },
   logging: false,
   define: {
-    freezeTableName: true
+    freezeTableName: true,
+    timestamps: false
   }
 });
 
@@ -36,12 +37,6 @@ sequelize
   .authenticate()
   .then(() => console.log('Connection has been established successfully.'))
   .catch(err => console.error('Unable to connect to the database:', err));
-
-// for (let i = 0; i < 10; i += 1) {
-//   createAdres();
-//   createDictKategoriaWina();
-//   createDictKategorie();
-// }
 
 // TODO klucze obce jako id, które obsłuży resolver
 
@@ -77,19 +72,19 @@ async function createAdres() {
       nrPosesji: faker.random.number(9999),
       kraj: faker.fake('{{address.country}}')
     })
-  ); // .then(adres => { console.log(adres.toJSON())});
+  );
 }
 
-export async function createDictKategoriaWina() {
+async function createDictKategoriaWina() {
   await sequelize.sync().then(() =>
     DICTKATEGORIAWINA.create({
       nazwaKategoria: faker.lorem.word(faker.random.number(10)),
-      opis: faker.lorem.words(8) // fake random text
+      opis: faker.lorem.words(8)
     })
   );
 }
 
-export async function createDictKategorie() {
+async function createDictKategorie() {
   await sequelize.sync().then(() =>
     DICTKATEGORIE.create({
       nazwa: faker.lorem.word(faker.random.number(100)),
@@ -98,79 +93,118 @@ export async function createDictKategorie() {
     })
   );
 }
-/*
-export async function createDictOdmianaWinogron() {
-  await sequelize.sync().then(() => DICTODMIANAWINOGRON.create({}));
+
+async function createDictOdmianaWinogron() {
+  await sequelize.sync().then(() =>
+    DICTODMIANAWINOGRON.create({
+      nazwa: faker.lorem.word(faker.random.number(100)),
+      opis: faker.lorem.words(10)
+    })
+  );
 }
 
-export async function createDictOperacjeNaWinnicy() {
-  await sequelize.sync().then(() => DICTOPERACJENAWINNICY.create({}));
+async function createDictOperacjeNaWinnicy() {
+  await sequelize.sync().then(() =>
+    DICTOPERACJENAWINNICY.create({
+      nazwa: faker.lorem.word(faker.random.number(100)),
+      opis: faker.lorem.words(10)
+    })
+  );
 }
 
-export async function createDictProcesy() {
-  await sequelize.sync().then(() => DICTPROCESY.create({}));
+async function createDictProcesy() {
+  await sequelize.sync().then(() =>
+    DICTPROCESY.create({
+      nazwa: faker.lorem.word(faker.random.number(100)),
+      opis: faker.lorem.words(10),
+      dodatkowe: faker.lorem.word(faker.random.number(100))
+    })
+  );
 }
 
-export async function createDictRolaUzytkownikow() {
-  await sequelize.sync().then(() => DICTROLAUZYTKOWNIKOW.create({}));
+async function createDictRolaUzytkownikow() {
+  await sequelize.sync().then(() =>
+    DICTROLAUZYTKOWNIKOW.create({
+      nazwa: faker.lorem.word(faker.random.number(100)),
+      opis: faker.lorem.words(10),
+      typ: faker.random.arrayElement(['administrator', 'pracownik', 'pracownik', 'pracownik', 'pracownik'])
+    })
+  );
 }
 
-export async function createDictTypPartii() {
-  await sequelize.sync().then(() => DICTTYPPARTII.create({}));
+async function createDictTypPartii() {
+  await sequelize.sync().then(() =>
+    DICTTYPPARTII.create({
+      nazwa: faker.lorem.word(faker.random.number(100)),
+      jednostka: faker.random.arrayElement(['sztuki', 'kilogramy', 'gramy', 'tony', 'mililitry', 'litry'])
+    })
+  );
 }
 
-export async function createInformacjeOWinie() {
+async function createInformacjeOWinie() {
   await sequelize.sync().then(() => INFORMACJEOWINIE.create({}));
 }
 
-export async function createKontrahenci() {
-  await sequelize.sync().then(() => KONTRAHENCI.create({}));
+async function createKontrahenci() {
+  await sequelize.sync().then(() =>
+    KONTRAHENCI.create({
+      NIP: faker.finance.account(10),
+      nazwaSpolki: faker.company.companyName(),
+      telefon: faker.phone.phoneNumberFormat(),
+      eMail: faker.internet.email(),
+      stronaWww: faker.internet.url(),
+      KRS: faker.finance.account(10),
+      nrKonta: faker.finance.account(26),
+      fax: faker.phone.phoneNumberFormat(),
+      adresIdAdres: faker.random.number({ min: 1, max: 10 })
+    })
+  );
 }
 
-export async function createListPrzewozowy() {
+async function createListPrzewozowy() {
   await sequelize.sync().then(() => LISTPRZEWOZOWY.create({}));
 }
 
-export async function createMagazyn() {
+async function createMagazyn() {
   await sequelize.sync().then(() => MAGAZYN.create({}));
 }
 
-export async function createOperacje() {
+async function createOperacje() {
   await sequelize.sync().then(() => OPERACJE.create({}));
 }
 
-export async function createOperacjeNaWinnicy() {
+async function createOperacjeNaWinnicy() {
   await sequelize.sync().then(() => OPERACJENAWINNICY.create({}));
 }
 
-export async function createPartie() {
+async function createPartie() {
   await sequelize.sync().then(() => PARTIE.create({}));
 }
 
-export async function createPlanyProdukcyjne() {
+async function createPlanyProdukcyjne() {
   await sequelize.sync().then(() => PLANYPRODUKCYJNE.create({}));
 }
 
-export async function createPozycjaWMagazynie() {
+async function createPozycjaWMagazynie() {
   await sequelize.sync().then(() => POZYCJAWMAGAZYNIE.create({}));
 }
 
-export async function createPrzesylka() {
+async function createPrzesylka() {
   await sequelize.sync().then(() => PRZESYLKA.create({}));
 }
 
-export async function createUzytkownicy() {
+async function createUzytkownicy() {
   await sequelize.sync().then(() => UZYTKOWNICY.create({}));
 }
 
-export async function createWinnica() {
+async function createWinnica() {
   await sequelize.sync().then(() => WINNICA.create({}));
 }
 
-export async function createWinobranie() {
+async function createWinobranie() {
   await sequelize.sync().then(() => WINOBRANIE.create({}));
 }
-*/
+
 const ADRES = sequelize.define('Adres', {
   idAdres: {
     type: Sequelize.INTEGER,
@@ -205,7 +239,7 @@ const DICTKATEGORIE = sequelize.define('DictKategorie', {
   jednostka: Sequelize.STRING(20),
   opis: Sequelize.STRING(250)
 });
-/*
+
 const DICTODMIANAWINOGRON = sequelize.define('DictOdmianaWinogron', {
   idOdmianaWinogron: {
     type: Sequelize.INTEGER,
@@ -279,15 +313,17 @@ const KONTRAHENCI = sequelize.define('Kontrahenci', {
   },
   NIP: Sequelize.STRING(10),
   nazwaSpolki: Sequelize.STRING(40),
-  telefon: Sequelize.STRING(11),
+  telefon: Sequelize.STRING(14),
   eMail: Sequelize.STRING(90),
   stronaWww: Sequelize.STRING(255),
   KRS: Sequelize.STRING(10),
   nrKonta: Sequelize.STRING(26),
-  fax: Sequelize.STRING(45)
-  // adres: Adres
-  // listprzewozowy: [ListPrzewozowy] # many-to-many
+  fax: Sequelize.STRING(45),
+  adresIdAdres: Sequelize.INTEGER(11)
 });
+
+// ADRES.hasOne(KONTRAHENCI, { as: 'adres' });
+// ADRES.belongsTo(KONTRAHENCI, { foreignKey: { name: 'idAdres', constraints: false } });
 
 const LISTPRZEWOZOWY = sequelize.define('ListPrzewozowy', {
   idListPrzewozowy: {
@@ -462,6 +498,21 @@ const WINOBRANIE = sequelize.define('Winobranie', {
   iloscZebranychWinogron: Sequelize.FLOAT(5) // 4,1
   // winnica: Winnica, // fk
 });
+
+// sequelize.sync({ force: true });
+
+for (let i = 0; i < 10; i += 1) {
+  // TODO split to separate loops
+  // createAdres();
+  // createDictKategoriaWina();
+  // createDictKategorie();
+  // createDictOdmianaWinogron();
+  // createDictOperacjeNaWinnicy();
+  // createDictProcesy();
+  // createDictRolaUzytkownikow();
+  // createDictTypPartii();
+  createKontrahenci();
+}
 
 // sequelize.sync().then(() => User.create({
 //         username: 'janedoe',

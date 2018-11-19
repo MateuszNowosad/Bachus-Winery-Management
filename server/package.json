@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_PATH='src' babel-node src/startup.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "initDb": "docker exec -i bachus-winery57 mysql -utest -ptest  <<< 'drop database if exists bachusWinery;create database bachusWinery' && docker exec -i bachus-winery57 mysql -utest -ptest bachusWinery < ./src/sql/bachusWinery2.sql"
   },
   "author": "",
   "license": "ISC",

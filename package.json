@@ -6,7 +6,8 @@
   "scripts": {
     "generateSchema": "node testing/generateSchema.js > ./schema.graphql",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "startLocalDB": "docker stop bachus-winery 2> /dev/null|| true && docker rm bachus-winery 2> /dev/null || true && docker run -p 27017:27017 --name bachus-winery -d mongo"
+    "startLocalDB": "docker stop bachus-winery 2> /dev/null|| true && docker rm bachus-winery 2> /dev/null || true && docker run -p 27017:27017 --name bachus-winery -d mongo",
+    "initDatabase": "./server/scripts/dockerSetup.sh"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +15,7 @@
     "prettier": "1.14.3"
   },
   "dependencies": {
+    "faker": "^4.1.0",
     "graphql": "^14.0.2",
     "graphql-import": "^0.7.1"
   }
