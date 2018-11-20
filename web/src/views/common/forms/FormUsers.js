@@ -35,6 +35,7 @@ export class FormUsers extends React.Component {
       PESEL: '',
       eMail: '',
       phoneNumber: '',
+      address: {},
       userRole: '',
       photo: '',
       imagePreviewUrl: '',
@@ -83,6 +84,12 @@ export class FormUsers extends React.Component {
     });
   };
 
+  handleAddressChange = (name, address) => {
+    this.setState({
+      [name]: address
+    });
+  };
+
   handleSubmit = () => {
     const {
       firstName,
@@ -92,6 +99,7 @@ export class FormUsers extends React.Component {
       PESEL,
       eMail,
       phoneNumber,
+      address,
       userRole,
       photo,
       imagePreviewUrl
@@ -105,6 +113,7 @@ export class FormUsers extends React.Component {
       PESEL,
       eMail,
       phoneNumber,
+      //address,
       userRole,
       photo,
       imagePreviewUrl
@@ -164,9 +173,13 @@ export class FormUsers extends React.Component {
 
     return (
       <div>
-        <form style={{ margin: '0% 25%' }}>
+        <form
+          style={{
+            margin: '0% 25%'
+          }}
+        >
           <Grid container spacing={8} justify={'center'}>
-            <Grid item sm={6}>
+            <Grid item md={6}>
               <TextField
                 fullWidth
                 error={error.firstName}
@@ -178,11 +191,12 @@ export class FormUsers extends React.Component {
                 onChange={this.handleChange('firstName')}
                 variant={'outlined'}
                 inputProps={{
-                  maxLength: '30'
+                  maxLength: '30',
+                  minwidth: '400'
                 }}
               />
             </Grid>
-            <Grid item sm={6}>
+            <Grid item md={6}>
               <TextField
                 fullWidth
                 error={error.lastName}
@@ -198,7 +212,7 @@ export class FormUsers extends React.Component {
                 }}
               />
             </Grid>
-            <Grid item sm={6}>
+            <Grid item md={6}>
               <input hidden accept="image/*" id="addImage" type="file" onChange={this.handleFileChange} />
               <label htmlFor="addImage">
                 <Button variant="contained" component="span">
@@ -206,7 +220,7 @@ export class FormUsers extends React.Component {
                 </Button>
               </label>
             </Grid>
-            <Grid item sm={6}>
+            <Grid item md={6}>
               <Avatar
                 alt="Zdjęcie użytkownika"
                 src={imagePreviewUrl}
@@ -217,7 +231,7 @@ export class FormUsers extends React.Component {
                 }}
               />
             </Grid>
-            <Grid item sm={12}>
+            <Grid item md={12}>
               <TextField
                 fullWidth
                 error={error.eMail}
@@ -233,7 +247,7 @@ export class FormUsers extends React.Component {
                 }}
               />
             </Grid>
-            <Grid item sm={6}>
+            <Grid item md={6}>
               <TextField
                 fullWidth
                 error={error.login}
@@ -249,7 +263,7 @@ export class FormUsers extends React.Component {
                 }}
               />
             </Grid>
-            <Grid item sm={6}>
+            <Grid item md={6}>
               <TextField
                 fullWidth
                 error={error.password}
@@ -275,7 +289,7 @@ export class FormUsers extends React.Component {
                 Siła hasła
                 <LinearProgress variant="determinate" value={this.state.passwordStrength} />
             </Grid>
-            <Grid item sm={6}>
+            <Grid item md={6}>
               <TextField
                 fullWidth
                 error={error.PESEL}
@@ -291,7 +305,7 @@ export class FormUsers extends React.Component {
                 variant={'outlined'}
               />
             </Grid>
-            <Grid item sm={6}>
+            <Grid item md={6}>
               <TextField
                 fullWidth
                 error={error.phoneNumber}
@@ -307,7 +321,7 @@ export class FormUsers extends React.Component {
                 variant={'outlined'}
               />
             </Grid>
-            <Grid item sm={6}>
+            <Grid item md={6}>
               <TextField
                 fullWidth
                 error={error.userRole}
@@ -327,8 +341,8 @@ export class FormUsers extends React.Component {
                 ))}
               </TextField>
             </Grid>
-            <Grid item sm={12}>
-              <FormAddress />
+            <Grid item md={12}>
+              <FormAddress varName="address" onChange={this.handleAddressChange} />
             </Grid>
           </Grid>
         </form>

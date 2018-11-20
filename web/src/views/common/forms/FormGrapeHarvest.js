@@ -1,13 +1,21 @@
 import React from 'react';
-import { Button, Grid, InputAdornment, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, InputAdornment, TextField } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import currentDate from './CurrentDate';
+
+const errorMap = {
+  dateOfHarvest: false,
+  amount: false
+};
 
 export class FormGrapeHarvest extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      dateOfHarvest: '',
-      amount: 0
+      dateOfHarvest: currentDate('date'),
+      amount: 0,
+      error: errorMap
     };
   }
 
@@ -20,55 +28,60 @@ export class FormGrapeHarvest extends React.Component {
   handleSubmit = () => {
     const { dateOfHarvest, amount } = this.state;
     this.props.onSubmit({ dateOfHarvest, amount });
+    this.props.formSubmitted();
   };
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
+
   render() {
-    const { dateOfHarvest, amount } = this.state;
+    const { dateOfHarvest, amount, error } = this.state;
     return (
-      <Paper style={{ margin: '2% 20%' }}>
-        <Typography variant={'h6'} align={'center'}>
-          Nowe winobranie
-        </Typography>
-        <form style={{ margin: '0% 25%' }}>
-          <Grid container spacing={8} justify={'center'}>
-            <Grid item sm={12}>
-              <TextField
-                fullWidth
-                id="dateOfHarvest"
-                label="Data zbioru"
-                type="date"
-                value={dateOfHarvest}
-                InputLabelProps={{
-                  shrink: true
-                }}
-                margin="dense"
-                onChange={this.handleChange('dateOfHarvest')}
-                variant={'outlined'}
-              />
-            </Grid>
-            <Grid item sm={12}>
-              <TextField
-                fullWidth
-                id="amount"
-                label="Ilość"
-                value={amount}
-                type="number"
-                margin="dense"
-                onChange={this.handleChange('amount')}
-                variant={'outlined'}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">Kg</InputAdornment>
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
+      <form style={{ margin: '0% 25%' }}>
+        <Grid container spacing={8} justify={'center'}>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.dateOfHarvest}
+              id="dateOfHarvest"
+              label="Data zbioru"
+              type="date"
+              value={dateOfHarvest}
+              InputLabelProps={{
+                shrink: true
+              }}
+              margin="dense"
+              onChange={this.handleChange('dateOfHarvest')}
+              variant={'outlined'}
+            />
           </Grid>
-        </form>
-      </Paper>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.amount}
+              id="amount"
+              label="Ilość"
+              value={amount}
+              type="number"
+              margin="dense"
+              onChange={this.handleChange('amount')}
+              variant={'outlined'}
+              InputProps={{
+                startAdornment: <InputAdornment position="start">Kg</InputAdornment>
+              }}
+            />
+          </Grid>
+        </Grid>
+      </form>
     );
   }
 }
+
+FormGrapeHarvest.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};

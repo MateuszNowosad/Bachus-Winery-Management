@@ -1,5 +1,12 @@
 import React from 'react';
-import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
+import { Grid, TextField } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
+const errorMap = {
+  name: false,
+  unit: false,
+  desc: false
+};
 
 export class FormDictCategories extends React.Component {
   constructor(props) {
@@ -8,7 +15,8 @@ export class FormDictCategories extends React.Component {
     this.state = {
       name: '',
       unit: '',
-      desc: ''
+      desc: '',
+      error: errorMap
     };
   }
 
@@ -21,68 +29,77 @@ export class FormDictCategories extends React.Component {
   handleSubmit = () => {
     const { name, unit, desc } = this.state;
     this.props.onSubmit({ name, unit, desc });
+    this.props.formSubmitted();
   };
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
+
   render() {
-    const { name, unit, desc } = this.state;
+    const { name, unit, desc, error } = this.state;
     return (
-      <Paper style={{ margin: '2% 40%' }}>
-        <Typography variant={'h6'} align={'center'}>
-          Nowa kategoria
-        </Typography>
-        <form style={{ margin: '0% 25%' }}>
-          <Grid container spacing={8} justify={'center'}>
-            <Grid item>
-              <TextField
-                id="name"
-                label="Nazwa kategorii"
-                placeholder="Nazwa kategorii"
-                value={name}
-                margin="dense"
-                onChange={this.handleChange('name')}
-                variant={'outlined'}
-                inputProps={{
-                  maxLength: '20'
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="unit"
-                label="Jednostka"
-                placeholder="Jednostka"
-                value={unit}
-                margin="dense"
-                onChange={this.handleChange('unit')}
-                variant={'outlined'}
-                inputProps={{
-                  maxLength: '20'
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="desc"
-                label="Opis kategorii"
-                placeholder="Opis"
-                value={desc}
-                multiline
-                margin="dense"
-                onChange={this.handleChange('desc')}
-                variant={'outlined'}
-                inputProps={{
-                  maxLength: '250'
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
+      <form style={{ margin: '0% 25%' }}>
+        <Grid container spacing={8} justify={'center'}>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.name}
+              id="name"
+              label="Nazwa kategorii"
+              placeholder="Nazwa kategorii"
+              value={name}
+              margin="dense"
+              onChange={this.handleChange('name')}
+              variant={'outlined'}
+              inputProps={{
+                maxLength: '20'
+              }}
+            />
           </Grid>
-        </form>
-      </Paper>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.unit}
+              id="unit"
+              label="Jednostka"
+              placeholder="Jednostka"
+              value={unit}
+              margin="dense"
+              onChange={this.handleChange('unit')}
+              variant={'outlined'}
+              inputProps={{
+                maxLength: '20'
+              }}
+            />
+          </Grid>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.desc}
+              id="desc"
+              label="Opis kategorii"
+              placeholder="Opis"
+              value={desc}
+              multiline
+              margin="dense"
+              onChange={this.handleChange('desc')}
+              variant={'outlined'}
+              inputProps={{
+                maxLength: '250'
+              }}
+            />
+          </Grid>
+        </Grid>
+      </form>
     );
   }
 }
+
+FormDictCategories.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};

@@ -1,6 +1,16 @@
 import React from 'react';
 import { TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
+import PropTypes from 'prop-types';
+
+const errorMap = {
+  street: false,
+  buildingNumber: false,
+  apartmentNumber: false,
+  postalCode: false,
+  city: false,
+  country: false
+};
 
 export class FormAddress extends React.Component {
   constructor(props) {
@@ -11,7 +21,8 @@ export class FormAddress extends React.Component {
       apartmentNumber: '',
       postalCode: '',
       city: '',
-      country: ''
+      country: '',
+      error: errorMap
     };
   }
 
@@ -19,15 +30,26 @@ export class FormAddress extends React.Component {
     this.setState({
       [name]: event.target.value
     });
+    const { street, buildingNumber, apartmentNumber, postalCode, city, country } = this.state;
+    const { varName } = this.props;
+    this.props.onChange(varName, {
+      street,
+      buildingNumber,
+      apartmentNumber,
+      postalCode,
+      city,
+      country
+    });
   };
 
   render() {
-    const { street, buildingNumber, apartmentNumber, postalCode, city, country } = this.state;
+    const { street, buildingNumber, apartmentNumber, postalCode, city, country, error } = this.state;
     return (
       <Grid container spacing={8}>
-        <Grid item sm={6}>
+        <Grid item md={6}>
           <TextField
             fullWidth
+            error={error.city}
             id="city"
             label="Miasto"
             placeholder="Miasto"
@@ -40,9 +62,10 @@ export class FormAddress extends React.Component {
             }}
           />
         </Grid>
-        <Grid item sm={6}>
+        <Grid item md={6}>
           <TextField
             fullWidth
+            error={error.street}
             id="street"
             label="Ulica"
             placeholder="Ulica"
@@ -55,9 +78,10 @@ export class FormAddress extends React.Component {
             }}
           />
         </Grid>
-        <Grid item sm={6}>
+        <Grid item md={6}>
           <TextField
             fullWidth
+            error={error.buildingNumber}
             id="buildingNumber"
             label="Nr. posesji"
             placeholder="Nr. posesji"
@@ -70,9 +94,10 @@ export class FormAddress extends React.Component {
             }}
           />
         </Grid>
-        <Grid item sm={6}>
+        <Grid item md={6}>
           <TextField
             fullWidth
+            error={error.apartmentNumber}
             id="apartmentNumber"
             label="Nr. lokalu"
             placeholder="Nr. lokalu"
@@ -85,9 +110,10 @@ export class FormAddress extends React.Component {
             }}
           />
         </Grid>
-        <Grid item sm={6}>
+        <Grid item md={6}>
           <TextField
             fullWidth
+            error={error.postalCode}
             id="postalCode"
             label="Kod pocztowy"
             placeholder="Kod pocztowy"
@@ -100,9 +126,10 @@ export class FormAddress extends React.Component {
             }}
           />
         </Grid>
-        <Grid item sm={6}>
+        <Grid item md={6}>
           <TextField
             fullWidth
+            error={error.country}
             id="country"
             label="Kraj"
             placeholder="Kraj"
@@ -119,3 +146,8 @@ export class FormAddress extends React.Component {
     );
   }
 }
+
+FormAddress.propTypes = {
+  varName: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
+};

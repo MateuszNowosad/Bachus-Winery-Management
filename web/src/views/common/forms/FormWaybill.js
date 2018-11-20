@@ -1,8 +1,28 @@
 import React from 'react';
-import { Button, Grid, Paper, TextField, Typography } from '@material-ui/core';
-import { contractors } from './StaticData';
+import {
+  Button,
+  Grid,
+  TextField,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  Typography
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import PropTypes from 'prop-types';
 import { DialogForForm } from './DialogForForm';
-import { TableContractors } from './TableContractors';
+import { data } from './StaticData';
+import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
+import { FormAddress } from './FormAddress';
+import { FormParcel } from './FormParcel';
+
+const errorMap = {
+  driverName: false,
+  driverSurname: false,
+  comments: false,
+  reservations: false,
+  file: false
+};
 
 export class FormWaybill extends React.Component {
   constructor(props) {
@@ -14,10 +34,62 @@ export class FormWaybill extends React.Component {
       comments: '',
       reservations: '',
       file: '',
-      selectedContractor: {},
-      open: false
+      sender: {},
+      recipent: {},
+      carrier: {},
+      pickupAddress: {},
+      mailingAddress: {},
+      parcel: {},
+      openSender: false,
+      openRecipent: false,
+      openCarrier: false,
+      error: errorMap
     };
   }
+
+  handleSubmit = () => {
+    const {
+      driverName,
+      driverSurname,
+      comments,
+      reservations,
+      file,
+      sender,
+      recipent,
+      carrier,
+      pickupAddress,
+      mailingAddress,
+      parcel
+    } = this.state;
+    this.props.onSubmit({
+      driverName,
+      driverSurname,
+      comments,
+      reservations,
+      file,
+      sender,
+      recipent,
+      carrier,
+      pickupAddress,
+      mailingAddress,
+      parcel
+    });
+    this.props.formSubmitted();
+  };
+
+  handleClickOpen = name => {
+    this.setState({ [name]: true });
+  };
+
+  handleClose = name => {
+    this.setState({ [name]: false });
+  };
+
+  handleSelectContractor = (name, contractor) => {
+    this.setState({
+      [name]: contractor
+    });
+  };
 
   handleChange = name => event => {
     this.setState({
@@ -25,127 +97,218 @@ export class FormWaybill extends React.Component {
     });
   };
 
-  handleSubmit = () => {
-    const { driverName, driverSurname, comments, reservations, file } = this.state;
-    this.props.onSubmit({ driverName, driverSurname, comments, reservations, file });
-  };
-
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleContractorSelect = vineyard => {
+  handleObjectChange = (name, address) => {
     this.setState({
-      selectedContractor: vineyard
+      [name]: address
     });
   };
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
+      this.handleSubmit();
+    }
+  }
+
   render() {
-    const { driverName, driverSurname, comments, reservations, selectedContractor, open } = this.state;
+    const {
+      driverName,
+      driverSurname,
+      comments,
+      reservations,
+      sender,
+      recipent,
+      carrier,
+      openSender,
+      openRecipent,
+      openCarrier,
+      error
+    } = this.state;
+
     return (
-      <Paper style={{ margin: '2% 20%' }}>
-        <Typography variant={'h6'} align={'center'}>
-          Nowy list przewozowy
-        </Typography>
-        <form style={{ margin: '0% 25%' }}>
-          <Grid container spacing={8} justify={'center'}>
-            <Grid item sm={12}>
-              <TextField
-                fullWidth
-                id="driverName"
-                label="Imię kierowcy"
-                value={driverName}
-                margin="dense"
-                onChange={this.handleChange('driverName')}
-                variant={'outlined'}
-              />
-            </Grid>
-            <Grid item sm={12}>
-              <TextField
-                fullWidth
-                id="driverSurname"
-                label="Nazwisko kierowcy"
-                value={driverSurname}
-                margin="dense"
-                onChange={this.handleChange('driverSurname')}
-                variant={'outlined'}
-              />
-            </Grid>
-            <Grid item sm={12}>
-              <TextField
-                fullWidth
-                id="comments"
-                label="Uwagi przewoźnika"
-                value={comments}
-                margin="dense"
-                onChange={this.handleChange('comments')}
-                variant={'outlined'}
-              />
-            </Grid>
-            <Grid item sm={12}>
-              <TextField
-                fullWidth
-                id="reservations"
-                label="Zastrzeżenia odbiorcy"
-                value={reservations}
-                margin="dense"
-                onChange={this.handleChange('reservations')}
-                variant={'outlined'}
-              />
-            </Grid>
-            <Grid item sm={12}>
-              <input
-                hidden
-                accept="application/pdf"
-                id="addFile"
-                type="file"
-                //onChange={this.handleFileChange}
-              />
-              <label htmlFor="addImage">
-                <Button variant="raised" component="span">
-                  Dodaj dokument
-                </Button>
-              </label>
-            </Grid>
-            <Grid item sm={12}>
-              <TextField
-                id="selectedContractor"
-                label="Wybrany kontrahent"
-                value={selectedContractor.name ? selectedContractor.name : 'Nie wybrano kontrahenta'}
-                margin="dense"
-                variant="outlined"
-                InputProps={{
-                  readOnly: true
-                }}
-                onClick={this.handleClickOpen}
-              />
-              <DialogForForm
-                title={'Kontrahenci'}
-                open={open}
-                onClose={this.handleClose}
-                onSelect={this.handleContractorSelect}
-                children={
-                  <TableContractors
-                    contractors={contractors}
-                    id={selectedContractor.id}
-                    onClose={this.handleClose}
-                    onSelect={this.handleContractorSelect}
-                  />
-                }
-              />
-            </Grid>
-            <Grid item>
-              <Button variant={'outlined'} style={{ margin: '5% 0' }} onClick={this.handleSubmit}>
-                Dodaj
-              </Button>
-            </Grid>
+      <form style={{ margin: '0% 25%' }}>
+        <Grid container spacing={8} justify={'center'}>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.driverName}
+              id="driverName"
+              label="Imię kierowcy"
+              value={driverName}
+              margin="dense"
+              onChange={this.handleChange('driverName')}
+              variant={'outlined'}
+            />
           </Grid>
-        </form>
-      </Paper>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.driverSurname}
+              id="driverSurname"
+              label="Nazwisko kierowcy"
+              value={driverSurname}
+              margin="dense"
+              onChange={this.handleChange('driverSurname')}
+              variant={'outlined'}
+            />
+          </Grid>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.comments}
+              id="comments"
+              label="Uwagi przewoźnika"
+              value={comments}
+              margin="dense"
+              onChange={this.handleChange('comments')}
+              variant={'outlined'}
+            />
+          </Grid>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              error={error.reservations}
+              id="reservations"
+              label="Zastrzeżenia odbiorcy"
+              value={reservations}
+              margin="dense"
+              onChange={this.handleChange('reservations')}
+              variant={'outlined'}
+            />
+          </Grid>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              id="sender"
+              label="Nadawca"
+              value={sender.name ? sender.name : 'Nie wybrano nadawcy'}
+              margin="dense"
+              variant="outlined"
+              InputProps={{
+                readOnly: true
+              }}
+              onClick={() => this.handleClickOpen('openSender')}
+            />
+            <DialogForForm
+              title={'Kontrahenci'}
+              open={openSender}
+              onClose={() => this.handleClose('openSender')}
+              children={
+                <SelectableAutoTable
+                  queryData={data}
+                  querySubject="contractors"
+                  querySize={2}
+                  funParam="sender"
+                  onSelect={this.handleSelectContractor}
+                  onClose={() => this.handleClose('openSender')}
+                  id={sender.id}
+                />
+              }
+            />
+          </Grid>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              id="recipent"
+              label="Odbiorca"
+              value={recipent.name ? recipent.name : 'Nie wybrano odbiorcy'}
+              margin="dense"
+              variant="outlined"
+              InputProps={{
+                readOnly: true
+              }}
+              onClick={() => this.handleClickOpen('openRecipent')}
+            />
+            <DialogForForm
+              title={'Kontrahenci'}
+              open={openRecipent}
+              onClose={() => this.handleClose('openRecipent')}
+              children={
+                <SelectableAutoTable
+                  queryData={data}
+                  querySubject="contractors"
+                  funParam="recipent"
+                  onSelect={this.handleSelectContractor}
+                  onClose={() => this.handleClose('openRecipent')}
+                  id={recipent.id}
+                />
+              }
+            />
+          </Grid>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              id="carrier"
+              label="Przewoźnik"
+              value={carrier.name ? carrier.name : 'Nie wybrano odbiorcy'}
+              margin="dense"
+              variant="outlined"
+              InputProps={{
+                readOnly: true
+              }}
+              onClick={() => this.handleClickOpen('openCarrier')}
+            />
+            <DialogForForm
+              title={'Kontrahenci'}
+              open={openCarrier}
+              onClose={() => this.handleClose('openCarrier')}
+              children={
+                <SelectableAutoTable
+                  queryData={data}
+                  querySubject="contractors"
+                  funParam="carrier"
+                  onSelect={this.handleSelectContractor}
+                  onClose={() => this.handleClose('openCarrier')}
+                  id={carrier.id}
+                />
+              }
+            />
+          </Grid>
+          <Grid item md={12}>
+            <input hidden accept="application/pdf" id="addFile" type="file" onChange={this.handleFileChange} />
+            <label htmlFor="addImage">
+              <Button variant="raised" component="span">
+                Dodaj dokument
+              </Button>
+            </label>
+          </Grid>
+          <Grid item md={12}>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="inherit">Adres odbiorcy</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <FormAddress varName="pickupAddress" onChange={this.handleObjectChange} />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </Grid>
+          <Grid item md={12}>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="inherit">Adres nadawcy</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <FormAddress varName="mailingAddress" onChange={this.handleObjectChange} />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </Grid>
+          <Grid item md={12}>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="inherit">Przesyłka</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <FormParcel varName="parcel" onChange={this.handleObjectChange} />
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </Grid>
+        </Grid>
+      </form>
     );
   }
 }
+
+FormWaybill.propTypes = {
+  submitFromOutside: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  formSubmitted: PropTypes.func
+};
