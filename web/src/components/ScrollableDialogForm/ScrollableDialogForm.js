@@ -39,6 +39,7 @@ class ScrollableDialogForm extends React.Component {
     };
 
   handleClose = () => {
+      this.setState({openConfirmationPrompt: false});
     this.props.closeForm();
   };
 
@@ -51,7 +52,7 @@ class ScrollableDialogForm extends React.Component {
           aria-labelledby="modal-form-popup"
           aria-describedby="modal-form-popup"
           open={open}
-          onClose={this.props.closeForm}
+          onClose={this.handleClose}
           className={classes.dialog}
           scroll="body"
           fullWidth={true}
@@ -76,7 +77,7 @@ class ScrollableDialogForm extends React.Component {
               />
             ) : (
               <React.Fragment>
-                <Button variant="contained" onClick={this.props.closeForm} color="secondary">
+                <Button variant="contained" onClick={this.handleClose} color="secondary">
                   Anuluj
                 </Button>
                 <Button variant="contained" onClick={this.handleStage} color="primary">
