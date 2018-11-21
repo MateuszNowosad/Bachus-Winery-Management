@@ -41,7 +41,7 @@ export class FormUsers extends React.Component {
       imagePreviewUrl: '',
       showPassword: false,
       error: errorMap,
-        passwordStrength: 0,
+      passwordStrength: 0,
     };
       this.subForm = React.createRef();
   }
@@ -123,8 +123,7 @@ export class FormUsers extends React.Component {
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, usersValidationKeys);
-    !this.subFormValidation() && arrayOfErrors.push(address);
-    console.log('129, arrayOfErrors Mateusz: ', arrayOfErrors);
+    !this.subFormValidation() && arrayOfErrors.push("address");
     if (arrayOfErrors.length === 0) {
       if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
     } else{
