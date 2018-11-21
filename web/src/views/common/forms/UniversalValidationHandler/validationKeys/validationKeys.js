@@ -125,3 +125,15 @@ export const operationsValidationKeys = {
     desc: new RegExp("^(|[\\s\\S]{2,255})$","u"),
     process: /^.+$/,
 };
+
+export const itemInStockValidationKeys = {
+    name: new RegExp("^\\p{L}{3,45}$","u"),
+    desc: new RegExp("^(|[\\s\\S]{2,255})$","u"),
+    amount: /^[0-9]{1,4}[.][0-9]{0,1}$/,
+    barcode: /^[0-9]{13}$/,
+    actualState: /^[01]$/,
+    acceptanceDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
+    releaseDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
+    sectorName: new RegExp("^\\p{L}{3,45}$","u"),
+    category: /^.+$/
+};
