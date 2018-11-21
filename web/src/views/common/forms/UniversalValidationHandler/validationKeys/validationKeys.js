@@ -137,3 +137,9 @@ export const itemInStockValidationKeys = {
     sectorName: new RegExp("^\\p{L}{3,45}$","u"),
     category: /^.+$/
 };
+
+export const parcelValidationKeys = {
+    packageName: new RegExp("^\\p{L}{3,45}$","u"),
+    weight: /^$|[0-9]{1,6}[.][0-9]{0,2}$/,
+    date: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/
+};
