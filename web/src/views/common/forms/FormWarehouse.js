@@ -2,6 +2,8 @@ import React from 'react';
 import { Grid, InputAdornment, MenuItem, TextField } from '@material-ui/core';
 import { FormAddress } from './FormAddress';
 import PropTypes from 'prop-types';
+import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
+import {warehouseValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
 
 const types = ['magazyn produktów', 'magazyn półproduktów'];
 
@@ -19,7 +21,12 @@ export class FormWarehouse extends React.Component {
       address: {},
       error: errorMap
     };
+    this.subForm = React.createRef();
   }
+
+    subFormValidation() {
+        return this.subForm.current.validate();
+    }
 
   handleChange = name => event => {
     this.setState({
@@ -35,8 +42,22 @@ export class FormWarehouse extends React.Component {
 
   handleSubmit = () => {
     const { type, capacity, address } = this.state;
-    this.props.onSubmit({ type, capacity, address });
-    this.props.formSubmitted();
+      let dataObject = {
+          type, capacity, address
+      };
+
+      let arrayOfErrors = UniversalValidationHandler(dataObject, warehouseValidationKeys);
+      !this.subFormValidation() && arrayOfErrors.push("address");
+      if (arrayOfErrors.length === 0) {
+          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      } else{
+          let error = Object.assign({}, errorMap);
+          for (let errorField in arrayOfErrors) {
+              error[arrayOfErrors[errorField]] = true;
+          }
+          this.setState({error: error});
+          this.props.submitAborted();
+      }
   };
 
   componentDidUpdate(prevProps) {
@@ -92,7 +113,7 @@ export class FormWarehouse extends React.Component {
             />
           </Grid>
           <Grid item>
-            <FormAddress varName="address" onChange={this.handleAddressChange} />
+            <FormAddress varName="address" onChange={this.handleAddressChange} ref={this.subForm}/>
           </Grid>
         </Grid>
       </form>
@@ -103,5 +124,6 @@ export class FormWarehouse extends React.Component {
 FormWarehouse.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
-  formSubmitted: PropTypes.func
+  formSubmitted: PropTypes.func,
+  submitAborted: PropTypes.func
 };
