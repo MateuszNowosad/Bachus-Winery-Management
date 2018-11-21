@@ -143,3 +143,8 @@ export const parcelValidationKeys = {
     weight: /^$|[0-9]{1,6}[.][0-9]{0,2}$/,
     date: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/
 };
+
+export const harvestValidationKeys = {
+    dateOfHarvest: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
+    amount: /^$|[0-9]{1,4}[.][0-9]{0,1}$/
+};
