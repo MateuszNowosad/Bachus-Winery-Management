@@ -245,7 +245,7 @@ type Kontrahenci {
     KRS: String
     nrKonta: String!
     fax: String
-    adres: Adres!
+    adres: Adres
     listprzewozowy: [ListPrzewozowy] # many-to-many
 }
 # list_przewozowy_has_kontrachenci check ???

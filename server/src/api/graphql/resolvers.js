@@ -21,11 +21,23 @@ export default {
     Magazyn: (_, { idMagazyn }, context) => {
       return testData.MAGAZYN.find(magazyn => magazyn.idMagazyn === idMagazyn);
     },
-    Kontrahenci: (_, input, context) => {
-      console.log('85, _ filip: ', _);
-      console.log('86, input filip: ', input);
-      console.log('87, context filip: ', context);
-      return testData.KONTRAHENCI;
+    Kontrahenci: async (
+      _,
+      { idKontrahenci, NIP, nazwaSpolki, telefon, eMail, stronaWww, KRS, nrKonta, fax, adresIdAdres },
+      context
+    ) => {
+      return await sequelize.getKontrahenci({
+        idKontrahenci,
+        NIP,
+        nazwaSpolki,
+        telefon,
+        eMail,
+        stronaWww,
+        KRS,
+        nrKonta,
+        fax,
+        adresIdAdres
+      });
     },
     ListPrzewozowy: (_, { idListPrzewozowy }, context) => {
       return testData.LISTPRZEWOZOWY.find(listPrzewozowy => listPrzewozowy.idListPrzewozowy === idListPrzewozowy);
@@ -43,8 +55,9 @@ export default {
     }
   },
   Kontrahenci: {
-    adres: (_, input, context) => {
-      return adresy.find(adres => adres.idAdres === _.idAdres);
+    adres: async (_, input, context) => {
+      const adr = await sequelize.getAddresses({ idAdres: _.adresIdAdres });
+      return adr[0];
     },
     listprzewozowy: (_, input, context) => {
       // return w jaki sposób znaleźć listy przewozowe dla danego kontrahenta

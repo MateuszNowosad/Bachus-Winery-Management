@@ -45,7 +45,7 @@ DROP TABLE IF EXISTS `DictKategoriaWina`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `DictKategoriaWina` (
-  `idDictKategoriaWina` int(11) NOT NULL,
+  `idDictKategoriaWina` int(11) NOT NULL AUTO_INCREMENT,
   `nazwaKategoria` varchar(45) NOT NULL,
   `opis` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idDictKategoriaWina`),
@@ -582,7 +582,7 @@ CREATE TABLE `Uzytkownicy` (
   `PESEL` varchar(11) NOT NULL,
   `eMail` varchar(40) NOT NULL,
   `nrTelefonu` varchar(11) NOT NULL,
-  `dataLstatniegoLogowania` datetime NOT NULL,
+  `dataOstatniegoLogowania` datetime NOT NULL,
   `adresIdAdres` int(11) NOT NULL,
   `dictRolaUzytkownikowIdRolaUzytkownikow` int(11) NOT NULL,
   `zdjecie` varchar(100) DEFAULT NULL,
