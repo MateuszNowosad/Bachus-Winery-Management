@@ -42,6 +42,7 @@ export class FormAddress extends React.Component {
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, addressValidationKeys);
     if (arrayOfErrors.length === 0) {
+       this.setState({error: errorMap});
       return true;
     } else {
       let error = Object.assign({}, errorMap);
