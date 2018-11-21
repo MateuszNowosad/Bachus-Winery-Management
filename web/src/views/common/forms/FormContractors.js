@@ -2,6 +2,8 @@ import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import { FormAddress } from './FormAddress';
 import PropTypes from 'prop-types';
+import { contractorsValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 
 const errorMap = {
   NIP: false,
@@ -29,6 +31,11 @@ export class FormContractors extends React.Component {
       address: {},
       error: errorMap
     };
+    this.subForm = React.createRef();
+  }
+
+  subFormValidation() {
+    return this.subForm.current.validate();
   }
 
   handleChange = name => event => {
@@ -46,7 +53,7 @@ export class FormContractors extends React.Component {
   handleSubmit = () => {
     const { NIP, companyName, phoneNumber, eMail, wwwSite, KRS, accountNumber, fax, address } = this.state;
 
-    this.props.onSubmit({
+    let dataObject = {
       NIP,
       companyName,
       phoneNumber,
@@ -56,8 +63,19 @@ export class FormContractors extends React.Component {
       accountNumber,
       fax,
       address
-    });
-    this.props.formSubmitted();
+    };
+    let arrayOfErrors = UniversalValidationHandler(dataObject, contractorsValidationKeys);
+    !this.subFormValidation() && arrayOfErrors.push(address);
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
+      }
+      this.setState({ error: error });
+      this.props.submitAborted();
+    }
   };
 
   componentDidUpdate(prevProps) {
@@ -201,7 +219,7 @@ export class FormContractors extends React.Component {
             />
           </Grid>
           <Grid item md={12}>
-            <FormAddress varName="address" onChange={this.handleAddressChange} />
+            <FormAddress varName="address" onChange={this.handleAddressChange} ref={this.subForm} />
           </Grid>
         </Grid>
       </form>
@@ -212,5 +230,6 @@ export class FormContractors extends React.Component {
 FormContractors.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
-  formSubmitted: PropTypes.func
+  formSubmitted: PropTypes.func,
+  submitAborted: PropTypes.func
 };
