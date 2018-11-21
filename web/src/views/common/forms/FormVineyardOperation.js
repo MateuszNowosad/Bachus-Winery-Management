@@ -3,6 +3,8 @@ import { Grid, MenuItem, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 import { data } from './StaticData';
+import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
+import {vineyardOperationsValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
 
 const errorMap = {
   dateOfOperation: false,
@@ -30,12 +32,21 @@ export class FormVineyardOperation extends React.Component {
   handleSubmit = () => {
     const { dateOfOperation, desc, dictOperation } = this.state;
 
-    this.props.onSubmit({
-      dateOfOperation,
-      desc,
-      dictOperation
-    });
-    this.props.formSubmitted();
+      let dataObject = {
+          dateOfOperation, desc, dictOperation
+      };
+
+      let arrayOfErrors = UniversalValidationHandler(dataObject, vineyardOperationsValidationKeys);
+      if (arrayOfErrors.length === 0) {
+          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      } else{
+          let error = Object.assign({}, errorMap);
+          for (let errorField in arrayOfErrors) {
+              error[arrayOfErrors[errorField]] = true;
+          }
+          this.setState({error: error});
+          this.props.submitAborted();
+      }
   };
 
   componentDidUpdate(prevProps) {
@@ -112,5 +123,6 @@ export class FormVineyardOperation extends React.Component {
 FormVineyardOperation.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
-  formSubmitted: PropTypes.func
+  formSubmitted: PropTypes.func,
+  submitAborted: PropTypes.func
 };
