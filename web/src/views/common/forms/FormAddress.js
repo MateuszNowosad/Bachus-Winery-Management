@@ -2,6 +2,8 @@ import React from 'react';
 import { TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 import PropTypes from 'prop-types';
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
+import { addressValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 
 const errorMap = {
   street: false,
@@ -24,6 +26,31 @@ export class FormAddress extends React.Component {
       country: '',
       error: errorMap
     };
+  }
+
+  validate() {
+    const { street, buildingNumber, apartmentNumber, postalCode, city, country } = this.state;
+
+    let dataObject = {
+      street,
+      buildingNumber,
+      apartmentNumber,
+      postalCode,
+      city,
+      country
+    };
+
+    let arrayOfErrors = UniversalValidationHandler(dataObject, addressValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      return true;
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
+      }
+      this.setState({ error: error });
+      return false;
+    }
   }
 
   handleChange = name => event => {
