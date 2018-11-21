@@ -7,8 +7,7 @@ export const usersValidationKeys = {
   eMail: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   phoneNumber: /^\d{11}$/,
   photo: /^.+$/,
-  userRole: /^.+$/,
-  imagePreviewUrl: /^.+$/
+  userRole: /^.+$/
 };
 
 export const addressValidationKeys = {
