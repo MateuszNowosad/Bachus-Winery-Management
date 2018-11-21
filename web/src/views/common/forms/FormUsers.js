@@ -43,6 +43,7 @@ export class FormUsers extends React.Component {
       error: errorMap,
         passwordStrength: 0,
     };
+      this.subForm = React.createRef();
   }
 
     static scorePassword(pass) {
@@ -90,6 +91,10 @@ export class FormUsers extends React.Component {
     });
   };
 
+    subFormValidation() {
+        return this.subForm.current.validate();
+    }
+
   handleSubmit = () => {
     const {
       firstName,
@@ -102,7 +107,6 @@ export class FormUsers extends React.Component {
       address,
       userRole,
       photo,
-      imagePreviewUrl
     } = this.state;
 
     let dataObject = {
@@ -113,13 +117,14 @@ export class FormUsers extends React.Component {
       PESEL,
       eMail,
       phoneNumber,
-      //address,
+      address,
       userRole,
       photo,
-      imagePreviewUrl
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, usersValidationKeys);
+    !this.subFormValidation() && arrayOfErrors.push(address);
+    console.log('129, arrayOfErrors Mateusz: ', arrayOfErrors);
     if (arrayOfErrors.length === 0) {
       if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
     } else{
@@ -315,7 +320,7 @@ export class FormUsers extends React.Component {
                 value={phoneNumber}
                 margin="dense"
                 inputProps={{
-                  maxLength: '9'
+                  maxLength: '11'
                 }}
                 onChange={this.handleChange('phoneNumber')}
                 variant={'outlined'}
@@ -342,7 +347,7 @@ export class FormUsers extends React.Component {
               </TextField>
             </Grid>
             <Grid item md={12}>
-              <FormAddress varName="address" onChange={this.handleAddressChange} />
+              <FormAddress varName="address" onChange={this.handleAddressChange} ref={this.subForm}/>
             </Grid>
           </Grid>
         </form>
