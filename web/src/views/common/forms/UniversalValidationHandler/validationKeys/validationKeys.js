@@ -111,3 +111,17 @@ export const vineyardValidationKeys = {
     grapeType: /^.+$/,
     state: /^[01]$/
 };
+
+export const operationsValidationKeys = {
+    beginAmount: /^$|[0-9]{1,6}[.][0-9]{0,2}$/,
+    endAmount: /^$|[0-9]{1,6}[.][0-9]{0,2}$/,
+    beginDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
+    endDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
+    alcoholContent: /^$|[0-9]{1,2}[.][0-9]{0,1}$/,
+    additiveAmount: /^$|[0-9]{1,3}[.][0-9]{0,1}$/,
+    sugarContent: /^$|[0-9]{1,2}[.][0-9]{0,1}$/,
+    acidity: /^$|[0-9]{1,2}[.][0-9]{0,1}$/,
+    temperature: /^$|[-]?[0-9]{1,2}[.][0-9]{0,1}$/,
+    desc: new RegExp("^(|[\\s\\S]{2,255})$","u"),
+    process: /^.+$/,
+};
