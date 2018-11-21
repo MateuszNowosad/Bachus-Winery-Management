@@ -355,5 +355,5 @@ FormUsers.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
   formSubmitted: PropTypes.func,
-    submitAborted: PropTypes.func,
+  submitAborted: PropTypes.func
 };
