@@ -60,8 +60,8 @@ export const batchTypeDictValidationKeys = {
 export const wineInformationValidationKeys = {
   nazwa: new RegExp('^\\p{L}{3,45}$', 'u'),
   motto: new RegExp('^(|[\\s\\S]{2,100})$', 'u'),
-  zawartoscPotAlergenow: new RegExp('^(|[\\s\\S]{2,20})$', 'u'),
-  wartoscEnergetyczna: /^\d{1,3}$/
+    allergens: new RegExp('^(|[\\s\\S]{2,20})$', 'u'),
+    energyValue: /^\d{1,3}$/
 };
 
 export const contractorsValidationKeys = {
