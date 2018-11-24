@@ -27,7 +27,7 @@ class DatabaseContactsAndUsers extends React.Component {
             <AutoTable
               queryData={data}
               querySubject="hero"
-              querySize={2}
+              querySize={249}
               dialogForm={<FormUsers />}
               dialogFormTitle={'Użytkownik'}
               editMode={true}
