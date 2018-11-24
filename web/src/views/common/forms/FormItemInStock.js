@@ -30,8 +30,8 @@ export class FormItemInStock extends React.Component {
       amount: '',
       barcode: '',
       actualState: '',
-      acceptanceDate: currentDate('date'),
-      releaseDate: currentDate('date'),
+      acceptanceDate: currentDate('dateTime'),
+      releaseDate: currentDate('dateTime'),
       sectorName: '',
       category: '',
       batch: {},
@@ -154,7 +154,7 @@ export class FormItemInStock extends React.Component {
               error={error.acceptanceDate}
               id="acceptanceDate"
               label="Data przyjęcia"
-              type="date"
+              type="datetime-local"
               value={acceptanceDate}
               InputLabelProps={{
                 shrink: true
@@ -170,7 +170,7 @@ export class FormItemInStock extends React.Component {
               error={error.releaseDate}
               id="releaseDate"
               label="Data wydania"
-              type="date"
+              type="datetime-local"
               value={releaseDate}
               InputLabelProps={{
                 shrink: true

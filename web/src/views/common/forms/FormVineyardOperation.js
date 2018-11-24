@@ -67,7 +67,7 @@ export class FormVineyardOperation extends React.Component {
               error={error.dateOfOperation}
               id="dateOfOperation"
               label="Data operacji"
-              type="date"
+              type="datetime-local"
               value={dateOfOperation}
               InputLabelProps={{
                 shrink: true
