@@ -2,14 +2,26 @@ import React from 'react';
 
 
 const generateRows = (rows) => {
-  const data = [[{ text: 'Ilość' }, { text: 'Nazwa' }]];
+  const data = [[{ text: 'Ilość', fontSize: 11, bold: true }, { text: 'Nazwa', fontSize: 11, bold: true }]];
   for (let i = 0; i < rows; i++)
     data.push([{ text: i }, { text: i }]);
   return data;
 };
 
-const PDFWaybill = () => {
+const formatAddress = (data) => {
+  return data.street + ' ' + data.buildingNumber + ' ' + data.apartmentNumber + ', ' +
+    data.city + ' ' + data.postalCode;
+};
 
+const formatSender = (data) => {
+  return { text: data.companyName + ' ' + formatAddress(data.address) };
+};
+
+const formatDriver = (data) => {
+  return { text: data.driverName+' '+data.driverSurname}
+};
+
+const PDFWaybill = (data) => {
   return (
     {
       pageSize: 'A4',
@@ -20,14 +32,6 @@ const PDFWaybill = () => {
             widths: ['*', '*', '30%'],
             heights: (row) => {
               switch (row) {
-                case 2:
-                  return 40;
-                case 3:
-                  return 80;
-                case 4:
-                  return 40;
-                case 5:
-                  return 80;
                 case 9:
                   return 80;
               }
@@ -38,33 +42,51 @@ const PDFWaybill = () => {
                 text: 'PRZEWOŹNIK',
                 style: 'centeredBold'
               }],
-              [{ text: 'Nazwa odbiorcy:', colSpan: 2 }, {}, { text: 'Nazwa przewoźnika:', rowSpan: 2 }],
-              [{ text: 'Miejsce przeznaczenia:', colSpan: 2 }, {}, {}],
-              [{ text: 'Nazwa nadawcy:', colSpan: 2 }, {}, { text: 'Imię i nazwisko kierowcy:', rowSpan: 5 }],
-              [{ text: 'Miejsce nadania:', colSpan: 2 }, {}, {}],
-              [{ text: 'Nazwa przesyłki:' }, { text: 'Waga:' }, {}],
               [{
-                stack: [
-                  {
-                    table: {
-                      widths: ['10%', '*'],
-                      body: generateRows(2)
-                    },
-                    margin: [-5, -3, -5, -3]
-                  }
-                ], colSpan: 2
+                text: [{ text: 'Nazwa odbiorcy:\n' }, formatSender(data.recipent)],
+                colSpan: 2
+              }, {}, { text: [{ text: 'Nazwa przewoźnika:\n' }, formatSender(data.carrier)], rowSpan: 2 }],
+              [{
+                text: [{ text: 'Miejsce przeznaczenia:\n' }, { text: formatAddress(data.pickupAddress) }],
+                colSpan: 2
               }, {}, {}],
-              [{ text: 'Data załadunku', colSpan: 2 }, {}, {}],
+              [{
+                text: [{ text: 'Nazwa nadawcy:\n' }, formatSender(data.sender)],
+                colSpan: 2
+              }, {}, { text: [{ text: 'Imię i nazwisko kierowcy:\n' }, formatDriver(data)], rowSpan: 2 }],
+              [{
+                text: [{ text: 'Miejsce nadania:\n' }, { text: formatAddress(data.mailingAddress) }],
+                colSpan: 2
+              }, {}, {}],
+              [{ text: [{ text: 'Nazwa przesyłki:\n' }, { text: data.parcel.packageName }] }, { text: [{ text: 'Waga:\n' }, { text: data.parcel.weight }] }, {
+                text: 'Kwituję odbiór przesyłki (podpis kierowcy):',
+                rowSpan: 5
+              }],
+              [
+                {
+                  stack: [
+                    {
+                      table: {
+                        widths: ['10%', '*'],
+                        body: generateRows(2)
+                      },
+                      margin: [-5, -3, -5, -3],
+                      fontSize: 8
+                    }
+                  ], colSpan: 2
+                }, {}, {}],
+              [{ text: [{ text: 'Data załadunku:\n' }, {text: data.parcel.date}], colSpan: 2 }, {}, {}],
               [{
                 text: 'Nadawca(podpis/pieczątka):',
                 colSpan: 2
-              }, {}, { text: 'Kwituję odbiór przesyłki (podpis kierowcy):', rowSpan: 2 }],
+              }, {}, {}],
               [{ text: 'ROZŁADUNEK', style: 'centeredBold', colSpan: 2 }, {}, {}],
-              [{ text: 'Zastrzeżenia i uwagi odbiorcy:', colSpan: 2 }, {}, {
-                text: 'Zastrzeżenia i uwagi przewoźnika:',
-                rowSpan: 2
-              }],
               [{
+                text: [{ text: 'Zastrzeżenia i uwagi odbiorcy:\n' }, {text: data.comments}],
+                colSpan: 2
+              }, {}, { text: [{ text: 'Zastrzeżenia i uwagi przewoźnika:\n' }, {text: data.reservations}], rowSpan: 2 }],
+              [{
+
                 stack:
                   [
                     { text: 'Przesyłkę otrzymano:\n\n\n\n' },
@@ -82,7 +104,9 @@ const PDFWaybill = () => {
                     },
                     { text: '\n\n\n\n\npodpis pieczątka odbiorcy', alignment: 'center', fontSize: 8 }
                   ], colSpan: 2
-              }, {}, {}]
+              }
+                , {}, {}]
+
             ]
           }
         }
