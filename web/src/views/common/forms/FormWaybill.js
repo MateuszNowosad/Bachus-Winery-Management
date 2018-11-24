@@ -15,13 +15,19 @@ import { data } from './StaticData';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 import { FormAddress } from './FormAddress';
 import { FormParcel } from './FormParcel';
+import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
+import {waybillValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
+import red from '@material-ui/core/colors/red';
 
 const errorMap = {
   driverName: false,
   driverSurname: false,
   comments: false,
   reservations: false,
-  file: false
+  file: false,
+  sender: false,
+  recipent: false,
+  carrier: false,
 };
 
 export class FormWaybill extends React.Component {
@@ -45,7 +51,22 @@ export class FormWaybill extends React.Component {
       openCarrier: false,
       error: errorMap
     };
+      this.subFormMailing = React.createRef();
+      this.subFormPickup = React.createRef();
+      this.subFormParcel = React.createRef();
   }
+
+  //TODO CZY ISTNIEJE SENDER
+    static checkInDatabase(){
+      return true;
+    }
+
+    subFormValidation() {
+        this.subFormMailing.current.validate();
+        this.subFormPickup.current.validate();
+        this.subFormParcel.current.validate();
+        return true;
+    }
 
   handleSubmit = () => {
     const {
@@ -61,20 +82,33 @@ export class FormWaybill extends React.Component {
       mailingAddress,
       parcel
     } = this.state;
-    this.props.onSubmit({
-      driverName,
-      driverSurname,
-      comments,
-      reservations,
-      file,
-      sender,
-      recipent,
-      carrier,
-      pickupAddress,
-      mailingAddress,
-      parcel
-    });
-    this.props.formSubmitted();
+
+    let dataObject = {
+          driverName,
+          driverSurname,
+          comments,
+          reservations,
+          file,
+          sender,
+          recipent,
+          carrier,
+          pickupAddress,
+          mailingAddress,
+          parcel
+      };
+
+      let arrayOfErrors = UniversalValidationHandler(dataObject, waybillValidationKeys);
+      !this.subFormValidation() && arrayOfErrors.push('subforms');
+      if (arrayOfErrors.length === 0) {
+          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      } else{
+          let error = Object.assign({}, errorMap);
+          for (let errorField in arrayOfErrors) {
+              error[arrayOfErrors[errorField]] = true;
+          }
+          this.setState({error: error});
+          this.props.submitAborted();
+      }
   };
 
   handleClickOpen = name => {
@@ -181,6 +215,7 @@ export class FormWaybill extends React.Component {
               id="sender"
               label="Nadawca"
               value={sender.name ? sender.name : 'Nie wybrano nadawcy'}
+              error={error.sender}
               margin="dense"
               variant="outlined"
               InputProps={{
@@ -211,6 +246,7 @@ export class FormWaybill extends React.Component {
               id="recipent"
               label="Odbiorca"
               value={recipent.name ? recipent.name : 'Nie wybrano odbiorcy'}
+              error={error.recipent}
               margin="dense"
               variant="outlined"
               InputProps={{
@@ -240,6 +276,7 @@ export class FormWaybill extends React.Component {
               id="carrier"
               label="Przewoźnik"
               value={carrier.name ? carrier.name : 'Nie wybrano odbiorcy'}
+              error={error.carrier}
               margin="dense"
               variant="outlined"
               InputProps={{
@@ -266,7 +303,11 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <input hidden accept="application/pdf" id="addFile" type="file" onChange={this.handleFileChange} />
             <label htmlFor="addImage">
-              <Button variant="raised" component="span">
+              <Button variant="contained" component="span" style={error.file ? {color: red[300],
+                  backgroundColor: red[700],
+                  '&:hover': {
+                      backgroundColor: red[700],
+                  }} : {}}>
                 Dodaj dokument
               </Button>
             </label>
@@ -277,7 +318,7 @@ export class FormWaybill extends React.Component {
                 <Typography variant="inherit">Adres odbiorcy</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <FormAddress varName="pickupAddress" onChange={this.handleObjectChange} />
+                <FormAddress varName="pickupAddress" onChange={this.handleObjectChange} ref={this.subFormPickup}/>
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>
@@ -287,7 +328,7 @@ export class FormWaybill extends React.Component {
                 <Typography variant="inherit">Adres nadawcy</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <FormAddress varName="mailingAddress" onChange={this.handleObjectChange} />
+                <FormAddress varName="mailingAddress" onChange={this.handleObjectChange} ref={this.subFormMailing}/>
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>
@@ -297,7 +338,7 @@ export class FormWaybill extends React.Component {
                 <Typography variant="inherit">Przesyłka</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <FormParcel varName="parcel" onChange={this.handleObjectChange} />
+                <FormParcel varName="parcel" onChange={this.handleObjectChange} ref={this.subFormParcel}/>
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>
@@ -310,5 +351,6 @@ export class FormWaybill extends React.Component {
 FormWaybill.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
-  formSubmitted: PropTypes.func
+  formSubmitted: PropTypes.func,
+  submitAborted: PropTypes.func
 };
