@@ -64,20 +64,20 @@ export const wineInformationValidationKeys = {
   energyValue: /^\d{1,3}$/
 };
 
-export const contractorsValidationKeys = { //TODO NIP ALBO KRS ZAWSZE
-  NIP: /^(|\d{10})$/,
+export const contractorsValidationKeys = {
+  NIP: /^($|\d{10})$/,
   companyName: new RegExp('^[\\s\\S]{2,40}$', 'u'),
   phoneNumber: /^\d{14}$/,
   eMail: /^(?=.{5,90}$)(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   wwwSite: /^(?=.{4,255}$)(|(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)$/,
-  KRS: /^\d{10}$/,
+  KRS: /^($|\d{10})$/,
   accountNumber: /^\d{26}$/,
   fax: /^(?=.{4,45}$)(\+?\d{1,}(\s?|-?)\d*(\s?|-?)\(?\d{2,}\)?(\s?|-?)\d{3,}\s?\d{3,})$/
 };
 
 export const waybillValidationKeys = {
-  driverName: new RegExp('^\\p{L}{2,45}$', 'u'), //Apostrof
-  driverSurname: new RegExp('^\\p{L}{2,60}$', 'u'), //Apostrof
+  driverName: new RegExp('^([\\p{L}\' ]{3,45})$', 'u'),
+  driverSurname: new RegExp('^([\\p{L}\' ]{3,45})$', 'u'),
   comments: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
   reservations: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
   file: new RegExp('^[\\w\\d]{2,255}$', 'u')
