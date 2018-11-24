@@ -18,7 +18,7 @@ export class FormParcel extends React.Component {
     this.state = {
       packageName: '',
       weight: '',
-      date: currentDate('date'),
+      date: currentDate('dateTime'),
       content: [],
       open: false,
       error: errorMap
@@ -101,7 +101,7 @@ export class FormParcel extends React.Component {
             error={error.date}
             id="date"
             label="Data odbioru/dostarczenia"
-            type="date"
+            type="datetime-local"
             value={date}
             InputLabelProps={{
               shrink: true

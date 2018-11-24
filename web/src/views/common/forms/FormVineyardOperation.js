@@ -14,7 +14,7 @@ export class FormVineyardOperation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dateOfOperation: currentDate('date'),
+      dateOfOperation: currentDate('dateTime'),
       desc: '',
       dictOperation: '',
       error: errorMap
@@ -56,7 +56,7 @@ export class FormVineyardOperation extends React.Component {
               error={error.dateOfOperation}
               id="dateOfOperation"
               label="Data operacji"
-              type="date"
+              type="datetime-local"
               value={dateOfOperation}
               InputLabelProps={{
                 shrink: true
