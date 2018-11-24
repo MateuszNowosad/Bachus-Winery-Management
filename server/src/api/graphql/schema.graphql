@@ -223,7 +223,7 @@ type DictTypPartii {
     idTypPartii: ID
     nazwa: String!
     jednostka: String!
-    typ: String!
+    #typ: String! # todo resolve many to many
 }
 
 type InformacjeOWinie {
@@ -246,9 +246,8 @@ type Kontrahenci {
     nrKonta: String!
     fax: String
     adres: Adres
-    listprzewozowy: [ListPrzewozowy] # many-to-many
+    listprzewozowy: [ListPrzewozowy]
 }
-# list_przewozowy_has_kontrachenci check ???
 
 type ListPrzewozowy {
     idListPrzewozowy: ID

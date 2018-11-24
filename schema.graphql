@@ -8,7 +8,7 @@ type Query {
   DictRolaUzytkownikow(idRolaUzytkownikow: ID, nazwa: String, opis: String): [DictRolaUzytkownikow]
   DictTypPartii(idTypPartii: ID, nazwa: String, jednostka: String, typ: String): [DictTypPartii]
   InformacjeOWinie(idInformacjeOWinie: ID, nazwa: String, motto: String, zawartoscPotAlergenow: String, wartoscEnergetyczna: String): [InformacjeOWinie]
-  Kontrahenci(idKontrahenci: ID, NIP: String, nazwaSpolki: String, telefon: String, eMail: String, stronaWww: String, KRS: String, nrKonta: String, fax: String, adresIdAdres: ID): [Kontrahenci]
+  Kontrahenci(idKontrahenci: ID, NIP: String, nazwaSpolki: String, telefon: String, eMail: String, stronaWww: String, KRS: String, nrKonta: String, fax: String): [Kontrahenci]
   ListPrzewozowy(idListPrzewozowy: ID, imieKierowcy: String, nazwiskoKierowcy: String, uwagiPrzewoznika: String, zastrzezeniaOdbiorcy: String, eDokument: String): [ListPrzewozowy]
   Magazyn(idMagazyn: ID, rodzaj: String, pojemnosc: Float): [Magazyn]
   Operacje(idOperacja: ID, iloscPrzed: Float, iloscPo: Float, dataPoczatku: String, dataZakonczenia: String, zawartoscAlkoholu: Float, iloscDodatku: Float, zawartoscCukru: Float, kwasowosc: Float, temperatura: Float, opis: String): [Operacje]
@@ -99,7 +99,7 @@ type Kontrahenci {
   KRS: String
   nrKonta: String!
   fax: String
-  adres: Adres!
+  adres: Adres
   listprzewozowy: [ListPrzewozowy]
 }
 
