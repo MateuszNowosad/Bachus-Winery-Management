@@ -2,6 +2,8 @@ import React from 'react';
 import { Grid, InputAdornment, MenuItem, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
+import {vineyardValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
+import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
 
 const odmiany = ['Agat doński', 'Ajwaz', 'Alden'];
 
@@ -40,16 +42,21 @@ export class FormVineyard extends React.Component {
 
   handleSubmit = () => {
     const { name, area, terroir, dateOfPlanting, registrationPlotId, grapeType, state } = this.state;
-    this.props.onSubmit({
-      name,
-      area,
-      terroir,
-      dateOfPlanting,
-      registrationPlotId,
-      grapeType,
-      state
-    });
-    this.props.formSubmitted();
+      let dataObject = {
+          name, area, terroir, dateOfPlanting, registrationPlotId, grapeType, state
+      };
+
+      let arrayOfErrors = UniversalValidationHandler(dataObject, vineyardValidationKeys);
+      if (arrayOfErrors.length === 0) {
+          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      } else{
+          let error = Object.assign({}, errorMap);
+          for (let errorField in arrayOfErrors) {
+              error[arrayOfErrors[errorField]] = true;
+          }
+          this.setState({error: error});
+          this.props.submitAborted();
+      }
   };
 
   componentDidUpdate(prevProps) {
@@ -194,5 +201,6 @@ export class FormVineyard extends React.Component {
 FormVineyard.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
-  formSubmitted: PropTypes.func
+  formSubmitted: PropTypes.func,
+  submitAborted: PropTypes.func
 };

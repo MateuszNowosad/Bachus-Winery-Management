@@ -15,7 +15,6 @@ import TableBody from '@material-ui/core/TableBody/TableBody';
 import TableFooter from '@material-ui/core/TableFooter/TableFooter';
 import TableRow from '@material-ui/core/TableRow/TableRow';
 import TablePagination from '@material-ui/core/TablePagination/TablePagination';
-import TableCell from '@material-ui/core/TableCell/TableCell';
 
 class AutoTable extends React.Component {
   state = {
@@ -57,7 +56,6 @@ class AutoTable extends React.Component {
     });
     const { classes, queryData, querySubject, querySize, dialogFormTitle, dialogForm, editMode } = this.props;
     const { open, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, querySize - page * rowsPerPage);
     return (
       <div>
         <div className={classes.actions}>
@@ -87,11 +85,6 @@ class AutoTable extends React.Component {
                 page={page}
                 rowsPerPage={rowsPerPage}
               />
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 48 * emptyRows }}>
-                  <TableCell colSpan={this.state.labelCount} />
-                </TableRow>
-              )}
             </TableBody>
             <TableFooter>
               <TableRow>

@@ -4,10 +4,11 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { FormAddress } from './FormAddress';
 import PropTypes from 'prop-types';
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler.js';
+import { usersValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
 
 const roles = ['administrator', 'pracownik produkcji', 'pracownik magazynu'];
-
-export const formTitle = 'Nowy użytkownik';
 
 const errorMap = {
   firstName: false,
@@ -20,6 +21,8 @@ const errorMap = {
   userRole: false,
   photo: false
 };
+
+export const formTitle = 'Nowy użytkownik';
 
 export class FormUsers extends React.Component {
   constructor(props) {
@@ -34,13 +37,49 @@ export class FormUsers extends React.Component {
       phoneNumber: '',
       address: {},
       userRole: '',
-      photo: null,
+      photo: '',
+      imagePreviewUrl: '',
       showPassword: false,
-      error: errorMap
+      error: errorMap,
+      passwordStrength: 0
     };
+    this.subForm = React.createRef();
+  }
+
+  static scorePassword(pass) {
+    //TO BE CHANGED, UNLICENSED
+    let score = 0;
+    if (!pass) return score;
+
+    // award every unique letter until 5 repetitions
+    let letters = {};
+    for (var i = 0; i < pass.length; i++) {
+      letters[pass[i]] = (letters[pass[i]] || 0) + 1;
+      score += 5.0 / letters[pass[i]];
+    }
+    let variations = {
+      digits: /\d/.test(pass),
+      lower: /[a-z]/.test(pass),
+      upper: /[A-Z]/.test(pass),
+      nonWords: /\W/.test(pass)
+    };
+
+    let variationCount = 0;
+    for (let check in variations) {
+      variationCount += variations[check] === true ? 1 : 0;
+    }
+    score += (variationCount - 1) * 10;
+    if (score > 100) score = 100;
+
+    return parseInt(score);
   }
 
   handleChange = name => event => {
+    if (name === 'password') {
+      this.setState({
+        passwordStrength: FormUsers.scorePassword(event.target.value)
+      });
+    }
     this.setState({
       [name]: event.target.value
     });
@@ -52,22 +91,14 @@ export class FormUsers extends React.Component {
     });
   };
 
-  handleSubmit = () => {
-    const {
-      firstName,
-      lastName,
-      login,
-      password,
-      PESEL,
-      eMail,
-      phoneNumber,
-      address,
-      userRole,
-      photo,
-      imagePreviewUrl
-    } = this.state;
+  subFormValidation() {
+    return this.subForm.current.validate();
+  }
 
-    this.props.onSubmit({
+  handleSubmit = () => {
+    const { firstName, lastName, login, password, PESEL, eMail, phoneNumber, address, userRole, photo } = this.state;
+
+    let dataObject = {
       firstName,
       lastName,
       login,
@@ -77,10 +108,21 @@ export class FormUsers extends React.Component {
       phoneNumber,
       address,
       userRole,
-      photo,
-      imagePreviewUrl
-    });
-    this.props.formSubmitted();
+      photo
+    };
+
+    let arrayOfErrors = UniversalValidationHandler(dataObject, usersValidationKeys);
+    !this.subFormValidation() && arrayOfErrors.push('address');
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
+      }
+      this.setState({ error: error });
+      this.props.submitAborted();
+    }
   };
 
   handleClickShowPassword = () => {
@@ -121,6 +163,7 @@ export class FormUsers extends React.Component {
       showPassword,
       error
     } = this.state;
+
     return (
       <div>
         <form
@@ -142,7 +185,7 @@ export class FormUsers extends React.Component {
                 variant={'outlined'}
                 inputProps={{
                   maxLength: '30',
-                  minWidth: '400'
+                  minwidth: '400'
                 }}
               />
             </Grid>
@@ -165,7 +208,7 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <input hidden accept="image/*" id="addImage" type="file" onChange={this.handleFileChange} />
               <label htmlFor="addImage">
-                <Button variant="raised" component="span">
+                <Button variant="contained" component="span">
                   Dodaj zdjęcie
                 </Button>
               </label>
@@ -236,6 +279,8 @@ export class FormUsers extends React.Component {
                   maxLength: '60'
                 }}
               />
+              Siła hasła
+              <LinearProgress variant="determinate" value={this.state.passwordStrength} />
             </Grid>
             <Grid item md={6}>
               <TextField
@@ -263,7 +308,7 @@ export class FormUsers extends React.Component {
                 value={phoneNumber}
                 margin="dense"
                 inputProps={{
-                  maxLength: '9'
+                  maxLength: '11'
                 }}
                 onChange={this.handleChange('phoneNumber')}
                 variant={'outlined'}
@@ -290,7 +335,7 @@ export class FormUsers extends React.Component {
               </TextField>
             </Grid>
             <Grid item md={12}>
-              <FormAddress varName="address" onChange={this.handleAddressChange} />
+              <FormAddress varName="address" onChange={this.handleAddressChange} ref={this.subForm} />
             </Grid>
           </Grid>
         </form>
@@ -302,5 +347,6 @@ export class FormUsers extends React.Component {
 FormUsers.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
-  formSubmitted: PropTypes.func
+  formSubmitted: PropTypes.func,
+  submitAborted: PropTypes.func
 };
