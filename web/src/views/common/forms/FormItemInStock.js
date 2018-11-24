@@ -205,8 +205,8 @@ export class FormItemInStock extends React.Component {
               variant={'outlined'}
             >
               {data.data.dictCategories.map(option => (
-                <MenuItem key={option} value={option}>
-                  {option}
+                <MenuItem key={option.name} value={option.name}>
+                  {option.name}
                 </MenuItem>
               ))}
             </TextField>
