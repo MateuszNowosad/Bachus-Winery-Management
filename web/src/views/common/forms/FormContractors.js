@@ -50,6 +50,14 @@ export class FormContractors extends React.Component {
     });
   };
 
+  validateKRSNIP(){
+      if(this.state.NIP === '' && this.state.KRS === ''){
+          alert("Musisz wypełnić NIP lub KRS");
+          return false;
+      }
+      return true;
+  }
+
   handleSubmit = () => {
     const { NIP, companyName, phoneNumber, eMail, wwwSite, KRS, accountNumber, fax, address } = this.state;
 
@@ -65,7 +73,8 @@ export class FormContractors extends React.Component {
       address
     };
     let arrayOfErrors = UniversalValidationHandler(dataObject, contractorsValidationKeys);
-    !this.subFormValidation() && arrayOfErrors.push(address);
+    !this.subFormValidation() && arrayOfErrors.push('address');
+    this.validateKRSNIP() && arrayOfErrors.push(['NIP', 'KRS']);
     if (arrayOfErrors.length === 0) {
       if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
     } else {
