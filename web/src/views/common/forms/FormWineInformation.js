@@ -120,6 +120,7 @@ export class FormWineInformation extends React.Component {
               label="Kategoria wina"
               placeholder="Kategoria wina"
               value={wineCategory}
+              error={error.wineCategory}
               onChange={this.handleChange('wineCategory')}
               margin="dense"
               variant={'outlined'}
