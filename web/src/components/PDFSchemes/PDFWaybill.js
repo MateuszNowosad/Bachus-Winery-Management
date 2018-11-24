@@ -21,6 +21,10 @@ const formatDriver = (data) => {
   return { text: data.driverName+' '+data.driverSurname}
 };
 
+const formatDate = (data) => {
+  return { text: data.replace('T',' ')}
+};
+
 const PDFWaybill = (data) => {
   return (
     {
@@ -75,7 +79,7 @@ const PDFWaybill = (data) => {
                     }
                   ], colSpan: 2
                 }, {}, {}],
-              [{ text: [{ text: 'Data załadunku:\n' }, {text: data.parcel.date}], colSpan: 2 }, {}, {}],
+              [{ text: [{ text: 'Data załadunku:\n' }, formatDate(data.parcel.date)], colSpan: 2 }, {}, {}],
               [{
                 text: 'Nadawca(podpis/pieczątka):',
                 colSpan: 2
