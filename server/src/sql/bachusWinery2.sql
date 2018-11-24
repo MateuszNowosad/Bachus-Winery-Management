@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `Adres`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Adres` (
   `idAdres` int(11) NOT NULL AUTO_INCREMENT,
-  `miasto` varchar(20) NOT NULL,
+  `miasto` varchar(40) NOT NULL,
   `kodPocztowy` varchar(12) NOT NULL,
   `ulica` varchar(45) NOT NULL,
   `nrLokalu` varchar(2) DEFAULT NULL,
@@ -577,11 +577,11 @@ CREATE TABLE `Uzytkownicy` (
   `idUzytkownika` int(11) NOT NULL AUTO_INCREMENT,
   `imie` varchar(30) NOT NULL,
   `nazwisko` varchar(30) NOT NULL,
-  `login` varchar(10) NOT NULL,
+  `login` varchar(20) NOT NULL,
   `haslo` binary(60) NOT NULL COMMENT 'niejawne',
   `PESEL` varchar(11) NOT NULL,
-  `eMail` varchar(40) NOT NULL,
-  `nrTelefonu` varchar(11) NOT NULL,
+  `eMail` varchar(60) NOT NULL,
+  `nrTelefonu` varchar(14) NOT NULL,
   `dataOstatniegoLogowania` datetime NOT NULL,
   `adresIdAdres` int(11) NOT NULL,
   `dictRolaUzytkownikowIdRolaUzytkownikow` int(11) NOT NULL,

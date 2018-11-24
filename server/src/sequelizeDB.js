@@ -12,6 +12,13 @@ const _ = require('underscore');
 const faker = require('faker');
 const Sequelize = require('sequelize');
 
+// TODO ADD many-to-many tables to docker
+// TODO ADD many-to-many tables to docker
+// TODO ADD many-to-many tables to docker
+// TODO ADD many-to-many tables to docker
+
+// TODO add join select to dynamic queries
+
 // const sequelize = new Sequelize('mysql://test@172.17.0.2:3306/bachusWinery');
 const sequelize = new Sequelize({
   database: 'bachusWinery',
@@ -21,7 +28,7 @@ const sequelize = new Sequelize({
   host: '172.17.0.2',
   connectionTimeout: 0,
   pool: {
-    max: 500,
+    max: 50000,
     min: 1,
     idle: 200000
   },
@@ -59,7 +66,9 @@ async function createDictKategoriaWina() {
     })
   );
 }
+
 let word = 0;
+
 async function createDictKategorie() {
   await sequelize.sync().then(() =>
     DICTKATEGORIE.create({
@@ -120,7 +129,15 @@ async function createDictTypPartii() {
 }
 
 async function createInformacjeOWinie() {
-  await sequelize.sync().then(() => INFORMACJEOWINIE.create({}));
+  await sequelize.sync().then(() =>
+    INFORMACJEOWINIE.create({
+      nazwa: faker.lorem.word((word += 1)),
+      motto: faker.lorem.words(10),
+      zawartoscPotAlergenow: faker.random.word(2),
+      wartoscEnergetyczna: faker.random.number(999),
+      dictKategoriaWinaIdDictKategoriaWina: faker.random.number(20)
+    })
+  );
 }
 
 async function createKontrahenci() {
@@ -140,47 +157,176 @@ async function createKontrahenci() {
 }
 
 async function createListPrzewozowy() {
-  await sequelize.sync().then(() => LISTPRZEWOZOWY.create({}));
+  await sequelize.sync().then(() =>
+    LISTPRZEWOZOWY.create({
+      imieKierowcy: faker.name.firstName(),
+      nazwiskoKierowcy: faker.name.lastName(),
+      uwagiPrzewoznika: faker.random.words(3),
+      zastrzezeniaOdbiorcy: faker.random.words(5),
+      eDokument: 'web/src/' + faker.random.word(1),
+      przesylkaIdPrzesylka: faker.random.number(20)
+    })
+  );
 }
 
 async function createMagazyn() {
-  await sequelize.sync().then(() => MAGAZYN.create({}));
+  await sequelize.sync().then(() =>
+    MAGAZYN.create({
+      rodzaj: faker.random.arrayElement(['polproduktow', 'materialow', 'produktow_skonczonych']),
+      pojemnosc: faker.random.number({ min: 1, max: 99999 }) + '.' + faker.random.number(9),
+      adresIdAdres: faker.random.number(20)
+    })
+  );
 }
 
 async function createOperacje() {
-  await sequelize.sync().then(() => OPERACJE.create({}));
+  await sequelize.sync().then(() =>
+    OPERACJE.create({
+      iloscPrzed: faker.random.number({ min: 1, max: 99999 }) + '.' + faker.random.number(99),
+      iloscPo: faker.random.number({ min: 1, max: 99999 }) + '.' + faker.random.number(99),
+      dataPoczatku: faker.date.recent(),
+      dataZakonczenia: faker.date.future(),
+      zawartoscAlkoholu: faker.random.number({ min: 1, max: 99 }) + '.' + faker.random.number(9),
+      iloscDodatku: faker.random.number({ min: 1, max: 999 }) + '.' + faker.random.number(9),
+      zawartoscCukru: faker.random.number({ min: 1, max: 99 }) + '.' + faker.random.number(9),
+      kwasowosc: faker.random.number({ min: 1, max: 99 }) + '.' + faker.random.number(9),
+      temperatura: faker.random.number({ min: 1, max: 99 }) + '.' + faker.random.number(9),
+      opis: faker.random.words(10),
+      uzytkownicyIdUzytkownicy: faker.random.number(20),
+      dictProcesyIdDictProcesy: faker.random.number(20)
+    })
+  );
 }
 
 async function createOperacjeNaWinnicy() {
-  await sequelize.sync().then(() => OPERACJENAWINNICY.create({}));
+  await sequelize.sync().then(() =>
+    OPERACJENAWINNICY.create({
+      data: faker.date.recent(),
+      opis: faker.random.words(5),
+      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: faker.random.number(10),
+      winnicaIdWinnica: faker.random.number(10)
+    })
+  );
 }
 
 async function createPartie() {
-  await sequelize.sync().then(() => PARTIE.create({}));
+  await sequelize.sync().then(() =>
+    PARTIE.create({
+      ilosc: faker.random.number({ min: 1, max: 9999 }) + '.' + faker.random.number(9),
+      opis: faker.random.words(5),
+      dataUtworzenia: faker.date.recent(),
+      winobranieIdWinobranie: faker.random.number(10),
+      partieIdPartie: faker.random.number(10),
+      typPartiiIdTypPartii: faker.random.number(10),
+      informacjeOWinieIdInformacjeOWinie: faker.random.number(10)
+    })
+  );
 }
 
 async function createPlanyProdukcyjne() {
-  await sequelize.sync().then(() => PLANYPRODUKCYJNE.create({}));
+  await sequelize.sync().then(() =>
+    PLANYPRODUKCYJNE.create({
+      nazwa: faker.random.word(1),
+      opis: faker.random.words(5),
+      dictRodzajWinogronIdOdmianaWinogron: faker.random.number(10),
+      dictTypPartiiIdTypPartii: faker.random.number(10),
+      dictKategorieIdKategorie: faker.random.number(10),
+      eDokument: 'web/documents/plans/' + faker.random.word(1) + '.pdf'
+    })
+  );
 }
 
 async function createPozycjaWMagazynie() {
-  await sequelize.sync().then(() => POZYCJAWMAGAZYNIE.create({}));
+  await sequelize.sync().then(() =>
+    POZYCJAWMAGAZYNIE.create({
+      nazwa: faker.random.word(1),
+      opis: faker.random.words(5),
+      ilosc: faker.random.number({ min: 1, max: 9999 }) + '.' + faker.random.number(9),
+      kodKreskowy: faker.address.zipCode(),
+      stanAktualny: faker.random.boolean(),
+      dataPrzyjecia: faker.date.past(),
+      dataWydania: faker.date.recent(),
+      nazwaSektora: faker.random.arrayElement(['SektorA', 'SektorB', 'SektorC', 'SektorD', 'SektorE', 'SektorF']),
+      kategorieIdKategorie: faker.random.number(10),
+      magazynIdMagazyn: faker.random.number(10),
+      partieIdPartie: faker.random.number(10)
+    })
+  );
 }
 
 async function createPrzesylka() {
-  await sequelize.sync().then(() => PRZESYLKA.create({}));
+  await sequelize.sync().then(() =>
+    PRZESYLKA.create({
+      nazwaPrzesylki: faker.random.word(1),
+      ciezarLadunku: faker.random.number({ min: 0, max: 999999 }) + '.' + faker.random.number({ min: 0, max: 99 }),
+      date: faker.date.past()
+    })
+  );
+}
+
+async function createRaporty() {
+  await sequelize.sync().then(() =>
+    RAPORTY.create({
+      nazwa: faker.random.word(1),
+      eDokument: 'web/documents/raports/' + faker.random.word(1) + '.pdf',
+      dataUtworzenia: faker.date.past()
+    })
+  );
 }
 
 async function createUzytkownicy() {
-  await sequelize.sync().then(() => UZYTKOWNICY.create({}));
+  await sequelize.sync().then(() =>
+    UZYTKOWNICY.create({
+      imie: faker.name.firstName(),
+      nazwisko: faker.name.lastName(),
+      login: faker.internet.userName(),
+      haslo: faker.random.uuid(),
+      PESEL:
+        faker.random.number({ min: 50, max: 98 }) +
+        faker.random.number(12) +
+        faker.random.number(31) +
+        faker.random.number(99999),
+      eMail: faker.internet.email(),
+      nrTelefonu: faker.random.number(999) + '-' + faker.random.number(999) + '-' + faker.random.number(999),
+      dataOstatniegoLogowania: faker.date.recent(),
+      adresIdAdres: faker.random.number(20),
+      dictRolaUzytkownikowIdRolaUzytkownikow: faker.random.number(20),
+      zdjecie: faker.internet.avatar(),
+      czyAktywne: faker.random.boolean()
+    })
+  );
 }
 
 async function createWinnica() {
-  await sequelize.sync().then(() => WINNICA.create({}));
+  await sequelize.sync().then(() =>
+    WINNICA.create({
+      nazwa: faker.random.word(1),
+      powierzchnia: faker.random.number(9999) + '.' + faker.random.number(99),
+      stan: faker.random.arrayElement(['Aktywna', 'Aktywna', 'Aktywna', 'Aktywna', 'Aktywna', 'Nieczynna']),
+      terroir: faker.random.words(10),
+      dataOstatniegoZbioru: faker.date.recent(),
+      dataZasadzenia: faker.date.past(),
+      ewidencyjnyIdDzialki:
+        faker.random.number(999999) +
+        '_' +
+        faker.random.number(9) +
+        '.' +
+        faker.random.number(9999) +
+        '.' +
+        faker.random.number(999),
+      odmianiaWinogronIdOdmianaWinogron: faker.random.number(20)
+    })
+  );
 }
 
 async function createWinobranie() {
-  await sequelize.sync().then(() => WINOBRANIE.create({}));
+  await sequelize.sync().then(() =>
+    WINOBRANIE.create({
+      dataWinobrania: faker.date.past(),
+      iloscZebranychWinogron: faker.random.number(999) + '.' + faker.random.number(9),
+      winnicaIdWinnica: faker.random.number(20)
+    })
+  );
 }
 
 const ADRES = sequelize.define('Adres', {
@@ -189,7 +335,7 @@ const ADRES = sequelize.define('Adres', {
     primaryKey: true,
     autoIncrement: true
   },
-  miasto: { type: Sequelize.STRING(20), allowNull: false },
+  miasto: { type: Sequelize.STRING(40), allowNull: false },
   kodPocztowy: { type: Sequelize.STRING(12), allowNull: false },
   ulica: { type: Sequelize.STRING(45), allowNull: false },
   nrLokalu: { type: Sequelize.STRING(2), allowNull: true },
@@ -257,7 +403,7 @@ const DICTROLAUZYTKOWNIKOW = sequelize.define('DictRolaUzytkownikow', {
   },
   nazwa: { type: Sequelize.STRING(45), allowNull: false, unique: true },
   opis: { type: Sequelize.STRING(255), allowNull: true },
-  typ: { type: Sequelize.STRING(45), allowNull: true }
+  typ: { type: Sequelize.STRING(45), allowNull: false }
 });
 
 const DICTTYPPARTII = sequelize.define('DictTypPartii', {
@@ -300,9 +446,6 @@ const KONTRAHENCI = sequelize.define('Kontrahenci', {
   adresIdAdres: Sequelize.INTEGER(11)
 });
 
-// ADRES.hasOne(KONTRAHENCI, { as: 'adres' });
-// ADRES.belongsTo(KONTRAHENCI, { foreignKey: { name: 'idAdres', constraints: false } });
-
 const LISTPRZEWOZOWY = sequelize.define('ListPrzewozowy', {
   idListPrzewozowy: {
     type: Sequelize.INTEGER,
@@ -323,7 +466,7 @@ const MAGAZYN = sequelize.define('Magazyn', {
     primaryKey: true,
     autoIncrement: true
   },
-  rodzaj: { type: Sequelize.ENUM('polProduktow', 'materialow', 'produktowSkonczonych'), allowNull: false },
+  rodzaj: { type: Sequelize.ENUM('polproduktow', 'materialow', 'produktow_skonczonych'), allowNull: false },
   pojemnosc: { type: Sequelize.DECIMAL(6, 1), allowNull: false },
   adresIdAdres: Sequelize.INTEGER
 });
@@ -334,7 +477,7 @@ const OPERACJE = sequelize.define('Operacje', {
     primaryKey: true,
     autoIncrement: true
   },
-  iloscPrzed: { type: Sequelize.DECIMAL(6, 2), allowNull: true },
+  iloscPrzed: { type: Sequelize.DECIMAL(6, 2), allowNull: false },
   iloscPo: { type: Sequelize.DECIMAL(6, 2), allowNull: true },
   dataPoczatku: { type: Sequelize.DATE, allowNull: false },
   dataZakonczenia: { type: Sequelize.DATE, allowNull: true },
@@ -371,7 +514,7 @@ const PARTIE = sequelize.define('Partie', {
   dataUtworzenia: { type: Sequelize.DATE, allowNull: false },
   winobranieIdWinobranie: Sequelize.INTEGER,
   partieIdPartie: Sequelize.INTEGER,
-  typPartiiIdTypParti: Sequelize.INTEGER,
+  typPartiiIdTypPartii: Sequelize.INTEGER,
   informacjeOWinieIdInformacjeOWinie: Sequelize.INTEGER
 });
 
@@ -438,11 +581,11 @@ const UZYTKOWNICY = sequelize.define('Uzytkownicy', {
   },
   imie: { type: Sequelize.STRING(30), allowNull: false },
   nazwisko: { type: Sequelize.STRING(30), allowNull: false },
-  login: { type: Sequelize.STRING(10), allowNull: false, unique: true },
+  login: { type: Sequelize.STRING(20), allowNull: false, unique: true },
   haslo: { type: Sequelize.STRING(60), allowNull: false },
   PESEL: { type: Sequelize.STRING(11), allowNull: false, unique: true },
-  eMail: { type: Sequelize.STRING(40), allowNull: false, unique: true },
-  nrTelefonu: { type: Sequelize.STRING(11), allowNull: false, unique: true },
+  eMail: { type: Sequelize.STRING(60), allowNull: false, unique: true },
+  nrTelefonu: { type: Sequelize.STRING(14), allowNull: false, unique: true },
   dataOstatniegoLogowania: { type: Sequelize.DATE, allowNull: false },
   adresIdAdres: { type: Sequelize.INTEGER, allowNull: false },
   dictRolaUzytkownikowIdRolaUzytkownikow: { type: Sequelize.INTEGER, allowNull: false },
@@ -477,18 +620,33 @@ const WINOBRANIE = sequelize.define('Winobranie', {
   winnicaIdWinnica: { type: Sequelize.INTEGER, allowNull: false }
 });
 
-for (let i = 0; i < 20; i += 1) {
+for (let i = 0; i < 100; i += 1) {
   // TODO set in docker container after inserting SET FOREIGN_KEY_CHECKS=1;
   // createAdres();
   // createKontrahenci();
-
-  createDictKategoriaWina();
+  // createDictKategoriaWina();
   // createDictKategorie();
   // createDictOdmianaWinogron();
   // createDictOperacjeNaWinnicy();
   // createDictProcesy();
   // createDictRolaUzytkownikow();
   // createDictTypPartii();
+  // createInformacjeOWinie();
+  // createListPrzewozowy();
+  createOperacjeNaWinnicy();
+  // createRaporty();
+  // createPlanyProdukcyjne();
+  // createMagazyn();
+  //
+  // createUzytkownicy();
+  // createWinnica();
+  // createWinobranie();
+  // ------ above working data generation
+  // TODO FIX tables
+  // createOperacje();
+  // createPartie();
+  // createPozycjaWMagazynie();
+  // createPrzesylka();
 }
 
 // SELECT ANY FROM DATABASE
@@ -510,66 +668,87 @@ async function selectAnyQuery(tableName, query) {
 export async function getAddresses(query) {
   return await selectAnyQuery('Adres', query);
 }
+
 export async function getDictKategoriaWina(query) {
   return await selectAnyQuery('DictKategoriaWina', query);
 }
+
 export async function getDictKategorie(query) {
   return await selectAnyQuery('DictKategorie', query);
 }
+
 export async function getDictOdmianaWinogron(query) {
   return await selectAnyQuery('DictOdmianaWinogron', query);
 }
+
 export async function getDictOperacjeNaWinnicy(query) {
   return await selectAnyQuery('DictOperacjeNaWinnicy', query);
 }
+
 export async function getDictProcesy(query) {
   return await selectAnyQuery('DictProcesy', query);
 }
+
 export async function getDictRolaUzytkownikow(query) {
   return await selectAnyQuery('DictRolaUzytkownikow', query);
 }
+
 export async function getDictTypPartii(query) {
   return await selectAnyQuery('DictTypPartii', query);
 }
+
 export async function getInformacjeOWinie(query) {
   return await selectAnyQuery('InformacjeOWinie', query);
 }
+
 export async function getKontrahenci(query) {
   return await selectAnyQuery('Kontrahenci', query);
 }
+
 export async function getListPrzewozowy(query) {
   return await selectAnyQuery('ListPrzewozowy', query);
 }
+
 export async function getMagazyn(query) {
   return await selectAnyQuery('Magazyn', query);
 }
+
 export async function getOperacje(query) {
   return await selectAnyQuery('Operacje', query);
 }
+
 export async function getOperacjeNaWinnicy(query) {
   return await selectAnyQuery('OperacjeNaWinnicy', query);
 }
+
 export async function getPartie(query) {
   return await selectAnyQuery('Partie', query);
 }
+
 export async function getPlanyProdukcyjne(query) {
   return await selectAnyQuery('PlanyProdukcyjne', query);
 }
+
 export async function getPozycjaWMagazynie(query) {
   return await selectAnyQuery('PozycjaWMagazynie', query);
 }
+
 export async function getPrzesylka(query) {
   return await selectAnyQuery('Przesylka', query);
 }
+
 export async function getRaporty(query) {
   return await selectAnyQuery('Raporty', query);
 }
+
 export async function getUzytkownicy(query) {
   return await selectAnyQuery('Uzytkownicy', query);
 }
+
 export async function getWinnica(query) {
   return await selectAnyQuery('Winnica', query);
 }
+
 export async function getWinobranie(query) {
   return await selectAnyQuery('Winobranie', query);
 }
