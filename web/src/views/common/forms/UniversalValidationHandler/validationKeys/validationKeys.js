@@ -85,7 +85,7 @@ export const waybillValidationKeys = {
 
 export const warehouseValidationKeys = {
   type: new RegExp('^([\\p{L}\' ()]{2,40})$', 'u'),
-  capacity: /^(\d{1,6}|\d{1,6}\.\d{0,1})$/
+  capacity: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,6}\.[1-9])$/
 };
 
 export const vineyardOperationsValidationKeys = {
@@ -94,15 +94,15 @@ export const vineyardOperationsValidationKeys = {
 };
 
 export const batchValidationKeys = {
-  amount: /^(\d{1,4}|\d{1,4}\.\d{0,1})$/,
+  amount: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,4}\.[1-9])$/,
   desc: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
   creationDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
-  batchType: /^.+$/
+  batchType: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u')
 };
 
 export const vineyardValidationKeys = {
   name: new RegExp('^([\\p{L}\' ()]{2,40})$', 'u'),
-  area: /^(\d{1,6}|\d{1,6}\.\d{0,2})$/,
+  area: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1,2}|0{1,6}\.\d[1-9])$/,
   terroir: new RegExp('^([\\s\\S]{2,255})$', 'u'),
   dateOfPlanting: /^(\d{4}-\d{2}-\d{2})$/,
   registrationPlotId: new RegExp('^(|[\\s\\S]{2,40})$', 'u'),
@@ -111,8 +111,8 @@ export const vineyardValidationKeys = {
 };
 
 export const operationsValidationKeys = {
-  beginAmount: /^(\d{1,6}|\d{1,6}\.\d{0,2})$/,
-  endAmount: /^($|\d{1,6}|\d{1,6}\.\d{0,2})$/,
+  beginAmount: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1,2}|0{1,6}\.\d[1-9])$/,
+  endAmount: /^($|(?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1,2}|0{1,6}\.\d[1-9])$/,
   beginDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
   endDate: /^($|\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
   alcoholContent: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/,
@@ -127,7 +127,7 @@ export const operationsValidationKeys = {
 export const itemInStockValidationKeys = {
   name: new RegExp('^\\p{L}{3,45}$', 'u'),
   desc: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
-  amount: /^[0-9]{1,4}[.][0-9]{0,1}$/,
+  amount: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d|0{1,6}\.[1-9])$/,
   barcode: /^[0-9]{13}$/,
   actualState: /^[01]$/,
   acceptanceDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
@@ -138,11 +138,11 @@ export const itemInStockValidationKeys = {
 
 export const parcelValidationKeys = {
   packageName: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u'),
-  weight: /^(\d{1,6}|\d{1,6}\.\d{0,2})$/,
+  weight: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1,2}|0{1,6}\.\d[1-9])$/,
   date: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/
 };
 
 export const harvestValidationKeys = {
   dateOfHarvest: /^(\d{4}-\d{2}-\d{2})$/,
-  amount: /^$|[0-9]{1,4}[.][0-9]{0,1}$/
+  amount: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,4}\.[1-9])$/
 };
