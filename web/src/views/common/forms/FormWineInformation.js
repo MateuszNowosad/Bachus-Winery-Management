@@ -2,6 +2,8 @@ import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
 import { data } from './StaticData';
 import PropTypes from 'prop-types';
+import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
+import {wineInformationValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
 
 const errorMap = {
   name: false,
@@ -33,8 +35,21 @@ export class FormWineInformation extends React.Component {
 
   handleSubmit = () => {
     const { name, motto, allergens, energyValue, wineCategory } = this.state;
-    this.props.onSubmit({ name, motto, allergens, energyValue, wineCategory });
-    this.props.formSubmitted();
+      let dataObject = {
+          name, motto, allergens, energyValue, wineCategory
+      };
+
+      let arrayOfErrors = UniversalValidationHandler(dataObject, wineInformationValidationKeys);
+      if (arrayOfErrors.length === 0) {
+          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      } else{
+          let error = Object.assign({}, errorMap);
+          for (let errorField in arrayOfErrors) {
+              error[arrayOfErrors[errorField]] = true;
+          }
+          this.setState({error: error});
+          this.props.submitAborted();
+      }
   };
 
   componentDidUpdate(prevProps) {
@@ -105,6 +120,7 @@ export class FormWineInformation extends React.Component {
               label="Kategoria wina"
               placeholder="Kategoria wina"
               value={wineCategory}
+              error={error.wineCategory}
               onChange={this.handleChange('wineCategory')}
               margin="dense"
               variant={'outlined'}
@@ -125,5 +141,6 @@ export class FormWineInformation extends React.Component {
 FormWineInformation.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
-  formSubmitted: PropTypes.func
+  formSubmitted: PropTypes.func,
+  submitAborted: PropTypes.func
 };

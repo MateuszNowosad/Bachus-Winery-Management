@@ -11,6 +11,10 @@ import {
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
+import {
+    operationsValidationKeys
+} from "./UniversalValidationHandler/validationKeys/validationKeys";
 
 const operations = ['fermentacja', 'dojrzewanie'];
 
@@ -67,20 +71,31 @@ export class FormOperations extends React.Component {
       desc,
       process
     } = this.state;
-    this.props.onSubmit({
-      beginAmount,
-      endAmount,
-      beginDate,
-      endDate,
-      alcoholContent,
-      additiveAmount,
-      sugarContent,
-      acidity,
-      temperature,
-      desc,
-      process
-    });
-    this.props.formSubmitted();
+      let dataObject = {
+          beginAmount,
+          endAmount,
+          beginDate,
+          endDate,
+          alcoholContent,
+          additiveAmount,
+          sugarContent,
+          acidity,
+          temperature,
+          desc,
+          process
+      };
+
+      let arrayOfErrors = UniversalValidationHandler(dataObject, operationsValidationKeys);
+      if (arrayOfErrors.length === 0) {
+          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      } else{
+          let error = Object.assign({}, errorMap);
+          for (let errorField in arrayOfErrors) {
+              error[arrayOfErrors[errorField]] = true;
+          }
+          this.setState({error: error});
+          this.props.submitAborted();
+      }
   };
 
   componentDidUpdate(prevProps) {
@@ -285,5 +300,6 @@ export class FormOperations extends React.Component {
 FormOperations.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
-  formSubmitted: PropTypes.func
+  formSubmitted: PropTypes.func,
+  submitAborted: PropTypes.func
 };

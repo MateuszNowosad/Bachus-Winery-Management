@@ -3,6 +3,8 @@ import { Grid, MenuItem, TextField } from '@material-ui/core';
 import { data } from './StaticData';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
+import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
+import {batchValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
 
 const errorMap = {
   amount: false,
@@ -32,8 +34,19 @@ export class FormBatches extends React.Component {
 
   handleSubmit = () => {
     const { amount, desc, creationDate, batchType } = this.state;
-    this.props.onSubmit({ amount, desc, creationDate, batchType });
-    this.props.formSubmitted();
+    let dataObject = { amount, desc, creationDate, batchType};
+
+    let arrayOfErrors = UniversalValidationHandler(dataObject, batchValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
+      }
+      this.setState({ error: error });
+      this.props.submitAborted();
+    }
   };
 
   componentDidUpdate(prevProps) {
@@ -117,5 +130,6 @@ export class FormBatches extends React.Component {
 FormBatches.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
-  formSubmitted: PropTypes.func
+  formSubmitted: PropTypes.func,
+  submitAborted: PropTypes.func
 };
