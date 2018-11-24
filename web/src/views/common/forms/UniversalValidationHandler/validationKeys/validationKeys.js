@@ -61,7 +61,7 @@ export const wineInformationValidationKeys = {
   name: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u'),
   motto: new RegExp('^(|[\\s\\S]{2,100})$', 'u'),
   allergens: new RegExp('^(|[\\s\\S]{2,20})$', 'u'),
-  energyValue: /^\d{1,3}$/
+  energyValue: /^((?=.{1,3}$)\d*[1-9]+\d*)$/
 };
 
 export const contractorsValidationKeys = {
