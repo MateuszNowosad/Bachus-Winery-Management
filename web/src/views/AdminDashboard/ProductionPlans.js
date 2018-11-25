@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import AdminDashboardStyle from '../../assets/jss/common/views/AdminDashboard/AdminDashboardStyle.js';
+import MediaCard from "../../components/common/MediaCard";
 
 class ProductionPlans extends React.Component {
     render() {
@@ -11,6 +12,7 @@ class ProductionPlans extends React.Component {
                 <Typography variant="h4" gutterBottom component="h2">
                     Plany produkcji
                 </Typography>
+                <MediaCard/>
             </React.Fragment>
         );
     }
