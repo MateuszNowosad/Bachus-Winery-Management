@@ -6,8 +6,6 @@ import Paper from '@material-ui/core/Paper';
 import AutoLabels from './AutoLabels';
 import AutoContent from './AutoContent';
 import AutoTableStyle from '../../assets/jss/common/components/AutoTableStyle.js';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase/InputBase';
 import Button from '@material-ui/core/Button/Button';
 import ScrollableDialogForm from '../ScrollableDialogForm/ScrollableDialogForm';
 import TablePaginationActions from './TablePaginationActions';
@@ -15,6 +13,7 @@ import TableBody from '@material-ui/core/TableBody/TableBody';
 import TableFooter from '@material-ui/core/TableFooter/TableFooter';
 import TableRow from '@material-ui/core/TableRow/TableRow';
 import TablePagination from '@material-ui/core/TablePagination/TablePagination';
+import SearchBar from "../common/SearchBar";
 
 class AutoTable extends React.Component {
   state = {
@@ -58,20 +57,9 @@ class AutoTable extends React.Component {
     const { open, rowsPerPage, page } = this.state;
     return (
       <div style={{minWidth: '100%'}}>
-        <div className={classes.actions}>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Wyszukaj…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput
-              }}
-            />
+          <div className={classes.actions}>
+              <SearchBar/>
           </div>
-        </div>
         <Paper className={classes.root}>
           <Table className={classes.table}>
             {labels}
