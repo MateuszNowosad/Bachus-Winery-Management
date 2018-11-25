@@ -2,7 +2,7 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 
 const SearchBarStyle = theme => ({
   root: {
-    marginBottom: theme.spacing.unit*2
+    margin: theme.spacing.unit*2
   },
   textField: {
     width: 200
