@@ -53,11 +53,10 @@ const AdminDashboardStyle = theme => ({
   flexSidewaysContainer:{
     display: 'flex',
     flexDirection: 'row',
-    padding: 0,
+    marginTop: theme.spacing.unit*3,
+    marginBottom: theme.spacing.unit*3,
     alignItems: 'center',
     overflowX: 'auto',
-    flexWrap: 'wrap',
-    flexFlow: 'row wrap',
     alignContent: 'space-between',
   }
 });
