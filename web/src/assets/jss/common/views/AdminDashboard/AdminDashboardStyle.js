@@ -58,6 +58,10 @@ const AdminDashboardStyle = theme => ({
     alignItems: 'center',
     overflowX: 'auto',
     alignContent: 'space-between',
+  },
+  combo:{
+    display: 'flex',
+    flexDirection: 'row'
   }
 });
 
