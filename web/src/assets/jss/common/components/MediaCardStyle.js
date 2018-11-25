@@ -1,7 +1,6 @@
 const MediaCardStyle = theme => ({
     card: {
-        minWidth: 345,
-        maxWidth: 345,
+        minWidth: 420,
         margin: theme.spacing.unit,
     },
     media: {
