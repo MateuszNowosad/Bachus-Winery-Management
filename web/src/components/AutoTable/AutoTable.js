@@ -57,7 +57,7 @@ class AutoTable extends React.Component {
     const { classes, queryData, querySubject, querySize, dialogFormTitle, dialogForm, editMode } = this.props;
     const { open, rowsPerPage, page } = this.state;
     return (
-      <div>
+      <div style={{minWidth: '100%'}}>
         <div className={classes.actions}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
