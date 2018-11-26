@@ -2,7 +2,9 @@ import React from 'react';
 import { Button, Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler.js';
-import { usersValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import {
+    productionPlansValidationKeys
+} from './UniversalValidationHandler/validationKeys/validationKeys';
 import SelectableAutoTable from "../../../components/SelectableAutoTable/SelectableAutoTable";
 import data from "../../../variables/AdminDashboard/AutoTableTestData.js";
 import Typography from "@material-ui/core/Typography/Typography";
@@ -38,20 +40,20 @@ export class FormProductionPlan extends React.Component {
         this.setState({
             [name]: object
         });
-        console.log('43, {[name]: object} Mateusz: ', {[name]: object});
     };
-    
+
     handleSubmit = () => {
-        const { name, description, file, recipe } = this.state;
+        const { name, description, file, recipe,fileName } = this.state;
 
         let dataObject = {
             name,
             description,
             file,
-            recipe
+            recipe: parseInt(recipe[Object.keys(recipe)[0]],10), //TEMP WORKAROUND
+            fileName
         };
 
-        let arrayOfErrors = UniversalValidationHandler(dataObject, usersValidationKeys);
+        let arrayOfErrors = UniversalValidationHandler(dataObject, productionPlansValidationKeys);
         if (arrayOfErrors.length === 0) {
             if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
         } else {
@@ -60,6 +62,7 @@ export class FormProductionPlan extends React.Component {
                 error[arrayOfErrors[errorField]] = true;
             }
             this.setState({ error: error });
+            console.log('65, error Mateusz: ', error);
             this.props.submitAborted();
         }
     };
@@ -71,10 +74,13 @@ export class FormProductionPlan extends React.Component {
         reader.onloadend = () => {
             this.setState({
                 file: file,
-                fileName: file.name
+                fileName: file.name,
+                error: {
+                    ...this.state.error,
+                    file: false
+                }
             });
         };
-
         reader.readAsDataURL(file);
     };
 
@@ -86,7 +92,6 @@ export class FormProductionPlan extends React.Component {
 
     render() {
         const { name, description, recipe, error} = this.state;
-        console.log('92, recipe Mateusz: ', parseInt(recipe.idAdres, 10));
         return (
             <div>
                 <form>
@@ -133,9 +138,18 @@ export class FormProductionPlan extends React.Component {
                             </label>
                         </Grid>
                         <Grid item md={6}>
-                            <Typography variant="h4" gutterBottom component="h2">
-                            {this.state.fileName}
-                            </Typography>
+                            {!error.file ?
+                                (
+                                    <Typography variant="h5" gutterBottom component="h2" color={"primary"}>
+                                        {this.state.fileName}
+                                    </Typography>
+                                )
+                                : (
+                                    <Typography variant="h5" gutterBottom component="h2" style={{ color: '#f00'}}>
+                                        Nie wybrano pliku lub dodany plik nie jest plikiem .pdf
+                                    </Typography>
+                                )
+                            }
                         </Grid>
                     </Grid>
                     <SelectableAutoTable
