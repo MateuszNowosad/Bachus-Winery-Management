@@ -12,9 +12,19 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AutoTable from '../../components/AutoTable/AutoTable';
 import data from '../../variables/AdminDashboard/AutoTableTestData';
 import SearchBar from '../../components/common/SearchBar';
-import testDataProductionPlan from "../../variables/AdminDashboard/testDataProductionPlan";
+import testDataProductionPlan from '../../variables/AdminDashboard/testDataProductionPlan';
+import ScrollableDialogForm from '../../components/ScrollableDialogForm/ScrollableDialogForm';
+import {FormProductionPlan} from "../common/forms/FormProductionPlan";
 
 class ProductionPlans extends React.Component {
+    state = {
+        open: false,
+    };
+
+    handleOpen = () =>{
+        this.setState({open: true});
+    };
+
   render() {
     const { classes } = this.props;
     return (
@@ -25,13 +35,23 @@ class ProductionPlans extends React.Component {
           </Typography>
           <div className={classes.combo}>
             <SearchBar />
-            <Button variant="contained" className={classes.button} color={'primary'}>
+            <Button variant="contained" className={classes.button} onClick={this.handleOpen} color={'primary'}>
               Dodaj nowy plan
             </Button>
+            <ScrollableDialogForm
+              dialogTitle={'Nowy plan produkcyjny'}
+              open={this.state.open}
+              closeForm={() => this.setState({ open: false })}
+              openForm={() => this.setState({ open: true })}
+            >
+              <FormProductionPlan/>
+            </ScrollableDialogForm>
           </div>
         </div>
         <div className={classes.flexSidewaysContainer}>
-            {testDataProductionPlan.test.map(currElement => <MediaCard key={currElement.id} heading={currElement.nazwa} contents={currElement.opis}/>)}
+          {testDataProductionPlan.test.map(currElement => (
+            <MediaCard key={currElement.id} heading={currElement.nazwa} contents={currElement.opis} />
+          ))}
         </div>
         <ExpansionPanel defaultExpanded>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
