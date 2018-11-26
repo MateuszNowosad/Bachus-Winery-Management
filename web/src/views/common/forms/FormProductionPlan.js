@@ -141,11 +141,16 @@ export class FormProductionPlan extends React.Component {
                 </Typography>
               ) : (
                 <Typography variant="h5" gutterBottom component="h2" style={{ color: '#f00' }}>
-                  Nie wybrano pliku lub dodany plik nie jest plikiem .pdf
+                  Nie wybrano pliku lub dodany plik nie jest plikiem .pdf!
                 </Typography>
               )}
             </Grid>
           </Grid>
+          {error.recipe && (
+            <Typography variant="h5" gutterBottom component="h2" style={{ color: '#f00' }}>
+              Nie wybrano żadnego przepisu albo partii wzorcowej!
+            </Typography>
+          )}
           <SelectableAutoTable
             queryData={data}
             querySubject="hero"
