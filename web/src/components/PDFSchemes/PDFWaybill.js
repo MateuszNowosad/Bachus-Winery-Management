@@ -1,28 +1,29 @@
 import React from 'react';
 
 
-const generateRows = (rows) => {
+const generateContent = (content) => {
+
   const data = [[{ text: 'Ilość', fontSize: 11, bold: true }, { text: 'Nazwa', fontSize: 11, bold: true }]];
-  for (let i = 0; i < rows; i++)
-    data.push([{ text: i }, { text: i }]);
+  for (let i = 0; i < content.length*3; i++)
+    data.push([{ text: content[i%3].amount }, { text: content[i%3].selectedItem.name}]);
   return data;
 };
 
 const formatAddress = (data) => {
   return data.street + ' ' + data.buildingNumber + ' ' + data.apartmentNumber + ', ' +
-    data.city + ' ' + data.postalCode;
+    data.city + ' ' + data.postalCode+ ' ' + data.country;
 };
 
 const formatSender = (data) => {
-  return { text: data.companyName + ' ' + formatAddress(data.address) };
+  return { text: data.companyName + ' ' + formatAddress(data.address), style: 'data' };
 };
 
 const formatDriver = (data) => {
-  return { text: data.driverName+' '+data.driverSurname}
+  return { text: data.driverName+' '+data.driverSurname, style: 'data'}
 };
 
 const formatDate = (data) => {
-  return { text: data.replace('T',' ')}
+  return { text: data.replace('T',' '), style: 'data'}
 };
 
 const PDFWaybill = (data) => {
@@ -47,23 +48,23 @@ const PDFWaybill = (data) => {
                 style: 'centeredBold'
               }],
               [{
-                text: [{ text: 'Nazwa odbiorcy:\n' }, formatSender(data.recipent)],
+                text: [{ text: 'Nazwa odbiorcy:\n', bold: true }, formatSender(data.recipent)],
                 colSpan: 2
-              }, {}, { text: [{ text: 'Nazwa przewoźnika:\n' }, formatSender(data.carrier)], rowSpan: 2 }],
+              }, {}, { text: [{ text: 'Nazwa przewoźnika:\n', bold: true }, formatSender(data.carrier)], rowSpan: 2 }],
               [{
-                text: [{ text: 'Miejsce przeznaczenia:\n' }, { text: formatAddress(data.pickupAddress) }],
+                text: [{ text: 'Miejsce przeznaczenia:\n', bold: true }, { text: formatAddress(data.pickupAddress), style: 'data' }],
                 colSpan: 2
               }, {}, {}],
               [{
-                text: [{ text: 'Nazwa nadawcy:\n' }, formatSender(data.sender)],
+                text: [{ text: 'Nazwa nadawcy:\n', bold: true }, formatSender(data.sender)],
                 colSpan: 2
-              }, {}, { text: [{ text: 'Imię i nazwisko kierowcy:\n' }, formatDriver(data)], rowSpan: 2 }],
+              }, {}, { text: [{ text: 'Imię i nazwisko kierowcy:\n', bold: true }, formatDriver(data)], rowSpan: 2 }],
               [{
-                text: [{ text: 'Miejsce nadania:\n' }, { text: formatAddress(data.mailingAddress) }],
+                text: [{ text: 'Miejsce nadania:\n', bold: true }, { text: formatAddress(data.mailingAddress), style: 'data' }],
                 colSpan: 2
               }, {}, {}],
-              [{ text: [{ text: 'Nazwa przesyłki:\n' }, { text: data.parcel.packageName }] }, { text: [{ text: 'Waga:\n' }, { text: data.parcel.weight }] }, {
-                text: 'Kwituję odbiór przesyłki (podpis kierowcy):',
+              [{ text: [{ text: 'Nazwa przesyłki:\n', bold: true }, { text: data.parcel.packageName , style: 'data'}] }, { text: [{ text: 'Waga:\n' , bold: true}, { text: data.parcel.weight, style: 'data' }] }, {
+                text: 'Kwituję odbiór przesyłki (podpis kierowcy):', bold: true,
                 rowSpan: 5
               }],
               [
@@ -72,28 +73,28 @@ const PDFWaybill = (data) => {
                     {
                       table: {
                         widths: ['10%', '*'],
-                        body: generateRows(2)
+                        body: generateContent(data.parcel.content)
                       },
                       margin: [-5, -3, -5, -3],
                       fontSize: 8
                     }
                   ], colSpan: 2
                 }, {}, {}],
-              [{ text: [{ text: 'Data załadunku:\n' }, formatDate(data.parcel.date)], colSpan: 2 }, {}, {}],
+              [{ text: [{ text: 'Data załadunku:\t' , bold: true}, formatDate(data.parcel.date)], colSpan: 2 }, {}, {}],
               [{
-                text: 'Nadawca(podpis/pieczątka):',
+                text: 'Nadawca(podpis/pieczątka):', bold: true,
                 colSpan: 2
               }, {}, {}],
               [{ text: 'ROZŁADUNEK', style: 'centeredBold', colSpan: 2 }, {}, {}],
               [{
-                text: [{ text: 'Zastrzeżenia i uwagi odbiorcy:\n' }, {text: data.comments}],
+                text: [{ text: 'Zastrzeżenia i uwagi odbiorcy:\n', bold: true }, {text: data.comments, style: 'data'}],
                 colSpan: 2
-              }, {}, { text: [{ text: 'Zastrzeżenia i uwagi przewoźnika:\n' }, {text: data.reservations}], rowSpan: 2 }],
+              }, {}, { text: [{ text: 'Zastrzeżenia i uwagi przewoźnika:\n', bold: true }, {text: data.reservations, style: 'data'}], rowSpan: 2 }],
               [{
 
                 stack:
                   [
-                    { text: 'Przesyłkę otrzymano:\n\n\n\n' },
+                    { text: 'Przesyłkę otrzymano:\n\n\n\n', bold: true },
                     {
                       columns: [
                         {
@@ -124,8 +125,10 @@ const PDFWaybill = (data) => {
         centeredBold: {
           bold: true,
           alignment: 'center'
+        },
+        data: {
+          fontSize: 10,
         }
-
       }
     }
   );
