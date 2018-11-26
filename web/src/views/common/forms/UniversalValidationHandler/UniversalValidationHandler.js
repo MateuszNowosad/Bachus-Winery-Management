@@ -6,7 +6,7 @@ function UniversalValidationHander(dataObject, validationKeys) {
   let test = false;
   for (let entry in entries) {
     if (entries[entry][0] === 'file') {
-      if (!(entries[entry][1]['type'] === 'application/pdf')) test = false;
+      if (!(entries[entry][1]['type'] === validationKeys[entries[entry][0]])) test = false;
     } else if (validationKeys[entries[entry][0]] === undefined) {
       continue;
     } else test = validationKeys[entries[entry][0]].test(entries[entry][1]);

@@ -151,7 +151,7 @@ export const harvestValidationKeys = {
 export const productionPlansValidationKeys = {
     name: new RegExp('^\\p{L}{3,45}$', 'u'),
     description: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
-    file: /^.+$/,
+    file: 'application/pdf',
     recipe: /^\d+$/,
     fileName: /^.+\.([pP][dD][fF])$/
 };
