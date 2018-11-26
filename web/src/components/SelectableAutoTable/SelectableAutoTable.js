@@ -69,7 +69,7 @@ class SelectableAutoTable extends React.Component {
     const { rowsPerPage, page, selected } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, querySize - page * rowsPerPage);
     return (
-      <div>
+      <div style={{minWidth: '100%'}}>
         <div className={classes.actions}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
