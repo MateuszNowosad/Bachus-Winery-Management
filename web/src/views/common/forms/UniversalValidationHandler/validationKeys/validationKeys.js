@@ -147,3 +147,11 @@ export const harvestValidationKeys = {
   dateOfHarvest: /^(\d{4}-\d{2}-\d{2})$/,
   amount: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,4}\.[1-9])$/
 };
+
+export const productionPlansValidationKeys = {
+    name: new RegExp('^\\p{L}{3,45}$', 'u'),
+    description: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
+    file: /^.+$/,
+    recipe: /^\d+$/,
+    fileName: /^.+\.([pP][dD][fF])$/
+};
