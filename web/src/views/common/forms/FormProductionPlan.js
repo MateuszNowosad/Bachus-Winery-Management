@@ -59,7 +59,6 @@ export class FormProductionPlan extends React.Component {
         error[arrayOfErrors[errorField]] = true;
       }
       this.setState({ error: error });
-      console.log('65, error Mateusz: ', error);
       this.props.submitAborted();
     }
   };
