@@ -47,7 +47,7 @@ class SelectableAutoTable extends React.Component {
     console.log('48, this.props.id jakub: ', this.state.selected);
     console.log('35, param jakub: ', param);
     this.setState({
-      selected: row.id
+      selected: parseInt(row[Object.keys(row)[0]],10) //Order not guarnanteed as per ECMAStandard but implmented by all major browsers. TEMP FIX
     });
     this.props.onSelect(param, row);
     this.props.onClose ? this.props.onClose() : null;
