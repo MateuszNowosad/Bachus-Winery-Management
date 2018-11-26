@@ -1,12 +1,12 @@
 import React from 'react';
 import { TextField, Chip, Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
-import currentDate from './CurrentDate';
-import { DialogForForm } from './DialogForForm';
-import StepperParcelContent from './StepperParcelContent';
+import currentDate from '../CurrentDate';
+import { DialogForForm } from '../DialogForForm';
+import StepperParcelContent from '../StepperParcelContent';
 import PropTypes from 'prop-types';
-import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
-import { parcelValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
+import UniversalValidationHandler from "../UniversalValidationHandler/UniversalValidationHandler";
+import { parcelValidationKeys} from "../UniversalValidationHandler/validationKeys/validationKeys";
 
 const errorMap = {
   packageName: false,

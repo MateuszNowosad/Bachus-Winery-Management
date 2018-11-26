@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, InputAdornment, MenuItem, TextField } from '@material-ui/core';
-import { FormAddress } from './FormAddress';
+import { FormAddress } from './subforms/FormAddress';
 import PropTypes from 'prop-types';
 import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
 import {warehouseValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";

@@ -2,8 +2,8 @@ import React from 'react';
 import { TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 import PropTypes from 'prop-types';
-import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
-import { addressValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import UniversalValidationHandler from '../UniversalValidationHandler/UniversalValidationHandler';
+import { addressValidationKeys } from '../UniversalValidationHandler/validationKeys/validationKeys';
 
 const errorMap = {
   street: false,
