@@ -1,10 +1,11 @@
 import React from 'react';
-import { Avatar, Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler.js';
 import { usersValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import SelectableAutoTable from "../../../components/SelectableAutoTable/SelectableAutoTable";
 import data from "../../../variables/AdminDashboard/AutoTableTestData.js";
+import Typography from "@material-ui/core/Typography/Typography";
 
 
 const errorMap = {
@@ -14,8 +15,6 @@ const errorMap = {
     recipe: false,
 };
 
-export const formTitle = 'Nowy użytkownik';
-
 export class FormProductionPlan extends React.Component {
     constructor(props) {
         super(props);
@@ -24,8 +23,8 @@ export class FormProductionPlan extends React.Component {
             description: '',
             file: '',
             recipe: {},
-            previewUrl: '',
-            error: errorMap
+            fileName: '',
+            error: errorMap,
         };
     }
 
@@ -43,14 +42,13 @@ export class FormProductionPlan extends React.Component {
     };
     
     handleSubmit = () => {
-        const { name, description, file, recipe, previewUrl } = this.state;
+        const { name, description, file, recipe } = this.state;
 
         let dataObject = {
             name,
             description,
             file,
-            recipe,
-            previewUrl
+            recipe
         };
 
         let arrayOfErrors = UniversalValidationHandler(dataObject, usersValidationKeys);
@@ -73,7 +71,7 @@ export class FormProductionPlan extends React.Component {
         reader.onloadend = () => {
             this.setState({
                 file: file,
-                previewUrl: reader.result
+                fileName: file.name
             });
         };
 
@@ -87,15 +85,11 @@ export class FormProductionPlan extends React.Component {
     }
 
     render() {
-        const { name, description, recipe, previewUrl, error} = this.state;
+        const { name, description, recipe, error} = this.state;
         console.log('92, recipe Mateusz: ', parseInt(recipe.idAdres, 10));
         return (
             <div>
-                <form
-                    style={{
-                        margin: '0% 25%'
-                    }}
-                >
+                <form>
                     <Grid container spacing={8} justify={'center'}>
                         <Grid item md={6}>
                             <TextField
@@ -139,27 +133,19 @@ export class FormProductionPlan extends React.Component {
                             </label>
                         </Grid>
                         <Grid item md={6}>
-                            <Avatar
-                                alt="Pdf preview"
-                                src={previewUrl}
-                                style={{
-                                    width: 140,
-                                    height: 140,
-                                    borderRadius: 0
-                                }}
-                            />
-                        </Grid>
-                        <Grid item md={12}>
-                            <SelectableAutoTable
-                                queryData={data}
-                                querySubject="hero"
-                                querySize={259}
-                                funParam="recipe"
-                                onSelect={this.handleSelect}
-                                id={parseInt(recipe.idAdres, 10)}
-                            />
+                            <Typography variant="h4" gutterBottom component="h2">
+                            {this.state.fileName}
+                            </Typography>
                         </Grid>
                     </Grid>
+                    <SelectableAutoTable
+                        queryData={data}
+                        querySubject="hero"
+                        querySize={259}
+                        funParam="recipe"
+                        onSelect={this.handleSelect}
+                        id={parseInt(recipe.idAdres, 10)}
+                    />
                 </form>
             </div>
         );
