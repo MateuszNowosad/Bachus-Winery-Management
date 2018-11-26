@@ -1,4 +1,4 @@
-import PDFWaybill from '../PDFSchemes/PDFWaybill';
+import PDFWaybill from './PDFWaybill';
 import pdfMake from 'pdfmake/build/pdfmake';
 import vfsFonts from 'pdfmake/build/vfs_fonts';
 
