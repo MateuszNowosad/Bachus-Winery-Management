@@ -83,8 +83,9 @@ const PDFFromDataSet = (dataObject, dataLabels) => {
     content: [
       {
         table: {
+          dontBreakRows: true,
           headerRows: 1,
-          // widths: '*',
+          widths: 'auto',
           body: formatData(dataObject, dataLabels)
         }, fontSize: 5
       }
