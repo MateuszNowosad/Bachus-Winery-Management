@@ -3,8 +3,8 @@ import { Grid, MenuItem, TextField } from '@material-ui/core';
 import { data } from './StaticData';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
-import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
-import {batchValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
+import { batchValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 
 const errorMap = {
   amount: false,
@@ -34,7 +34,7 @@ export class FormBatches extends React.Component {
 
   handleSubmit = () => {
     const { amount, desc, creationDate, batchType } = this.state;
-    let dataObject = { amount, desc, creationDate, batchType};
+    let dataObject = { amount, desc, creationDate, batchType };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, batchValidationKeys);
     if (arrayOfErrors.length === 0) {

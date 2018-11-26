@@ -1,7 +1,7 @@
 const AdminDashboardStyle = theme => ({
   root: {
     display: 'flex',
-    width: '100%',
+    width: '100%'
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -35,31 +35,31 @@ const AdminDashboardStyle = theme => ({
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
+    fontWeight: theme.typography.fontWeightRegular
   },
   top: {
-    display:'flex',
+    display: 'flex',
     maxWidth: '100%',
     justifyContent: 'space-between',
-    marginBottom: theme.spacing.unit*3
+    marginBottom: theme.spacing.unit * 3
   },
   bottom: {
-    display:'flex',
+    display: 'flex',
     maxWidth: '100%',
     justifyContent: 'space-between',
-    marginBottom: theme.spacing.unit*3,
-    marginTop: theme.spacing.unit*3
+    marginBottom: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 3
   },
-  flexSidewaysContainer:{
+  flexSidewaysContainer: {
     display: 'flex',
     flexDirection: 'row',
-    marginTop: theme.spacing.unit*3,
-    marginBottom: theme.spacing.unit*3,
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
     alignItems: 'center',
     overflowX: 'auto',
-    alignContent: 'space-between',
+    alignContent: 'space-between'
   },
-  combo:{
+  combo: {
     display: 'flex',
     flexDirection: 'row'
   }

@@ -21,7 +21,7 @@ import DatabaseVineyard from '../views/AdminDashboard/DatabaseSubdirectories/Dat
 import DatabaseProduction from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseProduction';
 import DatabaseContactsAndUsers from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseContactsAndUsers';
 import DatabaseLogistics from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseLogistics';
-import ProductionPlans from "../views/AdminDashboard/ProductionPlans";
+import ProductionPlans from '../views/AdminDashboard/ProductionPlans';
 
 const AdminDashboardRoutes = [
   {

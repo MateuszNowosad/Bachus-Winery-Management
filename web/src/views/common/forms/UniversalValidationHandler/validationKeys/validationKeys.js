@@ -11,58 +11,58 @@ export const usersValidationKeys = {
 };
 
 export const addressValidationKeys = {
-  street: new RegExp('^([\\p{L}\\d\' ]{2,45})$', 'u'),
+  street: new RegExp("^([\\p{L}\\d' ]{2,45})$", 'u'),
   buildingNumber: /^\d{1,4}$/,
   apartmentNumber: /^(|\d{1,2})$/,
   postalCode: /^\d{1,12}$/,
-  city: new RegExp('^([\\p{L}\\d\' ]{2,40})$', 'u'),
-  country: new RegExp('^([\\p{L}\' ()]{2,60})$', 'u')
+  city: new RegExp("^([\\p{L}\\d' ]{2,40})$", 'u'),
+  country: new RegExp("^([\\p{L}' ()]{2,60})$", 'u')
 };
 
 export const categoriesDictValidationKeys = {
-  name: new RegExp('^([\\p{L}\' ()]{3,20})$', 'u'),
+  name: new RegExp("^([\\p{L}' ()]{3,20})$", 'u'),
   unit: new RegExp('^\\p{L}{2,20}$', 'u'),
   desc: new RegExp('^(|[\\s\\S]{2,250})$', 'u')
 };
 
 export const wineCategoriesDictValidationKeys = {
-  name: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u'),
+  name: new RegExp("^([\\p{L}' ()]{3,45})$", 'u'),
   desc: new RegExp('^(|[\\s\\S]{2,255})$', 'u')
 };
 
 export const grapeTypeDictValidationKeys = {
-  name: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u'),
+  name: new RegExp("^([\\p{L}' ()]{3,45})$", 'u'),
   desc: new RegExp('^(|[\\s\\S]{2,255})$', 'u')
 };
 
 export const vineyardOperationsDictValidationKeys = {
-  name: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u'),
+  name: new RegExp("^([\\p{L}' ()]{3,45})$", 'u'),
   desc: new RegExp('^(|[\\s\\S]{2,255})$', 'u')
 };
 
 export const processesDictValidationKeys = {
-  name: new RegExp('^([\\p{L}\' ()]{3,40})$', 'u'),
+  name: new RegExp("^([\\p{L}' ()]{3,40})$", 'u'),
   desc: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
   additional: new RegExp('^(|[\\s\\S]{2,80})$', 'u')
 };
 
 export const userRoleDictValidationKeys = {
-  name: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u'),
+  name: new RegExp("^([\\p{L}' ()]{3,45})$", 'u'),
   desc: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
   type: new RegExp('^[\\S]{2,45}$', 'u')
 };
 
 export const batchTypeDictValidationKeys = {
-  name: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u'),
+  name: new RegExp("^([\\p{L}' ()]{3,45})$", 'u'),
   unit: new RegExp('^[\\w]{1,45}$', 'u')
 };
 
 export const wineInformationValidationKeys = {
-  name: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u'),
+  name: new RegExp("^([\\p{L}' ()]{3,45})$", 'u'),
   motto: new RegExp('^(|[\\s\\S]{2,100})$', 'u'),
   allergens: new RegExp('^(|[\\s\\S]{2,20})$', 'u'),
   energyValue: /^((?=.{1,3}$)\d*[1-9]+\d*)$/,
-  wineCategory: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u'),
+  wineCategory: new RegExp("^([\\p{L}' ()]{3,45})$", 'u')
 };
 
 export const contractorsValidationKeys = {
@@ -77,15 +77,15 @@ export const contractorsValidationKeys = {
 };
 
 export const waybillValidationKeys = {
-  driverName: new RegExp('^([\\p{L}\' ]{3,45})$', 'u'),
-  driverSurname: new RegExp('^([\\p{L}\' ]{3,45})$', 'u'),
+  driverName: new RegExp("^([\\p{L}' ]{3,45})$", 'u'),
+  driverSurname: new RegExp("^([\\p{L}' ]{3,45})$", 'u'),
   comments: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
   reservations: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
   file: new RegExp('^[\\w\\d]{2,255}$', 'u')
 };
 
 export const warehouseValidationKeys = {
-  type: new RegExp('^([\\p{L}\' ()]{2,40})$', 'u'),
+  type: new RegExp("^([\\p{L}' ()]{2,40})$", 'u'),
   capacity: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,6}\.[1-9])$/
 };
 
@@ -98,17 +98,17 @@ export const batchValidationKeys = {
   amount: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,4}\.[1-9])$/,
   desc: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
   creationDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
-  batchType: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u')
+  batchType: new RegExp("^([\\p{L}' ()]{3,45})$", 'u')
 };
 
 export const vineyardValidationKeys = {
-  name: new RegExp('^([\\p{L}\' ()]{2,40})$', 'u'),
+  name: new RegExp("^([\\p{L}' ()]{2,40})$", 'u'),
   area: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1,2}|0{1,6}\.\d[1-9])$/,
   terroir: new RegExp('^([\\s\\S]{2,255})$', 'u'),
   dateOfPlanting: /^(\d{4}-\d{2}-\d{2})$/,
   registrationPlotId: new RegExp('^(|[\\s\\S]{2,40})$', 'u'),
-  grapeType: new RegExp('^([\\p{L}\' ()]{2,45})$', 'u'),
-  state: new RegExp('^([\\p{L}\' ()]{2,40})$', 'u')
+  grapeType: new RegExp("^([\\p{L}' ()]{2,45})$", 'u'),
+  state: new RegExp("^([\\p{L}' ()]{2,40})$", 'u')
 };
 
 export const operationsValidationKeys = {
@@ -133,12 +133,12 @@ export const itemInStockValidationKeys = {
   actualState: /^[01]$/,
   acceptanceDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
   releaseDate: /^($|\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
-  sectorName: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u'),
-  category: new RegExp('^([\\p{L}\' ()]{3,20})$', 'u')
+  sectorName: new RegExp("^([\\p{L}' ()]{3,45})$", 'u'),
+  category: new RegExp("^([\\p{L}' ()]{3,20})$", 'u')
 };
 
 export const parcelValidationKeys = {
-  packageName: new RegExp('^([\\p{L}\' ()]{3,45})$', 'u'),
+  packageName: new RegExp("^([\\p{L}' ()]{3,45})$", 'u'),
   weight: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1,2}|0{1,6}\.\d[1-9])$/,
   date: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/
 };
@@ -149,9 +149,9 @@ export const harvestValidationKeys = {
 };
 
 export const productionPlansValidationKeys = {
-    name: new RegExp('^\\p{L}{3,45}$', 'u'),
-    description: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
-    file: 'application/pdf',
-    recipe: /^\d+$/,
-    fileName: /^.+\.([pP][dD][fF])$/
+  name: new RegExp('^\\p{L}{3,45}$', 'u'),
+  description: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
+  file: 'application/pdf',
+  recipe: /^\d+$/,
+  fileName: /^.+\.([pP][dD][fF])$/
 };

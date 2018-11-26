@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
-import {processesDictValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
+import { processesDictValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 
 const errorMap = {
   name: false,
@@ -30,21 +30,23 @@ export class FormDictProcesses extends React.Component {
 
   handleSubmit = () => {
     const { name, desc, additional } = this.state;
-      let dataObject = {
-          name, desc, additional
-      };
+    let dataObject = {
+      name,
+      desc,
+      additional
+    };
 
-      let arrayOfErrors = UniversalValidationHandler(dataObject, processesDictValidationKeys);
-      if (arrayOfErrors.length === 0) {
-          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-      } else{
-          let error = Object.assign({}, errorMap);
-          for (let errorField in arrayOfErrors) {
-              error[arrayOfErrors[errorField]] = true;
-          }
-          this.setState({error: error});
-          this.props.submitAborted();
+    let arrayOfErrors = UniversalValidationHandler(dataObject, processesDictValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
       }
+      this.setState({ error: error });
+      this.props.submitAborted();
+    }
   };
 
   componentDidUpdate(prevProps) {

@@ -50,12 +50,12 @@ export class FormContractors extends React.Component {
     });
   };
 
-  validateKRSNIP(){
-      if(this.state.NIP === '' && this.state.KRS === ''){
-          alert("Musisz wypełnić NIP lub KRS");
-          return false;
-      }
-      return true;
+  validateKRSNIP() {
+    if (this.state.NIP === '' && this.state.KRS === '') {
+      alert('Musisz wypełnić NIP lub KRS');
+      return false;
+    }
+    return true;
   }
 
   handleSubmit = () => {

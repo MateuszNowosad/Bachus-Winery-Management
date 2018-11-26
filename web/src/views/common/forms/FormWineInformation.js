@@ -2,8 +2,8 @@ import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
 import { data } from './StaticData';
 import PropTypes from 'prop-types';
-import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
-import {wineInformationValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
+import { wineInformationValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 
 const errorMap = {
   name: false,
@@ -35,21 +35,25 @@ export class FormWineInformation extends React.Component {
 
   handleSubmit = () => {
     const { name, motto, allergens, energyValue, wineCategory } = this.state;
-      let dataObject = {
-          name, motto, allergens, energyValue, wineCategory
-      };
+    let dataObject = {
+      name,
+      motto,
+      allergens,
+      energyValue,
+      wineCategory
+    };
 
-      let arrayOfErrors = UniversalValidationHandler(dataObject, wineInformationValidationKeys);
-      if (arrayOfErrors.length === 0) {
-          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-      } else{
-          let error = Object.assign({}, errorMap);
-          for (let errorField in arrayOfErrors) {
-              error[arrayOfErrors[errorField]] = true;
-          }
-          this.setState({error: error});
-          this.props.submitAborted();
+    let arrayOfErrors = UniversalValidationHandler(dataObject, wineInformationValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
       }
+      this.setState({ error: error });
+      this.props.submitAborted();
+    }
   };
 
   componentDidUpdate(prevProps) {

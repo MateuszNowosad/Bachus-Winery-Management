@@ -2,8 +2,8 @@ import React from 'react';
 import { Grid, InputAdornment, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
-import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
-import {harvestValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
+import { harvestValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 
 const errorMap = {
   dateOfHarvest: false,
@@ -29,20 +29,21 @@ export class FormGrapeHarvest extends React.Component {
 
   handleSubmit = () => {
     const { dateOfHarvest, amount } = this.state;
-      let dataObject = {
-          dateOfHarvest, amount
-      };
-      let arrayOfErrors = UniversalValidationHandler(dataObject, harvestValidationKeys);
-      if (arrayOfErrors.length === 0) {
-          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-      } else{
-          let error = Object.assign({}, errorMap);
-          for (let errorField in arrayOfErrors) {
-              error[arrayOfErrors[errorField]] = true;
-          }
-          this.setState({error: error});
-          this.props.submitAborted();
+    let dataObject = {
+      dateOfHarvest,
+      amount
+    };
+    let arrayOfErrors = UniversalValidationHandler(dataObject, harvestValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
       }
+      this.setState({ error: error });
+      this.props.submitAborted();
+    }
   };
 
   componentDidUpdate(prevProps) {

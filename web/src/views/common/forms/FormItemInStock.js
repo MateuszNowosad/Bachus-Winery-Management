@@ -6,8 +6,8 @@ import currentDate from './CurrentDate';
 import { data } from './StaticData';
 import { DialogForForm } from './DialogForForm';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
-import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
-import {itemInStockValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
+import { itemInStockValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 
 const errorMap = {
   name: false,
@@ -72,30 +72,30 @@ export class FormItemInStock extends React.Component {
       category,
       batch
     } = this.state;
-      let dataObject = {
-          name,
-          desc,
-          amount,
-          barcode,
-          actualState,
-          acceptanceDate,
-          releaseDate,
-          sectorName,
-          category,
-          batch
-      };
+    let dataObject = {
+      name,
+      desc,
+      amount,
+      barcode,
+      actualState,
+      acceptanceDate,
+      releaseDate,
+      sectorName,
+      category,
+      batch
+    };
 
-      let arrayOfErrors = UniversalValidationHandler(dataObject, itemInStockValidationKeys);
-      if (arrayOfErrors.length === 0) {
-          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-      } else{
-          let error = Object.assign({}, errorMap);
-          for (let errorField in arrayOfErrors) {
-              error[arrayOfErrors[errorField]] = true;
-          }
-          this.setState({error: error});
-          this.props.submitAborted();
+    let arrayOfErrors = UniversalValidationHandler(dataObject, itemInStockValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
       }
+      this.setState({ error: error });
+      this.props.submitAborted();
+    }
   };
 
   componentDidUpdate(prevProps) {

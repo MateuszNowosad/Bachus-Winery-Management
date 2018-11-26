@@ -14,16 +14,16 @@ import data from '../../variables/AdminDashboard/AutoTableTestData';
 import SearchBar from '../../components/common/SearchBar';
 import testDataProductionPlan from '../../variables/AdminDashboard/testDataProductionPlan';
 import ScrollableDialogForm from '../../components/ScrollableDialogForm/ScrollableDialogForm';
-import {FormProductionPlan} from "../common/forms/FormProductionPlan";
+import { FormProductionPlan } from '../common/forms/FormProductionPlan';
 
 class ProductionPlans extends React.Component {
-    state = {
-        open: false,
-    };
+  state = {
+    open: false
+  };
 
-    handleOpen = () =>{
-        this.setState({open: true});
-    };
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
 
   render() {
     const { classes } = this.props;
@@ -44,7 +44,7 @@ class ProductionPlans extends React.Component {
               closeForm={() => this.setState({ open: false })}
               openForm={() => this.setState({ open: true })}
             >
-              <FormProductionPlan/>
+              <FormProductionPlan />
             </ScrollableDialogForm>
           </div>
         </div>

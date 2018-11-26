@@ -34,12 +34,12 @@ class ScrollableDialogForm extends React.Component {
     this.handleClose();
   };
 
-    submitAborted = () => {
-        this.setState({ submit: false });
-    };
+  submitAborted = () => {
+    this.setState({ submit: false });
+  };
 
   handleClose = () => {
-      this.setState({openConfirmationPrompt: false});
+    this.setState({ openConfirmationPrompt: false });
     this.props.closeForm();
   };
 
@@ -64,7 +64,7 @@ class ScrollableDialogForm extends React.Component {
               submitFromOutside: submit,
               onSubmit: UniversalSubmitHander,
               formSubmitted: this.formSubmitted,
-                submitAborted: this.submitAborted
+              submitAborted: this.submitAborted
             })}
           </DialogContent>
           <DialogActions classes={{ root: classes.root }}>

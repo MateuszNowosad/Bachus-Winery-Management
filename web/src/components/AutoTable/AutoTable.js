@@ -13,7 +13,7 @@ import TableBody from '@material-ui/core/TableBody/TableBody';
 import TableFooter from '@material-ui/core/TableFooter/TableFooter';
 import TableRow from '@material-ui/core/TableRow/TableRow';
 import TablePagination from '@material-ui/core/TablePagination/TablePagination';
-import SearchBar from "../common/SearchBar";
+import SearchBar from '../common/SearchBar';
 
 class AutoTable extends React.Component {
   state = {
@@ -56,10 +56,10 @@ class AutoTable extends React.Component {
     const { classes, queryData, querySubject, querySize, dialogFormTitle, dialogForm, editMode } = this.props;
     const { open, rowsPerPage, page } = this.state;
     return (
-      <div style={{minWidth: '100%'}}>
-          <div className={classes.actions}>
-              <SearchBar/>
-          </div>
+      <div style={{ minWidth: '100%' }}>
+        <div className={classes.actions}>
+          <SearchBar />
+        </div>
         <Paper className={classes.root}>
           <Table className={classes.table}>
             {labels}
