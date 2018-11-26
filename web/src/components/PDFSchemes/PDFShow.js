@@ -1,11 +1,10 @@
-import PDFWaybill from './PDFWaybill';
 import pdfMake from 'pdfmake/build/pdfmake';
 import vfsFonts from 'pdfmake/build/vfs_fonts';
 
-function PDFShow(dataObject) {
+function PDFShow(pdfScheme) {
   const { vfs } = vfsFonts.pdfMake;
   pdfMake.vfs = vfs;
-  pdfMake.createPdf(PDFWaybill(dataObject)).open();
+  pdfMake.createPdf(pdfScheme).open();
 }
 
 export default PDFShow;

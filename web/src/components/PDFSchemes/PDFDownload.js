@@ -1,11 +1,10 @@
-import PDFWaybill from './PDFWaybill';
 import pdfMake from 'pdfmake/build/pdfmake';
 import vfsFonts from 'pdfmake/build/vfs_fonts';
 
-function PDFDownload(dataObject,fileName) {
+function PDFDownload(pdfScheme,fileName) {
   const { vfs } = vfsFonts.pdfMake;
   pdfMake.vfs = vfs;
-  pdfMake.createPdf(PDFWaybill(dataObject)).download(fileName+'.pdf');
+  pdfMake.createPdf(pdfScheme).download(fileName+'.pdf');
 }
 
 export default PDFDownload;
