@@ -223,8 +223,32 @@ export default {
         rola
       });
     },
-    Winnica: async (_, input, context) => {
-      return await sequelize.getWinnica();
+    Winnica: async (
+      _,
+      {
+        idWinnica,
+        nazwa,
+        powierzchnia,
+        stan,
+        terroir,
+        dataOstatniegoZbioru,
+        dataZasadzenia,
+        ewidencyjnyIdDzialki,
+        dictOdmianaWinogron
+      },
+      context
+    ) => {
+      return await sequelize.getWinnica({
+        idWinnica,
+        nazwa,
+        powierzchnia,
+        stan,
+        terroir,
+        dataOstatniegoZbioru,
+        dataZasadzenia,
+        ewidencyjnyIdDzialki,
+        dictOdmianaWinogron
+      });
     },
     Winobranie: async (_, { idWinobranie, dataWinobrania, iloscZebranychWinogron, winnica }, context) => {
       return await sequelize.getWinobranie({ idWinobranie, dataWinobrania, iloscZebranychWinogron, winnica });
@@ -566,24 +590,65 @@ export default {
   // PlanyProdukcyjne: {},
   PozycjaWMagazynie: {
     kategorie: async (_, input, context) => {
-      let query = await sequelize.getDictKategorie();
+      let query = await sequelize.getDictKategorie({ idKategorie: _.kategorieIdKategorie });
       return query[0];
     },
     magazyn: async (_, input, context) => {
-      let query = await sequelize.getListPrzewozowy();
+      let query = await sequelize.getMagazyn({ idMagazyn: _.magazynIdMagazyn });
       return query[0];
     },
     partie: async (_, input, context) => {
-      let query = await sequelize.getListPrzewozowy();
+      let query = await sequelize.getPartie({ idPartie: _.partieIdPartie });
       return query[0];
     },
     przesylka: async (_, input, context) => {
-      let query = await sequelize.getListPrzewozowy();
-      return query[0];
+      const list = await sequelize.getPrzesylkaHasPozycjaWMagazynie({
+        pozycjaWMagazynieIdPozycja: _.idPozycja
+      });
+      let list2 = [];
+      if (list.length > 0) {
+        const promises = list.map(
+          listItem =>
+            new Promise(async resolve => {
+              list2.push(
+                await sequelize.getOperacje({
+                  idPrzesylka: listItem.przesylkaIdPrzesylka
+                })
+              );
+              resolve();
+            })
+        );
+        await Promise.all(promises);
+      }
+      const resolvedQuery = [].concat.apply([], list2);
+      resolvedQuery.forEach(queryElement => {
+        const queryResult = list.find(
+          listElement => listElement.przesylkaIdPrzesylka.toString() === queryElement.idPrzesylka.toString()
+        );
+        queryElement.ilosc = queryResult.ilosc;
+      });
+      return resolvedQuery;
     },
     operacje: async (_, input, context) => {
-      let query = await sequelize.getListPrzewozowy();
-      return query[0];
+      const list = await sequelize.getOperacjeHasPozycjaWMagazynie({
+        pozycjaWMagazynieIdPozycja: _.idPozycja
+      });
+      let list2 = [];
+      if (list.length > 0) {
+        const promises = list.map(
+          listItem =>
+            new Promise(async resolve => {
+              list2.push(
+                await sequelize.getOperacje({
+                  idOperacja: listItem.operacjeIdOperacja
+                })
+              );
+              resolve();
+            })
+        );
+        await Promise.all(promises);
+      }
+      return [].concat.apply([], list2);
     }
   },
   Przesylka: {
@@ -592,55 +657,108 @@ export default {
       return query[0];
     },
     pozycjaWMagazynie: async (_, input, context) => {
-      let query = await sequelize.getPozycjaWMagazynie();
-      return query[0];
+      const list = await sequelize.getPrzesylkaHasPozycjaWMagazynie({
+        przesylkaIdPrzesylka: _.idPrzesylka
+      });
+      let list2 = [];
+      if (list.length > 0) {
+        const promises = list.map(
+          listItem =>
+            new Promise(async resolve => {
+              list2.push(
+                await sequelize.getPozycjaWMagazynie({
+                  idPozycja: listItem.pozycjaWMagazynieIdPozycja
+                })
+              );
+              resolve();
+            })
+        );
+        await Promise.all(promises);
+      }
+      return [].concat.apply([], list2);
     }
   },
   Raporty: {
     uzytkownicy: async (_, input, context) => {
-      let query = await sequelize.getUzytkownicy();
-      return query[0];
+      const list = await sequelize.getRaportyHasUzytkownicy({
+        raportyIdRaport: _.idRaport
+      });
+      let list2 = [];
+      if (list.length > 0) {
+        const promises = list.map(
+          listItem =>
+            new Promise(async resolve => {
+              list2.push(
+                await sequelize.getUzytkownicy({
+                  idUzytkownika: listItem.uzytkownicyIdUzytkownika
+                })
+              );
+              resolve();
+            })
+        );
+        await Promise.all(promises);
+      }
+      return [].concat.apply([], list2);
     }
   },
   Uzytkownicy: {
     adres: async (_, input, context) => {
-      let query = await sequelize.getAddresses();
+      let query = await sequelize.getAddresses({ idAdres: _.adresIdAdres });
       return query[0];
     },
     rola: async (_, input, context) => {
-      let query = await sequelize.getDictRolaUzytkownikow();
+      let query = await sequelize.getDictRolaUzytkownikow({
+        idRolaUzytkownikow: _.dictRolaUzytkownikowIdRolaUzytkownikow
+      });
       return query[0];
     },
     raporty: async (_, input, context) => {
-      let query = await sequelize.getRaporty();
-      return query[0];
+      const list = await sequelize.getRaportyHasUzytkownicy({
+        uzytkownicyIdUzytkownika: _.idUzytkownika
+      });
+      let list2 = [];
+      if (list.length > 0) {
+        const promises = list.map(
+          listItem =>
+            new Promise(async resolve => {
+              list2.push(
+                await sequelize.getRaporty({
+                  idRaport: listItem.raportyIdRaport
+                })
+              );
+              resolve();
+            })
+        );
+        await Promise.all(promises);
+      }
+      return [].concat.apply([], list2);
     },
     operacje: async (_, input, context) => {
-      let query = await sequelize.getOperacje();
-      return query[0];
+      let query = await sequelize.getOperacje({ uzytkownicyIdUzytkownicy: _.idUzytkownika });
+      return query;
     }
   },
   Winnica: {
     dictOdmianaWinogron: async (_, input, context) => {
-      let query = await sequelize.getDictOdmianaWinogron();
+      let query = await sequelize.getDictOdmianaWinogron({ idOdmianaWinogron: _.odmianiaWinogronIdOdmianaWinogron });
       return query[0];
     },
     winobranie: async (_, input, context) => {
-      let query = await sequelize.getWinobranie();
+      let query = await sequelize.getWinobranie({ winnicaIdWinnica: _.idWinnica });
       return query[0];
     },
     operacjeNaWinnicy: async (_, input, context) => {
-      let query = await sequelize.getDictOperacjeNaWinnicy();
+      let query = await sequelize.getDictOperacjeNaWinnicy({ winnicaIdWinnica: _.idWinnica });
       return query[0];
     }
   },
   Winobranie: {
     winnica: async (_, input, context) => {
-      let query = await sequelize.getWinnica();
+      let query = await sequelize.getWinnica({ idWinnica: _.winnicaIdWinnica });
       return query[0];
     },
     partie: async (_, input, context) => {
-      let query = await sequelize.getPartie();
+      let query = await sequelize.getPartie({ winobranieIdWinobranie: _.idWinobranie });
       return query;
     }
   }

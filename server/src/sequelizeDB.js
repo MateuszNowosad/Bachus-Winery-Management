@@ -40,6 +40,9 @@ const sequelize = new Sequelize({
   }
 });
 
+const recordsToGenerate = 25;
+const fkKeyPoolNumber = { min: 1, max: 25 };
+
 sequelize
   .authenticate()
   .then(() => console.log('Connection has been established successfully.'))
@@ -93,8 +96,8 @@ async function createDictOperacjeNaWinnicy() {
     DICTOPERACJENAWINNICY.create({
       nazwa: faker.lorem.word(faker.random.number(100)),
       opis: faker.lorem.words(10),
-      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: faker.random.number(100),
-      winnicaIdWinnica: faker.random.number(20)
+      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: faker.random.number(fkKeyPoolNumber),
+      winnicaIdWinnica: faker.random.number(fkKeyPoolNumber)
     })
   );
 }
@@ -135,7 +138,7 @@ async function createInformacjeOWinie() {
       motto: faker.lorem.words(10),
       zawartoscPotAlergenow: faker.random.word(2),
       wartoscEnergetyczna: faker.random.number(999),
-      dictKategoriaWinaIdDictKategoriaWina: faker.random.number(20)
+      dictKategoriaWinaIdDictKategoriaWina: faker.random.number(fkKeyPoolNumber)
     })
   );
 }
@@ -151,7 +154,7 @@ async function createKontrahenci() {
       KRS: faker.finance.account(10),
       nrKonta: faker.finance.account(26),
       fax: faker.phone.phoneNumberFormat(),
-      adresIdAdres: faker.random.number({ min: 1, max: 10 })
+      adresIdAdres: faker.random.number(fkKeyPoolNumber)
     })
   );
 }
@@ -164,7 +167,7 @@ async function createListPrzewozowy() {
       uwagiPrzewoznika: faker.random.words(3),
       zastrzezeniaOdbiorcy: faker.random.words(5),
       eDokument: 'web/src/' + faker.random.word(1),
-      przesylkaIdPrzesylka: faker.random.number(20)
+      przesylkaIdPrzesylka: faker.random.number(fkKeyPoolNumber)
     })
   );
 }
@@ -174,7 +177,7 @@ async function createMagazyn() {
     MAGAZYN.create({
       rodzaj: faker.random.arrayElement(['polproduktow', 'materialow', 'produktow_skonczonych']),
       pojemnosc: faker.random.number({ min: 1, max: 99999 }) + '.' + faker.random.number(9),
-      adresIdAdres: faker.random.number(20)
+      adresIdAdres: faker.random.number(fkKeyPoolNumber)
     })
   );
 }
@@ -192,8 +195,8 @@ async function createOperacje() {
       kwasowosc: faker.random.number(9) + '.' + faker.random.number(9),
       temperatura: faker.random.number(9) + '.' + faker.random.number(9),
       opis: faker.random.words(5),
-      uzytkownicyIdUzytkownicy: faker.random.number(20),
-      dictProcesyIdDictProcesy: faker.random.number(20)
+      uzytkownicyIdUzytkownicy: faker.random.number(fkKeyPoolNumber),
+      dictProcesyIdDictProcesy: faker.random.number(fkKeyPoolNumber)
     })
   );
 }
@@ -203,8 +206,8 @@ async function createOperacjeNaWinnicy() {
     OPERACJENAWINNICY.create({
       data: faker.date.recent(),
       opis: faker.random.words(5),
-      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: faker.random.number(10),
-      winnicaIdWinnica: faker.random.number(10)
+      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: faker.random.number(fkKeyPoolNumber),
+      winnicaIdWinnica: faker.random.number(fkKeyPoolNumber)
     })
   );
 }
@@ -215,10 +218,10 @@ async function createPartie() {
       ilosc: faker.random.number({ min: 1, max: 999 }) + '.' + faker.random.number(9),
       opis: faker.random.words(5),
       dataUtworzenia: faker.date.recent(),
-      winobranieIdWinobranie: faker.random.number(10),
-      partieIdPartie: faker.random.number(10),
-      typPartiiIdTypPartii: faker.random.number(10),
-      informacjeOWinieIdInformacjeOWinie: faker.random.number(10)
+      winobranieIdWinobranie: faker.random.number(fkKeyPoolNumber),
+      partieIdPartie: faker.random.number(fkKeyPoolNumber),
+      typPartiiIdTypPartii: faker.random.number(fkKeyPoolNumber),
+      informacjeOWinieIdInformacjeOWinie: faker.random.number(fkKeyPoolNumber)
     })
   );
 }
@@ -228,9 +231,9 @@ async function createPlanyProdukcyjne() {
     PLANYPRODUKCYJNE.create({
       nazwa: faker.random.word(1),
       opis: faker.random.words(5),
-      dictRodzajWinogronIdOdmianaWinogron: faker.random.number(10),
-      dictTypPartiiIdTypPartii: faker.random.number(10),
-      dictKategorieIdKategorie: faker.random.number(10),
+      dictRodzajWinogronIdOdmianaWinogron: faker.random.number(fkKeyPoolNumber),
+      dictTypPartiiIdTypPartii: faker.random.number(fkKeyPoolNumber),
+      dictKategorieIdKategorie: faker.random.number(fkKeyPoolNumber),
       eDokument: 'web/documents/plans/' + faker.random.word(1) + '.pdf'
     })
   );
@@ -247,9 +250,9 @@ async function createPozycjaWMagazynie() {
       dataPrzyjecia: faker.date.past(),
       dataWydania: faker.date.recent(),
       nazwaSektora: faker.random.arrayElement(['SektorA', 'SektorB', 'SektorC', 'SektorD', 'SektorE', 'SektorF']),
-      kategorieIdKategorie: faker.random.number(10),
-      magazynIdMagazyn: faker.random.number(10),
-      partieIdPartie: faker.random.number(10)
+      kategorieIdKategorie: faker.random.number(fkKeyPoolNumber),
+      magazynIdMagazyn: faker.random.number(fkKeyPoolNumber),
+      partieIdPartie: faker.random.number(fkKeyPoolNumber)
     })
   );
 }
@@ -289,8 +292,8 @@ async function createUzytkownicy() {
       eMail: faker.internet.email(),
       nrTelefonu: faker.random.number(999) + '-' + faker.random.number(999) + '-' + faker.random.number(999),
       dataOstatniegoLogowania: faker.date.recent(),
-      adresIdAdres: faker.random.number(20),
-      dictRolaUzytkownikowIdRolaUzytkownikow: faker.random.number(20),
+      adresIdAdres: faker.random.number(fkKeyPoolNumber),
+      dictRolaUzytkownikowIdRolaUzytkownikow: faker.random.number(fkKeyPoolNumber),
       zdjecie: faker.internet.avatar(),
       czyAktywne: faker.random.boolean()
     })
@@ -314,7 +317,7 @@ async function createWinnica() {
         faker.random.number(9999) +
         '.' +
         faker.random.number(999),
-      odmianiaWinogronIdOdmianaWinogron: faker.random.number(20)
+      odmianiaWinogronIdOdmianaWinogron: faker.random.number(fkKeyPoolNumber)
     })
   );
 }
@@ -324,7 +327,7 @@ async function createWinobranie() {
     WINOBRANIE.create({
       dataWinobrania: faker.date.past(),
       iloscZebranychWinogron: faker.random.number(999) + '.' + faker.random.number(9),
-      winnicaIdWinnica: faker.random.number(20)
+      winnicaIdWinnica: faker.random.number(fkKeyPoolNumber)
     })
   );
 }
@@ -332,17 +335,17 @@ async function createWinobranie() {
 async function createListPrzewozowyHasAdres() {
   await sequelize.sync().then(() => {
     LISTPRZEWOZOWYHASADRES.create({
-      adresIdAdres: faker.random.number(10),
+      adresIdAdres: faker.random.number(fkKeyPoolNumber),
       miejsce: faker.random.arrayElement(['Nadania', 'Odbioru']),
-      listPrzewozowyIdListPrzewozowy: faker.random.number(10)
+      listPrzewozowyIdListPrzewozowy: faker.random.number(fkKeyPoolNumber)
     });
   });
 }
 async function createListPrzewozowyHasKontrahenci() {
   await sequelize.sync().then(() => {
     LISTPRZEWOZOWYHASKONTRAHENCI.create({
-      listPrzewozowyIdListPrzewozowy: faker.random.number(10),
-      kontrahenciIdKontrahenci: faker.random.number(10),
+      listPrzewozowyIdListPrzewozowy: faker.random.number(fkKeyPoolNumber),
+      kontrahenciIdKontrahenci: faker.random.number(fkKeyPoolNumber),
       typ: faker.random.arrayElement(['Odbiorca', 'Przewoznik'])
     });
   });
@@ -350,8 +353,8 @@ async function createListPrzewozowyHasKontrahenci() {
 async function createOperacjeHasPartie() {
   await sequelize.sync().then(() => {
     OPERACJEHASPARTIE.create({
-      operacjeIdOperacja: faker.random.number(10),
-      partieIdPartie: faker.random.number(10),
+      operacjeIdOperacja: faker.random.number(fkKeyPoolNumber),
+      partieIdPartie: faker.random.number(fkKeyPoolNumber),
       ilosc: faker.random.number(99) + '.' + faker.random.number(9)
     });
   });
@@ -359,8 +362,8 @@ async function createOperacjeHasPartie() {
 async function createOperacjeHasPozycjaWMagazynie() {
   await sequelize.sync().then(() => {
     OPERACJEHASPOZYCJAWMAGAZYNIE.create({
-      operacjeIdOperacja: faker.random.number(10),
-      pozycjaWMagazynieIdPozycja: faker.random.number(10),
+      operacjeIdOperacja: faker.random.number(fkKeyPoolNumber),
+      pozycjaWMagazynieIdPozycja: faker.random.number(fkKeyPoolNumber),
       ilosc: faker.random.number(99) + '.' + faker.random.number(99)
     });
   });
@@ -368,16 +371,16 @@ async function createOperacjeHasPozycjaWMagazynie() {
 async function createPlanyProdukcyjneHasDictProcesy() {
   await sequelize.sync().then(() => {
     PLANYPRODUKCYJNEHASDICTPROCESY.create({
-      planyProdukcyjneIdPlanyProdukcyjne: faker.random.number(10),
-      dictProcesyIdDictProcesy: faker.random.number(10)
+      planyProdukcyjneIdPlanyProdukcyjne: faker.random.number(fkKeyPoolNumber),
+      dictProcesyIdDictProcesy: faker.random.number(fkKeyPoolNumber)
     });
   });
 }
 async function createPrzesylkaHasPozycjaWMagazynie() {
   await sequelize.sync().then(() => {
     PRZESYLKAHASPOZYCJAWMAGAZYNIE.create({
-      przesylkaIdPrzesylka: faker.random.number(10),
-      pozycjaWMagazynieIdPozycja: faker.random.number(10),
+      przesylkaIdPrzesylka: faker.random.number(fkKeyPoolNumber),
+      pozycjaWMagazynieIdPozycja: faker.random.number(fkKeyPoolNumber),
       ilosc: faker.random.number(99) + '.' + faker.random.number(99)
     });
   });
@@ -385,8 +388,8 @@ async function createPrzesylkaHasPozycjaWMagazynie() {
 async function createRaportyHasUzytkownicy() {
   await sequelize.sync().then(() => {
     RAPORTYHASUZYTKOWNICY.create({
-      raportyIdRaport: faker.random.number(10),
-      uzytkownicyIdUzytkownika: faker.random.number(10)
+      raportyIdRaport: faker.random.number(fkKeyPoolNumber),
+      uzytkownicyIdUzytkownika: faker.random.number(fkKeyPoolNumber)
     });
   });
 }
@@ -725,39 +728,39 @@ const RAPORTYHASUZYTKOWNICY = sequelize.define('RaportyHasUzytkownicy', {
   uzytkownicyIdUzytkownika: { type: Sequelize.INTEGER, allowNull: false }
 });
 
-for (let i = 0; i < 2; i += 1) {
+for (let i = 0; i < recordsToGenerate; i += 1) {
   // TODO set in docker container after inserting SET FOREIGN_KEY_CHECKS=1;
-  // createAdres();
-  // createKontrahenci();
-  // createDictKategoriaWina();
-  // createDictKategorie();
-  // createDictOdmianaWinogron();
-  // createDictOperacjeNaWinnicy();
-  // createDictProcesy();
-  // createDictRolaUzytkownikow();
-  // createDictTypPartii();
-  // createInformacjeOWinie();
-  // createListPrzewozowy();
-  // createOperacjeNaWinnicy();
-  // createRaporty();
-  // createPlanyProdukcyjne();
-  // createMagazyn();
-  // createOperacje();
-  // createPartie();
-  // createPozycjaWMagazynie();
-  // createPrzesylka();
-  // createUzytkownicy();
-  // createWinnica();
-  // createWinobranie();
-  // createListPrzewozowyHasAdres();
-  // createListPrzewozowyHasKontrahenci();
-  // createOperacjeHasPartie();
-  // createOperacjeHasPozycjaWMagazynie();
-  // createPlanyProdukcyjneHasDictProcesy();
-  // createPrzesylkaHasPozycjaWMagazynie();
-  // createRaportyHasUzytkownicy();
+  createAdres();
+  createKontrahenci();
+  createDictKategoriaWina();
+  createDictKategorie();
+  createDictOdmianaWinogron();
+  createDictOperacjeNaWinnicy();
+  createDictProcesy();
+  createDictRolaUzytkownikow();
+  createDictTypPartii();
+  createInformacjeOWinie();
+  createListPrzewozowy();
+  createOperacjeNaWinnicy();
+  createRaporty();
+  createPlanyProdukcyjne();
+  createMagazyn();
+  createOperacje();
+  createPartie();
+  createPozycjaWMagazynie();
+  createPrzesylka();
+  createUzytkownicy();
+  createWinnica();
+  createWinobranie();
+  createListPrzewozowyHasAdres();
+  createListPrzewozowyHasKontrahenci();
+  createOperacjeHasPartie();
+  createOperacjeHasPozycjaWMagazynie();
+  createPlanyProdukcyjneHasDictProcesy();
+  createPrzesylkaHasPozycjaWMagazynie();
+  createRaportyHasUzytkownicy();
   // ------ above working data generation
-  // TODO FIX tables
+  // TODO FIX tables below this todo
 }
 
 // SELECT ANY FROM DATABASE
