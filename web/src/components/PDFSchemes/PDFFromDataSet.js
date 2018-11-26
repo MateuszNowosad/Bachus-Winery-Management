@@ -15,7 +15,6 @@ const formatLabels = (dataLabels) => {
       labels.push({ text: dataLabels[i], bold: true });
     }
   }
-  console.log('17, labels jakub: ', labels);
   return labels;
 };
 
@@ -37,30 +36,30 @@ const formatData = (dataObject, dataLabels) => {
             if (arrayValue.length === 0) {
               cells.push({ text: '' });
             } else {
-              let tmp4 = [];
+              let body = [];
               for (let i = 0; i < arrayValue.length; i++) {
-                let tmp = formatData([Object.values(arrayValue[i])])[0];
-                let tmp3 = [];
-                for (let j = 0; j < tmp.length; j++) {
-                  tmp3.push(tmp[j]);
+                let bodyCells= formatData([Object.values(arrayValue[i])])[0];
+                let bodyRow = [];
+                for (let j = 0; j < bodyCells.length; j++) {
+                  bodyRow.push(bodyCells[j]);
                 }
-                tmp4.push(tmp3);
+                body.push(bodyRow);
               }
               cells.push({
                 table: {
-                  body: tmp4
+                  body: body
                 }
                 , margin: [-5, -3, -5, -3]
               });
             }
           } else {
-            let tmp = formatData([[Object.values(values[value])][0]])[0];
-            let tmp2 = [];
-            for (let j = 0; j < tmp.length; j++)
-              tmp2.push(tmp[j]);
+            let bodyCells= formatData([[Object.values(values[value])][0]])[0];
+            let body = [];
+            for (let j = 0; j < bodyCells.length; j++)
+              body.push(bodyCells[j]);
             cells.push({
               table: {
-                body: [tmp2]
+                body: [body]
               }
               , margin: [-5, -3, -5, -3]
             });
