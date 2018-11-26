@@ -16,7 +16,7 @@ type Query {
   Partie(idPartie: ID, ilosc: Float, opis: String, dataUtworzenia: String): [Partie]
   PlanyProdukcyjne(idPlanyProdukcyjne: ID, nazwa: String, opis: String, eDokument: String): [PlanyProdukcyjne]
   PozycjaWMagazynie(idPozycja: ID, nazwa: String, opis: String, ilosc: Float, kodKreskowy: String, stanAktualny: String, dataPrzyjecia: String, dataWydania: String, nazwaSektora: String): [PozycjaWMagazynie]
-  Przesylka(idPrzesylka: ID, nazwaPrzesylki: String, ciezarLadunku: Float, date: String): [Przesylka]
+  Przesylka(idPrzesylka: ID, nazwaPrzesylki: String, ciezarLadunku: Float, data: String): [Przesylka]
   Raporty(idRaport: ID, nazwa: String, eDokument: String, dataUtworzenia: String): [Raporty]
   Uzytkownicy(idUzytkownika: ID, imie: String, nazwisko: String, login: String, haslo: String, PESEL: String, eMail: String, nrTelefonu: String, dataOstatniegoLogowania: String, zdjecie: String, czyAktywne: String): [Uzytkownicy]
   Winnica(idWinnica: ID, nazwa: String, powierzchnia: Float, stan: String, terroir: String, dataOstatniegoZbioru: String, dataZasadzenia: String, ewidencyjnyIdDzialki: String): [Winnica]
@@ -31,14 +31,17 @@ type Adres {
   nrLokalu: String
   nrPosesji: String!
   kraj: String!
-  createdAt: String
-  updatedAt: String
+  uzytkownicy: Uzytkownicy
+  kontrahent: Kontrahenci
+  listprzewozowy: [ListPrzewozowy]
+  miejsce: String
 }
 
 type DictKategoriaWina {
   idDictKategoriaWina: ID
   nazwaKategoria: String!
   opis: String
+  informacjeOWinie: [InformacjeOWinie]
 }
 
 type DictKategorie {
@@ -46,18 +49,23 @@ type DictKategorie {
   nazwa: String!
   jednostka: String!
   opis: String
+  planyProdukcyjne: [PlanyProdukcyjne]
+  pozycjaWMagazynie: [PozycjaWMagazynie]
 }
 
 type DictOdmianaWinogron {
   idOdmianaWinogron: ID
   nazwa: String!
   opis: String
+  planyProdukcyjne: [PlanyProdukcyjne]
+  winnica: [Winnica]
 }
 
 type DictOperacjeNaWinnicy {
   idDictOperacjeNaWinnicy: ID
   nazwa: String!
   opis: String
+  operacjeNaWinnicy: [OperacjeNaWinnicy]
 }
 
 type DictProcesy {
@@ -65,19 +73,24 @@ type DictProcesy {
   nazwa: String!
   opis: String
   dodatkowe: String
+  operacje: [Operacje]
+  planyProdukcyjne: [PlanyProdukcyjne]
 }
 
 type DictRolaUzytkownikow {
   idRolaUzytkownikow: ID
   nazwa: String!
   opis: String
+  typ: String
+  uzytkownicy: [Uzytkownicy]
 }
 
 type DictTypPartii {
   idTypPartii: ID
   nazwa: String!
   jednostka: String!
-  typ: String!
+  partie: [Partie]
+  planyProdukcyjne: [PlanyProdukcyjne]
 }
 
 type InformacjeOWinie {
@@ -86,7 +99,8 @@ type InformacjeOWinie {
   motto: String!
   zawartoscPotAlergenow: String
   wartoscEnergetyczna: String!
-  kategoriaWina: [DictKategoriaWina]
+  kategoriaWina: DictKategoriaWina
+  partie: [Partie]
 }
 
 type Kontrahenci {
@@ -111,14 +125,16 @@ type ListPrzewozowy {
   zastrzezeniaOdbiorcy: String
   eDokument: String
   kontrahent: [Kontrahenci]
-  przesylka: [Przesylka]
+  przesylka: Przesylka
+  adres: [Adres]
 }
 
 type Magazyn {
   idMagazyn: ID
   rodzaj: String!
   pojemnosc: Float!
-  adres: Adres!
+  adres: Adres
+  pozycjaWMagazynie: [PozycjaWMagazynie]
 }
 
 type Operacje {
@@ -134,15 +150,17 @@ type Operacje {
   temperatura: Float
   opis: String
   uzytkownicy: Uzytkownicy
-  procesy: DictProcesy
+  dictProcesy: DictProcesy
+  pozycjaWMagazynie: [PozycjaWMagazynie]
+  partie: [Partie]
 }
 
 type OperacjeNaWinnicy {
   idOperacja: ID
-  data: String!
-  opis: String!
-  dictOperacjeNaWinnicy: DictOperacjeNaWinnicy!
-  winnica: Winnica!
+  data: String
+  opis: String
+  dictOperacjeNaWinnicy: DictOperacjeNaWinnicy
+  winnica: Winnica
 }
 
 type Partie {
@@ -151,9 +169,10 @@ type Partie {
   opis: String!
   dataUtworzenia: String!
   winobranie: Winobranie
-  partie: Partie
   typPartii: DictTypPartii
   informacjeOWinie: InformacjeOWinie
+  partie: [Partie]
+  operacje: [Operacje]
 }
 
 type PlanyProdukcyjne {
@@ -179,13 +198,17 @@ type PozycjaWMagazynie {
   kategorie: DictKategorie
   magazyn: Magazyn
   partie: Partie
+  przesylka: [Przesylka]
+  operacje: [Operacje]
 }
 
 type Przesylka {
   idPrzesylka: ID
   nazwaPrzesylki: String
   ciezarLadunku: Float
-  date: String
+  data: String!
+  listPrzewozowy: ListPrzewozowy
+  pozycjaWMagazynie: [PozycjaWMagazynie]
 }
 
 type Raporty {
@@ -193,6 +216,7 @@ type Raporty {
   nazwa: String!
   eDokument: String!
   dataUtworzenia: String!
+  uzytkownicy: [Uzytkownicy]
 }
 
 type Uzytkownicy {
@@ -207,8 +231,10 @@ type Uzytkownicy {
   dataOstatniegoLogowania: String!
   zdjecie: String
   czyAktywne: String!
-  adres: Adres!
-  rola: DictRolaUzytkownikow!
+  adres: Adres
+  rola: DictRolaUzytkownikow
+  raporty: [Raporty]
+  operacje: [Operacje]
 }
 
 type Winnica {
@@ -221,12 +247,15 @@ type Winnica {
   dataZasadzenia: String!
   ewidencyjnyIdDzialki: String!
   dictOdmianaWinogron: DictOdmianaWinogron
+  winobranie: [Winobranie]
+  operacjeNaWinnicy: [OperacjeNaWinnicy]
 }
 
 type Winobranie {
   idWinobranie: ID
   dataWinobrania: String!
   iloscZebranychWinogron: Float!
-  winnica: Winnica!
+  winnica: Winnica
+  partie: [Partie]
 }
 
