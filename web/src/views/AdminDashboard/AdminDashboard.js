@@ -30,8 +30,7 @@ class AdminDashboard extends React.Component {
             <AutoTable
               queryData={data}
               querySubject={'hero'}
-              querySize={2}
-              labelsArr={['ID', 'Nazwa', 'Wiek']}
+              querySize={259}
               editMode={false}
             />
           </TabContainer>
@@ -39,8 +38,7 @@ class AdminDashboard extends React.Component {
             <AutoTable
               queryData={data}
               querySubject={'hero'}
-              querySize={2}
-              labelsArr={['ID', 'Nazwa', 'Wiek']}
+              querySize={259}
               editMode={false}
             />
           </TabContainer>
@@ -48,8 +46,7 @@ class AdminDashboard extends React.Component {
             <AutoTable
               queryData={data}
               querySubject={'hero'}
-              querySize={2}
-              labelsArr={['ID', 'Nazwa', 'Wiek']}
+              querySize={259}
               editMode={false}
             />
           </TabContainer>
@@ -57,8 +54,7 @@ class AdminDashboard extends React.Component {
             <AutoTable
               queryData={data}
               querySubject={'hero'}
-              querySize={2}
-              labelsArr={['ID', 'Nazwa', 'Wiek']}
+              querySize={259}
               editMode={false}
             />
           </TabContainer>
@@ -69,8 +65,7 @@ class AdminDashboard extends React.Component {
         <AutoTable
           queryData={data}
           querySubject={'hero'}
-          querySize={2}
-          labelsArr={['ID', 'Nazwa', 'Wiek']}
+          querySize={259}
           editMode={false}
         />
       </React.Fragment>

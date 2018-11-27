@@ -1,6 +1,8 @@
 import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
+import {categoriesDictValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
 
 const errorMap = {
   name: false,
@@ -28,8 +30,21 @@ export class FormDictCategories extends React.Component {
 
   handleSubmit = () => {
     const { name, unit, desc } = this.state;
-    this.props.onSubmit({ name, unit, desc });
-    this.props.formSubmitted();
+      let dataObject = {
+          name, unit, desc
+      };
+
+      let arrayOfErrors = UniversalValidationHandler(dataObject, categoriesDictValidationKeys);
+      if (arrayOfErrors.length === 0) {
+          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      } else{
+          let error = Object.assign({}, errorMap);
+          for (let errorField in arrayOfErrors) {
+              error[arrayOfErrors[errorField]] = true;
+          }
+          this.setState({error: error});
+          this.props.submitAborted();
+      }
   };
 
   componentDidUpdate(prevProps) {
@@ -101,5 +116,6 @@ export class FormDictCategories extends React.Component {
 FormDictCategories.propTypes = {
   submitFromOutside: PropTypes.bool,
   onSubmit: PropTypes.func,
-  formSubmitted: PropTypes.func
+  formSubmitted: PropTypes.func,
+  submitAborted: PropTypes.func
 };
