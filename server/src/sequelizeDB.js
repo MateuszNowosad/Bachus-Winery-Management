@@ -28,9 +28,8 @@ const sequelize = new Sequelize({
   host: '172.17.0.2',
   connectionTimeout: 0,
   pool: {
-    max: 50000,
     min: 1,
-    idle: 200000
+    idle: 10000
   },
   retry: { max: 2 },
   logging: false,
