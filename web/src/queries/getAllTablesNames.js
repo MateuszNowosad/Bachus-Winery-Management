@@ -6,7 +6,7 @@ const getAllTablesNames = gql`
         {
             queryType
             {
-                fields
+                table: fields
                 {
                     name
                 }

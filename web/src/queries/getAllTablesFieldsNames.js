@@ -4,9 +4,9 @@ const getAllTablesFieldNames = gql`
 {
  __schema {
   queryType {
-    fields {
+    table: fields {
       name
-      args {
+      field: args {
         name
       }
     }
