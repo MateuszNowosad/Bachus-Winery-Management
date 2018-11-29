@@ -1,6 +1,6 @@
 import gql from "graphql-tag"
 
-const getAllTables = gql`
+const getAllTablesNames = gql`
     {
         __schema
         {
@@ -14,5 +14,4 @@ const getAllTables = gql`
         }
     }`;
 
-export default getAllTables;
- 
+export default getAllTablesNames;

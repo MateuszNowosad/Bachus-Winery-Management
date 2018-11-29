@@ -1,6 +1,6 @@
 import React from 'react';
 import {Grid, MenuItem, TextField} from '@material-ui/core';
-import getAllTables from '../../queries/getAllTables'
+import getAllTablesNames from '../../queries/getAllTablesNames'
 import {Query} from 'react-apollo'
 
 
@@ -27,7 +27,7 @@ export class DataToPDF extends React.Component {
                 <Grid container spacing={8} justify={'center'}>
                     <Grid item md={12}>
                         <Query
-                            query={getAllTables}
+                            query={getAllTablesNames}
                         >
                             {({loading, error, data}) => {
                                 if (loading) return <p>Loading...</p>;
@@ -60,7 +60,7 @@ export class DataToPDF extends React.Component {
                     </Grid>
                     <Grid item md={12}>
                         <Query
-                            query={getAllTables}
+                            query={getAllTablesNames}
                         >
                             {({loading, error, data}) => {
                                 if (loading) return <p>Loading...</p>;
