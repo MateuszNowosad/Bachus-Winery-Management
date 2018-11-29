@@ -1,21 +1,20 @@
 import React from 'react';
-import {Grid, MenuItem, TextField, Button} from '@material-ui/core';
+import {
+    Grid,
+    MenuItem,
+    TextField,
+    Button,
+    List,
+} from '@material-ui/core';
 import getAllTablesNames from '../../queries/getAllTablesNames'
 import {Query, ApolloConsumer} from 'react-apollo'
 import getAllTablesFieldNames from "../../queries/getAllTablesFieldsNames";
 import PDFShow from "../PDFSchemes/PDFShow";
 import PDFFromDataSet from "../PDFSchemes/PDFFromDataSet";
 import simpleQueryBuilder from "../../queries/simpleQueryBuilder";
+import renderFields from "./renderFields";
 
 
-const renderFields = (data, tableName) => {
-    if (tableName !== '' && data.length !== 0)
-        return data[0].fields.map(field => (
-            <MenuItem key={field.name} value={field.name}>
-                {field.name}
-            </MenuItem>
-        ));
-};
 
 
 export class DataToPDF extends React.Component {
@@ -25,7 +24,6 @@ export class DataToPDF extends React.Component {
             tableName: '',
             fieldNames: [],
         }
-
     }
 
     handleChange = name => event => {
@@ -35,18 +33,22 @@ export class DataToPDF extends React.Component {
         });
     };
 
-    isTableName = () => {
-        return this.state.tableName !== '';
+    handleToggle = value => () => {
+        const { fieldNames } = this.state;
+        const currentIndex = fieldNames.indexOf(value);
+        const newFieldName = [...fieldNames];
+
+        if (currentIndex === -1) {
+            newFieldName.push(value);
+        } else {
+            newFieldName.splice(currentIndex, 1);
+        }
+
+        this.setState({
+            fieldNames: newFieldName,
+        });
     };
 
-    isFieldName = (data) => {
-        return data.length !== 0;
-    };
-    setPlaceholder = (data) => {
-        if (!this.isTableName) return 'Nie wybrano tabeli';
-        if (!this.isFieldName(data)) return 'Takiej tabeli nie ma bazie';
-        return '';
-    };
 
     render() {
         const {tableName, fieldNames} = this.state;
@@ -87,37 +89,21 @@ export class DataToPDF extends React.Component {
                         </Query>
                     </Grid>
                     <Grid item md={12}>
-                        <Query
-                            query={getAllTablesFieldNames}
-                        >
-                            {({loading, error, data}) => {
-                                if (loading) return <p>Loading...</p>;
-                                if (error) return <p>Error :(</p>;
+                            <Query
+                                query={getAllTablesFieldNames}
+                            >
+                                {({loading, error, data}) => {
+                                    if (loading) return <p>Loading...</p>;
+                                    if (error) return <p>Error :(</p>;
 
-                                const filteredData = data.__schema.queryType.tables.filter((table) => (table.name === tableName));
-                                console.log('95, filteredData jakub: ', filteredData.length);
-                                console.log('95, this.isTableName jakub: ', this.isFieldName(filteredData));
-                                return (
-                                    <TextField
-                                        fullWidth
-                                        id="fieldNames"
-                                        select={this.isTableName && this.isFieldName(filteredData)}
-                                        placeholder={this.setPlaceholder(filteredData)}
-                                        disabled={!(this.isTableName && this.isFieldName(filteredData))}
-                                        label="Pole"
-                                        InputLabelProps={{
-                                            shrink: true
-                                        }}
-                                        value={fieldNames}
-                                        onChange={this.handleChange('fieldNames')}
-                                        margin="dense"
-                                        variant={'outlined'}
-                                    >
-                                        {renderFields(filteredData, tableName)}
-                                    </TextField>
-                                )
-                            }}
-                        </Query>
+                                    const filteredData = data.__schema.queryType.tables.filter((table) => (table.name === tableName));
+                                    return (
+                                        <List>
+                                            {renderFields(filteredData,tableName,fieldNames,this.handleToggle)}
+                                        </List>
+                                    )
+                                }}
+                            </Query>
                     </Grid>
                     <Grid item md={12}>
                         <ApolloConsumer>
@@ -126,10 +112,10 @@ export class DataToPDF extends React.Component {
                                     variant={"outlined"}
                                     onClick={async () => {
                                         const {data} = await client.query({
-                                            query: simpleQueryBuilder(tableName,fieldNames),
+                                            query: simpleQueryBuilder(tableName, fieldNames),
                                         });
                                         console.log('131, data[tableName] jakub: ', data[tableName]);
-                                        PDFShow(PDFFromDataSet(data[tableName], [fieldNames]))
+                                        PDFShow(PDFFromDataSet(data[tableName], fieldNames))
                                     }}
                                 >
                                     Generuj dokument
@@ -142,4 +128,3 @@ export class DataToPDF extends React.Component {
         );
     }
 }
-
