@@ -25,12 +25,12 @@ const sequelize = new Sequelize({
   username: 'test',
   password: 'test',
   dialect: 'mysql',
-  host: '172.17.0.2',
+  host: 'localhost',
+    port: '3306',
   connectionTimeout: 0,
   pool: {
-    max: 50000,
     min: 1,
-    idle: 200000
+    idle: 10000
   },
   retry: { max: 2 },
   logging: false,
@@ -40,8 +40,8 @@ const sequelize = new Sequelize({
   }
 });
 
-const recordsToGenerate = 25;
-const fkKeyPoolNumber = { min: 1, max: 25 };
+const recordsToGenerate = 0;
+const fkKeyPoolNumber = { min: 1, max: 10 };
 
 sequelize
   .authenticate()
