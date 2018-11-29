@@ -3,6 +3,9 @@ const DataToPDFStyle = theme => ({
         maxHeight: 200,
         overflow: 'auto'
     },
+    menu: {
+        maxHeight: 200
+    },
     form: {
         margin: '0% 25%'
     }

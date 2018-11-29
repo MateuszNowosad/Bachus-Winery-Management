@@ -15,7 +15,7 @@ import PDFFromDataSet from "../PDFSchemes/PDFFromDataSet";
 import simpleQueryBuilder from "../../queries/simpleQueryBuilder";
 import renderFields from "./renderFields";
 import DataToPDFStyle from "../../assets/jss/common/components/DataToPDFStyle";
-
+import pageSizes from "../../variables/DataToPDF/pageSizes";
 
 
 class DataToPDF extends React.Component {
@@ -24,6 +24,7 @@ class DataToPDF extends React.Component {
         this.state = {
             tableName: '',
             fieldNames: [],
+            pageSize: ''
         }
     }
 
@@ -35,7 +36,7 @@ class DataToPDF extends React.Component {
     };
 
     handleToggle = value => () => {
-        const { fieldNames } = this.state;
+        const {fieldNames} = this.state;
         const currentIndex = fieldNames.indexOf(value);
         const newFieldName = [...fieldNames];
 
@@ -52,8 +53,8 @@ class DataToPDF extends React.Component {
 
 
     render() {
-        const {tableName, fieldNames} = this.state;
-        const { classes } = this.props;
+        const {tableName, fieldNames, pageSize} = this.state;
+        const {classes} = this.props;
         return (
             <form className={classes.form}>
                 <Grid container spacing={8} justify={'center'}>
@@ -74,6 +75,11 @@ class DataToPDF extends React.Component {
                                         InputLabelProps={{
                                             shrink: true
                                         }}
+                                        SelectProps={{
+                                            MenuProps: {
+                                                className: classes.menu,
+                                            },
+                                        }}
                                         value={tableName}
                                         onChange={this.handleChange('tableName')}
                                         margin="dense"
@@ -91,27 +97,52 @@ class DataToPDF extends React.Component {
                         </Query>
                     </Grid>
                     <Grid item md={12}>
-                            <Query
-                                query={getAllTablesFieldNames}
-                            >
-                                {({loading, error, data}) => {
-                                    if (loading) return <p>Loading...</p>;
-                                    if (error) return <p>Error :(</p>;
+                        <Query
+                            query={getAllTablesFieldNames}
+                        >
+                            {({loading, error, data}) => {
+                                if (loading) return <p>Loading...</p>;
+                                if (error) return <p>Error :(</p>;
 
-                                    const filteredData = data.__schema.queryType.tables.filter((table) => (table.name === tableName));
-                                    return (
-                                        <List
-                                            dense
-                                            className={classes.list}
-                                        >
-                                            {renderFields(filteredData,tableName,fieldNames,this.handleToggle)}
-                                        </List>
-                                    )
-                                }}
-                            </Query>
+                                const filteredData = data.__schema.queryType.tables.filter((table) => (table.name === tableName));
+                                return (
+                                    <List
+                                        dense
+                                        className={classes.list}
+                                    >
+                                        {renderFields(filteredData, tableName, fieldNames, this.handleToggle)}
+                                    </List>
+                                )
+                            }}
+                        </Query>
                     </Grid>
-                    <Grid>
-
+                    <Grid item md={12}>
+                            <TextField
+                                fullWidth
+                                id="pageSize"
+                                select
+                                label="Rozmiar strony"
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                                SelectProps={{
+                                    MenuProps: {
+                                        className: classes.menu,
+                                    },
+                                }}
+                                value={pageSize}
+                                onChange={this.handleChange('pageSize')}
+                                margin="dense"
+                                variant={'outlined'}
+                            >
+                                {
+                                    pageSizes.map(pageSize =>
+                                        <MenuItem key={pageSize} value={pageSize}>
+                                            {pageSize}
+                                        </MenuItem>
+                                    )
+                                }
+                            </TextField>
                     </Grid>
                     <Grid item md={12}>
                         <ApolloConsumer>
@@ -123,7 +154,7 @@ class DataToPDF extends React.Component {
                                             query: simpleQueryBuilder(tableName, fieldNames),
                                         });
                                         console.log('131, data[tableName] jakub: ', data[tableName]);
-                                        PDFShow(PDFFromDataSet(data[tableName], fieldNames))
+                                        PDFShow(PDFFromDataSet(data[tableName], fieldNames,pageSize))
                                     }}
                                 >
                                     Generuj dokument
@@ -137,4 +168,4 @@ class DataToPDF extends React.Component {
     }
 }
 
-export default withStyles(DataToPDFStyle) (DataToPDF);
+export default withStyles(DataToPDFStyle)(DataToPDF);

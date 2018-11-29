@@ -90,9 +90,9 @@ const formatData = (dataObject, dataLabels) => {
     return data;
 };
 
-const PDFFromDataSet = (dataObject, dataLabels) => {
+const PDFFromDataSet = (dataObject, dataLabels,pageSize) => {
     return ({
-        pageSize: 'A4',
+        pageSize: pageSize,
         pageOrientation: 'landscape',
         content: [
             {
