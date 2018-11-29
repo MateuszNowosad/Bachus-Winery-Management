@@ -1,17 +1,20 @@
 import React from 'react';
-import {Grid, MenuItem, TextField} from '@material-ui/core';
+import {Grid, MenuItem, TextField, Button} from '@material-ui/core';
 import getAllTablesNames from '../../queries/getAllTablesNames'
-import {Query} from 'react-apollo'
+import {Query, ApolloConsumer} from 'react-apollo'
 import getAllTablesFieldNames from "../../queries/getAllTablesFieldsNames";
+import PDFShow from "../PDFSchemes/PDFShow";
+import PDFFromDataSet from "../PDFSchemes/PDFFromDataSet";
+import simpleQueryBuilder from "../../queries/simpleQueryBuilder";
 
 
 const renderFields = (data, tableName) => {
-    if(tableName !== '' && data.length !== 0)
+    if (tableName !== '' && data.length !== 0)
         return data[0].fields.map(field => (
-                <MenuItem key={field.name} value={field.name}>
-                    {field.name}
-                </MenuItem>
-            ));
+            <MenuItem key={field.name} value={field.name}>
+                {field.name}
+            </MenuItem>
+        ));
 };
 
 
@@ -32,7 +35,7 @@ export class DataToPDF extends React.Component {
         });
     };
 
-    isTableName= () => {
+    isTableName = () => {
         return this.state.tableName !== '';
     };
 
@@ -40,8 +43,8 @@ export class DataToPDF extends React.Component {
         return data.length !== 0;
     };
     setPlaceholder = (data) => {
-        if(!this.isTableName) return 'Nie wybrano tabeli';
-        if(!this.isFieldName(data)) return 'Takiej tabeli nie ma bazie';
+        if (!this.isTableName) return 'Nie wybrano tabeli';
+        if (!this.isFieldName(data)) return 'Takiej tabeli nie ma bazie';
         return '';
     };
 
@@ -110,11 +113,29 @@ export class DataToPDF extends React.Component {
                                         margin="dense"
                                         variant={'outlined'}
                                     >
-                                        {renderFields(filteredData,tableName)}
+                                        {renderFields(filteredData, tableName)}
                                     </TextField>
                                 )
                             }}
                         </Query>
+                    </Grid>
+                    <Grid item md={12}>
+                        <ApolloConsumer>
+                            {client => (
+                                <Button
+                                    variant={"outlined"}
+                                    onClick={async () => {
+                                        const {data} = await client.query({
+                                            query: simpleQueryBuilder(tableName,fieldNames),
+                                        });
+                                        console.log('131, data[tableName] jakub: ', data[tableName]);
+                                        PDFShow(PDFFromDataSet(data[tableName], [fieldNames]))
+                                    }}
+                                >
+                                    Generuj dokument
+                                </Button>
+                            )}
+                        </ApolloConsumer>
                     </Grid>
                 </Grid>
             </form>
