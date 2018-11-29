@@ -5,6 +5,7 @@ import {
     TextField,
     Button,
     List,
+    withStyles
 } from '@material-ui/core';
 import getAllTablesNames from '../../queries/getAllTablesNames'
 import {Query, ApolloConsumer} from 'react-apollo'
@@ -13,11 +14,11 @@ import PDFShow from "../PDFSchemes/PDFShow";
 import PDFFromDataSet from "../PDFSchemes/PDFFromDataSet";
 import simpleQueryBuilder from "../../queries/simpleQueryBuilder";
 import renderFields from "./renderFields";
+import DataToPDFStyle from "../../assets/jss/common/components/DataToPDFStyle";
 
 
 
-
-export class DataToPDF extends React.Component {
+class DataToPDF extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -52,8 +53,9 @@ export class DataToPDF extends React.Component {
 
     render() {
         const {tableName, fieldNames} = this.state;
+        const { classes } = this.props;
         return (
-            <form style={{margin: '0% 25%'}}>
+            <form className={classes.form}>
                 <Grid container spacing={8} justify={'center'}>
                     <Grid item md={12}>
                         <Query
@@ -98,12 +100,18 @@ export class DataToPDF extends React.Component {
 
                                     const filteredData = data.__schema.queryType.tables.filter((table) => (table.name === tableName));
                                     return (
-                                        <List>
+                                        <List
+                                            dense
+                                            className={classes.list}
+                                        >
                                             {renderFields(filteredData,tableName,fieldNames,this.handleToggle)}
                                         </List>
                                     )
                                 }}
                             </Query>
+                    </Grid>
+                    <Grid>
+
                     </Grid>
                     <Grid item md={12}>
                         <ApolloConsumer>
@@ -128,3 +136,5 @@ export class DataToPDF extends React.Component {
         );
     }
 }
+
+export default withStyles(DataToPDFStyle) (DataToPDF);
