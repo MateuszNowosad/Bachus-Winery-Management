@@ -1,21 +1,53 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
 
 import PDFFromDataSet from './PDFFromDataSet';
-import data from '../../variables/PDFTestData/ListPrzewozowyTest';
 import PDFShow from './PDFShow';
+import gql from "graphql-tag";
+import { ApolloConsumer} from "react-apollo";
 
+
+
+const qr = gql`
+      {
+ Uzytkownicy {
+  imie
+  nazwisko
+}
+}
+    `;
 
 export class PDFViewer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+    constructor(props) {
+        super(props);
+    }
 
-  render() {
-    return (
-      <Button onClick={() => PDFShow(PDFFromDataSet(data.data.ListPrzewozowy,data.data.labels))}>
-        PDF
-      </Button>
+    adresQ = () => (
+        <ApolloConsumer>
+            {client => (
+                <div>
+                    <button
+                        onClick={async () => {
+                            const {data} = await client.query({
+                                query: qr,
+                            });
+                            PDFShow(PDFFromDataSet(data.Uzytkownicy, lbl))
+                        }}
+                    >
+                        Click me!
+                    </button>
+                </div>
+            )}
+        </ApolloConsumer>
     );
-  }
+
+    render() {
+
+        return (
+            <div>
+                {
+                    this.adresQ()
+                }
+            </div>
+        );
+    }
 }

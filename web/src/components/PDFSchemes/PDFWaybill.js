@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 const generateContent = (content) => {
 
   const data = [[{ text: 'Ilość', fontSize: 11, bold: true }, { text: 'Nazwa', fontSize: 11, bold: true }]];
