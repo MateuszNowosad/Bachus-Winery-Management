@@ -90,10 +90,10 @@ const formatData = (dataObject, dataLabels) => {
     return data;
 };
 
-const PDFFromDataSet = (dataObject, dataLabels,pageSize) => {
+const PDFFromDataSet = (dataObject, dataLabels,pageSize, pageOrientation, fontSize) => {
     return ({
         pageSize: pageSize,
-        pageOrientation: 'landscape',
+        pageOrientation: pageOrientation,
         content: [
             {
                 table: {
@@ -101,7 +101,7 @@ const PDFFromDataSet = (dataObject, dataLabels,pageSize) => {
                     headerRows: 1,
                     widths: 'auto',
                     body: formatData(dataObject, dataLabels)
-                }, fontSize: 5
+                }, fontSize: fontSize
             }
         ]
     });

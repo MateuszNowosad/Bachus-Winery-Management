@@ -16,6 +16,7 @@ import simpleQueryBuilder from "../../queries/simpleQueryBuilder";
 import renderFields from "./renderFields";
 import DataToPDFStyle from "../../assets/jss/common/components/DataToPDFStyle";
 import pageSizes from "../../variables/DataToPDF/pageSizes";
+import pageOrientations from "../../variables/DataToPDF/pageOrientations";
 
 
 class DataToPDF extends React.Component {
@@ -24,12 +25,13 @@ class DataToPDF extends React.Component {
         this.state = {
             tableName: '',
             fieldNames: [],
-            pageSize: ''
+            pageSize: '',
+            pageOrientation: '',
+            fontSize: ''
         }
     }
 
     handleChange = name => event => {
-        console.log('18, dziala jakub:  dziala');
         this.setState({
             [name]: event.target.value
         });
@@ -53,7 +55,7 @@ class DataToPDF extends React.Component {
 
 
     render() {
-        const {tableName, fieldNames, pageSize} = this.state;
+        const {tableName, fieldNames, pageSize, pageOrientation, fontSize} = this.state;
         const {classes} = this.props;
         return (
             <form className={classes.form}>
@@ -145,6 +147,44 @@ class DataToPDF extends React.Component {
                             </TextField>
                     </Grid>
                     <Grid item md={12}>
+                        <TextField
+                            fullWidth
+                            id="pageOrientation"
+                            select
+                            label="Orientacja strony"
+                            InputLabelProps={{
+                                shrink: true
+                            }}
+                            value={pageOrientation}
+                            onChange={this.handleChange('pageOrientation')}
+                            margin="dense"
+                            variant={'outlined'}
+                        >
+                            {
+                                pageOrientations.map(pageOrientation =>
+                                    <MenuItem key={pageOrientation.en} value={pageOrientation.en}>
+                                        {pageOrientation.pl}
+                                    </MenuItem>
+                                )
+                            }
+                        </TextField>
+                    </Grid>
+                    <Grid item md={12}>
+                        <TextField
+                            fullWidth
+                            id="fontSize"
+                            label="Rozmiar czcionki"
+                            InputLabelProps={{
+                                shrink: true
+                            }}
+                            type={'number'}
+                            value={fontSize}
+                            onChange={this.handleChange('fontSize')}
+                            margin="dense"
+                            variant={'outlined'}
+                        />
+                    </Grid>
+                    <Grid item md={12}>
                         <ApolloConsumer>
                             {client => (
                                 <Button
@@ -154,7 +194,7 @@ class DataToPDF extends React.Component {
                                             query: simpleQueryBuilder(tableName, fieldNames),
                                         });
                                         console.log('131, data[tableName] jakub: ', data[tableName]);
-                                        PDFShow(PDFFromDataSet(data[tableName], fieldNames,pageSize))
+                                        PDFShow(PDFFromDataSet(data[tableName], fieldNames,pageSize, pageOrientation, fontSize))
                                     }}
                                 >
                                     Generuj dokument
