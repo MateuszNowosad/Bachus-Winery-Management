@@ -50,7 +50,7 @@ class ProductionPlans extends React.Component {
         </div>
         <div className={classes.flexSidewaysContainer}>
           {testDataProductionPlan.test.map(currElement => (
-            <MediaCard key={currElement.id} heading={currElement.nazwa} contents={currElement.opis} />
+            <MediaCard key={currElement.id} heading={currElement.nazwa} contents={currElement.opis} id={0} />
           ))}
         </div>
         <ExpansionPanel defaultExpanded>

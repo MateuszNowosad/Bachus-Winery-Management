@@ -7,12 +7,15 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import MediaCardStyle from '../../assets/jss/common/components/MediaCardStyle';
 import SimpleRadialBarChart from '../../variables/AdminDashboard/ExampleRadialBarChart';
+import { Link } from 'react-router-dom';
+
+const MyLink = props => <Link to={'/admindashboard/productionplans/' + props.id} {...props} />;
 
 function MediaCard(props) {
   const { classes, heading, contents } = props;
   return (
     <Card className={classes.card}>
-      <CardActionArea>
+      <CardActionArea component={MyLink}>
         <SimpleRadialBarChart />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
@@ -28,7 +31,8 @@ function MediaCard(props) {
 MediaCard.propTypes = {
   classes: PropTypes.object.isRequired,
   heading: PropTypes.string.isRequired,
-  contents: PropTypes.string.isRequired
+  contents: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired
 };
 
 export default withStyles(MediaCardStyle)(MediaCard);
