@@ -135,3 +135,15 @@ export const operationsDatabaseLabels = {
   temperatura: 'Temperatura',
   opis: 'Opis'
 };
+
+export const itemInStockDatabaseLabels = {
+  idPozycja: 'ID Pozycji',
+  nazwa: 'Nazwa',
+  opis: 'Opis',
+  ilosc: 'Ilość',
+  kodKreskowy: 'Kod kreskowy',
+  stanAktualny: 'Stan aktualny?',
+  dataPrzyjecia: 'Data przyjęcia',
+  dataWydania: 'Data wydania',
+  nazwaSektora: 'Nazwa sektora'
+};
