@@ -147,3 +147,10 @@ export const itemInStockDatabaseLabels = {
   dataWydania: 'Data wydania',
   nazwaSektora: 'Nazwa sektora'
 };
+
+export const parcelDatabaseLabels = {
+  idPrzesylka: 'ID Przesyłki',
+  nazwaPrzesylki: 'Nazwa przesyłki',
+  ciezarLadunku: 'Ciężar ładunku',
+  data: 'Data'
+};
