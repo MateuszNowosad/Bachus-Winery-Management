@@ -111,3 +111,13 @@ export const batchDatabaseLabels = {
   opis: 'Opis',
   dataUtworzenia: 'Data utowrzenia'
 };
+
+export const vineyardDatabaseLabels = {
+  idWinnica: 'ID Winnicy',
+  nazwa: 'Nazwa winnicy',
+  powierzchnia: 'Powierzchnia',
+  stan: 'Stan',
+  terroir: 'Terroir',
+  dataOstatniegoZbioru: 'Data ostatniego zbioru',
+  dataZasadzenia: 'Data zasadzenia'
+};
