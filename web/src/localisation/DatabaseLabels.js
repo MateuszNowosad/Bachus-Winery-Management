@@ -32,3 +32,9 @@ export const wineCategoriesDictDatabaseLabels = {
   nazwaKategoria: 'Nazwa kategorii',
   opis: 'Opis'
 };
+
+export const grapeTypeDictDatabaseLabels = {
+  idOdmianaWinogron: 'ID Odmiany Winogron',
+  nazwa: 'Nazwa odmiany',
+  opis: 'Opis'
+};
