@@ -22,6 +22,7 @@ import DatabaseProduction from '../views/AdminDashboard/DatabaseSubdirectories/D
 import DatabaseContactsAndUsers from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseContactsAndUsers';
 import DatabaseLogistics from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseLogistics';
 import ProductionPlans from '../views/AdminDashboard/ProductionPlans';
+import ProductionPlanDetails from '../views/AdminDashboard/Subpages/ProductionPlanDetails';
 
 const AdminDashboardRoutes = [
   {
@@ -112,7 +113,13 @@ const AdminDashboardRoutes = [
     navbarName: 'Plany produkcyjne',
     drawerIcon: <TodayIcon />,
     component: ProductionPlans,
-    exact: false
+    exact: true
+  },
+  {
+    path: '/admindashboard/productionplans/:id',
+    component: ProductionPlanDetails,
+    hidden: true,
+    exact: true
   }
 
   // {redirect: true, path: "/", to: "/login", navbarName: "Redirect"}
