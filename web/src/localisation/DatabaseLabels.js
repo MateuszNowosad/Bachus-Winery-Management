@@ -121,3 +121,17 @@ export const vineyardDatabaseLabels = {
   dataOstatniegoZbioru: 'Data ostatniego zbioru',
   dataZasadzenia: 'Data zasadzenia'
 };
+
+export const operationsDatabaseLabels = {
+  idOperacja: 'ID Operacji',
+  iloscPrzed: 'Ilość przed',
+  iloscPo: 'Ilość po',
+  dataPoczatku: 'Data rozpoczęcia',
+  dataZakonczenia: 'Data zakończenia',
+  zawartoscAlkoholu: 'Zawartość alkoholu',
+  iloscDodatku: 'Ilość dodatku',
+  zawartoscCukru: 'Zawartość cukru',
+  kwasowosc: 'Kwasowość',
+  temperatura: 'Temperatura',
+  opis: 'Opis'
+};
