@@ -38,3 +38,9 @@ export const grapeTypeDictDatabaseLabels = {
   nazwa: 'Nazwa odmiany',
   opis: 'Opis'
 };
+
+export const vineyardOperationsDictDatabaseLabels = {
+  idDictOperacjeNaWinnicy: 'ID Operacji na winnicy',
+  nazwa: 'Nazwa operacji',
+  opis: 'Opis'
+};
