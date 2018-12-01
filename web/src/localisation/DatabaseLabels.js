@@ -26,3 +26,9 @@ export const categoriesDatabaseLabels = {
   jednostka: 'Jednostka',
   opis: 'Opis'
 };
+
+export const wineCategoriesDictDatabaseLabels = {
+  idDictKategoriaWina: 'ID Kategorii wina',
+  nazwaKategoria: 'Nazwa kategorii',
+  opis: 'Opis'
+};
