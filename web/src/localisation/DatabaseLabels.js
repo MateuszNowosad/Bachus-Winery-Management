@@ -154,3 +154,9 @@ export const parcelDatabaseLabels = {
   ciezarLadunku: 'Ciężar ładunku',
   data: 'Data'
 };
+
+export const harvestDatabaseLabels = {
+  idWinobranie: 'ID Winobrania',
+  dataWinobrania: 'Data winobrania',
+  iloscZebranychWinogron: 'Ilość zebranych winogron'
+};
