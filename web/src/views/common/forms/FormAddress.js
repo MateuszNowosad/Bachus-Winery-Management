@@ -49,7 +49,7 @@ export class FormAddress extends React.Component {
       for (let errorField in arrayOfErrors) {
         error[arrayOfErrors[errorField]] = true;
       }
-      this.setState({ error: error });
+      this.setState({ errors: error });
       return false;
     }
   }
