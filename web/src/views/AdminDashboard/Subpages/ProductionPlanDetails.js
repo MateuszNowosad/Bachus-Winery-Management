@@ -13,7 +13,7 @@ class ProductionPlanDetails extends React.Component {
     return (
       <React.Fragment>
         <Typography variant="h4" gutterBottom component="h2">
-          Twój Profil
+          Plan produkcyjny
         </Typography>
         <Typography variant="h5" gutterBottom component="h1">
           Nazwa
@@ -28,12 +28,12 @@ class ProductionPlanDetails extends React.Component {
           {planyProdExample['data']['planProd'][0].Opis}
         </Typography>
         <Typography variant="h5" gutterBottom component="h1">
-          Email
+          e-dokument
         </Typography>
         <Typography variant="subtitle1" gutterBottom component="div">
           {planyProdExample['data']['planProd'][0].Edokument}
         </Typography>
-        <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
+        <Grid container direction="row" justify="center" alignItems="center">
           <Grid item xs>
             <SimpleRadialBarChart />
           </Grid>
@@ -41,6 +41,7 @@ class ProductionPlanDetails extends React.Component {
             <TwoLevelPieChart />
           </Grid>
         </Grid>
+        //TODO Tree component
       </React.Fragment>
     );
   }
