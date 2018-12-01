@@ -9,7 +9,6 @@ const nestedList = (field, handleToggle, nestedFieldNames, classes) => {
                     <ListItem key={nestedField.name} className={classes.nestedList}>
                         <ListItemText
                             primary={nestedField.name}
-                            secondary={nestedField.name}
                         />
                         <ListItemSecondaryAction>
                             <Checkbox
@@ -32,7 +31,6 @@ const renderFields = (data, tableName, fieldNames, handleToggle, classes) => {
                         <ListItem key={field.name}>
                             <ListItemText
                                 primary={field.name}
-                                secondary={field.name}
                             />
                             <ListItemSecondaryAction>
                                 <Checkbox

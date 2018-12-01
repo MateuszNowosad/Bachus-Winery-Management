@@ -1,10 +1,11 @@
 const DataToPDFStyle = theme => ({
     list: {
         maxHeight: 200,
-        overflow: 'auto'
+        overflow: 'auto',
     },
     nestedList: {
         paddingLeft: theme.spacing.unit * 4,
+        backgroundColor: '#d1d1d1'
     },
     menu: {
         maxHeight: 200

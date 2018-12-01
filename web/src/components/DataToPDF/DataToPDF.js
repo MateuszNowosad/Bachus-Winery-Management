@@ -148,7 +148,7 @@ class DataToPDF extends React.Component {
                             }}
                         </Query>
                     </Grid>
-                    <Grid item md={12}>
+                    <Grid item md={4}>
                         <TextField
                             fullWidth
                             id="pageSize"
@@ -176,7 +176,7 @@ class DataToPDF extends React.Component {
                             }
                         </TextField>
                     </Grid>
-                    <Grid item md={12}>
+                    <Grid item md={4}>
                         <TextField
                             fullWidth
                             id="pageOrientation"
@@ -199,7 +199,7 @@ class DataToPDF extends React.Component {
                             }
                         </TextField>
                     </Grid>
-                    <Grid item md={12}>
+                    <Grid item md={4}>
                         <TextField
                             fullWidth
                             id="fontSize"
@@ -214,10 +214,11 @@ class DataToPDF extends React.Component {
                             variant={'outlined'}
                         />
                     </Grid>
-                    <Grid item md={3}>
+                    <Grid item md={12} >
                         <ApolloConsumer>
                             {client => (
                                 <Button
+
                                     variant={"outlined"}
                                     onClick={async () => {
                                         const {data} = await client.query({
@@ -232,7 +233,7 @@ class DataToPDF extends React.Component {
                             )}
                         </ApolloConsumer>
                     </Grid>
-                    <Grid item md={3}>
+                    <Grid item md={12}>
                         <ApolloConsumer>
                             {client => (
                                 <Button
