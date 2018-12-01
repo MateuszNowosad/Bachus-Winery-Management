@@ -18,7 +18,7 @@ export class FormDictUserRole extends React.Component {
       name: '',
       desc: '',
       type: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -54,14 +54,14 @@ export class FormDictUserRole extends React.Component {
   }
 
   render() {
-    const { name, desc, type, error } = this.state;
+    const { name, desc, type, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
               id="name"
               label="Nazwa roli"
               placeholder="Nazwa roli"
@@ -77,7 +77,7 @@ export class FormDictUserRole extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.desc}
+              error={errors.desc}
               id="desc"
               label="Opis roli"
               placeholder="Opis"
@@ -94,7 +94,7 @@ export class FormDictUserRole extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.type}
+              error={errors.type}
               id="type"
               label="Typ roli użytkownika"
               placeholder="Typ roli użytkownika"

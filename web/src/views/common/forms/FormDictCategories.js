@@ -18,7 +18,7 @@ export class FormDictCategories extends React.Component {
       name: '',
       unit: '',
       desc: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -54,14 +54,14 @@ export class FormDictCategories extends React.Component {
   }
 
   render() {
-    const { name, unit, desc, error } = this.state;
+    const { name, unit, desc, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
               id="name"
               label="Nazwa kategorii"
               placeholder="Nazwa kategorii"
@@ -77,7 +77,7 @@ export class FormDictCategories extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.unit}
+              error={errors.unit}
               id="unit"
               label="Jednostka"
               placeholder="Jednostka"
@@ -93,7 +93,7 @@ export class FormDictCategories extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.desc}
+              error={errors.desc}
               id="desc"
               label="Opis kategorii"
               placeholder="Opis"

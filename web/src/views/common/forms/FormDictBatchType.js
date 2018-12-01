@@ -16,7 +16,7 @@ export class FormDictBatchType extends React.Component {
     this.state = {
       name: '',
       unit: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -52,14 +52,14 @@ export class FormDictBatchType extends React.Component {
   }
 
   render() {
-    const { name, unit, error } = this.state;
+    const { name, unit, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
               id="name"
               label="Nazwa typu partii"
               placeholder="Nazwa typu partii"
@@ -75,7 +75,7 @@ export class FormDictBatchType extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.unit}
+              error={errors.unit}
               id="unit"
               label="Jednostka"
               placeholder="Jednostka"

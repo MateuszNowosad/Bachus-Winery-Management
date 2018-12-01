@@ -23,7 +23,7 @@ export class FormParcel extends React.Component {
       date: currentDate('dateTime'),
       content: [],
       open: false,
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -83,13 +83,13 @@ export class FormParcel extends React.Component {
   };
 
   render() {
-    const { packageName, weight, date, open, error } = this.state;
+    const { packageName, weight, date, open, errors } = this.state;
     return (
       <Grid container spacing={8}>
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.packageName}
+            error={errors.packageName}
             id="packageName"
             label="Nazwa przesyłki"
             placeholder="Nazwa przesyłki"
@@ -105,7 +105,7 @@ export class FormParcel extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.weight}
+            error={errors.weight}
             id="weight"
             label="Waga"
             placeholder="Waga"
@@ -119,7 +119,7 @@ export class FormParcel extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.date}
+            error={errors.date}
             id="date"
             label="Data odbioru/dostarczenia"
             type="datetime-local"

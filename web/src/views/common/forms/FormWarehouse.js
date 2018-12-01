@@ -19,7 +19,7 @@ export class FormWarehouse extends React.Component {
       type: '',
       capacity: '',
       address: {},
-      error: errorMap
+      errors: errorMap
     };
     this.subForm = React.createRef();
   }
@@ -67,7 +67,7 @@ export class FormWarehouse extends React.Component {
   }
 
   render() {
-    const { type, capacity, error } = this.state;
+    const { type, capacity, errors } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -75,7 +75,7 @@ export class FormWarehouse extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.type}
+              error={errors.type}
               id="type"
               select
               label="Rodzaj magazynu"
@@ -95,7 +95,7 @@ export class FormWarehouse extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.capacity}
+              error={errors.capacity}
               id="capacity"
               label="Pojemność"
               value={capacity}

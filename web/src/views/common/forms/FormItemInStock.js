@@ -36,7 +36,7 @@ export class FormItemInStock extends React.Component {
       category: '',
       batch: {},
       open: false,
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -105,7 +105,7 @@ export class FormItemInStock extends React.Component {
   }
 
   render() {
-    const { name, desc, amount, acceptanceDate, releaseDate, sectorName, category, batch, open, error } = this.state;
+    const { name, desc, amount, acceptanceDate, releaseDate, sectorName, category, batch, open, errors } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -113,7 +113,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
               id="name"
               label="Nazwa"
               placeholder="Nazwa"
@@ -126,7 +126,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.desc}
+              error={errors.desc}
               id="desc"
               label="Opis"
               value={desc}
@@ -138,7 +138,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.amount}
+              error={errors.amount}
               id="amount"
               label="Ilość"
               value={amount}
@@ -151,7 +151,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.acceptanceDate}
+              error={errors.acceptanceDate}
               id="acceptanceDate"
               label="Data przyjęcia"
               type="datetime-local"
@@ -167,7 +167,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.releaseDate}
+              error={errors.releaseDate}
               id="releaseDate"
               label="Data wydania"
               type="datetime-local"
@@ -183,7 +183,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.sectorName}
+              error={errors.sectorName}
               id="sectorName"
               label="Nazwa sektora"
               value={sectorName}
@@ -195,7 +195,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.category}
+              error={errors.category}
               id="category"
               label="Kategoria"
               select

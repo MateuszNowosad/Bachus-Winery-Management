@@ -49,7 +49,7 @@ export class FormWaybill extends React.Component {
       openSender: false,
       openRecipent: false,
       openCarrier: false,
-      error: errorMap
+      errors: errorMap
     };
       this.subFormMailing = React.createRef();
       this.subFormPickup = React.createRef();
@@ -155,7 +155,7 @@ export class FormWaybill extends React.Component {
       openSender,
       openRecipent,
       openCarrier,
-      error
+      errors
     } = this.state;
 
     return (
@@ -164,7 +164,7 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.driverName}
+              error={errors.driverName}
               id="driverName"
               label="Imię kierowcy"
               value={driverName}
@@ -176,7 +176,7 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.driverSurname}
+              error={errors.driverSurname}
               id="driverSurname"
               label="Nazwisko kierowcy"
               value={driverSurname}
@@ -188,7 +188,7 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.comments}
+              error={errors.comments}
               id="comments"
               label="Uwagi przewoźnika"
               value={comments}
@@ -200,7 +200,7 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.reservations}
+              error={errors.reservations}
               id="reservations"
               label="Zastrzeżenia odbiorcy"
               value={reservations}
@@ -215,7 +215,7 @@ export class FormWaybill extends React.Component {
               id="sender"
               label="Nadawca"
               value={sender.name ? sender.name : 'Nie wybrano nadawcy'}
-              error={error.sender}
+              error={errors.sender}
               margin="dense"
               variant="outlined"
               InputProps={{
@@ -246,7 +246,7 @@ export class FormWaybill extends React.Component {
               id="recipent"
               label="Odbiorca"
               value={recipent.name ? recipent.name : 'Nie wybrano odbiorcy'}
-              error={error.recipent}
+              error={errors.recipent}
               margin="dense"
               variant="outlined"
               InputProps={{
@@ -276,7 +276,7 @@ export class FormWaybill extends React.Component {
               id="carrier"
               label="Przewoźnik"
               value={carrier.name ? carrier.name : 'Nie wybrano odbiorcy'}
-              error={error.carrier}
+              error={errors.carrier}
               margin="dense"
               variant="outlined"
               InputProps={{
@@ -303,7 +303,7 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <input hidden accept="application/pdf" id="addFile" type="file" onChange={this.handleFileChange} />
             <label htmlFor="addImage">
-              <Button variant="contained" component="span" style={error.file ? {color: red[300],
+              <Button variant="contained" component="span" style={errors.file ? {color: red[300],
                   backgroundColor: red[700],
                   '&:hover': {
                       backgroundColor: red[700],

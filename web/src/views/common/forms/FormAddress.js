@@ -24,7 +24,7 @@ export class FormAddress extends React.Component {
       postalCode: '',
       city: '',
       country: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -71,13 +71,13 @@ export class FormAddress extends React.Component {
   };
 
   render() {
-    const { street, buildingNumber, apartmentNumber, postalCode, city, country, error } = this.state;
+    const { street, buildingNumber, apartmentNumber, postalCode, city, country, errors } = this.state;
     return (
       <Grid container spacing={8}>
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.city}
+            error={errors.city}
             id="city"
             label="Miasto"
             placeholder="Miasto"
@@ -93,7 +93,7 @@ export class FormAddress extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.street}
+            error={errors.street}
             id="street"
             label="Ulica"
             placeholder="Ulica"
@@ -109,7 +109,7 @@ export class FormAddress extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.buildingNumber}
+            error={errors.buildingNumber}
             id="buildingNumber"
             label="Nr. posesji"
             placeholder="Nr. posesji"
@@ -125,7 +125,7 @@ export class FormAddress extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.apartmentNumber}
+            error={errors.apartmentNumber}
             id="apartmentNumber"
             label="Nr. lokalu"
             placeholder="Nr. lokalu"
@@ -141,7 +141,7 @@ export class FormAddress extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.postalCode}
+            error={errors.postalCode}
             id="postalCode"
             label="Kod pocztowy"
             placeholder="Kod pocztowy"
@@ -157,7 +157,7 @@ export class FormAddress extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.country}
+            error={errors.country}
             id="country"
             label="Kraj"
             placeholder="Kraj"

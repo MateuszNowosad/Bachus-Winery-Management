@@ -16,7 +16,7 @@ export class FormDictGrapeType extends React.Component {
     this.state = {
       name: '',
       desc: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -53,14 +53,14 @@ export class FormDictGrapeType extends React.Component {
   }
 
   render() {
-    const { name, desc, error } = this.state;
+    const { name, desc, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
               id="name"
               label="Nazwa odmiany"
               placeholder="Nazwa odmiany"
@@ -76,7 +76,7 @@ export class FormDictGrapeType extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.desc}
+              error={errors.desc}
               id="desc"
               label="Opis odmiany"
               placeholder="Opis"

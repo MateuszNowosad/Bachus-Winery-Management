@@ -23,7 +23,7 @@ export class FormWineInformation extends React.Component {
       allergens: '',
       energyValue: 0,
       wineCategory: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -59,14 +59,14 @@ export class FormWineInformation extends React.Component {
   }
 
   render() {
-    const { name, motto, allergens, energyValue, wineCategory, error } = this.state;
+    const { name, motto, allergens, energyValue, wineCategory, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
               id="name"
               label="Nazwa wina"
               value={name}
@@ -78,7 +78,7 @@ export class FormWineInformation extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.motto}
+              error={errors.motto}
               id="motto"
               label="Motto"
               value={motto}
@@ -90,7 +90,7 @@ export class FormWineInformation extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.allergens}
+              error={errors.allergens}
               id="allergens"
               label="Zawarte alergeny"
               value={allergens}
@@ -102,7 +102,7 @@ export class FormWineInformation extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.energyValue}
+              error={errors.energyValue}
               id="energyValue"
               label="Wartość energetyczna"
               type="number"
@@ -120,7 +120,7 @@ export class FormWineInformation extends React.Component {
               label="Kategoria wina"
               placeholder="Kategoria wina"
               value={wineCategory}
-              error={error.wineCategory}
+              error={errors.wineCategory}
               onChange={this.handleChange('wineCategory')}
               margin="dense"
               variant={'outlined'}

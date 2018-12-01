@@ -17,7 +17,7 @@ export class FormGrapeHarvest extends React.Component {
     this.state = {
       dateOfHarvest: currentDate('date'),
       amount: 0,
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -52,14 +52,14 @@ export class FormGrapeHarvest extends React.Component {
   }
 
   render() {
-    const { dateOfHarvest, amount, error } = this.state;
+    const { dateOfHarvest, amount, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.dateOfHarvest}
+              error={errors.dateOfHarvest}
               id="dateOfHarvest"
               label="Data zbioru"
               type="date"
@@ -75,7 +75,7 @@ export class FormGrapeHarvest extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.amount}
+              error={errors.amount}
               id="amount"
               label="Ilość"
               value={amount}

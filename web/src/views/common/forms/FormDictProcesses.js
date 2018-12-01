@@ -18,7 +18,7 @@ export class FormDictProcesses extends React.Component {
       name: '',
       desc: '',
       additional: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -54,14 +54,14 @@ export class FormDictProcesses extends React.Component {
   }
 
   render() {
-    const { name, desc, additional, error } = this.state;
+    const { name, desc, additional, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
               id="name"
               label="Nazwa procesu"
               placeholder="Nazwa procesu"
@@ -77,7 +77,7 @@ export class FormDictProcesses extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.desc}
+              error={errors.desc}
               id="desc"
               label="Opis procesu"
               placeholder="Opis"
@@ -94,7 +94,7 @@ export class FormDictProcesses extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.additional}
+              error={errors.additional}
               id="additional"
               label="Dodatkowe informacje"
               placeholder="Dodatkowe informacje"

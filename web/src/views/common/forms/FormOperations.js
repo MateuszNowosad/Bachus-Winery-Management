@@ -47,7 +47,7 @@ export class FormOperations extends React.Component {
       temperature: '',
       desc: '',
       process: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -117,7 +117,7 @@ export class FormOperations extends React.Component {
       temperature,
       desc,
       process,
-      error
+      errors
     } = this.state;
 
     return (
@@ -126,7 +126,7 @@ export class FormOperations extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.process}
+              error={errors.process}
               id="process"
               select
               label="Rodzaj operacji"
@@ -146,7 +146,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.beginAmount}
+              error={errors.beginAmount}
               id="beginAmount"
               label="Ilość początkowa"
               value={beginAmount}
@@ -159,7 +159,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.endAmount}
+              error={errors.endAmount}
               id="endAmount"
               label="Ilość końcowa"
               value={endAmount}
@@ -172,7 +172,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.beginData}
+              error={errors.beginData}
               id="beginDate"
               label="Data początku"
               type="datetime-local"
@@ -188,7 +188,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.endDate}
+              error={errors.endDate}
               id="endDate"
               label="Data zakończenia"
               type="datetime-local"
@@ -204,7 +204,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.alcoholContent}
+              error={errors.alcoholContent}
               id="alcoholContent"
               label="Zawartość alkoholu"
               value={alcoholContent}
@@ -217,7 +217,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.additiveAmount}
+              error={errors.additiveAmount}
               id="additiveAmount"
               label="Ilość dodatku"
               value={additiveAmount}
@@ -230,7 +230,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.sugarContent}
+              error={errors.sugarContent}
               id="sugarContent"
               label="Zawartość cukru"
               value={sugarContent}
@@ -243,7 +243,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.acidity}
+              error={errors.acidity}
               id="acidity"
               label="Kwasowość"
               value={acidity}
@@ -256,7 +256,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.temperature}
+              error={errors.temperature}
               id="temperature"
               label="Temperatura"
               value={temperature}
@@ -269,7 +269,7 @@ export class FormOperations extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.desc}
+              error={errors.desc}
               id="desc"
               label="Opis"
               placeholder="Opis"
