@@ -72,3 +72,14 @@ export const wineInformationDatabaseLabels = {
   zawartoscPotAlergenow: 'Zawartość alergenów',
   wartoscEnergetyczna: 'Wartość energetyczna'
 };
+
+export const contractorsDatabaseLabels = {
+  idKontrahenci: 'ID Kontrahenta',
+  NIP: 'NIP',
+  nazwaSpolki: 'Nazwa spółki',
+  telefon: 'Nr telefonu',
+  eMail: 'E-mail',
+  stronaWww: 'Strona WWW',
+  KRS: 'KRS',
+  nrKonta: 'Nr konta bankowego'
+};
