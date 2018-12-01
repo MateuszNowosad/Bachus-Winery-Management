@@ -83,3 +83,12 @@ export const contractorsDatabaseLabels = {
   KRS: 'KRS',
   nrKonta: 'Nr konta bankowego'
 };
+
+export const waybillDatabaseLabels = {
+  idListPrzewozowy: 'ID List przewozowy',
+  imieKierowcy: 'Imie kierowcy',
+  nazwiskoKierowcy: 'Nazwisko kierowcy',
+  uwagiPrzewoznika: 'Uwagi przewoźnika',
+  zastrzezeniaOdbiorcy: 'Zastrzeżenia odbiorcy',
+  eDokument: 'E-dokument'
+};
