@@ -7,6 +7,8 @@ import Grid from '@material-ui/core/Grid/Grid';
 import SimpleRadialBarChart from '../../../variables/AdminDashboard/ExampleRadialBarChart';
 import { TwoLevelPieChart } from '../../../variables/AdminDashboard/ExampleRadarChart';
 import planyProdExample from '../../../variables/AdminDashboard/planyProdExample';
+import Tree from '../../../components/Tree/Tree';
+import partie from '../../../variables/AdminDashboard/ExampleDataJson.js';
 
 class ProductionPlanDetails extends React.Component {
   render() {
@@ -41,7 +43,7 @@ class ProductionPlanDetails extends React.Component {
             <TwoLevelPieChart />
           </Grid>
         </Grid>
-        //TODO Tree component
+        <Tree queryData={partie} />
       </React.Fragment>
     );
   }
