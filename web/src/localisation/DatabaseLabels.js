@@ -57,3 +57,10 @@ export const userRoleDictDatabaseLabels = {
   nazwa: 'Nazwa roli użytkownika',
   opis: 'Opis'
 };
+
+export const batchTypeDictDatabaseLabels = {
+  idTypPartii: 'ID Typu Partii',
+  nazwa: 'Nazwa typu partii',
+  jednostka: 'Jednostka',
+  typ: 'Typ'
+};
