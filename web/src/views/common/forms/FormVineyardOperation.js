@@ -21,7 +21,7 @@ export class FormVineyardOperation extends React.Component {
             dateOfOperation: currentDate('dateTime'),
             desc: '',
             dictOperation: '',
-            error: errorMap
+            errors: errorMap
         };
     }
 
@@ -58,7 +58,7 @@ export class FormVineyardOperation extends React.Component {
     }
 
     render() {
-        const {dateOfOperation, desc, dictOperation, error} = this.state;
+        const {dateOfOperation, desc, dictOperation, errors} = this.state;
 
         return (
             <form style={{margin: '0% 25%'}}>
@@ -66,7 +66,7 @@ export class FormVineyardOperation extends React.Component {
                     <Grid item md={12}>
                         <TextField
                             fullWidth
-                            error={error.dateOfOperation}
+                            error={errors.dateOfOperation}
                             id="dateOfOperation"
                             label="Data operacji"
                             type="datetime-local"
@@ -82,7 +82,7 @@ export class FormVineyardOperation extends React.Component {
                     <Grid item md={12}>
                         <TextField
                             fullWidth
-                            error={error.desc}
+                            error={errors.desc}
                             id="desc"
                             label="Opis operacji"
                             placeholder="Opis"
@@ -106,7 +106,7 @@ export class FormVineyardOperation extends React.Component {
                                 return (
                                     <TextField
                                         fullWidth
-                                        error={errorMap.dictOperation}
+                                        error={errors.dictOperation}
                                         id="dictOperation"
                                         select
                                         label="Operacja"
@@ -116,9 +116,9 @@ export class FormVineyardOperation extends React.Component {
                                         margin="dense"
                                         variant={'outlined'}
                                     >
-                                        {data.DictOperacjeNaWinnicy.map(rekord => (
-                                            <MenuItem key={rekord.idDictOperacjeNaWinnicy} value={rekord.nazwa}>
-                                                {rekord.nazwa}
+                                        {data.DictOperacjeNaWinnicy.map(record => (
+                                            <MenuItem key={record.idDictOperacjeNaWinnicy} value={record.nazwa}>
+                                                {record.nazwa}
                                             </MenuItem>
                                         ))}
                                     </TextField>
