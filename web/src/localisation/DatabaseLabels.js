@@ -44,3 +44,10 @@ export const vineyardOperationsDictDatabaseLabels = {
   nazwa: 'Nazwa operacji',
   opis: 'Opis'
 };
+
+export const processesDictDatabaseLabels = {
+  idDictProcesy: 'ID Procesu',
+  nazwa: 'Nazwa',
+  opis: 'Opis',
+  dodatkowe: 'Dodatkowe'
+};
