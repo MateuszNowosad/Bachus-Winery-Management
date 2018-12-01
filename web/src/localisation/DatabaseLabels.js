@@ -92,3 +92,9 @@ export const waybillDatabaseLabels = {
   zastrzezeniaOdbiorcy: 'Zastrzeżenia odbiorcy',
   eDokument: 'E-dokument'
 };
+
+export const warehouseDatabaseLabels = {
+  idMagazyn: 'ID Magazynu',
+  rodzaj: 'Rodzaj',
+  pojemnosc: 'Pojemność'
+};
