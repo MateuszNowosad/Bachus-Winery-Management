@@ -51,3 +51,9 @@ export const processesDictDatabaseLabels = {
   opis: 'Opis',
   dodatkowe: 'Dodatkowe'
 };
+
+export const userRoleDictDatabaseLabels = {
+  idRolaUzytkownikow: 'ID Roli Użytkownika',
+  nazwa: 'Nazwa roli użytkownika',
+  opis: 'Opis'
+};
