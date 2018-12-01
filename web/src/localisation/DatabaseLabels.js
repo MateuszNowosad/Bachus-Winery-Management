@@ -64,3 +64,11 @@ export const batchTypeDictDatabaseLabels = {
   jednostka: 'Jednostka',
   typ: 'Typ'
 };
+
+export const wineInformationDatabaseLabels = {
+  idInformacjeOWinie: 'ID Informacji o winie',
+  nazwa: 'Informacje o winie',
+  motto: 'Motto',
+  zawartoscPotAlergenow: 'Zawartość alergenów',
+  wartoscEnergetyczna: 'Wartość energetyczna'
+};
