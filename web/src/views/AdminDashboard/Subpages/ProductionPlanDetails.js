@@ -9,14 +9,24 @@ import { TwoLevelPieChart } from '../../../variables/AdminDashboard/ExampleRadar
 import planyProdExample from '../../../variables/AdminDashboard/planyProdExample';
 import Tree from '../../../components/Tree/Tree';
 import partie from '../../../variables/AdminDashboard/ExampleDataJson.js';
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+
+const MyLink = props => <Link to="/admindashboard/productionplans" {...props} />;
 
 class ProductionPlanDetails extends React.Component {
   render() {
+    const { classes } = this.props;
     return (
       <React.Fragment>
-        <Typography variant="h4" gutterBottom component="h2">
-          Plan produkcyjny
-        </Typography>
+        <div className={classes.top}>
+          <Typography variant="h4" gutterBottom component="h2">
+            Plan produkcyjny
+          </Typography>
+          <Button variant="contained" color="primary" component={MyLink}>
+            Powrót do poprzedniej strony
+          </Button>
+        </div>
         <Typography variant="h5" gutterBottom component="h1">
           Nazwa
         </Typography>
