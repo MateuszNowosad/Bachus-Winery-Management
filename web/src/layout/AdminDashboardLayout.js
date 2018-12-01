@@ -36,6 +36,7 @@ const drawerList = (
     {AdminDashboardRoutes.map((prop, key) => {
       // if (prop.redirect)
       //     return <Redirect from={prop.path} to={prop.to} key={key}/>;
+      if (prop.hidden !== undefined) return;
       if (prop.childRoutes !== undefined) {
         return (
           <ExpandableListItem
