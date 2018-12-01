@@ -160,3 +160,10 @@ export const harvestDatabaseLabels = {
   dataWinobrania: 'Data winobrania',
   iloscZebranychWinogron: 'Ilość zebranych winogron'
 };
+
+export const productionPlansDatabaseLabels = {
+  idPlanyProdukcyjne: 'ID Plany Produkcyjne',
+  nazwa: 'Nazwa',
+  opis: 'Opis',
+  eDokument: 'E-dokument'
+};
