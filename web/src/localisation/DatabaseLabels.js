@@ -98,3 +98,9 @@ export const warehouseDatabaseLabels = {
   rodzaj: 'Rodzaj',
   pojemnosc: 'Pojemność'
 };
+
+export const vineyardOperationsDatabaseLabels = {
+  idOperacja: 'ID Operacji',
+  data: 'Data',
+  opis: 'Opis'
+};
