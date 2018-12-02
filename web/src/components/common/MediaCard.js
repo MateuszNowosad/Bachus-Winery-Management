@@ -9,23 +9,28 @@ import MediaCardStyle from '../../assets/jss/common/components/MediaCardStyle';
 import SimpleRadialBarChart from '../../variables/AdminDashboard/ExampleRadialBarChart';
 import { Link } from 'react-router-dom';
 
-const MyLink = props => <Link to={'/admindashboard/productionplans/' + props.id} {...props} />;
+class MediaCard extends React.Component {
+  MyLink = props => {
+    console.log('14, props Mateusz: ', props);
+    return <Link to={'/admindashboard/productionplans/' + this.props.id} {...props} />;
+  };
 
-function MediaCard(props) {
-  const { classes, heading, contents } = props;
-  return (
-    <Card className={classes.card}>
-      <CardActionArea component={MyLink}>
-        <SimpleRadialBarChart />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {heading}
-          </Typography>
-          <Typography component="p">{contents}</Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  );
+  render() {
+    const { classes, heading, contents } = this.props;
+    return (
+      <Card className={classes.card}>
+        <CardActionArea component={this.MyLink}>
+          <SimpleRadialBarChart />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {heading}
+            </Typography>
+            <Typography component="p">{contents}</Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    );
+  }
 }
 
 MediaCard.propTypes = {
