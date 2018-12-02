@@ -57,6 +57,7 @@ class ProductionPlanDetails extends React.Component {
         <Tree
           queryData={JSON.parse(partie)['data']['Partie'][0]}
           labels={[batchDatabaseLabels, operationsDatabaseLabels]}
+          hardBreak={'idPartie'}
         />
       </React.Fragment>
     );

@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography/Typography';
 
 class Tree extends React.Component {
   parseJSONintoTree(jsonObject, levelCounter) {
-    const { labels } = this.props;
+    const { labels, hardBreak } = this.props;
     let result = [];
     let partia = false;
     for (let key in jsonObject) {
@@ -20,9 +20,9 @@ class Tree extends React.Component {
               result.push(this.parseJSONintoTree(jsonObject[key][index], levelCounter + 1));
           }
         } else {
-          if (key === 'idPartie') {
+          if (key === hardBreak) {
             partia = true;
-          } else if (key === 'idOperacja') {
+          } else if (key === Object.keys(jsonObject)[0]) {
             result.push(
               <Chip
                 color="secondary"
@@ -65,7 +65,8 @@ class Tree extends React.Component {
 
 Tree.propTypes = {
   queryData: PropTypes.string.isRequired,
-  labels: PropTypes.array.isRequired
+  labels: PropTypes.array.isRequired,
+  hardBreak: PropTypes.string.isRequired
 };
 
 export default withStyles(TreeStyle)(Tree);
