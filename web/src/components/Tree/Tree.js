@@ -25,6 +25,7 @@ class Tree extends React.Component {
           } else if (key === Object.keys(jsonObject)[0]) {
             result.push(
               <Chip
+                key={jsonObject[key] + key}
                 color="secondary"
                 label={LocalisationHelper(labels, key) + ': ' + jsonObject[key]}
                 style={{ marginLeft: levelCounter * 50 + 'px' }}
@@ -32,7 +33,12 @@ class Tree extends React.Component {
             );
           } else
             result.push(
-              <Typography variant="subtitle1" style={{ marginLeft: levelCounter * 50 + 20 + 'px' }} gutterBottom>
+              <Typography
+                key={jsonObject[key] + key}
+                variant="subtitle1"
+                style={{ marginLeft: levelCounter * 50 + 20 + 'px' }}
+                gutterBottom
+              >
                 <b>{LocalisationHelper(labels, key) + ': '}</b>
                 {jsonObject[key]}
               </Typography>
@@ -43,8 +49,9 @@ class Tree extends React.Component {
     if (partia)
       result = (
         <ChipExpansionPanel
+          key={jsonObject[hardBreak] + hardBreak}
           level={levelCounter}
-          id={jsonObject['idPartie']}
+          id={jsonObject[hardBreak]}
           label={LocalisationHelper(labels, 'idPartie')}
         >
           {result}
@@ -64,7 +71,7 @@ class Tree extends React.Component {
 }
 
 Tree.propTypes = {
-  queryData: PropTypes.string.isRequired,
+  queryData: PropTypes.object.isRequired,
   labels: PropTypes.array.isRequired,
   hardBreak: PropTypes.string.isRequired
 };
