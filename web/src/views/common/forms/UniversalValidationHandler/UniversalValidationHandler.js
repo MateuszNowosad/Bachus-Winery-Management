@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-function UniversalValidationHander(dataObject, validationKeys) {
+function UniversalValidationHandler(dataObject, validationKeys) {
   let dataErrorFields = [];
   let entries = Object.entries(dataObject);
   let test = false;
@@ -18,8 +18,8 @@ function UniversalValidationHander(dataObject, validationKeys) {
   return dataErrorFields;
 }
 
-UniversalValidationHander.propTypes = {
+UniversalValidationHandler.propTypes = {
   dataObject: PropTypes.object.isRequired
 };
 
-export default UniversalValidationHander;
+export default UniversalValidationHandler;
