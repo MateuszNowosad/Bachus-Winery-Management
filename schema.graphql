@@ -1,19 +1,5 @@
-schema {
-  query: Query
-  #    mutation: Mutation
-}
-# TODO add many to many in query fields and in resolvers
-# TODO add fields in many to many from join tables to correct tables
 type Query {
-  Adres(
-    idAdres: ID
-    miasto: String
-    kodPocztowy: String
-    ulica: String
-    nrLokalu: String
-    nrPosesji: String
-    kraj: String
-  ): [Adres]!
+  Adres(idAdres: ID, miasto: String, kodPocztowy: String, ulica: String, nrLokalu: String, nrPosesji: String, kraj: String): [Adres]!
   DictKategoriaWina(idDictKategoriaWina: ID, nazwaKategoria: String, opis: String): [DictKategoriaWina]
   DictKategorie(idKategorie: ID, nazwa: String, jednostka: String, opis: String): [DictKategorie]
   DictOdmianaWinogron(idOdmianaWinogron: ID, nazwa: String, opis: String): [DictOdmianaWinogron]
@@ -21,91 +7,21 @@ type Query {
   DictProcesy(idDictProcesy: ID, nazwa: String, opis: String, dodatkowe: String): [DictProcesy]
   DictRolaUzytkownikow(idRolaUzytkownikow: ID, nazwa: String, opis: String): [DictRolaUzytkownikow]
   DictTypPartii(idTypPartii: ID, nazwa: String, jednostka: String, typ: String): [DictTypPartii]
-  InformacjeOWinie(
-    idInformacjeOWinie: ID
-    nazwa: String
-    motto: String
-    zawartoscPotAlergenow: String
-    wartoscEnergetyczna: String
-  ): [InformacjeOWinie]
-  Kontrahenci(
-    idKontrahenci: ID
-    NIP: String
-    nazwaSpolki: String
-    telefon: String
-    eMail: String
-    stronaWww: String
-    KRS: String
-    nrKonta: String
-    fax: String
-  ): [Kontrahenci]
-  ListPrzewozowy(
-    idListPrzewozowy: ID
-    imieKierowcy: String
-    nazwiskoKierowcy: String
-    uwagiPrzewoznika: String
-    zastrzezeniaOdbiorcy: String
-    eDokument: String
-  ): [ListPrzewozowy]
+  InformacjeOWinie(idInformacjeOWinie: ID, nazwa: String, motto: String, zawartoscPotAlergenow: String, wartoscEnergetyczna: String): [InformacjeOWinie]
+  Kontrahenci(idKontrahenci: ID, NIP: String, nazwaSpolki: String, telefon: String, eMail: String, stronaWww: String, KRS: String, nrKonta: String, fax: String): [Kontrahenci]
+  ListPrzewozowy(idListPrzewozowy: ID, imieKierowcy: String, nazwiskoKierowcy: String, uwagiPrzewoznika: String, zastrzezeniaOdbiorcy: String, eDokument: String): [ListPrzewozowy]
   Magazyn(idMagazyn: ID, rodzaj: String, pojemnosc: Float): [Magazyn]
-  Operacje(
-    idOperacja: ID
-    iloscPrzed: Float
-    iloscPo: Float
-    dataPoczatku: String
-    dataZakonczenia: String
-    zawartoscAlkoholu: Float
-    iloscDodatku: Float
-    zawartoscCukru: Float
-    kwasowosc: Float
-    temperatura: Float
-    opis: String
-  ): [Operacje]
+  Operacje(idOperacja: ID, iloscPrzed: Float, iloscPo: Float, dataPoczatku: String, dataZakonczenia: String, zawartoscAlkoholu: Float, iloscDodatku: Float, zawartoscCukru: Float, kwasowosc: Float, temperatura: Float, opis: String): [Operacje]
   OperacjeNaWinnicy(idOperacja: ID, data: String, opis: String): [OperacjeNaWinnicy]
   Partie(idPartie: ID, ilosc: Float, opis: String, dataUtworzenia: String): [Partie]
   PlanyProdukcyjne(idPlanyProdukcyjne: ID, nazwa: String, opis: String, eDokument: String): [PlanyProdukcyjne]
-  PozycjaWMagazynie(
-    idPozycja: ID
-    nazwa: String
-    opis: String
-    ilosc: Float
-    kodKreskowy: String
-    stanAktualny: String
-    dataPrzyjecia: String
-    dataWydania: String
-    nazwaSektora: String
-  ): [PozycjaWMagazynie]
+  PozycjaWMagazynie(idPozycja: ID, nazwa: String, opis: String, ilosc: Float, kodKreskowy: String, stanAktualny: String, dataPrzyjecia: String, dataWydania: String, nazwaSektora: String): [PozycjaWMagazynie]
   Przesylka(idPrzesylka: ID, nazwaPrzesylki: String, ciezarLadunku: Float, data: String): [Przesylka]
   Raporty(idRaport: ID, nazwa: String, eDokument: String, dataUtworzenia: String): [Raporty]
-  Uzytkownicy(
-    idUzytkownika: ID
-    imie: String
-    nazwisko: String
-    login: String
-    haslo: String
-    PESEL: String
-    eMail: String
-    nrTelefonu: String
-    dataOstatniegoLogowania: String
-    zdjecie: String
-    czyAktywne: String
-  ): [Uzytkownicy]
-  Winnica(
-    idWinnica: ID
-    nazwa: String
-    powierzchnia: Float
-    stan: String
-    terroir: String
-    dataOstatniegoZbioru: String
-    dataZasadzenia: String
-    ewidencyjnyIdDzialki: String
-  ): [Winnica]
+  Uzytkownicy(idUzytkownika: ID, imie: String, nazwisko: String, login: String, haslo: String, PESEL: String, eMail: String, nrTelefonu: String, dataOstatniegoLogowania: String, zdjecie: String, czyAktywne: String): [Uzytkownicy]
+  Winnica(idWinnica: ID, nazwa: String, powierzchnia: Float, stan: String, terroir: String, dataOstatniegoZbioru: String, dataZasadzenia: String, ewidencyjnyIdDzialki: String): [Winnica]
   Winobranie(idWinobranie: ID, dataWinobrania: String, iloscZebranychWinogron: Float): [Winobranie]
 }
-
-#type Mutation {
-#
-#}
 
 type Adres {
   idAdres: ID
@@ -255,7 +171,7 @@ type Partie {
   winobranie: Winobranie
   typPartii: DictTypPartii
   informacjeOWinie: InformacjeOWinie
-  partie: [Partie] # unary relation
+  partie: [Partie]
   operacje: [Operacje]
 }
 
@@ -284,7 +200,6 @@ type PozycjaWMagazynie {
   partie: Partie
   przesylka: [Przesylka]
   operacje: [Operacje]
-  # many-to-many with additional fields - check DB structure
 }
 
 type Przesylka {
@@ -343,3 +258,4 @@ type Winobranie {
   winnica: Winnica
   partie: [Partie]
 }
+

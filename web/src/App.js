@@ -10,8 +10,37 @@ import CssBaseline from '@material-ui/core/CssBaseline/CssBaseline';
 import { standard } from './assets/jss/themes/standard';
 
 import indexRoutes from './routes/index';
+import "./App.css";
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
 
 const currentTheme = createMuiTheme(standard);
+
+// const adresyQuery = () => (
+//   <Query
+//     query={gql`
+//       {
+//         Adresy {
+//           idAdres
+//           miasto
+//           kodPocztowy
+//           kraj
+//         }
+//       }
+//     `}
+//   >
+//     {({ loading, error, data }) => {
+//       if (loading) return <p>Loading...</p>;
+//       if (error) return <p>Error :(</p>;
+//
+//       return data.Adresy.map(args => (
+//         <div key={args.idAdres}>
+//           <p>{`${args.idAdres}. ${args.miasto} ${args.kodPocztowy}`}</p>
+//         </div>
+//       ));
+//     }}
+//   </Query>
+// );
 
 class App extends Component {
   render() {

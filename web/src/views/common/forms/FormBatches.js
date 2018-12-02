@@ -66,7 +66,7 @@ export class FormBatches extends React.Component {
               error={error.amount}
               id="amount"
               label="Ilość"
-              tpye={'number'}
+              type={'number'}
               value={amount}
               margin="dense"
               onChange={this.handleChange('amount')}

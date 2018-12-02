@@ -5,32 +5,40 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_PATH='src' babel-node src/startup.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-win": "cross-env NODE_PATH='src' ./node_modules/.bin/babel-node.cmd src/startup.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "initDb": "docker exec -i bachus-winery57 mysql -utest -ptest  <<< 'drop database if exists bachusWinery;create database bachusWinery' && docker exec -i bachus-winery57 mysql -utest -ptest bachusWinery < ./src/sql/bachusWinery2.sql",
+    "initDb-win": "bash -c \"docker.exe exec -i bachus-winery57 mysql -utest -ptest  <<< 'drop database if exists bachusWinery;create database bachusWinery' && docker.exe exec -i bachus-winery57 mysql -utest -ptest bachusWinery < ./src/sql/bachusWinery2.sql\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "apollo-server-express": "^2.1.0",
     "body-parser": "^1.18.3",
-    "connect-mongo": "^2.0.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
+    "cross-env": "^5.2.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "faker": "^4.1.0",
     "graphql": "^14.0.2",
     "graphql-import": "^0.7.1",
-    "graphql-tools": "^4.0.0",
+    "graphql-server-express": "^1.4.0",
+    "graphql-tag": "^2.10.0",
+    "graphql-tools": "^4.0.3",
     "http": "0.0.0",
     "moment": "^2.22.2",
     "mysql": "^2.16.0",
+    "mysql2": "^1.6.1",
     "passport": "^0.4.0",
-    "sequelize": "^4.39.0"
+    "sequelize": "^4.41.0",
+    "underscore": "^1.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/node": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
-    "babel-cli": "^6.26.0"
+    "babel-cli": "^7.0.0-beta.3",
+    "prettier": "1.14.3"
   }
 }
