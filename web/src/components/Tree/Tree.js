@@ -3,23 +3,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TreeStyle from '../../assets/jss/common/components/TreeStyle';
 import Chip from '@material-ui/core/Chip/Chip';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel/ExpansionPanel';
-import Typography from '@material-ui/core/Typography/Typography';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChipExpansionPanel from './ChipExpansionPanel';
 
 class Tree extends React.Component {
-  state = {
-    expanded: null
-  };
-
-  handleChange = panel => (event, expanded) => {
-    this.setState({
-      expanded: expanded ? panel : false
-    });
-  };
-
   parseJSONintoTree(jsonObject, levelCounter) {
     let result = [];
     let partia = false;
@@ -47,22 +33,9 @@ class Tree extends React.Component {
     }
     if (partia)
       result = (
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={this.props.classes.heading}>Partia o ID: {jsonObject['idPartie']}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails
-            style={{
-              marginLeft: levelCounter * 50 + 'px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              flexBasis: 'auto'
-            }}
-          >
-            {result}
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+        <ChipExpansionPanel level={levelCounter} id={jsonObject['idPartie']}>
+          {result}
+        </ChipExpansionPanel>
       );
 
     return result;
