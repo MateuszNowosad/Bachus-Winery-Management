@@ -17,6 +17,10 @@ class ChipExpansionPanel extends React.Component {
     });
   };
 
+  componentDidMount() {
+    if (this.props.level === 0) this.setState({ expanded: true });
+  }
+
   render() {
     const { level, id, classes, children } = this.props;
     const { expanded } = this.state;
