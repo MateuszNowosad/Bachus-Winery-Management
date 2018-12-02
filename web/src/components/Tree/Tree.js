@@ -18,7 +18,11 @@ class Tree extends React.Component {
           if (key === 'idPartie') partia = true;
           if (key === 'idOperacja')
             result.push(
-              <Chip color="secondary" label={'Operacje na parii'} style={{ marginLeft: levelCounter * 50 + 'px' }} />
+              <Chip
+                color="secondary"
+                label={'Operacje o ID: ' + jsonObject[key]}
+                style={{ marginLeft: levelCounter * 50 + 'px' }}
+              />
             );
           result.push(
             <Chip
