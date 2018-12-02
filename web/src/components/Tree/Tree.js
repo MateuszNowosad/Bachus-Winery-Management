@@ -13,9 +13,11 @@ class Tree extends React.Component {
     let partia = false;
     for (let key in jsonObject) {
       if (jsonObject.hasOwnProperty(key)) {
-        if (Array.isArray(jsonObject[key]) && jsonObject[key].length !== 0) {
-          for (let index in jsonObject[key])
-            result.push(this.parseJSONintoTree(jsonObject[key][index], levelCounter + 1));
+        if (Array.isArray(jsonObject[key])) {
+          if (jsonObject[key].length !== 0) {
+            for (let index in jsonObject[key])
+              result.push(this.parseJSONintoTree(jsonObject[key][index], levelCounter + 1));
+          }
         } else {
           if (key === 'idPartie') {
             partia = true;
