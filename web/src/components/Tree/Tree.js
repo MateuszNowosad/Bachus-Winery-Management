@@ -15,8 +15,9 @@ class Tree extends React.Component {
           for (let index in jsonObject[key])
             result.push(this.parseJSONintoTree(jsonObject[key][index], levelCounter + 1));
         } else {
-          if (key === 'idPartie') partia = true;
-          if (key === 'idOperacja')
+          if (key === 'idPartie') {
+            partia = true;
+          } else if (key === 'idOperacja') {
             result.push(
               <Chip
                 color="secondary"
@@ -24,14 +25,15 @@ class Tree extends React.Component {
                 style={{ marginLeft: levelCounter * 50 + 'px' }}
               />
             );
-          result.push(
-            <Chip
-              color="primary"
-              variant="outlined"
-              label={key + ' = ' + jsonObject[key]}
-              style={{ marginLeft: levelCounter * 50 + 'px' }}
-            />
-          );
+          } else
+            result.push(
+              <Chip
+                color="primary"
+                variant="outlined"
+                label={key + ' = ' + jsonObject[key]}
+                style={{ marginLeft: levelCounter * 50 + 'px' }}
+              />
+            );
         }
       }
     }
@@ -48,14 +50,15 @@ class Tree extends React.Component {
   render() {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', flexBasis: 'auto' }}>
-        {this.parseJSONintoTree(JSON.parse(this.props.queryData)['data']['Partie'][0], 0)}
+        {this.parseJSONintoTree(this.props.queryData, 0)}
       </div>
     );
   }
 }
 
 Tree.propTypes = {
-  queryData: PropTypes.string.isRequired
+  queryData: PropTypes.string.isRequired,
+  labels: PropTypes.array.isRequired
 };
 
 export default withStyles(TreeStyle)(Tree);

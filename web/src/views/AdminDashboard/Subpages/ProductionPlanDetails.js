@@ -53,7 +53,7 @@ class ProductionPlanDetails extends React.Component {
             <TwoLevelPieChart />
           </Grid>
         </Grid>
-        <Tree queryData={partie} />
+        <Tree queryData={JSON.parse(partie)['data']['Partie'][0]} />
       </React.Fragment>
     );
   }
