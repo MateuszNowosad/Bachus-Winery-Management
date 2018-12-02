@@ -5,6 +5,7 @@ import TreeStyle from '../../assets/jss/common/components/TreeStyle';
 import Chip from '@material-ui/core/Chip/Chip';
 import ChipExpansionPanel from './ChipExpansionPanel';
 import LocalisationHelper from '../../localisation/LocalisationHelper';
+import Typography from '@material-ui/core/Typography/Typography';
 
 class Tree extends React.Component {
   parseJSONintoTree(jsonObject, levelCounter) {
@@ -31,12 +32,10 @@ class Tree extends React.Component {
             );
           } else
             result.push(
-              <Chip
-                color="primary"
-                variant="outlined"
-                label={LocalisationHelper(labels, key) + ': ' + jsonObject[key]}
-                style={{ marginLeft: levelCounter * 50 + 'px' }}
-              />
+              <Typography variant="subtitle1" style={{ marginLeft: levelCounter * 50 + 20 + 'px' }} gutterBottom>
+                <b>{LocalisationHelper(labels, key) + ': '}</b>
+                {jsonObject[key]}
+              </Typography>
             );
         }
       }
