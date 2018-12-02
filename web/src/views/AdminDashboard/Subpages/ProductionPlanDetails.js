@@ -11,6 +11,7 @@ import Tree from '../../../components/Tree/Tree';
 import partie from '../../../variables/AdminDashboard/ExampleDataJson.js';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import { batchDatabaseLabels, operationsDatabaseLabels } from '../../../localisation/DatabaseLabels';
 
 const MyLink = props => <Link to="/admindashboard/productionplans" {...props} />;
 
@@ -53,7 +54,10 @@ class ProductionPlanDetails extends React.Component {
             <TwoLevelPieChart />
           </Grid>
         </Grid>
-        <Tree queryData={JSON.parse(partie)['data']['Partie'][0]} />
+        <Tree
+          queryData={JSON.parse(partie)['data']['Partie'][0]}
+          labels={[batchDatabaseLabels, operationsDatabaseLabels]}
+        />
       </React.Fragment>
     );
   }

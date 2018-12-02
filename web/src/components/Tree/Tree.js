@@ -4,9 +4,11 @@ import { withStyles } from '@material-ui/core/styles';
 import TreeStyle from '../../assets/jss/common/components/TreeStyle';
 import Chip from '@material-ui/core/Chip/Chip';
 import ChipExpansionPanel from './ChipExpansionPanel';
+import LocalisationHelper from '../../localisation/LocalisationHelper';
 
 class Tree extends React.Component {
   parseJSONintoTree(jsonObject, levelCounter) {
+    const { labels } = this.props;
     let result = [];
     let partia = false;
     for (let key in jsonObject) {
@@ -21,7 +23,7 @@ class Tree extends React.Component {
             result.push(
               <Chip
                 color="secondary"
-                label={'Operacje o ID: ' + jsonObject[key]}
+                label={LocalisationHelper(labels, key) + ': ' + jsonObject[key]}
                 style={{ marginLeft: levelCounter * 50 + 'px' }}
               />
             );
@@ -30,7 +32,7 @@ class Tree extends React.Component {
               <Chip
                 color="primary"
                 variant="outlined"
-                label={key + ' = ' + jsonObject[key]}
+                label={LocalisationHelper(labels, key) + ': ' + jsonObject[key]}
                 style={{ marginLeft: levelCounter * 50 + 'px' }}
               />
             );
@@ -39,7 +41,11 @@ class Tree extends React.Component {
     }
     if (partia)
       result = (
-        <ChipExpansionPanel level={levelCounter} id={jsonObject['idPartie']}>
+        <ChipExpansionPanel
+          level={levelCounter}
+          id={jsonObject['idPartie']}
+          label={LocalisationHelper(labels, 'idPartie')}
+        >
           {result}
         </ChipExpansionPanel>
       );

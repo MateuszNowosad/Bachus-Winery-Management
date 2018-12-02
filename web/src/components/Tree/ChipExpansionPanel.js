@@ -22,13 +22,13 @@ class ChipExpansionPanel extends React.Component {
   }
 
   render() {
-    const { level, id, classes, children } = this.props;
+    const { level, id, classes, children, label } = this.props;
     const { expanded } = this.state;
     return (
       <React.Fragment>
         <Chip
           color="primary"
-          label={'Partia o ID: ' + id}
+          label={label + ': ' + id}
           style={{ marginLeft: level * 50 + 'px' }}
           onClick={this.handleClick}
         />
@@ -49,7 +49,8 @@ class ChipExpansionPanel extends React.Component {
 
 ChipExpansionPanel.propTypes = {
   children: PropTypes.node.isRequired,
-  level: PropTypes.node.isRequired
+  level: PropTypes.node.isRequired,
+  label: PropTypes.string.isRequired
 };
 
 export default withStyles(TreeStyle)(ChipExpansionPanel);
