@@ -1,12 +1,12 @@
 import React from 'react';
 import { TextField, Chip, Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
-import currentDate from './CurrentDate';
-import { DialogForForm } from './DialogForForm';
-import StepperParcelContent from './StepperParcelContent';
+import currentDate from '../CurrentDate';
+import { DialogForForm } from '../DialogForForm';
+import StepperParcelContent from '../StepperParcelContent';
 import PropTypes from 'prop-types';
-import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
-import { parcelValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
+import UniversalValidationHandler from '../UniversalValidationHandler/UniversalValidationHandler';
+import { parcelValidationKeys } from '../UniversalValidationHandler/validationKeys/validationKeys';
 
 const errorMap = {
   packageName: false,
@@ -27,24 +27,24 @@ export class FormParcel extends React.Component {
     };
   }
 
-    validate() {
-        const { packageName, weight, date } = this.state;
+  validate() {
+    const { packageName, weight, date } = this.state;
 
-        let dataObject = { packageName, weight, date };
+    let dataObject = { packageName, weight, date };
 
-        let arrayOfErrors = UniversalValidationHandler(dataObject, parcelValidationKeys);
-        if (arrayOfErrors.length === 0) {
-            this.setState({error: errorMap});
-            return true;
-        } else {
-            let error = Object.assign({}, errorMap);
-            for (let errorField in arrayOfErrors) {
-                error[arrayOfErrors[errorField]] = true;
-            }
-            this.setState({ error: error });
-            return false;
-        }
+    let arrayOfErrors = UniversalValidationHandler(dataObject, parcelValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      this.setState({ error: errorMap });
+      return true;
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
+      }
+      this.setState({ error: error });
+      return false;
     }
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
