@@ -2,7 +2,7 @@ import React from 'react';
 import { Avatar, Button, Grid, IconButton, InputAdornment, MenuItem, TextField } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { FormAddress } from './FormAddress';
+import { FormAddress } from './subforms/FormAddress';
 import PropTypes from 'prop-types';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler.js';
 import { usersValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';

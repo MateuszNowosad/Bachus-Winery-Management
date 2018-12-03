@@ -16,6 +16,8 @@ const switchRoutes = (
   <Switch>
     {AdminDashboardRoutes.map((prop, key) => {
       if (prop.redirect) return <Redirect from={prop.path} to={prop.to} key={key} />;
+      if (prop.hidden !== undefined)
+        return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
       let result = [<Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />];
       if (prop.childRoutes !== undefined) {
         prop.childRoutes.map((propChild, propKey) => {
@@ -34,6 +36,7 @@ const drawerList = (
     {AdminDashboardRoutes.map((prop, key) => {
       // if (prop.redirect)
       //     return <Redirect from={prop.path} to={prop.to} key={key}/>;
+      if (prop.hidden !== undefined) return;
       if (prop.childRoutes !== undefined) {
         return (
           <ExpandableListItem
