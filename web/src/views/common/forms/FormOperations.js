@@ -6,7 +6,9 @@ import {
     ExpansionPanel,
     ExpansionPanelSummary,
     Typography,
-    ExpansionPanelDetails
+    ExpansionPanelDetails,
+    Button,
+    Chip
 } from '@material-ui/core';
 import {Query} from 'react-apollo'
 import PropTypes from 'prop-types';
@@ -17,6 +19,8 @@ import {
     operationsValidationKeys
 } from "./UniversalValidationHandler/validationKeys/validationKeys";
 import getDictProcesses from "../../../queries/getDictProcesses";
+import {DialogForForm} from "./DialogForForm";
+import StepperParcelContent from "./StepperParcelContent";
 
 
 const errorMap = {
@@ -48,13 +52,38 @@ export class FormOperations extends React.Component {
             temperature: '',
             desc: '',
             process: '',
+            content: [],
+            open: false,
             errors: errorMap
         };
     }
 
+    handleClickOpen = () => {
+        this.setState({open: true});
+    };
+
+    handleClose = () => {
+        this.setState({open: false});
+    };
+
     handleChange = name => event => {
         this.setState({
             [name]: event.target.value
+        });
+    };
+
+    handleAddContent = data => {
+        this.setState(prevState => ({
+            content: [...prevState.content, data]
+        }));
+    };
+
+    handleDelete = data => () => {
+        this.setState(state => {
+            const content = [...state.content];
+            const contentToDelete = content.indexOf(data);
+            content.splice(contentToDelete, 1);
+            return {content};
         });
     };
 
@@ -118,6 +147,8 @@ export class FormOperations extends React.Component {
             temperature,
             desc,
             process,
+            content,
+            open,
             errors
         } = this.state;
 
@@ -297,7 +328,33 @@ export class FormOperations extends React.Component {
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                                 <Typography variant="inherit">Produkty z magazynu</Typography>
                             </ExpansionPanelSummary>
-                            <ExpansionPanelDetails/>
+                            <ExpansionPanelDetails>
+                                <Grid container spacing={8} justify={'center'}>
+                                    <Grid item md={12}>
+                                        {content.map(data => {
+                                            return (
+                                                <Chip
+                                                    key={data.key}
+                                                    label={data.selectedItem.name + ' ' + data.amount}
+                                                    onDelete={this.handleDelete(data)}
+                                                />
+                                            );
+                                        })}
+                                    </Grid>
+                                    <Grid item md={12}>
+                                        <Button variant="outlined" onClick={this.handleClickOpen}>
+                                            Dodaj
+                                        </Button>
+                                        <DialogForForm
+                                            title={'Magazyn'}
+                                            open={open}
+                                            onClose={this.handleClose}
+                                            children={<StepperParcelContent onSubmit={this.handleAddContent}
+                                                                            onClose={this.handleClose}/>}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </ExpansionPanelDetails>
                         </ExpansionPanel>
                     </Grid>
                 </Grid>
