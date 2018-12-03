@@ -3,7 +3,7 @@ import {Grid, MenuItem, TextField} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 import {Query} from 'react-apollo'
-import {DialogForForm} from './DialogForForm';
+import DialogForForm from './DialogForForm';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
 import {itemInStockValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";

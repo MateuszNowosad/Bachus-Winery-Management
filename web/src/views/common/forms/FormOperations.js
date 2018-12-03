@@ -19,7 +19,7 @@ import {
     operationsValidationKeys
 } from "./UniversalValidationHandler/validationKeys/validationKeys";
 import getDictProcesses from "../../../queries/getDictProcesses";
-import {DialogForForm} from "./DialogForForm";
+import DialogForForm from "./DialogForForm";
 import StepperItemFromWarehouse from "./StepperItemFromWarehouse";
 
 

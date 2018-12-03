@@ -2,7 +2,7 @@ import React from 'react';
 import { TextField, Chip, Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 import currentDate from './CurrentDate';
-import { DialogForForm } from './DialogForForm';
+import DialogForForm from './DialogForForm';
 import StepperItemFromWarehouse from './StepperItemFromWarehouse';
 import PropTypes from 'prop-types';
 import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
