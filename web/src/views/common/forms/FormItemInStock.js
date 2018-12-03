@@ -3,12 +3,12 @@ import {Grid, MenuItem, TextField} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 import {Query} from 'react-apollo'
-import {data} from './StaticData';
 import {DialogForForm} from './DialogForForm';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
 import {itemInStockValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
 import getDictCategories from "../../../queries/getDictCategories";
+import getBatches from "../../../queries/getBatches";
 
 const errorMap = {
     name: false,
@@ -225,7 +225,7 @@ export class FormItemInStock extends React.Component {
                             fullWidth
                             id="batch"
                             label="Partia"
-                            value={batch.name ? batch.name : 'Nie wybrano partii'}
+                            value={batch.idPartie ? batch.idPartie : 'Nie wybrano partii'}
                             margin="dense"
                             variant="outlined"
                             InputProps={{
@@ -237,17 +237,26 @@ export class FormItemInStock extends React.Component {
                             title={'Partie'}
                             open={open}
                             onClose={() => this.handleClose('open')}
-                            children={
-                                <SelectableAutoTable
-                                    queryData={data}
-                                    querySubject="batches"
-                                    funParam="batch"
-                                    onSelect={this.handleSelectBatch}
-                                    onClose={() => this.handleClose('open')}
-                                    id={batch.id}
-                                />
-                            }
-                        />
+                        >
+                            <Query query={getBatches}>
+                                {({loading, error, data}) => {
+                                    if (loading) return <p>Loading...</p>;
+                                    if (error) return <p>Error :(</p>;
+                                    console.log('246, data jakub: ', data);
+                                    return (
+                                        <SelectableAutoTable
+                                            queryData={data}
+                                            querySubject="Partie"
+                                            querySize={data.Partie.length}
+                                            funParam="batch"
+                                            onSelect={this.handleSelectBatch}
+                                            onClose={() => this.handleClose('open')}
+                                            id={batch.id}
+                                        />
+                                    )
+                                }}
+                            </Query>
+                        </DialogForForm>
                     </Grid>
                 </Grid>
             </form>
