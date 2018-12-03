@@ -5,7 +5,7 @@ import TableRow from '@material-ui/core/TableRow/TableRow';
 
 const SelectableAutoContent = props => {
   let row = [];
-  props.queryData['data'][props.querySubject]
+  props.queryData[props.querySubject]
     .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
     .map(currElement => {
       let values = Object.values(currElement);
