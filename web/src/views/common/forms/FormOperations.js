@@ -20,7 +20,7 @@ import {
 } from "./UniversalValidationHandler/validationKeys/validationKeys";
 import getDictProcesses from "../../../queries/getDictProcesses";
 import {DialogForForm} from "./DialogForForm";
-import StepperParcelContent from "./StepperParcelContent";
+import StepperItemFromWarehouse from "./StepperItemFromWarehouse";
 
 
 const errorMap = {
@@ -349,8 +349,8 @@ export class FormOperations extends React.Component {
                                             title={'Magazyn'}
                                             open={open}
                                             onClose={this.handleClose}
-                                            children={<StepperParcelContent onSubmit={this.handleAddContent}
-                                                                            onClose={this.handleClose}/>}
+                                            children={<StepperItemFromWarehouse onSubmit={this.handleAddContent}
+                                                                                onClose={this.handleClose}/>}
                                         />
                                     </Grid>
                                 </Grid>

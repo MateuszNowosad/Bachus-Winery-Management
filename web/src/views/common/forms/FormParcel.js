@@ -3,7 +3,7 @@ import { TextField, Chip, Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 import currentDate from './CurrentDate';
 import { DialogForForm } from './DialogForForm';
-import StepperParcelContent from './StepperParcelContent';
+import StepperItemFromWarehouse from './StepperItemFromWarehouse';
 import PropTypes from 'prop-types';
 import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
 import { parcelValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
@@ -151,7 +151,7 @@ export class FormParcel extends React.Component {
             title={'Magazyn'}
             open={open}
             onClose={this.handleClose}
-            children={<StepperParcelContent onSubmit={this.handleAddContent} onClose={this.handleClose} />}
+            children={<StepperItemFromWarehouse onSubmit={this.handleAddContent} onClose={this.handleClose} />}
           />
         </Grid>
       </Grid>

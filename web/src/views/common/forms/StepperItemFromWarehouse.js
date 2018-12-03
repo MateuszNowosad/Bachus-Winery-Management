@@ -19,7 +19,7 @@ function getSteps() {
   return ['Wybierz magazyn', 'Wybierz produkt', 'Określ rozmiar'];
 }
 
-class StepperParcelContent extends React.Component {
+class StepperItemFromWarehouse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -186,9 +186,9 @@ class StepperParcelContent extends React.Component {
   }
 }
 
-StepperParcelContent.propTypes = {
+StepperItemFromWarehouse.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 
-export default StepperParcelContent;
+export default StepperItemFromWarehouse;
