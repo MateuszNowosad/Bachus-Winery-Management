@@ -251,7 +251,7 @@ export class FormItemInStock extends React.Component {
                                             funParam="batch"
                                             onSelect={this.handleSelectBatch}
                                             onClose={() => this.handleClose('open')}
-                                            id={batch.id}
+                                            id={batch.idPartie}
                                         />
                                     )
                                 }}
