@@ -71,6 +71,14 @@ export class FormParcel extends React.Component {
     this.setState(prevState => ({
       content: [...prevState.content, data]
     }));
+      const { packageName, weight, date, content } = this.state;
+      const { varName } = this.props;
+      this.props.onChange(varName, {
+          packageName,
+          weight,
+          date,
+          content
+      });
   };
 
   handleDelete = data => () => {

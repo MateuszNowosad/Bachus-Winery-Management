@@ -19,6 +19,8 @@ import UniversalValidationHandler from "./UniversalValidationHandler/UniversalVa
 import {waybillValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
 import red from '@material-ui/core/colors/red';
 import getContractors from "../../../queries/getContractors";
+import PDFShow from "../../../components/PDFSchemes/PDFShow";
+import PDFWaybill from "../../../components/PDFSchemes/PDFWaybill";
 
 const errorMap = {
     driverName: false,
@@ -68,6 +70,46 @@ export class FormWaybill extends React.Component {
         this.subFormParcel.current.validate();
         return true;
     }
+
+    generateWaybill = () => {
+        const {
+            driverName,
+            driverSurname,
+            comments,
+            reservations,
+            sender,
+            recipent,
+            carrier,
+            pickupAddress,
+            mailingAddress,
+            parcel
+        } = this.state;
+
+        let dataObject = {
+            driverName,
+            driverSurname,
+            comments,
+            reservations,
+            sender,
+            recipent,
+            carrier,
+            pickupAddress,
+            mailingAddress,
+            parcel
+        };
+
+        let arrayOfErrors = UniversalValidationHandler(dataObject, waybillValidationKeys);
+        !this.subFormValidation() && arrayOfErrors.push('subforms');
+        if (arrayOfErrors.length === 0) {
+            PDFShow(PDFWaybill(dataObject))
+        } else {
+            let error = Object.assign({}, errorMap);
+            for (let errorField in arrayOfErrors) {
+                error[arrayOfErrors[errorField]] = true;
+            }
+            this.setState({errors: error});
+        }
+    };
 
     handleSubmit = () => {
         const {
@@ -338,6 +380,12 @@ export class FormWaybill extends React.Component {
                                 Dodaj dokument
                             </Button>
                         </label>
+                        <Button
+                            variant={"contained"}
+                            onClick={this.generateWaybill}
+                        >
+                            Generuj list przewozowy
+                        </Button>
                     </Grid>
                     <Grid item md={12}>
                         <ExpansionPanel>
