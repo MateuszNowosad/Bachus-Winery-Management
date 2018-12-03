@@ -186,6 +186,13 @@ export class FormWaybill extends React.Component {
         }
     }
 
+    filterContractors = (data) => {
+        const {sender,recipent,carrier}= this.state;
+        return data.Kontrahenci.filter(contractor => (contractor.idKontrahenci !== sender.idKontrahenci
+            && contractor.idKontrahenci !== recipent.idKontrahenci
+            && contractor.idKontrahenci !== carrier.idKontrahenci))
+    };
+
     render() {
         const {
             driverName,
@@ -277,8 +284,8 @@ export class FormWaybill extends React.Component {
                                     if (error) return <p>Error :(</p>;
                                     return (
                                         <SelectableAutoTable
-                                            queryData={data}
-                                            querySubject="Kontrahenci"
+                                            queryData={this.filterContractors(data)}
+                                            // querySubject="Kontrahenci"
                                             querySize={data.Kontrahenci.length}
                                             funParam="sender"
                                             onSelect={this.handleSelectContractor}
@@ -315,8 +322,8 @@ export class FormWaybill extends React.Component {
                                     if (error) return <p>Error :(</p>;
                                     return (
                                         <SelectableAutoTable
-                                            queryData={data}
-                                            querySubject="Kontrahenci"
+                                            queryData={this.filterContractors(data)}
+                                            // querySubject="Kontrahenci"
                                             querySize={data.Kontrahenci.length}
                                             funParam="recipent"
                                             onSelect={this.handleSelectContractor}
@@ -353,8 +360,8 @@ export class FormWaybill extends React.Component {
                                     if (error) return <p>Error :(</p>;
                                     return (
                                         <SelectableAutoTable
-                                            queryData={data}
-                                            querySubject="Kontrahenci"
+                                            queryData={this.filterContractors(data)}
+                                            // querySubject="Kontrahenci"
                                             querySize={data.Kontrahenci.length}
                                             funParam="carrier"
                                             onSelect={this.handleSelectContractor}
