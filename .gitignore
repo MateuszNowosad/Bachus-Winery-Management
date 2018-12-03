@@ -22,4 +22,4 @@ yarn-debug.log*
 yarn-error.log*
 server/node_modules/
 
-package-lock.json
+**/package-lock.json
