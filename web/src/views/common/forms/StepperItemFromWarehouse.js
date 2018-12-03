@@ -51,6 +51,11 @@ class StepperItemFromWarehouse extends React.Component {
         });
     };
 
+    filterItems = (data) => {
+        const {content}= this.props;
+        return data.pozycjaWMagazynie.filter(item => content.every(val => item.idPozycja !== val.key))
+    };
+
     getStepContent = step => {
         // TODO naprawić zmianę stanu
         switch (step) {
@@ -62,8 +67,8 @@ class StepperItemFromWarehouse extends React.Component {
                             if (error) return <p>Error :(</p>;
                             return (
                                 <SelectableAutoTable
-                                    queryData={data}
-                                    querySubject="Magazyn"
+                                    queryData={data.Magazyn}
+                                    // querySubject="Magazyn"
                                     querySize={data.Magazyn.length}
                                     funParam="selectedWarehouse"
                                     onSelect={this.handleSelect}
@@ -81,8 +86,8 @@ class StepperItemFromWarehouse extends React.Component {
                             if (error) return <p>Error :(</p>;
                             return (
                                 <SelectableAutoTable
-                                    queryData={data.Magazyn[0]}
-                                    querySubject={'pozycjaWMagazynie'}
+                                    queryData={this.filterItems(data.Magazyn[0])}
+                                    // querySubject={'pozycjaWMagazynie'}
                                     querySize={data.Magazyn[0].pozycjaWMagazynie.length}
                                     funParam="selectedItem"
                                     onSelect={this.handleSelect}

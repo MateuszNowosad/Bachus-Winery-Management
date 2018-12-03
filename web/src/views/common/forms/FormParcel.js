@@ -91,7 +91,7 @@ export class FormParcel extends React.Component {
   };
 
   render() {
-    const { packageName, weight, date, open, errors } = this.state;
+    const { packageName, weight, date, open, errors, content } = this.state;
     return (
       <Grid container spacing={8}>
         <Grid item md={6}>
@@ -159,7 +159,7 @@ export class FormParcel extends React.Component {
             title={'Magazyn'}
             open={open}
             onClose={this.handleClose}
-            children={<StepperItemFromWarehouse onSubmit={this.handleAddContent} onClose={this.handleClose} />}
+            children={<StepperItemFromWarehouse onSubmit={this.handleAddContent} onClose={this.handleClose} content={content} />}
           />
         </Grid>
       </Grid>
