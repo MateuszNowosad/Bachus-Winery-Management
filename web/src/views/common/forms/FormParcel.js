@@ -137,7 +137,7 @@ export class FormParcel extends React.Component {
             return (
               <Chip
                 key={data.key}
-                label={data.selectedItem.name + ' ' + data.amount}
+                label={data.selectedItem.nazwa + ' ' + data.amount}
                 onDelete={this.handleDelete(data)}
               />
             );

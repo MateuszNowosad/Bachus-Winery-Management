@@ -44,10 +44,8 @@ class SelectableAutoTable extends React.Component {
 
   handleRowClick = row => {
     const param = this.props.funParam;
-    console.log('48, this.props.id jakub: ', this.state.selected);
-    console.log('35, param jakub: ', param);
     this.setState({
-      selected: row.id
+      selected: row[Object.keys(row)[0]]
     });
     this.props.onSelect(param, row);
     this.props.onClose ? this.props.onClose() : null;
@@ -133,7 +131,7 @@ SelectableAutoTable.propTypes = {
   funParam: PropTypes.string,
   onSelect: PropTypes.func,
   onClose: PropTypes.func,
-  id: PropTypes.number
+  id: PropTypes.string
 };
 
 export default withStyles(AutoTableStyle)(SelectableAutoTable);

@@ -33,7 +33,7 @@ SelectableAutoContent.propTypes = {
   querySubject: PropTypes.string.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
-  selected: PropTypes.number,
+  selected: PropTypes.string,
   onClick: PropTypes.func
 };
 

@@ -242,7 +242,6 @@ export class FormItemInStock extends React.Component {
                                 {({loading, error, data}) => {
                                     if (loading) return <p>Loading...</p>;
                                     if (error) return <p>Error :(</p>;
-                                    console.log('246, data jakub: ', data);
                                     return (
                                         <SelectableAutoTable
                                             queryData={data}
