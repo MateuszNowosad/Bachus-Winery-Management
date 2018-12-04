@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
-import { processesDictValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
+import {processesDictValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
 
 const errorMap = {
   name: false,
@@ -18,7 +18,7 @@ export class FormDictProcesses extends React.Component {
       name: '',
       desc: '',
       additional: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -30,23 +30,21 @@ export class FormDictProcesses extends React.Component {
 
   handleSubmit = () => {
     const { name, desc, additional } = this.state;
-    let dataObject = {
-      name,
-      desc,
-      additional
-    };
+      let dataObject = {
+          name, desc, additional
+      };
 
-    let arrayOfErrors = UniversalValidationHandler(dataObject, processesDictValidationKeys);
-    if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-    } else {
-      let error = Object.assign({}, errorMap);
-      for (let errorField in arrayOfErrors) {
-        error[arrayOfErrors[errorField]] = true;
+      let arrayOfErrors = UniversalValidationHandler(dataObject, processesDictValidationKeys);
+      if (arrayOfErrors.length === 0) {
+          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      } else{
+          let error = Object.assign({}, errorMap);
+          for (let errorField in arrayOfErrors) {
+              error[arrayOfErrors[errorField]] = true;
+          }
+          this.setState({errors: error});
+          this.props.submitAborted();
       }
-      this.setState({ error: error });
-      this.props.submitAborted();
-    }
   };
 
   componentDidUpdate(prevProps) {
@@ -56,14 +54,15 @@ export class FormDictProcesses extends React.Component {
   }
 
   render() {
-    const { name, desc, additional, error } = this.state;
+    const { name, desc, additional, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
+              required
               id="name"
               label="Nazwa procesu"
               placeholder="Nazwa procesu"
@@ -79,7 +78,7 @@ export class FormDictProcesses extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.desc}
+              error={errors.desc}
               id="desc"
               label="Opis procesu"
               placeholder="Opis"
@@ -96,7 +95,7 @@ export class FormDictProcesses extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.additional}
+              error={errors.additional}
               id="additional"
               label="Dodatkowe informacje"
               placeholder="Dodatkowe informacje"

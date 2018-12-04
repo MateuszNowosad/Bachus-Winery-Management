@@ -11,13 +11,15 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PropTypes from 'prop-types';
 import { DialogForForm } from './DialogForForm';
-import { data } from './StaticData';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 import { FormAddress } from './subforms/FormAddress';
 import { FormParcel } from './subforms/FormParcel';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { waybillValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import red from '@material-ui/core/colors/red';
+import getContractors from '../../../queries/getContractors';
+import PDFShow from '../../../components/PDFSchemes/PDFShow';
+import PDFWaybill from '../../../components/PDFSchemes/PDFWaybill';
 
 const errorMap = {
   driverName: false,
@@ -49,7 +51,7 @@ export class FormWaybill extends React.Component {
       openSender: false,
       openRecipent: false,
       openCarrier: false,
-      error: errorMap
+      errors: errorMap
     };
     this.subFormMailing = React.createRef();
     this.subFormPickup = React.createRef();
@@ -67,6 +69,46 @@ export class FormWaybill extends React.Component {
     this.subFormParcel.current.validate();
     return true;
   }
+
+  generateWaybill = () => {
+    const {
+      driverName,
+      driverSurname,
+      comments,
+      reservations,
+      sender,
+      recipent,
+      carrier,
+      pickupAddress,
+      mailingAddress,
+      parcel
+    } = this.state;
+
+    let dataObject = {
+      driverName,
+      driverSurname,
+      comments,
+      reservations,
+      sender,
+      recipent,
+      carrier,
+      pickupAddress,
+      mailingAddress,
+      parcel
+    };
+
+    let arrayOfErrors = UniversalValidationHandler(dataObject, waybillValidationKeys);
+    !this.subFormValidation() && arrayOfErrors.push('subforms');
+    if (arrayOfErrors.length === 0) {
+      PDFShow(PDFWaybill(dataObject));
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
+      }
+      this.setState({ errors: error });
+    }
+  };
 
   handleSubmit = () => {
     const {
@@ -106,7 +148,7 @@ export class FormWaybill extends React.Component {
       for (let errorField in arrayOfErrors) {
         error[arrayOfErrors[errorField]] = true;
       }
-      this.setState({ error: error });
+      this.setState({ errors: error });
       this.props.submitAborted();
     }
   };
@@ -143,6 +185,16 @@ export class FormWaybill extends React.Component {
     }
   }
 
+  filterContractors = data => {
+    const { sender, recipent, carrier } = this.state;
+    return data.Kontrahenci.filter(
+      contractor =>
+        contractor.idKontrahenci !== sender.idKontrahenci &&
+        contractor.idKontrahenci !== recipent.idKontrahenci &&
+        contractor.idKontrahenci !== carrier.idKontrahenci
+    );
+  };
+
   render() {
     const {
       driverName,
@@ -155,7 +207,7 @@ export class FormWaybill extends React.Component {
       openSender,
       openRecipent,
       openCarrier,
-      error
+      errors
     } = this.state;
 
     return (
@@ -164,7 +216,8 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.driverName}
+              error={errors.driverName}
+              required
               id="driverName"
               label="Imię kierowcy"
               value={driverName}
@@ -176,7 +229,8 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.driverSurname}
+              error={errors.driverSurname}
+              required
               id="driverSurname"
               label="Nazwisko kierowcy"
               value={driverSurname}
@@ -188,7 +242,7 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.comments}
+              error={errors.comments}
               id="comments"
               label="Uwagi przewoźnika"
               value={comments}
@@ -200,7 +254,7 @@ export class FormWaybill extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.reservations}
+              error={errors.reservations}
               id="reservations"
               label="Zastrzeżenia odbiorcy"
               value={reservations}
@@ -214,8 +268,8 @@ export class FormWaybill extends React.Component {
               fullWidth
               id="sender"
               label="Nadawca"
-              value={sender.name ? sender.name : 'Nie wybrano nadawcy'}
-              error={error.sender}
+              value={sender.nazwaSpolki ? sender.nazwaSpolki : 'Nie wybrano nadawcy'}
+              error={errors.sender}
               margin="dense"
               variant="outlined"
               InputProps={{
@@ -223,30 +277,33 @@ export class FormWaybill extends React.Component {
               }}
               onClick={() => this.handleClickOpen('openSender')}
             />
-            <DialogForForm
-              title={'Kontrahenci'}
-              open={openSender}
-              onClose={() => this.handleClose('openSender')}
-              children={
-                <SelectableAutoTable
-                  queryData={data}
-                  querySubject="contractors"
-                  querySize={2}
-                  funParam="sender"
-                  onSelect={this.handleSelectContractor}
-                  onClose={() => this.handleClose('openSender')}
-                  id={sender.id}
-                />
-              }
-            />
+            <DialogForForm title={'Kontrahenci'} open={openSender} onClose={() => this.handleClose('openSender')}>
+              <Query query={getContractors}>
+                {({ loading, error, data }) => {
+                  if (loading) return <p>Loading...</p>;
+                  if (error) return <p>Error :(</p>;
+                  return (
+                    <SelectableAutoTable
+                      queryData={this.filterContractors(data)}
+                      // querySubject="Kontrahenci"
+                      querySize={data.Kontrahenci.length}
+                      funParam="sender"
+                      onSelect={this.handleSelectContractor}
+                      onClose={() => this.handleClose('openSender')}
+                      id={sender.idKontrahenci}
+                    />
+                  );
+                }}
+              </Query>
+            </DialogForForm>
           </Grid>
           <Grid item md={12}>
             <TextField
               fullWidth
               id="recipent"
               label="Odbiorca"
-              value={recipent.name ? recipent.name : 'Nie wybrano odbiorcy'}
-              error={error.recipent}
+              value={recipent.nazwaSpolki ? recipent.nazwaSpolki : 'Nie wybrano odbiorcy'}
+              error={errors.recipent}
               margin="dense"
               variant="outlined"
               InputProps={{
@@ -254,29 +311,33 @@ export class FormWaybill extends React.Component {
               }}
               onClick={() => this.handleClickOpen('openRecipent')}
             />
-            <DialogForForm
-              title={'Kontrahenci'}
-              open={openRecipent}
-              onClose={() => this.handleClose('openRecipent')}
-              children={
-                <SelectableAutoTable
-                  queryData={data}
-                  querySubject="contractors"
-                  funParam="recipent"
-                  onSelect={this.handleSelectContractor}
-                  onClose={() => this.handleClose('openRecipent')}
-                  id={recipent.id}
-                />
-              }
-            />
+            <DialogForForm title={'Kontrahenci'} open={openRecipent} onClose={() => this.handleClose('openRecipent')}>
+              <Query query={getContractors}>
+                {({ loading, error, data }) => {
+                  if (loading) return <p>Loading...</p>;
+                  if (error) return <p>Error :(</p>;
+                  return (
+                    <SelectableAutoTable
+                      queryData={this.filterContractors(data)}
+                      // querySubject="Kontrahenci"
+                      querySize={data.Kontrahenci.length}
+                      funParam="recipent"
+                      onSelect={this.handleSelectContractor}
+                      onClose={() => this.handleClose('openRecipent')}
+                      id={recipent.idKontrahenci}
+                    />
+                  );
+                }}
+              </Query>
+            </DialogForForm>
           </Grid>
           <Grid item md={12}>
             <TextField
               fullWidth
               id="carrier"
               label="Przewoźnik"
-              value={carrier.name ? carrier.name : 'Nie wybrano odbiorcy'}
-              error={error.carrier}
+              value={carrier.nazwaSpolki ? carrier.nazwaSpolki : 'Nie wybrano odbiorcy'}
+              error={errors.carrier}
               margin="dense"
               variant="outlined"
               InputProps={{
@@ -284,21 +345,25 @@ export class FormWaybill extends React.Component {
               }}
               onClick={() => this.handleClickOpen('openCarrier')}
             />
-            <DialogForForm
-              title={'Kontrahenci'}
-              open={openCarrier}
-              onClose={() => this.handleClose('openCarrier')}
-              children={
-                <SelectableAutoTable
-                  queryData={data}
-                  querySubject="contractors"
-                  funParam="carrier"
-                  onSelect={this.handleSelectContractor}
-                  onClose={() => this.handleClose('openCarrier')}
-                  id={carrier.id}
-                />
-              }
-            />
+            <DialogForForm title={'Kontrahenci'} open={openCarrier} onClose={() => this.handleClose('openCarrier')}>
+              <Query query={getContractors}>
+                {({ loading, error, data }) => {
+                  if (loading) return <p>Loading...</p>;
+                  if (error) return <p>Error :(</p>;
+                  return (
+                    <SelectableAutoTable
+                      queryData={this.filterContractors(data)}
+                      // querySubject="Kontrahenci"
+                      querySize={data.Kontrahenci.length}
+                      funParam="carrier"
+                      onSelect={this.handleSelectContractor}
+                      onClose={() => this.handleClose('openCarrier')}
+                      id={carrier.idKontrahenci}
+                    />
+                  );
+                }}
+              </Query>
+            </DialogForForm>
           </Grid>
           <Grid item md={12}>
             <input hidden accept="application/pdf" id="addFile" type="file" onChange={this.handleFileChange} />
@@ -307,7 +372,7 @@ export class FormWaybill extends React.Component {
                 variant="contained"
                 component="span"
                 style={
-                  error.file
+                  errors.file
                     ? {
                         color: red[300],
                         backgroundColor: red[700],
@@ -321,6 +386,9 @@ export class FormWaybill extends React.Component {
                 Dodaj dokument
               </Button>
             </label>
+            <Button variant={'contained'} onClick={this.generateWaybill}>
+              Generuj list przewozowy
+            </Button>
           </Grid>
           <Grid item md={12}>
             <ExpansionPanel>

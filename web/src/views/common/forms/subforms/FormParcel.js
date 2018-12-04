@@ -2,8 +2,8 @@ import React from 'react';
 import { TextField, Chip, Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 import currentDate from '../CurrentDate';
-import { DialogForForm } from '../DialogForForm';
-import StepperParcelContent from '../StepperParcelContent';
+import DialogForForm from '../DialogForForm';
+import StepperItemFromWarehouse from '../StepperItemFromWarehouse';
 import PropTypes from 'prop-types';
 import UniversalValidationHandler from '../UniversalValidationHandler/UniversalValidationHandler';
 import { parcelValidationKeys } from '../UniversalValidationHandler/validationKeys/validationKeys';
@@ -23,7 +23,7 @@ export class FormParcel extends React.Component {
       date: currentDate('dateTime'),
       content: [],
       open: false,
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -32,19 +32,19 @@ export class FormParcel extends React.Component {
 
     let dataObject = { packageName, weight, date };
 
-    let arrayOfErrors = UniversalValidationHandler(dataObject, parcelValidationKeys);
-    if (arrayOfErrors.length === 0) {
-      this.setState({ error: errorMap });
-      return true;
-    } else {
-      let error = Object.assign({}, errorMap);
-      for (let errorField in arrayOfErrors) {
-        error[arrayOfErrors[errorField]] = true;
-      }
-      this.setState({ error: error });
-      return false;
+        let arrayOfErrors = UniversalValidationHandler(dataObject, parcelValidationKeys);
+        if (arrayOfErrors.length === 0) {
+            this.setState({error: errorMap});
+            return true;
+        } else {
+            let error = Object.assign({}, errorMap);
+            for (let errorField in arrayOfErrors) {
+                error[arrayOfErrors[errorField]] = true;
+            }
+            this.setState({ errors: error });
+            return false;
+        }
     }
-  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -71,6 +71,14 @@ export class FormParcel extends React.Component {
     this.setState(prevState => ({
       content: [...prevState.content, data]
     }));
+      const { packageName, weight, date, content } = this.state;
+      const { varName } = this.props;
+      this.props.onChange(varName, {
+          packageName,
+          weight,
+          date,
+          content
+      });
   };
 
   handleDelete = data => () => {
@@ -83,13 +91,14 @@ export class FormParcel extends React.Component {
   };
 
   render() {
-    const { packageName, weight, date, open, error } = this.state;
+    const { packageName, weight, date, open, errors, content } = this.state;
     return (
       <Grid container spacing={8}>
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.packageName}
+            error={errors.packageName}
+            required
             id="packageName"
             label="Nazwa przesyłki"
             placeholder="Nazwa przesyłki"
@@ -105,7 +114,8 @@ export class FormParcel extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.weight}
+            error={errors.weight}
+            required
             id="weight"
             label="Waga"
             placeholder="Waga"
@@ -119,7 +129,8 @@ export class FormParcel extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.date}
+            error={errors.date}
+            required
             id="date"
             label="Data odbioru/dostarczenia"
             type="datetime-local"
@@ -137,7 +148,7 @@ export class FormParcel extends React.Component {
             return (
               <Chip
                 key={data.key}
-                label={data.selectedItem.name + ' ' + data.amount}
+                label={data.selectedItem.nazwa + ' ' + data.amount}
                 onDelete={this.handleDelete(data)}
               />
             );
@@ -151,7 +162,7 @@ export class FormParcel extends React.Component {
             title={'Magazyn'}
             open={open}
             onClose={this.handleClose}
-            children={<StepperParcelContent onSubmit={this.handleAddContent} onClose={this.handleClose} />}
+            children={<StepperItemFromWarehouse onSubmit={this.handleAddContent} onClose={this.handleClose} content={content} />}
           />
         </Grid>
       </Grid>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
-import { grapeTypeDictValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
+import {grapeTypeDictValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
 
 const errorMap = {
   name: false,
@@ -16,7 +16,7 @@ export class FormDictGrapeType extends React.Component {
     this.state = {
       name: '',
       desc: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -30,21 +30,20 @@ export class FormDictGrapeType extends React.Component {
     const { name, desc } = this.state;
 
     let dataObject = {
-      name,
-      desc
-    };
+        name, desc
+      };
 
-    let arrayOfErrors = UniversalValidationHandler(dataObject, grapeTypeDictValidationKeys);
-    if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-    } else {
-      let error = Object.assign({}, errorMap);
-      for (let errorField in arrayOfErrors) {
-        error[arrayOfErrors[errorField]] = true;
+      let arrayOfErrors = UniversalValidationHandler(dataObject, grapeTypeDictValidationKeys);
+      if (arrayOfErrors.length === 0) {
+          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      } else{
+          let error = Object.assign({}, errorMap);
+          for (let errorField in arrayOfErrors) {
+              error[arrayOfErrors[errorField]] = true;
+          }
+          this.setState({errors: error});
+          this.props.submitAborted();
       }
-      this.setState({ error: error });
-      this.props.submitAborted();
-    }
   };
 
   componentDidUpdate(prevProps) {
@@ -54,14 +53,15 @@ export class FormDictGrapeType extends React.Component {
   }
 
   render() {
-    const { name, desc, error } = this.state;
+    const { name, desc, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
+              required
               id="name"
               label="Nazwa odmiany"
               placeholder="Nazwa odmiany"
@@ -77,7 +77,7 @@ export class FormDictGrapeType extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.desc}
+              error={errors.desc}
               id="desc"
               label="Opis odmiany"
               placeholder="Opis"

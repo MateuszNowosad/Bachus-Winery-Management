@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
-import { categoriesDictValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
+import {categoriesDictValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
 
 const errorMap = {
   name: false,
@@ -18,7 +18,7 @@ export class FormDictCategories extends React.Component {
       name: '',
       unit: '',
       desc: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -30,23 +30,21 @@ export class FormDictCategories extends React.Component {
 
   handleSubmit = () => {
     const { name, unit, desc } = this.state;
-    let dataObject = {
-      name,
-      unit,
-      desc
-    };
+      let dataObject = {
+          name, unit, desc
+      };
 
-    let arrayOfErrors = UniversalValidationHandler(dataObject, categoriesDictValidationKeys);
-    if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-    } else {
-      let error = Object.assign({}, errorMap);
-      for (let errorField in arrayOfErrors) {
-        error[arrayOfErrors[errorField]] = true;
+      let arrayOfErrors = UniversalValidationHandler(dataObject, categoriesDictValidationKeys);
+      if (arrayOfErrors.length === 0) {
+          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      } else{
+          let error = Object.assign({}, errorMap);
+          for (let errorField in arrayOfErrors) {
+              error[arrayOfErrors[errorField]] = true;
+          }
+          this.setState({errors: error});
+          this.props.submitAborted();
       }
-      this.setState({ error: error });
-      this.props.submitAborted();
-    }
   };
 
   componentDidUpdate(prevProps) {
@@ -56,14 +54,15 @@ export class FormDictCategories extends React.Component {
   }
 
   render() {
-    const { name, unit, desc, error } = this.state;
+    const { name, unit, desc, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
+              required
               id="name"
               label="Nazwa kategorii"
               placeholder="Nazwa kategorii"
@@ -79,7 +78,8 @@ export class FormDictCategories extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.unit}
+              error={errors.unit}
+              required
               id="unit"
               label="Jednostka"
               placeholder="Jednostka"
@@ -95,7 +95,7 @@ export class FormDictCategories extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.desc}
+              error={errors.desc}
               id="desc"
               label="Opis kategorii"
               placeholder="Opis"
