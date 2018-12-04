@@ -1,9 +1,9 @@
 import React from 'react';
 import { Grid, InputAdornment, MenuItem, TextField } from '@material-ui/core';
-import { FormAddress } from './subforms/FormAddress';
+import { FormAddress } from './FormAddress';
 import PropTypes from 'prop-types';
-import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
-import { warehouseValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
+import {warehouseValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
 
 const types = ['magazyn produktów', 'magazyn półproduktów'];
 
@@ -19,14 +19,14 @@ export class FormWarehouse extends React.Component {
       type: '',
       capacity: '',
       address: {},
-      error: errorMap
+      errors: errorMap
     };
     this.subForm = React.createRef();
   }
 
-  subFormValidation() {
-    return this.subForm.current.validate();
-  }
+    subFormValidation() {
+        return this.subForm.current.validate();
+    }
 
   handleChange = name => event => {
     this.setState({
@@ -42,24 +42,22 @@ export class FormWarehouse extends React.Component {
 
   handleSubmit = () => {
     const { type, capacity, address } = this.state;
-    let dataObject = {
-      type,
-      capacity,
-      address
-    };
+      let dataObject = {
+          type, capacity, address
+      };
 
-    let arrayOfErrors = UniversalValidationHandler(dataObject, warehouseValidationKeys);
-    !this.subFormValidation() && arrayOfErrors.push('address');
-    if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-    } else {
-      let error = Object.assign({}, errorMap);
-      for (let errorField in arrayOfErrors) {
-        error[arrayOfErrors[errorField]] = true;
+      let arrayOfErrors = UniversalValidationHandler(dataObject, warehouseValidationKeys);
+      !this.subFormValidation() && arrayOfErrors.push("address");
+      if (arrayOfErrors.length === 0) {
+          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      } else{
+          let error = Object.assign({}, errorMap);
+          for (let errorField in arrayOfErrors) {
+              error[arrayOfErrors[errorField]] = true;
+          }
+          this.setState({errors: error});
+          this.props.submitAborted();
       }
-      this.setState({ error: error });
-      this.props.submitAborted();
-    }
   };
 
   componentDidUpdate(prevProps) {
@@ -69,7 +67,7 @@ export class FormWarehouse extends React.Component {
   }
 
   render() {
-    const { type, capacity, error } = this.state;
+    const { type, capacity, errors } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -77,7 +75,8 @@ export class FormWarehouse extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.type}
+              error={errors.type}
+              required
               id="type"
               select
               label="Rodzaj magazynu"
@@ -97,7 +96,8 @@ export class FormWarehouse extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.capacity}
+              error={errors.capacity}
+              required
               id="capacity"
               label="Pojemność"
               value={capacity}
@@ -115,7 +115,7 @@ export class FormWarehouse extends React.Component {
             />
           </Grid>
           <Grid item>
-            <FormAddress varName="address" onChange={this.handleAddressChange} ref={this.subForm} />
+            <FormAddress varName="address" onChange={this.handleAddressChange} ref={this.subForm}/>
           </Grid>
         </Grid>
       </form>

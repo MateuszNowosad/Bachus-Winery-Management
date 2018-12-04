@@ -1,8 +1,8 @@
 const generateContent = (content) => {
 
   const data = [[{ text: 'Ilość', fontSize: 11, bold: true }, { text: 'Nazwa', fontSize: 11, bold: true }]];
-  for (let i = 0; i < content.length*3; i++)
-    data.push([{ text: content[i%3].amount }, { text: content[i%3].selectedItem.name}]);
+  for (let i = 0; i < content.length; i++)
+    data.push([{ text: content[i].amount }, { text: content[i].selectedItem.nazwa}]);
   return data;
 };
 
@@ -11,8 +11,8 @@ const formatAddress = (data) => {
     data.city + ' ' + data.postalCode+ ' ' + data.country;
 };
 
-const formatSender = (data) => {
-  return { text: data.companyName + ' ' + formatAddress(data.address), style: 'data' };
+const formatContractor = (data) => {
+  return { text: data.nazwaSpolki /*+ ' ' + formatAddress(data.adres)*/, style: 'data' };
 };
 
 const formatDriver = (data) => {
@@ -45,15 +45,15 @@ const PDFWaybill = (data) => {
                 style: 'centeredBold'
               }],
               [{
-                text: [{ text: 'Nazwa odbiorcy:\n', bold: true }, formatSender(data.recipent)],
+                text: [{ text: 'Nazwa odbiorcy:\n', bold: true }, formatContractor(data.recipent)],
                 colSpan: 2
-              }, {}, { text: [{ text: 'Nazwa przewoźnika:\n', bold: true }, formatSender(data.carrier)], rowSpan: 2 }],
+              }, {}, { text: [{ text: 'Nazwa przewoźnika:\n', bold: true }, formatContractor(data.carrier)], rowSpan: 2 }],
               [{
                 text: [{ text: 'Miejsce przeznaczenia:\n', bold: true }, { text: formatAddress(data.pickupAddress), style: 'data' }],
                 colSpan: 2
               }, {}, {}],
               [{
-                text: [{ text: 'Nazwa nadawcy:\n', bold: true }, formatSender(data.sender)],
+                text: [{ text: 'Nazwa nadawcy:\n', bold: true }, formatContractor(data.sender)],
                 colSpan: 2
               }, {}, { text: [{ text: 'Imię i nazwisko kierowcy:\n', bold: true }, formatDriver(data)], rowSpan: 2 }],
               [{

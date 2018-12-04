@@ -44,10 +44,8 @@ class SelectableAutoTable extends React.Component {
 
   handleRowClick = row => {
     const param = this.props.funParam;
-    console.log('48, this.props.id jakub: ', this.state.selected);
-    console.log('35, param jakub: ', param);
     this.setState({
-      selected: parseInt(row[Object.keys(row)[0]], 10) //Order not guarnanteed as per ECMAStandard but implmented by all major browsers. TEMP FIX
+      selected: row[Object.keys(row)[0]]
     });
     this.props.onSelect(param, row);
     this.props.onClose ? this.props.onClose() : null;
@@ -69,7 +67,7 @@ class SelectableAutoTable extends React.Component {
     const { rowsPerPage, page, selected } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, querySize - page * rowsPerPage);
     return (
-      <div style={{ minWidth: '100%' }}>
+      <div>
         <div className={classes.actions}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -133,7 +131,7 @@ SelectableAutoTable.propTypes = {
   funParam: PropTypes.string,
   onSelect: PropTypes.func,
   onClose: PropTypes.func,
-  id: PropTypes.number
+  id: PropTypes.string
 };
 
 export default withStyles(AutoTableStyle)(SelectableAutoTable);
