@@ -18,7 +18,7 @@ const SelectableAutoContent = props => {
         <TableRow
           hover
           key={values[0]}
-          selected={props.selected === values[0]}
+          selected={props.selected === parseInt(values[0], 10)} //TEMP WORKAROUND
           onClick={() => props.onClick(currElement)}
         >
           {cells}

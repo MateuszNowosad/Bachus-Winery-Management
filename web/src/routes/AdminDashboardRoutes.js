@@ -16,10 +16,13 @@ import Flower from '@material-ui/icons/LocalFlorist';
 import Bar from '@material-ui/icons/LocalBar';
 import UserInfo from '../views/AdminDashboard/UserInfo';
 import FaceIcon from '@material-ui/icons/Face';
+import TodayIcon from '@material-ui/icons/Today';
 import DatabaseVineyard from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseVineyard';
 import DatabaseProduction from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseProduction';
 import DatabaseContactsAndUsers from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseContactsAndUsers';
 import DatabaseLogistics from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseLogistics';
+import ProductionPlans from '../views/AdminDashboard/ProductionPlans';
+import ProductionPlanDetails from '../views/AdminDashboard/Subpages/ProductionPlanDetails';
 
 const AdminDashboardRoutes = [
   {
@@ -103,6 +106,20 @@ const AdminDashboardRoutes = [
     drawerIcon: <SaveIcon />,
     component: Backup,
     exact: false
+  },
+  {
+    path: '/admindashboard/productionplans',
+    drawerName: 'Plany produkcyjne',
+    navbarName: 'Plany produkcyjne',
+    drawerIcon: <TodayIcon />,
+    component: ProductionPlans,
+    exact: true
+  },
+  {
+    path: '/admindashboard/productionplans/:id',
+    component: ProductionPlanDetails,
+    hidden: true,
+    exact: true
   }
 
   // {redirect: true, path: "/", to: "/login", navbarName: "Redirect"}

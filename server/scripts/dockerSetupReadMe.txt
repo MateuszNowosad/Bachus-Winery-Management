@@ -6,7 +6,7 @@
 6. Inside container write ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';
 7. CREATE USER 'test'@'%' IDENTIFIED BY 'test';
 8. GRANT ALL PRIVILEGES ON *.* TO 'test'@'%' WITH GRANT OPTION;
-9. CREATE DATABASE bachusWinery
+9. CREATE DATABASE bachusWinery;
 10. USE bachusWinery
 
 After step 10 use database client like mycli instead of container console

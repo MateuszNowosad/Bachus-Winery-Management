@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
-import { FormAddress } from './FormAddress';
+import { FormAddress } from './subforms/FormAddress';
 import PropTypes from 'prop-types';
 import { contractorsValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
@@ -50,12 +50,12 @@ export class FormContractors extends React.Component {
     });
   };
 
-  validateKRSNIP(){
-      if(this.state.NIP === '' && this.state.KRS === ''){
-          alert("Musisz wypełnić NIP lub KRS");
-          return false;
-      }
-      return true;
+  validateKRSNIP() {
+    if (this.state.NIP === '' && this.state.KRS === '') {
+      alert('Musisz wypełnić NIP lub KRS');
+      return false;
+    }
+    return true;
   }
 
   handleSubmit = () => {
