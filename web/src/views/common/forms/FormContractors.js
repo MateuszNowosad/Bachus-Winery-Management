@@ -119,6 +119,7 @@ export class FormContractors extends React.Component {
             <TextField
               fullWidth
               error={errors.companyName}
+              required
               id="companyName"
               label="Nazwa spółki"
               placeholder="Nazwa spółki"
@@ -135,6 +136,7 @@ export class FormContractors extends React.Component {
             <TextField
               fullWidth
               error={errors.eMail}
+              required
               id="eMail"
               label="Adres e-mail"
               placeholder="Adres e-mail"
@@ -183,6 +185,7 @@ export class FormContractors extends React.Component {
             <TextField
               fullWidth
               error={errors.phoneNumber}
+              required
               id="phoneNumber"
               label="Numer telefonu"
               placeholder="Numer telefonu"
@@ -215,6 +218,7 @@ export class FormContractors extends React.Component {
             <TextField
               fullWidth
               error={errors.accountNumber}
+              required
               id="accountNumber"
               label="Numer konta"
               placeholder="Numer konta"

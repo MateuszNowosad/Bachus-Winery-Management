@@ -76,6 +76,7 @@ export class FormWarehouse extends React.Component {
             <TextField
               fullWidth
               error={errors.type}
+              required
               id="type"
               select
               label="Rodzaj magazynu"
@@ -96,6 +97,7 @@ export class FormWarehouse extends React.Component {
             <TextField
               fullWidth
               error={errors.capacity}
+              required
               id="capacity"
               label="Pojemność"
               value={capacity}

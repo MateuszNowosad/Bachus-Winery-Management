@@ -98,6 +98,7 @@ export class FormParcel extends React.Component {
           <TextField
             fullWidth
             error={errors.packageName}
+            required
             id="packageName"
             label="Nazwa przesyłki"
             placeholder="Nazwa przesyłki"
@@ -114,6 +115,7 @@ export class FormParcel extends React.Component {
           <TextField
             fullWidth
             error={errors.weight}
+            required
             id="weight"
             label="Waga"
             placeholder="Waga"
@@ -128,6 +130,7 @@ export class FormParcel extends React.Component {
           <TextField
             fullWidth
             error={errors.date}
+            required
             id="date"
             label="Data odbioru/dostarczenia"
             type="datetime-local"

@@ -67,6 +67,7 @@ export class FormVineyardOperation extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.dateOfOperation}
+                            required
                             id="dateOfOperation"
                             label="Data operacji"
                             type="datetime-local"
@@ -107,6 +108,7 @@ export class FormVineyardOperation extends React.Component {
                                     <TextField
                                         fullWidth
                                         error={errors.dictOperation}
+                                        required
                                         id="dictOperation"
                                         select
                                         label="Operacja"

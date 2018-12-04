@@ -68,6 +68,7 @@ export class FormWineInformation extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.name}
+                            required
                             id="name"
                             label="Nazwa wina"
                             value={name}
@@ -104,6 +105,7 @@ export class FormWineInformation extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.energyValue}
+                            required
                             id="energyValue"
                             label="Wartość energetyczna"
                             type="number"
@@ -127,6 +129,7 @@ export class FormWineInformation extends React.Component {
                                         placeholder="Kategoria wina"
                                         value={wineCategory}
                                         error={errors.wineCategory}
+                                        required
                                         onChange={this.handleChange('wineCategory')}
                                         margin="dense"
                                         variant={'outlined'}

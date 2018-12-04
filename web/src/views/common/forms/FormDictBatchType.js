@@ -60,6 +60,7 @@ export class FormDictBatchType extends React.Component {
             <TextField
               fullWidth
               error={errors.name}
+              required
               id="name"
               label="Nazwa typu partii"
               placeholder="Nazwa typu partii"
@@ -76,6 +77,7 @@ export class FormDictBatchType extends React.Component {
             <TextField
               fullWidth
               error={errors.unit}
+              required
               id="unit"
               label="Jednostka"
               placeholder="Jednostka"

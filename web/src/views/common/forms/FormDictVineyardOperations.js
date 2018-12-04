@@ -60,6 +60,7 @@ export class FormDictVineyardOperations extends React.Component {
             <TextField
               fullWidth
               error={errors.name}
+              required
               id="name"
               label="Nazwa operacji"
               placeholder="Nazwa operacji"

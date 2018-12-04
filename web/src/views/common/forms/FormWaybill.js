@@ -215,6 +215,7 @@ export class FormWaybill extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.driverName}
+                            required
                             id="driverName"
                             label="Imię kierowcy"
                             value={driverName}
@@ -227,6 +228,7 @@ export class FormWaybill extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.driverSurname}
+                            required
                             id="driverSurname"
                             label="Nazwisko kierowcy"
                             value={driverSurname}

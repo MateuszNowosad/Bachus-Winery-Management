@@ -76,6 +76,7 @@ export class FormVineyard extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.name}
+                            required
                             id="name"
                             label="Nazwa winnicy"
                             placeholder="Nazwa"
@@ -92,6 +93,7 @@ export class FormVineyard extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.area}
+                            required
                             id="area"
                             label="Powierzchnia"
                             value={area}
@@ -108,6 +110,7 @@ export class FormVineyard extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.state}
+                            required
                             id="state"
                             select
                             label="Stan winnicy"
@@ -145,6 +148,7 @@ export class FormVineyard extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.dateOfPlanting}
+                            required
                             id="dateOfPlanting"
                             label="Data zasadzenie"
                             type="date"
@@ -161,6 +165,7 @@ export class FormVineyard extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.registrationPlotId}
+                            required
                             id="registrationPlotId"
                             label="Ewidencyjny numer działki"
                             placeholder="Nr. działki"
@@ -182,6 +187,7 @@ export class FormVineyard extends React.Component {
                                     <TextField
                                         fullWidth
                                         error={errors.grapeType}
+                                        required
                                         id="grapeType"
                                         select
                                         label="Odmiana winogron"

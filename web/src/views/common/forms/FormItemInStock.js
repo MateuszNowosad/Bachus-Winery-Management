@@ -115,6 +115,7 @@ export class FormItemInStock extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.name}
+                            required
                             id="name"
                             label="Nazwa"
                             placeholder="Nazwa"
@@ -140,6 +141,7 @@ export class FormItemInStock extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.amount}
+                            required
                             id="amount"
                             label="Ilość"
                             value={amount}
@@ -153,6 +155,7 @@ export class FormItemInStock extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.acceptanceDate}
+                            required
                             id="acceptanceDate"
                             label="Data przyjęcia"
                             type="datetime-local"
@@ -185,6 +188,7 @@ export class FormItemInStock extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.sectorName}
+                            required
                             id="sectorName"
                             label="Nazwa sektora"
                             value={sectorName}
@@ -202,6 +206,7 @@ export class FormItemInStock extends React.Component {
                                     <TextField
                                         fullWidth
                                         error={errors.category}
+                                        required
                                         id="category"
                                         label="Kategoria"
                                         select

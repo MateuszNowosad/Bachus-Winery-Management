@@ -175,6 +175,7 @@ export class FormUsers extends React.Component {
                             <TextField
                                 fullWidth
                                 error={errors.firstName}
+                                required
                                 id="firstName"
                                 label="Imię"
                                 placeholder="Imię"
@@ -192,6 +193,7 @@ export class FormUsers extends React.Component {
                             <TextField
                                 fullWidth
                                 error={errors.lastName}
+                                required
                                 id="lastName"
                                 label="Nazwisko"
                                 placeholder="Nazwisko"
@@ -227,6 +229,7 @@ export class FormUsers extends React.Component {
                             <TextField
                                 fullWidth
                                 error={errors.eMail}
+                                required
                                 id="eMail"
                                 label="Adres e-mail"
                                 placeholder="Adres e-mail"
@@ -243,6 +246,7 @@ export class FormUsers extends React.Component {
                             <TextField
                                 fullWidth
                                 error={errors.login}
+                                required
                                 id="login"
                                 label="Login"
                                 placeholder="Login"
@@ -259,6 +263,7 @@ export class FormUsers extends React.Component {
                             <TextField
                                 fullWidth
                                 error={errors.password}
+                                required
                                 id="password"
                                 label="Haslo"
                                 placeholder="Haslo"
@@ -286,6 +291,7 @@ export class FormUsers extends React.Component {
                             <TextField
                                 fullWidth
                                 error={errors.PESEL}
+                                required
                                 id="PESEL"
                                 label="PESEL"
                                 placeholder="PESEL"
@@ -302,6 +308,7 @@ export class FormUsers extends React.Component {
                             <TextField
                                 fullWidth
                                 error={errors.phoneNumber}
+                                required
                                 id="phoneNumber"
                                 label="Numer telefonu"
                                 placeholder="Numer telefonu"
@@ -323,6 +330,7 @@ export class FormUsers extends React.Component {
                                         <TextField
                                             fullWidth
                                             error={errors.userRole}
+                                            required
                                             id="userRole"
                                             select
                                             label="Rola użytkownika"

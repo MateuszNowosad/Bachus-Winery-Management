@@ -62,6 +62,7 @@ export class FormDictProcesses extends React.Component {
             <TextField
               fullWidth
               error={errors.name}
+              required
               id="name"
               label="Nazwa procesu"
               placeholder="Nazwa procesu"

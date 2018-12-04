@@ -164,6 +164,7 @@ export class FormOperations extends React.Component {
                                     <TextField
                                         fullWidth
                                         error={errors.process}
+                                        required
                                         id="process"
                                         select
                                         label="Rodzaj operacji"
@@ -187,6 +188,7 @@ export class FormOperations extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.beginAmount}
+                            required
                             id="beginAmount"
                             label="Ilość początkowa"
                             value={beginAmount}
@@ -213,6 +215,7 @@ export class FormOperations extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.beginData}
+                            required
                             id="beginDate"
                             label="Data początku"
                             type="datetime-local"

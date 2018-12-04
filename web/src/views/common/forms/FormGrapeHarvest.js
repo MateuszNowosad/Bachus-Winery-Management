@@ -60,6 +60,7 @@ export class FormGrapeHarvest extends React.Component {
             <TextField
               fullWidth
               error={errors.dateOfHarvest}
+              required
               id="dateOfHarvest"
               label="Data zbioru"
               type="date"
@@ -76,6 +77,7 @@ export class FormGrapeHarvest extends React.Component {
             <TextField
               fullWidth
               error={errors.amount}
+              required
               id="amount"
               label="Ilość"
               value={amount}

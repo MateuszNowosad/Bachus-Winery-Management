@@ -62,6 +62,7 @@ export class FormDictCategories extends React.Component {
             <TextField
               fullWidth
               error={errors.name}
+              required
               id="name"
               label="Nazwa kategorii"
               placeholder="Nazwa kategorii"
@@ -78,6 +79,7 @@ export class FormDictCategories extends React.Component {
             <TextField
               fullWidth
               error={errors.unit}
+              required
               id="unit"
               label="Jednostka"
               placeholder="Jednostka"

@@ -62,6 +62,7 @@ export class FormDictUserRole extends React.Component {
             <TextField
               fullWidth
               error={errors.name}
+              required
               id="name"
               label="Nazwa roli"
               placeholder="Nazwa roli"
@@ -95,6 +96,7 @@ export class FormDictUserRole extends React.Component {
             <TextField
               fullWidth
               error={errors.type}
+              required
               id="type"
               label="Typ roli użytkownika"
               placeholder="Typ roli użytkownika"

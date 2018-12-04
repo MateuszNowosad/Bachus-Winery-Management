@@ -60,6 +60,7 @@ export class FormDictWineCategory extends React.Component {
             <TextField
               fullWidth
               error={errors.name}
+              required
               id="name"
               label="Nazwa kategorii wina"
               placeholder="Nazwa kategorii wina"

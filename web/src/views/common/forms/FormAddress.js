@@ -78,6 +78,7 @@ export class FormAddress extends React.Component {
           <TextField
             fullWidth
             error={errors.city}
+            required
             id="city"
             label="Miasto"
             placeholder="Miasto"
@@ -94,6 +95,7 @@ export class FormAddress extends React.Component {
           <TextField
             fullWidth
             error={errors.street}
+            required
             id="street"
             label="Ulica"
             placeholder="Ulica"
@@ -110,6 +112,7 @@ export class FormAddress extends React.Component {
           <TextField
             fullWidth
             error={errors.buildingNumber}
+            required
             id="buildingNumber"
             label="Nr. posesji"
             placeholder="Nr. posesji"
@@ -142,6 +145,7 @@ export class FormAddress extends React.Component {
           <TextField
             fullWidth
             error={errors.postalCode}
+            required
             id="postalCode"
             label="Kod pocztowy"
             placeholder="Kod pocztowy"
@@ -158,6 +162,7 @@ export class FormAddress extends React.Component {
           <TextField
             fullWidth
             error={errors.country}
+            required
             id="country"
             label="Kraj"
             placeholder="Kraj"

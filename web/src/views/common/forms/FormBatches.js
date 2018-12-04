@@ -65,6 +65,7 @@ export class FormBatches extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.amount}
+                            required
                             id="amount"
                             label="Ilość"
                             type={'number'}
@@ -90,6 +91,7 @@ export class FormBatches extends React.Component {
                         <TextField
                             fullWidth
                             error={errors.creationDate}
+                            required
                             id="creationDate"
                             label="Data utworzenia"
                             type="datetime-local"
@@ -113,6 +115,7 @@ export class FormBatches extends React.Component {
                                     <TextField
                                         fullWidth
                                         error={errors.batchType}
+                                        required
                                         id="batchType"
                                         select
                                         label="Typ partii"
