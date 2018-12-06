@@ -11,6 +11,15 @@ import DataToPDFStyle from '../../assets/jss/common/components/DataToPDFStyle';
 import pageSizes from '../../variables/DataToPDF/pageSizes';
 import pageOrientations from '../../variables/DataToPDF/pageOrientations';
 import PDFDownload from '../PDFSchemes/PDFDownload';
+import UniversalValidationHandler from '../../views/common/forms/UniversalValidationHandler/UniversalValidationHandler';
+import { dataToPDFValidationKeys } from '../../views/common/forms/UniversalValidationHandler/validationKeys/validationKeys';
+import classNames from 'classnames';
+
+const errorMap = {
+  title: false,
+  tableName: false,
+  fieldNames: false
+};
 
 class DataToPDF extends React.Component {
   constructor(props) {
@@ -21,7 +30,8 @@ class DataToPDF extends React.Component {
       fieldNames: [],
       pageSize: 'A4',
       pageOrientation: 'portrait',
-      fontSize: 10
+      fontSize: 10,
+      errors: errorMap
     };
   }
 
@@ -75,8 +85,35 @@ class DataToPDF extends React.Component {
     return labels;
   };
 
-  render() {
+  generateFile = (client, action) => async () => {
     const { tableName, fieldNames, pageSize, pageOrientation, fontSize, title } = this.state;
+    let dataObject = {
+      title,
+      tableName,
+      fieldNames: fieldNames.length
+    };
+
+    let arrayOfErrors = UniversalValidationHandler(dataObject, dataToPDFValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      const { data } = await client.query({
+        query: simpleQueryBuilder(tableName, fieldNames)
+      });
+      let labels = this.fieldToLabels(fieldNames);
+      if (action === 'show')
+        PDFShow(PDFFromDataSet(data[tableName], labels, pageSize, pageOrientation, fontSize, title));
+      if (action === 'download')
+        PDFDownload(PDFFromDataSet(data[tableName], labels, pageSize, pageOrientation, fontSize, title), 'raport');
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
+      }
+      this.setState({ errors: error });
+    }
+  };
+
+  render() {
+    const { tableName, fieldNames, pageSize, pageOrientation, fontSize, title, errors } = this.state;
     const { classes } = this.props;
     return (
       <form className={classes.form}>
@@ -91,6 +128,8 @@ class DataToPDF extends React.Component {
                   <TextField
                     fullWidth
                     id="tableName"
+                    required
+                    error={errors.tableName}
                     select
                     label="Tabela"
                     InputLabelProps={{
@@ -124,7 +163,7 @@ class DataToPDF extends React.Component {
 
                 const filteredData = data.__schema.tables.filter(table => table.name === tableName);
                 return (
-                  <List dense className={classes.list}>
+                  <List dense className={classNames({ [classes.list]: true, [classes.error]: errors.fieldNames })}>
                     {renderFields(filteredData, tableName, fieldNames, this.handleToggle, classes)}
                   </List>
                 );
@@ -134,6 +173,8 @@ class DataToPDF extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
+              required
+              error={errors.title}
               id="title"
               label="Tytuł dokumentu"
               placeholder="Tytuł"
@@ -208,16 +249,7 @@ class DataToPDF extends React.Component {
           <Grid item md={12}>
             <ApolloConsumer>
               {client => (
-                <Button
-                  variant={'outlined'}
-                  onClick={async () => {
-                    const { data } = await client.query({
-                      query: simpleQueryBuilder(tableName, fieldNames)
-                    });
-                    let labels = this.fieldToLabels(fieldNames);
-                    PDFShow(PDFFromDataSet(data[tableName], labels, pageSize, pageOrientation, fontSize, title));
-                  }}
-                >
+                <Button variant={'outlined'} onClick={this.generateFile(client, 'show')}>
                   Podgląd
                 </Button>
               )}
@@ -226,19 +258,7 @@ class DataToPDF extends React.Component {
           <Grid item md={12}>
             <ApolloConsumer>
               {client => (
-                <Button
-                  variant={'outlined'}
-                  onClick={async () => {
-                    const { data } = await client.query({
-                      query: simpleQueryBuilder(tableName, fieldNames)
-                    });
-                    let labels = this.fieldToLabels(fieldNames);
-                    PDFDownload(
-                      PDFFromDataSet(data[tableName], labels, pageSize, pageOrientation, fontSize, title),
-                      'raport'
-                    );
-                  }}
-                >
+                <Button variant={'outlined'} onClick={this.generateFile(client, 'donwload')}>
                   Generuj Dokument
                 </Button>
               )}
