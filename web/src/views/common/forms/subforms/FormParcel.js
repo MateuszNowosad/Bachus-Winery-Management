@@ -32,19 +32,19 @@ export class FormParcel extends React.Component {
 
     let dataObject = { packageName, weight, date };
 
-        let arrayOfErrors = UniversalValidationHandler(dataObject, parcelValidationKeys);
-        if (arrayOfErrors.length === 0) {
-            this.setState({error: errorMap});
-            return true;
-        } else {
-            let error = Object.assign({}, errorMap);
-            for (let errorField in arrayOfErrors) {
-                error[arrayOfErrors[errorField]] = true;
-            }
-            this.setState({ errors: error });
-            return false;
-        }
+    let arrayOfErrors = UniversalValidationHandler(dataObject, parcelValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      this.setState({ error: errorMap });
+      return true;
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
+      }
+      this.setState({ errors: error });
+      return false;
     }
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -68,17 +68,21 @@ export class FormParcel extends React.Component {
   };
 
   handleAddContent = data => {
-    this.setState(prevState => ({
-      content: [...prevState.content, data]
-    }));
-      const { packageName, weight, date, content } = this.state;
-      const { varName } = this.props;
-      this.props.onChange(varName, {
+    this.setState(
+      prevState => ({
+        content: [...prevState.content, data]
+      }),
+      () => {
+        const { packageName, weight, date, content } = this.state;
+        const { varName } = this.props;
+        this.props.onChange(varName, {
           packageName,
           weight,
           date,
           content
-      });
+        });
+      }
+    );
   };
 
   handleDelete = data => () => {
@@ -162,7 +166,9 @@ export class FormParcel extends React.Component {
             title={'Magazyn'}
             open={open}
             onClose={this.handleClose}
-            children={<StepperItemFromWarehouse onSubmit={this.handleAddContent} onClose={this.handleClose} content={content} />}
+            children={
+              <StepperItemFromWarehouse onSubmit={this.handleAddContent} onClose={this.handleClose} content={content} />
+            }
           />
         </Grid>
       </Grid>

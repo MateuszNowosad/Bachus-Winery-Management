@@ -1,13 +1,14 @@
-import gql from "graphql-tag"
+import gql from 'graphql-tag';
 
 const getDictUserRole = gql`
-{
-  DictRolaUzytkownikow {
-    idRolaUzytkownikow
-    nazwa
-    opis
-    typ
+  {
+    DictRolaUzytkownikow {
+      idRolaUzytkownikow
+      nazwa
+      opis
+      typ
+    }
   }
-}`;
+`;
 
 export default getDictUserRole;

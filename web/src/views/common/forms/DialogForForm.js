@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import DialogForFormStyle from "../../../assets/jss/common/components/DialogForFormStyle";
+import DialogForFormStyle from '../../../assets/jss/common/components/DialogForFormStyle';
 
 class DialogForForm extends React.Component {
   render() {
@@ -9,12 +9,12 @@ class DialogForForm extends React.Component {
 
     return (
       <Dialog
-          fullWidth={true}
-          maxWidth={'lg'}
-          open={open}
-          onClose={() => onClose()}
-          aria-labelledby="form-dialog-title"
-          className={classes.dialog}
+        fullWidth={true}
+        maxWidth={'lg'}
+        open={open}
+        onClose={() => onClose()}
+        aria-labelledby="form-dialog-title"
+        className={classes.dialog}
       >
         <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>{this.props.children}</DialogContent>
