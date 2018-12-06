@@ -155,3 +155,9 @@ export const productionPlansValidationKeys = {
   recipe: /^\d+$/,
   fileName: /^.+\.([pP][dD][fF])$/
 };
+
+export const dataToPDFValidationKeys = {
+  title: new RegExp('^\\p{L}{3,45}$', 'u'),
+  tableName: new RegExp('^\\p{L}{3,45}$', 'u'),
+  fieldNames: /^[^0].*/
+};
