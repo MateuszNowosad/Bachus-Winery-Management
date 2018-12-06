@@ -1,5 +1,6 @@
 import * as sequelize from '../../sequelizeDB';
 // import * as testData from '../../../.variables/graphGLStaticData';
+import _ from 'underscore';
 
 export default {
   Query: {
@@ -761,8 +762,28 @@ export default {
       let query = await sequelize.getPartie({ winobranieIdWinobranie: _.idWinobranie });
       return query;
     }
+  },
+  Mutation: {
+    addAddress: async (root, input, context) => {
+      let insertResult;
+      let sqlQuery;
+      if (Object.keys(input)[0] !== 'idAdres') {
+        insertResult = await sequelize.insertAddress(input);
+        sqlQuery = `select * from Adres where 1=1 AND idAdres = ${insertResult[0]}`;
+      } else {
+        sqlQuery = `select * from Adres where 1=1 AND idAdres = ${Object.values(input)[0]}`;
+        await sequelize.insertAddress(input);
+      }
+
+      let result = [];
+      await new Promise(async resolve => {
+        result.push(await sequelize.selectLast(sqlQuery));
+        resolve();
+      });
+      result = _.flatten(result);
+      return result[0];
+    }
   }
-  // Mutation: {}
 };
 
 // const userPermissions = await sequelize.query(
@@ -773,32 +794,3 @@ export default {
 //         replacements: { email },
 //     }
 // );
-
-// const manyToManyQuery = async (
-//   joinTableKey,
-//   underscoreKey,
-//   joinTableName,
-//   targetKey,
-//   fromJoinedTableKey,
-//   targetTableName
-// ) => {
-//   const firstQueryResult = await sequelize[joinTableName]({
-//     [joinTableKey]: underscoreKey
-//   });
-//   let secondQueryResult = [];
-//   if (list.length > 0) {
-//     const promises = firstQueryResult.map(
-//       queryItem =>
-//         new Promise(async resolve => {
-//           secondQueryResult.push(
-//             await sequelize[targetTableName]({
-//               [targetKey]: queryItem[fromJoinedTableKey]
-//             })
-//           );
-//           resolve();
-//         })
-//     );
-//     await Promise.all(promises);
-//   }
-//   return [].concat.apply([], secondQueryResult);
-// };

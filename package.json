@@ -17,6 +17,7 @@
   "dependencies": {
     "faker": "^4.1.0",
     "graphql": "^14.0.2",
-    "graphql-import": "^0.7.1"
+    "graphql-import": "^0.7.1",
+    "underscore": "^1.9.1"
   }
 }

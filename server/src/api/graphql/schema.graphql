@@ -1,6 +1,6 @@
 schema {
   query: Query
-  #    mutation: Mutation
+  mutation: Mutation
 }
 # TODO add many to many in query fields and in resolvers
 # TODO add fields in many to many from join tables to correct tables
@@ -103,18 +103,26 @@ type Query {
   Winobranie(idWinobranie: ID, dataWinobrania: String, iloscZebranychWinogron: Float): [Winobranie]
 }
 
-#type Mutation {
-#
-#}
+type Mutation {
+  addAddress(
+    idAdres: ID
+    miasto: String
+    kodPocztowy: String
+    ulica: String
+    nrLokalu: String
+    nrPosesji: String
+    kraj: String
+  ): Adres
+}
 
 type Adres {
   idAdres: ID
-  miasto: String!
-  kodPocztowy: String!
-  ulica: String!
+  miasto: String
+  kodPocztowy: String
+  ulica: String
   nrLokalu: String
-  nrPosesji: String!
-  kraj: String!
+  nrPosesji: String
+  kraj: String
   uzytkownicy: Uzytkownicy
   kontrahent: Kontrahenci
   listprzewozowy: [ListPrzewozowy]

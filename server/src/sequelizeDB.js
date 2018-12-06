@@ -17,8 +17,6 @@ const Sequelize = require('sequelize');
 // TODO ADD many-to-many tables to docker
 // TODO ADD many-to-many tables to docker
 
-// TODO add join select to dynamic queries
-
 // const sequelize = new Sequelize('mysql://test@172.17.0.2:3306/bachusWinery');
 const sequelize = new Sequelize({
   database: 'bachusWinery',
@@ -31,7 +29,7 @@ const sequelize = new Sequelize({
     min: 1,
     idle: 10000
   },
-  retry: { max: 2 },
+  retry: { max: 3 },
   logging: false,
   define: {
     freezeTableName: true,
@@ -39,14 +37,15 @@ const sequelize = new Sequelize({
   }
 });
 
-const recordsToGenerate = 25;
-const fkKeyPoolNumber = { min: 1, max: 25 };
+const recordsToGenerate = 1;
+const fkKeyPoolNumber = { min: 1, max: 2 };
 
 sequelize
   .authenticate()
   .then(() => console.log('Connection has been established successfully.'))
   .catch(err => console.error('Unable to connect to the database:', err));
 
+// ^[a-z0-9][a-z0-9\- ]{0,12}[a-z0-9]$
 async function createAdres() {
   await sequelize.sync().then(() =>
     ADRES.create({
@@ -399,12 +398,45 @@ const ADRES = sequelize.define('Adres', {
     primaryKey: true,
     autoIncrement: true
   },
-  miasto: { type: Sequelize.STRING(40), allowNull: false },
-  kodPocztowy: { type: Sequelize.STRING(12), allowNull: false },
-  ulica: { type: Sequelize.STRING(45), allowNull: false },
-  nrLokalu: { type: Sequelize.STRING(2), allowNull: true },
-  nrPosesji: { type: Sequelize.STRING(4), allowNull: false },
-  kraj: { type: Sequelize.STRING(60), allowNull: false }
+  miasto: {
+    type: Sequelize.STRING(40),
+    allowNull: false,
+    validate: {
+      is: /^([\p{L}\d' ]{2,40})$/u
+    }
+  },
+  kodPocztowy: {
+    type: Sequelize.STRING(12),
+    allowNull: false
+  },
+  ulica: {
+    type: Sequelize.STRING(45),
+    allowNull: false,
+    validate: {
+      is: /^([\p{L}\d' ]{2,45})$/u
+    }
+  },
+  nrLokalu: {
+    type: Sequelize.STRING(2),
+    allowNull: true,
+    validate: {
+      is: /^(|\d{1,2})$/
+    }
+  },
+  nrPosesji: {
+    type: Sequelize.STRING(4),
+    allowNull: false,
+    validate: {
+      is: /^\d{1,4}$/
+    }
+  },
+  kraj: {
+    type: Sequelize.STRING(60),
+    allowNull: false,
+    validate: {
+      is: /^([\p{L}' ()]{2,60})$/u
+    }
+  }
 });
 
 const DICTKATEGORIAWINA = sequelize.define('DictKategoriaWina', {
@@ -413,8 +445,13 @@ const DICTKATEGORIAWINA = sequelize.define('DictKategoriaWina', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwaKategoria: { type: Sequelize.STRING(45), allowNull: false, unique: true },
-  opis: { type: Sequelize.STRING(255), allowNull: true }
+  nazwaKategoria: {
+    type: Sequelize.STRING(45),
+    allowNull: false,
+    unique: true,
+    validate: { is: /^([\\p{L}\' ()]{3,45})$/u }
+  },
+  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: /^(|[\\s\\S]{2,255})$/u } }
 });
 
 const DICTKATEGORIE = sequelize.define('DictKategorie', {
@@ -423,9 +460,9 @@ const DICTKATEGORIE = sequelize.define('DictKategorie', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(20), allowNull: false, unique: true },
-  jednostka: { type: Sequelize.STRING(20), allowNull: false },
-  opis: { type: Sequelize.STRING(250), allowNull: true }
+  nazwa: { type: Sequelize.STRING(20), allowNull: false, unique: true, validate: { is: /^([\\p{L}\' ()]{3,20})$/u } },
+  jednostka: { type: Sequelize.STRING(20), allowNull: false, validate: { is: /^\p{L}{2,20}$/u } },
+  opis: { type: Sequelize.STRING(250), allowNull: true, validate: { is: /^(|[\\s\\S]{2,250})$/u } }
 });
 
 const DICTODMIANAWINOGRON = sequelize.define('DictOdmianaWinogron', {
@@ -434,8 +471,8 @@ const DICTODMIANAWINOGRON = sequelize.define('DictOdmianaWinogron', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(45), allowNull: false, unique: true },
-  opis: { type: Sequelize.STRING(255), allowNull: true }
+  nazwa: { type: Sequelize.STRING(45), allowNull: false, unique: true, validate: { is: /^([\\p{L}\' ()]{3,45})$/u } },
+  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: /^(|[\\s\\S]{2,255})$/u } }
 });
 
 const DICTOPERACJENAWINNICY = sequelize.define('DictOperacjeNaWinnicy', {
@@ -444,8 +481,8 @@ const DICTOPERACJENAWINNICY = sequelize.define('DictOperacjeNaWinnicy', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(45), allowNull: false, unique: true },
-  opis: { type: Sequelize.STRING(255), allowNull: true }
+  nazwa: { type: Sequelize.STRING(45), allowNull: false, unique: true, validate: { is: /^([\\p{L}\' ()]{3,45})$/u } },
+  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: /^(|[\\s\\S]{2,255})$/u } }
 });
 
 const DICTPROCESY = sequelize.define('DictProcesy', {
@@ -729,37 +766,97 @@ const RAPORTYHASUZYTKOWNICY = sequelize.define('RaportyHasUzytkownicy', {
 
 for (let i = 0; i < recordsToGenerate; i += 1) {
   // TODO set in docker container after inserting SET FOREIGN_KEY_CHECKS=1;
-  createAdres();
-  createKontrahenci();
-  createDictKategoriaWina();
-  createDictKategorie();
-  createDictOdmianaWinogron();
-  createDictOperacjeNaWinnicy();
-  createDictProcesy();
-  createDictRolaUzytkownikow();
-  createDictTypPartii();
-  createInformacjeOWinie();
-  createListPrzewozowy();
-  createOperacjeNaWinnicy();
-  createRaporty();
-  createPlanyProdukcyjne();
-  createMagazyn();
-  createOperacje();
-  createPartie();
-  createPozycjaWMagazynie();
-  createPrzesylka();
-  createUzytkownicy();
-  createWinnica();
-  createWinobranie();
-  createListPrzewozowyHasAdres();
-  createListPrzewozowyHasKontrahenci();
-  createOperacjeHasPartie();
-  createOperacjeHasPozycjaWMagazynie();
-  createPlanyProdukcyjneHasDictProcesy();
-  createPrzesylkaHasPozycjaWMagazynie();
-  createRaportyHasUzytkownicy();
+  // createAdres();
+  // createKontrahenci();
+  // createDictKategoriaWina();
+  // createDictKategorie();
+  // createDictOdmianaWinogron();
+  // createDictOperacjeNaWinnicy();
+  // createDictProcesy();
+  // createDictRolaUzytkownikow();
+  // createDictTypPartii();
+  // createInformacjeOWinie();
+  // createListPrzewozowy();
+  // createOperacjeNaWinnicy();
+  // createRaporty();
+  // createPlanyProdukcyjne();
+  // createMagazyn();
+  // createOperacje();
+  // createPartie();
+  // createPozycjaWMagazynie();
+  // createPrzesylka();
+  // createUzytkownicy();
+  // createWinnica();
+  // createWinobranie();
+  // createListPrzewozowyHasAdres();
+  // createListPrzewozowyHasKontrahenci();
+  // createOperacjeHasPartie();
+  // createOperacjeHasPozycjaWMagazynie();
+  // createPlanyProdukcyjneHasDictProcesy();
+  // createPrzesylkaHasPozycjaWMagazynie();
+  // createRaportyHasUzytkownicy();
   // ------ above working data generation
   // TODO FIX tables below this todo
+}
+
+// INSERT OR UPDATE
+// async function insertAnyRecord(tableName, query) {
+//   let sqlQuery = `INSERT INTO ${tableName} (`;
+//   let keys = '';
+//   let values = '';
+//
+//   _.each(query, (value, key) => {
+//     values += `"${value}", `;
+//     keys += `${key}, `;
+//   });
+//
+//   keys = keys.slice(0, -2);
+//   values = values.slice(0, -2);
+//   sqlQuery += `${keys}) VALUES (${values})`;
+//   return await sequelize.query(sqlQuery, ADRES, { raw: true, type: Sequelize.QueryTypes.INSERT });
+// }
+async function insertAnyRecord(tableName, query) {
+  const result = await sequelize.sync().then(() =>
+    ADRES.create({
+      idAdres: query.idAdres,
+      miasto: query.miasto,
+      kodPocztowy: query.kodPocztowy,
+      ulica: query.ulica,
+      nrLokalu: query.nrLokalu,
+      nrPosesji: query.nrPosesji,
+      kraj: query.kraj
+    })
+  );
+  return [178]; // TODO fix correct return id of created record
+}
+
+async function updateAnyRecord(tableName, query) {
+  let sqlQuery = `UPDATE ${tableName} SET `;
+  let whereQuery = `${Object.keys(query)[0]}="${Object.values(query)[0]}"`;
+  delete query[Object.keys(query)[0]];
+  _.each(query, (value, key) => {
+    sqlQuery += `${key}="${value}", `;
+  });
+  sqlQuery = sqlQuery.slice(0, -2);
+  sqlQuery += ` WHERE ${whereQuery}`;
+  return await sequelize.query(sqlQuery, { raw: true, type: Sequelize.QueryTypes.INSERT });
+}
+
+async function deleteAnyRecord(tableName, query) {
+  let sqlQuery = `DELETE FROM ${tableName} WHERE ${Object.keys(query)[0]}="${Object.values(query)[0]}"`;
+  return await sequelize.query(sqlQuery, { raw: true, type: Sequelize.QueryTypes.DELETE });
+}
+
+export async function selectLast(sqlQuery) {
+  return await sequelize.query(sqlQuery, { raw: true, type: Sequelize.QueryTypes.SELECT });
+}
+
+//
+export async function insertAddress(query) {
+  if (Object.keys(query)[0] === 'idAdres') {
+    return await updateAnyRecord('Adres', query);
+  }
+  return await insertAnyRecord('Adres', query);
 }
 
 // SELECT ANY FROM DATABASE
@@ -769,6 +866,7 @@ for (let i = 0; i < recordsToGenerate; i += 1) {
 
 async function selectAnyQuery(tableName, query) {
   let sqlQuery = `select * from ${tableName} where 1=1`;
+
   if (query) {
     Object.keys(query).forEach(key => query[key] === undefined && delete query[key]);
     _.each(query, (value, key) => {
@@ -778,6 +876,11 @@ async function selectAnyQuery(tableName, query) {
   return await sequelize.query(sqlQuery, { raw: true, type: Sequelize.QueryTypes.SELECT });
 }
 
+// MYSQL DELETES
+
+// MYSQL UPSERTS
+
+// MYSQL SELECTS
 export async function getAddresses(query) {
   return await selectAnyQuery('Adres', query);
 }
