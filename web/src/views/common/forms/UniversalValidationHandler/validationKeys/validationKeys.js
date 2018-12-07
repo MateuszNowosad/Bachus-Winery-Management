@@ -85,7 +85,7 @@ export const waybillValidationKeys = {
 };
 
 export const warehouseValidationKeys = {
-  type: new RegExp('^([\\p{L}\' ()]{2,40})$', 'u'),
+  type: new RegExp("^([\\p{L}' ()]{2,40})$", 'u'),
   capacity: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,6}\.[1-9])$/
 };
 
@@ -154,4 +154,10 @@ export const productionPlansValidationKeys = {
   file: 'application/pdf',
   recipe: /^\d+$/,
   fileName: /^.+\.([pP][dD][fF])$/
+};
+
+export const dataToPDFValidationKeys = {
+  title: new RegExp('^[\\s\\S]{2,40}$', 'u'),
+  tableName: new RegExp('^\\p{L}{3,45}$', 'u'),
+  fieldNames: /^[^0].*/
 };

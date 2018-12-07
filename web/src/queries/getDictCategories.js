@@ -1,13 +1,14 @@
-import gql from "graphql-tag"
+import gql from 'graphql-tag';
 
 const getDictCategories = gql`
-{
-  DictKategorie {
-    idKategorie
-    nazwa
-    jednostka
-    opis
+  {
+    DictKategorie {
+      idKategorie
+      nazwa
+      jednostka
+      opis
+    }
   }
-}`;
+`;
 
 export default getDictCategories;

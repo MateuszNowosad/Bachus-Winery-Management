@@ -10,9 +10,9 @@ import CssBaseline from '@material-ui/core/CssBaseline/CssBaseline';
 import { standard } from './assets/jss/themes/standard';
 
 import indexRoutes from './routes/index';
-import "./App.css";
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import './App.css';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 
 const currentTheme = createMuiTheme(standard);
 
