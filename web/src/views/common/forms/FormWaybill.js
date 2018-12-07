@@ -8,9 +8,10 @@ import {
   ExpansionPanelDetails,
   Typography
 } from '@material-ui/core';
+import { Query } from 'react-apollo';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PropTypes from 'prop-types';
-import { DialogForForm } from './DialogForForm';
+import DialogForForm from './DialogForForm';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 import { FormAddress } from './subforms/FormAddress';
 import { FormParcel } from './subforms/FormParcel';
@@ -173,9 +174,10 @@ export class FormWaybill extends React.Component {
     });
   };
 
-  handleObjectChange = (name, address) => {
+  handleObjectChange = (name, object) => {
+    console.log('178, object jakub: ', object);
     this.setState({
-      [name]: address
+      [name]: object
     });
   };
 

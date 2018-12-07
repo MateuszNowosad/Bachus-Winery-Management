@@ -11,6 +11,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import DnsIcon from '@material-ui/icons/Dns';
 import LocalShipping from '@material-ui/icons/LocalShipping';
+import Description from '@material-ui/icons/Description';
 import SaveIcon from '@material-ui/icons/Save';
 import Flower from '@material-ui/icons/LocalFlorist';
 import Bar from '@material-ui/icons/LocalBar';
@@ -23,6 +24,7 @@ import DatabaseContactsAndUsers from '../views/AdminDashboard/DatabaseSubdirecto
 import DatabaseLogistics from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseLogistics';
 import ProductionPlans from '../views/AdminDashboard/ProductionPlans';
 import ProductionPlanDetails from '../views/AdminDashboard/Subpages/ProductionPlanDetails';
+import DatabaseReports from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseReports';
 
 const AdminDashboardRoutes = [
   {
@@ -71,6 +73,14 @@ const AdminDashboardRoutes = [
         navbarName: 'Logistyka',
         drawerIcon: <LocalShipping />,
         component: DatabaseLogistics,
+        exact: false
+      },
+      {
+        path: '/admindashboard/database/raporty',
+        drawerName: 'Raporty',
+        navbarName: 'Raporty',
+        drawerIcon: <Description />,
+        component: DatabaseReports,
         exact: false
       }
     ]

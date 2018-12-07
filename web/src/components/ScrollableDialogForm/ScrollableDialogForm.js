@@ -39,7 +39,7 @@ class ScrollableDialogForm extends React.Component {
   };
 
   handleClose = () => {
-      this.setState({openConfirmationPrompt: false});
+    this.setState({ openConfirmationPrompt: false });
     this.props.closeForm();
   };
 

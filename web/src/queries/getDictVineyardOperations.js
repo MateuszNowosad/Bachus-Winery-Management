@@ -1,12 +1,13 @@
-import gql from "graphql-tag"
+import gql from 'graphql-tag';
 
 const getDictVineyardOperations = gql`
-{
-  DictOperacjeNaWinnicy {
-    idDictOperacjeNaWinnicy
-    nazwa
-    opis
+  {
+    DictOperacjeNaWinnicy {
+      idDictOperacjeNaWinnicy
+      nazwa
+      opis
+    }
   }
-}`;
+`;
 
 export default getDictVineyardOperations;

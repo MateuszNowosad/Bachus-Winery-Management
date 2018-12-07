@@ -1,13 +1,14 @@
-import gql from "graphql-tag"
+import gql from 'graphql-tag';
 
 const getBatches = gql`
-{
-  Partie {
-    idPartie
-    ilosc
-    opis
-    dataUtworzenia
+  {
+    Partie {
+      idPartie
+      ilosc
+      opis
+      dataUtworzenia
+    }
   }
-}`;
+`;
 
 export default getBatches;

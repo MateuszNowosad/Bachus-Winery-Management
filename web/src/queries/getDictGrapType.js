@@ -1,12 +1,13 @@
-import gql from "graphql-tag"
+import gql from 'graphql-tag';
 
 const getDictGrapeType = gql`
-{
-  DictOdmianaWinogron {
-    idOdmianaWinogron
-    nazwa
-    opis
+  {
+    DictOdmianaWinogron {
+      idOdmianaWinogron
+      nazwa
+      opis
+    }
   }
-}`;
+`;
 
 export default getDictGrapeType;
