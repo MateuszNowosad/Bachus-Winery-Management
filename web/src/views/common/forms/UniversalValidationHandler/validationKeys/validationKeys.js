@@ -157,7 +157,7 @@ export const productionPlansValidationKeys = {
 };
 
 export const dataToPDFValidationKeys = {
-  title: new RegExp('^\\p{L}{3,45}$', 'u'),
+  title: new RegExp('^[\\s\\S]{2,40}$', 'u'),
   tableName: new RegExp('^\\p{L}{3,45}$', 'u'),
   fieldNames: /^[^0].*/
 };

@@ -2,7 +2,7 @@ import red from '@material-ui/core/colors/red';
 
 const DataToPDFStyle = theme => ({
   list: {
-    maxHeight: 200,
+    maxHeight: 400,
     overflow: 'auto'
   },
   nestedList: {
@@ -10,7 +10,7 @@ const DataToPDFStyle = theme => ({
     backgroundColor: '#d1d1d1'
   },
   menu: {
-    maxHeight: 200
+    maxHeight: 400
   },
   form: {
     margin: '0% 25%'
