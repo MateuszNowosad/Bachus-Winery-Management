@@ -1,7 +1,7 @@
-const convertDate = date => {
-  const convertedDate = new Date(date);
-  let dateString = convertedDate.toISOString();
-  return dateString.replace('T', ' ').slice(0, -5);
+const convertDatetime = date => {
+  let newDate = new Date(Number(date));
+  let converted = newDate.toISOString();
+  return converted.replace('T', ' ').slice(0, -5);
 };
 
-export default convertDate;
+export default convertDatetime;
