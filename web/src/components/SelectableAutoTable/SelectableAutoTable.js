@@ -55,7 +55,7 @@ class SelectableAutoTable extends React.Component {
     let labelCount = 0;
     let labels = AutoLabels({
       queryData: this.props.queryData,
-      querySubject: this.props.querySubject,
+      // querySubject: this.props.querySubject,
       labelsArr: this.props.labelsArr,
       editMode: false,
       labelCountChange: newlabelCount => {
@@ -63,7 +63,7 @@ class SelectableAutoTable extends React.Component {
       }
     });
 
-    const { classes, queryData, querySubject, querySize } = this.props;
+    const { classes, queryData, querySize } = this.props;
     const { rowsPerPage, page, selected } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, querySize - page * rowsPerPage);
     return (
@@ -88,7 +88,7 @@ class SelectableAutoTable extends React.Component {
             <TableBody>
               <SelectableAutoContent
                 queryData={queryData}
-                querySubject={querySubject}
+                // querySubject={querySubject}
                 page={page}
                 rowsPerPage={rowsPerPage}
                 selected={selected}
@@ -124,8 +124,8 @@ class SelectableAutoTable extends React.Component {
 
 SelectableAutoTable.propTypes = {
   classes: PropTypes.object.isRequired,
-  queryData: PropTypes.object.isRequired,
-  querySubject: PropTypes.string.isRequired,
+  queryData: PropTypes.array.isRequired,
+  // querySubject: PropTypes.string.isRequired,
   labelsArr: PropTypes.array,
   querySize: PropTypes.number,
   funParam: PropTypes.string,

@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell/TableCell';
 import TableRow from '@material-ui/core/TableRow/TableRow';
 import TableHead from '@material-ui/core/TableHead/TableHead';
+import flattenObject from '../../functions/flattenObject';
 
 const AutoLabels = props => {
   let labels = [];
+  console.log('9, props.queryData jakub: ', props.queryData);
   let labelCount;
   if (props.labelsArr === undefined) {
-    let record = props.queryData['data'][props.querySubject][0];
+    //previous
+    // let record = props.queryData['data'][props.querySubject][0];
+    let record = flattenObject(props.queryData[0]);
+    //not showing _typename field
     for (let property in record)
       if (record.hasOwnProperty(property)) {
         labels.push(<TableCell key={property}>{property}</TableCell>);
@@ -32,8 +37,10 @@ const AutoLabels = props => {
 };
 
 AutoLabels.propTypes = {
-  queryData: PropTypes.object,
-  querySubject: PropTypes.string,
+  // previous
+  // queryData: PropTypes.object,
+  queryData: PropTypes.array,
+  // querySubject: PropTypes.string,
   editMode: PropTypes.bool.isRequired,
   labelArr: PropTypes.array,
   labelCountChange: PropTypes.func

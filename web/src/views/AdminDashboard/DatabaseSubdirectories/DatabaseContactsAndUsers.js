@@ -9,6 +9,8 @@ import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
 import { FormUsers } from '../../common/forms/FormUsers';
+import { Query } from 'react-apollo';
+import getUsers from '../../../queries/UsersQueries/getUsers';
 
 const labels = ['Użytkownicy', 'Kontrachenci', 'Spis adresów', 'Słowniki'];
 
@@ -24,14 +26,24 @@ class DatabaseContactsAndUsers extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Użytkownicy
             </Typography>
-            <AutoTable
-              queryData={data}
-              querySubject="hero"
-              querySize={249}
-              dialogForm={<FormUsers />}
-              dialogFormTitle={'Użytkownik'}
-              editMode={true}
-            />
+            <Query query={getUsers}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                console.log('33,  jakub: query odpalone: ', data);
+                let users = data.Uzytkownicy;
+                return (
+                  <AutoTable
+                    queryData={users}
+                    // querySubject="hero"
+                    querySize={users.length}
+                    dialogForm={<FormUsers />}
+                    dialogFormTitle={'Użytkownik'}
+                    editMode={true}
+                  />
+                );
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">

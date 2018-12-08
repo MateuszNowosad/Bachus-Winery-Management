@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import PropTypes from 'prop-types';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { wineInformationValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
-import getDictWineCategory from '../../../queries/getDictWineCategory';
+import getDictWineCategory from '../../../queries/DictionaryQueries/getDictWineCategory';
 
 const errorMap = {
   name: false,
