@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler.js';
 import { usersValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
-import getDictUserRole from '../../../queries/getDictUserRole';
+import getDictUserRole from '../../../queries/DictionaryQueries/getDictUserRole';
 
 const errorMap = {
   firstName: false,

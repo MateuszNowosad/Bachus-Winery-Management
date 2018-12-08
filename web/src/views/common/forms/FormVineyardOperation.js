@@ -5,7 +5,7 @@ import currentDate from './CurrentDate';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { vineyardOperationsValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import { Query } from 'react-apollo';
-import getDictVineyardOperations from '../../../queries/getDictVineyardOperations';
+import getDictVineyardOperations from '../../../queries/DictionaryQueries/getDictVineyardOperations';
 
 const errorMap = {
   dateOfOperation: false,
