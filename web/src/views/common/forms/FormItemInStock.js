@@ -7,7 +7,7 @@ import DialogForForm from './DialogForForm';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { itemInStockValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
-import getDictCategories from '../../../queries/getDictCategories';
+import getDictCategories from '../../../queries/DictionaryQueries/getDictCategories';
 import getBatches from '../../../queries/getBatches';
 
 const errorMap = {

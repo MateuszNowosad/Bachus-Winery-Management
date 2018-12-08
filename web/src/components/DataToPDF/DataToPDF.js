@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, MenuItem, TextField, Button, List, withStyles } from '@material-ui/core';
-import getAllTablesNames from '../../queries/getAllTablesNames';
+import getAllTablesNames from '../../queries/SchemaQueries/getAllTablesNames';
 import { Query, ApolloConsumer } from 'react-apollo';
-import getAllTablesFieldNames from '../../queries/getAllTablesFieldsNames';
+import getAllTablesFieldNames from '../../queries/SchemaQueries/getAllTablesFieldsNames';
 import PDFShow from '../PDFSchemes/PDFShow';
 import PDFFromDataSet from '../PDFSchemes/PDFFromDataSet';
 import simpleQueryBuilder from '../../queries/simpleQueryBuilder';

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { batchValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
-import getDictBatchType from '../../../queries/getDictBatchType';
+import getDictBatchType from '../../../queries/DictionaryQueries/getDictBatchType';
 
 const errorMap = {
   amount: false,

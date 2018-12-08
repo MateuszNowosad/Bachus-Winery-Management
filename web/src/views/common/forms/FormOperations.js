@@ -16,7 +16,7 @@ import currentDate from './CurrentDate';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { operationsValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
-import getDictProcesses from '../../../queries/getDictProcesses';
+import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesses';
 import DialogForForm from './DialogForForm';
 import StepperItemFromWarehouse from './StepperItemFromWarehouse';
 
