@@ -11,6 +11,9 @@ const getUsers = gql`
       eMail
       nrTelefonu
       dataOstatniegoLogowania
+      rola {
+        nazwa
+      }
     }
   }
 `;

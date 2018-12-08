@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell/TableCell';
 import TableRow from '@material-ui/core/TableRow/TableRow';
 import TableHead from '@material-ui/core/TableHead/TableHead';
+import flattenObject from '../../functions/flattenObject';
 
 const AutoLabels = props => {
   let labels = [];
@@ -11,10 +12,10 @@ const AutoLabels = props => {
   if (props.labelsArr === undefined) {
     //previous
     // let record = props.queryData['data'][props.querySubject][0];
-    let record = props.queryData[0];
+    let record = flattenObject(props.queryData[0]);
     //not showing _typename field
     for (let property in record)
-      if (record.hasOwnProperty(property) && property !== '__typename') {
+      if (record.hasOwnProperty(property)) {
         labels.push(<TableCell key={property}>{property}</TableCell>);
       }
   } else

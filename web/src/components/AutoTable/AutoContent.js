@@ -5,6 +5,7 @@ import TableRow from '@material-ui/core/TableRow/TableRow';
 import Button from '@material-ui/core/Button/Button';
 import DatetimeFields from '../../variables/DateFields/DatetimeFields';
 import convertDatetime from '../../functions/convertDatetime';
+import flattenObject from '../../functions/flattenObject';
 
 //values changed to entries
 //value changed to entrie
@@ -16,9 +17,7 @@ const AutoContent = props => {
   props.queryData
     .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
     .map(currElement => {
-      let entries = Object.entries(currElement);
-      //deleting __typename field
-      entries.pop();
+      let entries = Object.entries(flattenObject(currElement));
       let cells = [];
       for (let entrie in entries) {
         let value = entries[entrie][1];
