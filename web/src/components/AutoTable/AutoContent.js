@@ -6,10 +6,14 @@ import Button from '@material-ui/core/Button/Button';
 
 const AutoContent = props => {
   let row = [];
-  props.queryData['data'][props.querySubject]
+  //previous
+  // props.queryData['data'][props.querySubject]
+  props.queryData
     .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
     .map(currElement => {
       let values = Object.values(currElement);
+      //deleting __typename field
+      values.pop();
       let cells = [];
       for (let value in values) {
         let uniqueCellID = values[0] + 'cell' + value;
@@ -45,8 +49,10 @@ const AutoContent = props => {
 };
 
 AutoContent.propTypes = {
-  queryData: PropTypes.object.isRequired,
-  querySubject: PropTypes.string.isRequired,
+  //previous
+  // queryData: PropTypes.object.isRequired,
+  queryData: PropTypes.array.isRequired,
+  //querySubject: PropTypes.string.isRequired,
   editMode: PropTypes.bool.isRequired,
   handleEdit: PropTypes.func.isRequired,
   handleDeletion: PropTypes.func.isRequired,

@@ -8,9 +8,12 @@ const AutoLabels = props => {
   let labels = [];
   let labelCount;
   if (props.labelsArr === undefined) {
-    let record = props.queryData['data'][props.querySubject][0];
+    //previous
+    // let record = props.queryData['data'][props.querySubject][0];
+    let record = props.queryData[0];
+    //not showing _typename field
     for (let property in record)
-      if (record.hasOwnProperty(property)) {
+      if (record.hasOwnProperty(property) && property !== '__typename') {
         labels.push(<TableCell key={property}>{property}</TableCell>);
       }
   } else
@@ -32,8 +35,10 @@ const AutoLabels = props => {
 };
 
 AutoLabels.propTypes = {
-  queryData: PropTypes.object,
-  querySubject: PropTypes.string,
+  // previous
+  // queryData: PropTypes.object,
+  queryData: PropTypes.array,
+  // querySubject: PropTypes.string,
   editMode: PropTypes.bool.isRequired,
   labelArr: PropTypes.array,
   labelCountChange: PropTypes.func

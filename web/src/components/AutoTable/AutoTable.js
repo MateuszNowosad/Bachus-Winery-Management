@@ -46,7 +46,7 @@ class AutoTable extends React.Component {
     let labelCount = 0;
     let labels = AutoLabels({
       queryData: this.props.queryData,
-      querySubject: this.props.querySubject,
+      // querySubject: this.props.querySubject,
       labelsArr: this.props.labelsArr,
       editMode: this.props.editMode,
       labelCountChange: newlabelCount => {
@@ -66,7 +66,7 @@ class AutoTable extends React.Component {
             <TableBody>
               <AutoContent
                 queryData={queryData}
-                querySubject={querySubject}
+                // querySubject={querySubject}
                 editMode={editMode}
                 handleEdit={this.handleEdit}
                 handleDeletion={this.handleDeletion}
@@ -115,8 +115,10 @@ class AutoTable extends React.Component {
 
 AutoTable.propTypes = {
   classes: PropTypes.object.isRequired,
-  queryData: PropTypes.object.isRequired,
-  querySubject: PropTypes.string.isRequired,
+  //previous
+  // queryData: PropTypes.object.isRequired,
+  queryData: PropTypes.array.isRequired,
+  //querySubject: PropTypes.string.isRequired,
   dialogFormTitle: PropTypes.string,
   dialogForm: PropTypes.object,
   editMode: PropTypes.bool.isRequired,
