@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell/TableCell';
 import TableRow from '@material-ui/core/TableRow/TableRow';
 import Button from '@material-ui/core/Button/Button';
+import DatetimeFields from '../../variables/DateFields/DatetimeFields';
+import convertDatetime from '../../functions/convertDatetime';
+
+//values changed to entries
+//value changed to entrie
 
 const AutoContent = props => {
   let row = [];
@@ -11,23 +16,28 @@ const AutoContent = props => {
   props.queryData
     .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
     .map(currElement => {
-      let values = Object.values(currElement);
+      let entries = Object.entries(currElement);
       //deleting __typename field
-      values.pop();
+      entries.pop();
       let cells = [];
-      for (let value in values) {
-        let uniqueCellID = values[0] + 'cell' + value;
-        cells.push(<TableCell key={uniqueCellID}> {values[value]} </TableCell>);
+      for (let entrie in entries) {
+        console.log('19, entrie jakub: ', entrie);
+        let value = entries[entrie][1];
+        if (DatetimeFields.includes(entries[entrie][0])) {
+          value = convertDatetime(value);
+        }
+        let uniqueCellID = entries[0][1] + 'cell' + entrie;
+        cells.push(<TableCell key={uniqueCellID}> {value} </TableCell>);
       }
       row.push(
-        <TableRow key={values[0]}>
+        <TableRow key={entries[0][1]}>
           {cells}
           {props.editMode && (
             <TableCell numeric>
               <Button
                 mini
                 onClick={() => {
-                  props.handleEdit(values[0]);
+                  props.handleEdit(entries[0][1]);
                 }}
               >
                 Edytuj
@@ -35,7 +45,7 @@ const AutoContent = props => {
               <Button
                 mini
                 onClick={() => {
-                  props.handleDeletion(values[0]);
+                  props.handleDeletion(entries[0][1]);
                 }}
               >
                 USUŃ
