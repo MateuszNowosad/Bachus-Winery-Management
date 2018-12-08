@@ -4,13 +4,14 @@ import TableCell from '@material-ui/core/TableCell/TableCell';
 import TableRow from '@material-ui/core/TableRow/TableRow';
 import DatetimeFields from '../../variables/DateFields/DatetimeFields';
 import convertDatetime from '../../functions/convertDatetime';
+import flattenObject from '../../functions/flattenObject';
 
 const SelectableAutoContent = props => {
   let row = [];
   props.queryData
     .slice(props.page * props.rowsPerPage, props.page * props.rowsPerPage + props.rowsPerPage)
     .map(currElement => {
-      let entries = Object.entries(currElement);
+      let entries = Object.entries(flattenObject(currElement));
       let cells = [];
       for (let entrie in entries) {
         let value = entries[entrie][1];
