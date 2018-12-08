@@ -21,7 +21,6 @@ const AutoContent = props => {
       entries.pop();
       let cells = [];
       for (let entrie in entries) {
-        console.log('19, entrie jakub: ', entrie);
         let value = entries[entrie][1];
         if (DatetimeFields.includes(entries[entrie][0])) {
           value = convertDatetime(value);
