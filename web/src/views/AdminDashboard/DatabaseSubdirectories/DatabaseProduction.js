@@ -8,6 +8,14 @@ import AutoTable from '../../../components/AutoTable/AutoTable';
 import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
+import getDictCategories from '../../../queries/DictionaryQueries/getDictCategories';
+import {Query} from 'react-apollo'
+import getBatches from '../../../queries/BatchesQueries/getBatches';
+import getWineInformations from '../../../queries/BatchesQueries/getWineInformations';
+import getOperations from '../../../queries/OperationQueries/getOperations';
+import getDictBatchType from '../../../queries/DictionaryQueries/getDictBatchType';
+import getDictWineCategory from '../../../queries/DictionaryQueries/getDictWineCategory';
+import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesses';
 
 const labels = ['Partie', 'Informacje o winie', 'Operacje', 'Słowniki'];
 
@@ -23,20 +31,56 @@ class DatabaseProduction extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Partie
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getBatches}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let batches = data.Partie;
+                return (
+                  <AutoTable
+                    queryData={batches}
+                    querySize={batches.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Informacje o winie
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getWineInformations}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let wineInfo = data.InformacjeOWinie;
+                return (
+                  <AutoTable
+                    queryData={wineInfo}
+                    querySize={wineInfo.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Operacje
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
-          </TabContainer>
+            <Query query={getOperations}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let operations = data.Operacje;
+                return (
+                  <AutoTable
+                    queryData={operations}
+                    querySize={operations.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
+            </TabContainer>
           <TabContainer>
             <Typography variant="h4" gutterBottom component="h1">
               Słowniki
@@ -44,15 +88,51 @@ class DatabaseProduction extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Typ partii
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getDictBatchType}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let batchTypes = data.DictTypPartii;
+                return (
+                  <AutoTable
+                    queryData={batchTypes}
+                    querySize={batchTypes.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
             <Typography variant="h5" gutterBottom component="h1">
               Kategorie wina
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getDictWineCategory}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let wineCategories = data.DictKategoriaWina;
+                return (
+                  <AutoTable
+                    queryData={wineCategories}
+                    querySize={wineCategories.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
             <Typography variant="h5" gutterBottom component="h1">
               Procesy
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getDictProcesses}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let processes = data.DictProcesy;
+                return (
+                  <AutoTable
+                    queryData={processes}
+                    querySize={processes.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
           </TabContainer>
         </OCBigTab>
       </React.Fragment>

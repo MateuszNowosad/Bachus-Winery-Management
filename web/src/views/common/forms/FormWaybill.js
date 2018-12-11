@@ -18,7 +18,7 @@ import { FormParcel } from './subforms/FormParcel';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { waybillValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import red from '@material-ui/core/colors/red';
-import getContractors from '../../../queries/getContractors';
+import getContractors from '../../../queries/ContractorsQueries/getContractors';
 import PDFShow from '../../../components/PDFSchemes/PDFShow';
 import PDFWaybill from '../../../components/PDFSchemes/PDFWaybill';
 

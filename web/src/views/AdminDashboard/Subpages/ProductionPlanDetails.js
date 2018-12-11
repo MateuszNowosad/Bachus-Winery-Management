@@ -12,6 +12,8 @@ import partie from '../../../variables/AdminDashboard/ExampleDataJson.js';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { batchDatabaseLabels, operationsDatabaseLabels } from '../../../localisation/DatabaseLabels';
+import { Query } from 'react-apollo';
+import getSpecificProductionPlan from '../../../queries/ProductionPlansQueries/getSpecificProductionPlan';
 
 const MyLink = props => <Link to="/admindashboard/productionplans" {...props} />;
 
@@ -28,30 +30,44 @@ class ProductionPlanDetails extends React.Component {
             Powrót do poprzedniej strony
           </Button>
         </div>
-        <Typography variant="h5" gutterBottom component="h1">
-          Nazwa
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom component="div">
-          {planyProdExample['data']['planProd'][0].nazwa}
-        </Typography>
-        <Typography variant="h5" gutterBottom component="h1">
-          Opis
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom component="div">
-          {planyProdExample['data']['planProd'][0].Opis}
-        </Typography>
-        <Typography variant="h5" gutterBottom component="h1">
-          e-dokument
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom component="div">
-          {planyProdExample['data']['planProd'][0].Edokument}
-        </Typography>
+        <Query query={getSpecificProductionPlan("8")}>
+          {({ loading, error, data }) => {
+            if (loading) return <p>Loading...</p>;
+            if (error) return <p>Error :(</p>;
+            let productionPlan = data.PlanyProdukcyjne[0];
+            return (
+              <React.Fragment>
+                <Typography variant="h5" gutterBottom component="h1">
+                  Nazwa
+                </Typography>
+                <Typography variant="subtitle1" gutterBottom component="div">
+                  {/*{planyProdExample['data']['planProd'][0].nazwa}*/}
+                  {productionPlan.nazwa}
+                </Typography>
+                <Typography variant="h5" gutterBottom component="h1">
+                  Opis
+                </Typography>
+                <Typography variant="subtitle1" gutterBottom component="div">
+                  {/*{planyProdExample['data']['planProd'][0].Opis}*/}
+                  {productionPlan.opis}
+                </Typography>
+                <Typography variant="h5" gutterBottom component="h1">
+                  e-dokument
+                </Typography>
+                <Typography variant="subtitle1" gutterBottom component="div">
+                  {/*{planyProdExample['data']['planProd'][0].Edokument}*/}
+                  {productionPlan.eDokument}
+                </Typography>
+              </React.Fragment>
+            );
+          }}
+        </Query>
         <Grid container direction="row" justify="center" alignItems="center">
           <Grid item xs>
-            <SimpleRadialBarChart />
+            <SimpleRadialBarChart/>
           </Grid>
           <Grid item xs>
-            <TwoLevelPieChart />
+            <TwoLevelPieChart/>
           </Grid>
         </Grid>
         <Tree

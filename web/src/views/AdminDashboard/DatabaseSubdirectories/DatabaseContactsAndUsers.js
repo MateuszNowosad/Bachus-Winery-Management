@@ -11,6 +11,9 @@ import TabContainer from '../../../components/Tab/TabContainer';
 import { FormUsers } from '../../common/forms/FormUsers';
 import { Query } from 'react-apollo';
 import getUsers from '../../../queries/UsersQueries/getUsers';
+import getContractors from '../../../queries/ContractorsQueries/getContractors';
+import getAddresses from '../../../queries/AdressesQueries/getAddresses';
+import getDictUserRole from '../../../queries/DictionaryQueries/getDictUserRole';
 
 const labels = ['Użytkownicy', 'Kontrachenci', 'Spis adresów', 'Słowniki'];
 
@@ -30,7 +33,6 @@ class DatabaseContactsAndUsers extends React.Component {
               {({ loading, error, data }) => {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
-                console.log('33,  jakub: query odpalone: ', data);
                 let users = data.Uzytkownicy;
                 return (
                   <AutoTable
@@ -49,13 +51,37 @@ class DatabaseContactsAndUsers extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Kontrachenci
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getContractors}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let contractors = data.Kontrahenci;
+                return (
+                <AutoTable
+                queryData={contractors}
+                querySize={contractors.length}
+                editMode={false} />
+                )
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Spis adresów
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getAddresses}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let addresses = data.Adres;
+                return (
+                  <AutoTable
+                    queryData={addresses}
+                    querySize={addresses.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h4" gutterBottom component="h1">
@@ -64,7 +90,19 @@ class DatabaseContactsAndUsers extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Role użytkowników
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getDictUserRole}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let userRoles = data.DictRolaUzytkownikow;
+                return (
+                  <AutoTable
+                    queryData={userRoles}
+                    querySize={userRoles.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
           </TabContainer>
         </OCBigTab>
       </React.Fragment>

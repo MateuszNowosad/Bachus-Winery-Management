@@ -8,6 +8,12 @@ import AutoTable from '../../../components/AutoTable/AutoTable';
 import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
+import { Query } from 'react-apollo';
+import getItemsInStock from '../../../queries/WarehouseQueries/getItemsInStock';
+import getParcels from '../../../queries/WaybillQueries/getParcels';
+import getWaybills from '../../../queries/WaybillQueries/getWaybills';
+import getWarehouses from '../../../queries/WarehouseQueries/getWarehouses';
+import getDictCategories from '../../../queries/DictionaryQueries/getDictCategories';
 
 const labels = ['Pozycje w magazynie', 'Przesyłki', 'Listy przwozowe', 'Magazyny', 'Słowniki'];
 
@@ -23,25 +29,73 @@ class DatabaseProduction extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Pozycje w magazynie
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getItemsInStock}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let items = data.PozycjaWMagazynie;
+                return (
+                  <AutoTable
+                    queryData={items}
+                    querySize={items.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Przesyłki
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getParcels}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let parcel = data.Przesylka;
+                return (
+                  <AutoTable
+                    queryData={parcel}
+                    querySize={parcel.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Listy przwozowe
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getWaybills}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let waybill = data.ListPrzewozowy;
+                return (
+                  <AutoTable
+                    queryData={waybill}
+                    querySize={waybill.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Magazyny
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getWarehouses}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let warehouses = data.Magazyn;
+                return (
+                  <AutoTable
+                    queryData={warehouses}
+                    querySize={warehouses.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h4" gutterBottom component="h1">
@@ -50,8 +104,20 @@ class DatabaseProduction extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Kategorie przedmiotów w magazynie
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
-          </TabContainer>
+            <Query query={getDictCategories}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let categories = data.DictKategorie;
+                return (
+                  <AutoTable
+                    queryData={categories}
+                    querySize={categories.length}
+                    editMode={false} />
+                )
+              }}
+            </Query>
+            </TabContainer>
         </OCBigTab>
       </React.Fragment>
     );

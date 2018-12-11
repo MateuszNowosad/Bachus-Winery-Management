@@ -8,7 +8,7 @@ import SelectableAutoTable from '../../../components/SelectableAutoTable/Selecta
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { itemInStockValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import getDictCategories from '../../../queries/DictionaryQueries/getDictCategories';
-import getBatches from '../../../queries/getBatches';
+import getBatches from '../../../queries/BatchesQueries/getBatches';
 
 const errorMap = {
   name: false,

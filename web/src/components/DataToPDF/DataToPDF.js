@@ -258,7 +258,7 @@ class DataToPDF extends React.Component {
           <Grid item md={12}>
             <ApolloConsumer>
               {client => (
-                <Button variant={'outlined'} onClick={this.generateFile(client, 'donwload')}>
+                <Button variant={'outlined'} onClick={this.generateFile(client, 'download')}>
                   Generuj Dokument
                 </Button>
               )}

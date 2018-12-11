@@ -14,8 +14,8 @@ import {
 } from '@material-ui/core';
 import { Query } from 'react-apollo';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
-import getWarehouses from '../../../queries/getWarehouses';
-import getItemsFromWarehouse from '../../../queries/getItemsFromWarehouse';
+import getWarehouses from '../../../queries/WarehouseQueries/getWarehouses';
+import getItemsFromWarehouse from '../../../queries/WarehouseQueries/getItemsFromWarehouse';
 
 function getSteps() {
   return ['Wybierz magazyn', 'Wybierz produkt', 'Określ rozmiar'];

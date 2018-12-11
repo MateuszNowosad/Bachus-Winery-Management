@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 import { vineyardValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
-import getDictGrapeType from '../../../queries/DictionaryQueries/getDictGrapType';
+import getDictGrapeType from '../../../queries/DictionaryQueries/getDictGrapeType';
 
 const stany = ['czynna', 'rośnie'];
 

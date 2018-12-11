@@ -7,6 +7,9 @@ import AdminDashboardStyle from '../../assets/jss/common/views/AdminDashboard/Ad
 import userData from '../../variables/AdminDashboard/ExampleUser';
 import example from '../../assets/img/example.jpg';
 import Grid from '@material-ui/core/Grid/Grid';
+import {Query} from 'react-apollo'
+import getSpecificUser from '../../queries/UsersQueries/getSpecificUser';
+import convertDatetime from '../../functions/convertDatetime';
 
 class Users extends React.Component {
   render() {
@@ -16,68 +19,85 @@ class Users extends React.Component {
         <Typography variant="h4" gutterBottom component="h2">
           Twój Profil
         </Typography>
-        <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
-          <Grid item xs>
-            <Typography variant="h5" gutterBottom component="h1">
-              Imię
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom component="div">
-              {userData['userData']['user'][0].imie}
-            </Typography>
-            <Typography variant="h5" gutterBottom component="h1">
-              Nazwisko
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom component="div">
-              {userData['userData']['user'][0].nazwisko}
-            </Typography>
-            <Typography variant="h5" gutterBottom component="h1">
-              Email
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom component="div">
-              {userData['userData']['user'][0].eMail}
-            </Typography>
-            <Typography variant="h5" gutterBottom component="h1">
-              Numer telefonu
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom component="div">
-              {userData['userData']['user'][0].nrTelefonu}
-            </Typography>
-          </Grid>
-          <Grid item xs>
-            <Typography variant="h5" gutterBottom component="h1">
-              Login
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom component="div">
-              {userData['userData']['user'][0].login}
-            </Typography>
-            <Typography variant="h5" gutterBottom component="h1">
-              Rola użytkownika
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom component="div">
-              {userData['userData']['user'][0].rola}
-            </Typography>
-            <Typography variant="h5" gutterBottom component="h1">
-              Data utworzenia konta
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom component="div">
-              {userData['userData']['user'][0].createdAt}
-            </Typography>
-            <Typography variant="h5" gutterBottom component="h1">
-              Data ostatniego logowania
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom component="div">
-              {userData['userData']['user'][0].dataOstatniegoLogowania}
-            </Typography>
-          </Grid>
-          <Grid item xs>
-            <Typography variant="h5" gutterBottom component="h1">
-              Zdjecie
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom component="div">
-              <img src={example} height={200} width={200} />
-            </Typography>
-          </Grid>
-        </Grid>
+        <Query query={getSpecificUser(15)}>
+          {({ loading, error, data }) => {
+            if (loading) return <p>Loading...</p>;
+            if (error) return <p>Error :(</p>;
+            let user = data.Uzytkownicy[0];
+            console.log('26,  jakub: ', user);
+            return (
+              <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
+                <Grid item xs>
+                  <Typography variant="h5" gutterBottom component="h1">
+                    Imię
+                  </Typography>
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    {/*{userData['userData']['user'][0].imie}*/}
+                    {user.imie}
+                  </Typography>
+                  <Typography variant="h5" gutterBottom component="h1">
+                    Nazwisko
+                  </Typography>
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    {/*{userData['userData']['user'][0].nazwisko}*/}
+                    {user.nazwisko}
+                  </Typography>
+                  <Typography variant="h5" gutterBottom component="h1">
+                    Email
+                  </Typography>
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    {/*{userData['userData']['user'][0].eMail}*/}
+                    {user.eMail}
+                  </Typography>
+                  <Typography variant="h5" gutterBottom component="h1">
+                    Numer telefonu
+                  </Typography>
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    {/*{userData['userData']['user'][0].nrTelefonu}*/}
+                    {user.nrTelefonu}
+                  </Typography>
+                </Grid>
+                <Grid item xs>
+                  <Typography variant="h5" gutterBottom component="h1">
+                    Login
+                  </Typography>
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    {/*{userData['userData']['user'][0].login}*/}
+                    {user.login}
+                  </Typography>
+                  <Typography variant="h5" gutterBottom component="h1">
+                    Rola użytkownika
+                  </Typography>
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    {/*{userData['userData']['user'][0].rola}*/}
+                    {user.rola.nazwa}
+                  </Typography>
+                  {/*<Typography variant="h5" gutterBottom component="h1">*/}
+                    {/*Data utworzenia konta*/}
+                  {/*</Typography>*/}
+                  {/*<Typography variant="subtitle1" gutterBottom component="div">*/}
+                    {/*/!*{userData['userData']['user'][0].createdAt*!/*/}
+                  {/*</Typography>*/}
+                  <Typography variant="h5" gutterBottom component="h1">
+                    Data ostatniego logowania
+                  </Typography>
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    {/*{userData['userData']['user'][0].dataOstatniegoLogowania}*/}
+                    {convertDatetime(user.dataOstatniegoLogowania)}
+                  </Typography>
+                </Grid>
+                <Grid item xs>
+                  <Typography variant="h5" gutterBottom component="h1">
+                    Zdjecie
+                  </Typography>
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    <img src={example} height={200} width={200}/>
+                  </Typography>
+                </Grid>
+              </Grid>
+            )
+          }}
+        </Query>
       </React.Fragment>
     );
   }
