@@ -78,3 +78,13 @@ export const getDictUserRoleForForm = dictUserRoleID => gql`
     }
   }
 `;
+
+export const getDictBatchTypeForForm = dictBatchTypesID => gql`
+  {
+    DictTypPartii(idTypPartii: ${dictBatchTypesID}) {
+      idTypPartii
+      nazwa
+      jednostka
+    }
+  }
+`;
