@@ -148,6 +148,32 @@ export class FormUsers extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Uzytkownicy[0];
+      this.setState({
+        firstName: data.imie,
+        lastName: data.nazwisko,
+        login: data.login,
+        // password: data.haslo,
+        PESEL: data.PESEL,
+        eMail: data.eMail,
+        phoneNumber: data.nrTelefonu,
+        address: {
+          street: data.adres.ulica,
+          buildingNumber: data.adres.nrPosesji,
+          apartmentNumber: data.adres.nrLokalu,
+          postalCode: data.adres.kodPocztowy,
+          city: data.adres.miasto,
+          country: data.adres.kraj
+        },
+        userRole: data.rola.nazwa,
+        imagePreviewUrl: data.zdjecie
+      });
+    }
+  }
+
   render() {
     const {
       firstName,
@@ -329,7 +355,7 @@ export class FormUsers extends React.Component {
                   return (
                     <TextField
                       fullWidth
-                      error={errors.userRole}
+                      error={errors.userRole.nazwa}
                       required
                       id="userRole"
                       select
