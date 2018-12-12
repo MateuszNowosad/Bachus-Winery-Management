@@ -128,7 +128,7 @@ class AutoTable extends React.Component {
                 <ScrollableDialogForm
                   dialogTitle={dialogFormTitle}
                   open={openEdit}
-                  closeForm={() => this.setState({ openEdit: false })}
+                  closeForm={() => this.setState({ openEdit: false, editForm: false })}
                   openForm={() => this.setState({ openEdit: true })}
                 >
                   {React.cloneElement(dialogForm, { initState: data })}

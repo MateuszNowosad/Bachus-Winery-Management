@@ -60,7 +60,6 @@ export class FormBatches extends React.Component {
 
   componentDidMount() {
     const { initState } = this.props;
-    console.log('63, initState jakub: ', initState);
     if (initState) {
       let data = initState.Partie[0];
       this.setState({

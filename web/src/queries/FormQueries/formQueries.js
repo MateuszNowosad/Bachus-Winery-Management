@@ -42,3 +42,28 @@ export const getBatchForForm = batchID => gql`
      } 
   } 
 `;
+
+export const getContractorForForm = contractorID => gql`
+  {
+    Kontrahenci(idKontrahenci: ${contractorID}) {
+      idKontrahenci
+      NIP
+      nazwaSpolki
+      telefon
+      eMail
+      stronaWww
+      KRS
+      nrKonta
+      fax
+      adres {
+        idAdres
+        miasto
+        kodPocztowy
+        ulica
+        nrLokalu
+        nrPosesji
+        kraj
+      }
+    }
+  }
+`;

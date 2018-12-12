@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 //import BackupStyle from "../../assets/jss/common/views/Database/BackupStyle.js";
 import AdminDashboardStyle from '../../../assets/jss/common/views/AdminDashboard/AdminDashboardStyle.js';
 import AutoTable from '../../../components/AutoTable/AutoTable';
-import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
 import { FormUsers } from '../../common/forms/FormUsers';
@@ -15,6 +14,7 @@ import getContractors from '../../../queries/ContractorsQueries/getContractors';
 import getAddresses from '../../../queries/AdressesQueries/getAddresses';
 import getDictUserRole from '../../../queries/DictionaryQueries/getDictUserRole';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import { FormContractors } from '../../common/forms/FormContractors';
 
 const labels = ['Użytkownicy', 'Kontrachenci', 'Spis adresów', 'Słowniki'];
 
@@ -59,7 +59,15 @@ class DatabaseContactsAndUsers extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let contractors = data.Kontrahenci;
-                return <AutoTable queryData={contractors} querySize={contractors.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={contractors}
+                    querySize={contractors.length}
+                    dialogForm={<FormContractors />}
+                    dialogFormTitle={'Kontrahent'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
           </TabContainer>
