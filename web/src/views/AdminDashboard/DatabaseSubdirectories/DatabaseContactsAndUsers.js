@@ -11,6 +11,7 @@ import TabContainer from '../../../components/Tab/TabContainer';
 import { FormUsers } from '../../common/forms/FormUsers';
 import { Query } from 'react-apollo';
 import getUsers from '../../../queries/UsersQueries/getUsers';
+import { userDatabaseLabels } from "../../../localisation/DatabaseLabels";
 
 const labels = ['Użytkownicy', 'Kontrachenci', 'Spis adresów', 'Słowniki'];
 
@@ -35,6 +36,7 @@ class DatabaseContactsAndUsers extends React.Component {
                 return (
                   <AutoTable
                     queryData={users}
+                    labelsObj={userDatabaseLabels}
                     // querySubject="hero"
                     querySize={users.length}
                     dialogForm={<FormUsers />}
@@ -49,13 +51,13 @@ class DatabaseContactsAndUsers extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Kontrachenci
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            {/*<AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />*/}
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Spis adresów
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            {/*<AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />*/}
           </TabContainer>
           <TabContainer>
             <Typography variant="h4" gutterBottom component="h1">
@@ -64,7 +66,7 @@ class DatabaseContactsAndUsers extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Role użytkowników
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            {/*<AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />*/}
           </TabContainer>
         </OCBigTab>
       </React.Fragment>

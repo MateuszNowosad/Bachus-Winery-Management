@@ -9,18 +9,20 @@ const AutoLabels = props => {
   let labels = [];
   console.log('9, props.queryData jakub: ', props.queryData);
   let labelCount;
-  if (props.labelsArr === undefined) {
-    //previous
-    // let record = props.queryData['data'][props.querySubject][0];
-    let record = flattenObject(props.queryData[0]);
-    //not showing _typename field
-    for (let property in record)
-      if (record.hasOwnProperty(property)) {
-        labels.push(<TableCell key={property}>{property}</TableCell>);
-      }
-  } else
-    for (let currLabel in props.labelsArr)
-      labels.push(<TableCell key={currLabel}>{props.labelsArr[currLabel]}</TableCell>);
+  //previous
+  // let record = props.queryData['data'][props.querySubject][0];
+  let record = flattenObject(props.queryData[0]);
+  //not showing _typename field
+  for (let property in record)
+    if (record.hasOwnProperty(property)) {
+      if (props.labelsObj !== undefined) {
+        if (props.labelsObj.hasOwnProperty(property)) {
+          labels.push(<TableCell key={property}>{props.labelsObj[property]}</TableCell>);
+        } else {
+          labels.push(<TableCell key={property}>{property}</TableCell>);
+        }
+      } else labels.push(<TableCell key={property}>{property}</TableCell>);
+    }
 
   labelCount = labels.length;
   props.editMode && labelCount++;
@@ -42,7 +44,7 @@ AutoLabels.propTypes = {
   queryData: PropTypes.array,
   // querySubject: PropTypes.string,
   editMode: PropTypes.bool.isRequired,
-  labelArr: PropTypes.array,
+  labelsObj: PropTypes.object,
   labelCountChange: PropTypes.func
 };
 
