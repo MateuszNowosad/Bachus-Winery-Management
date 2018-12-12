@@ -22,7 +22,7 @@ class DatabaseContactsAndUsers extends React.Component {
     return (
       <React.Fragment>
         <Typography variant="h4" gutterBottom component="h2">
-          Baza danych: Systemy wspomagania produkcji
+          Baza danych: Systemy wspomagania zarządzania personaliami
         </Typography>
         <OCBigTab labels={labels}>
           <TabContainer>
