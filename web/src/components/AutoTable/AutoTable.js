@@ -16,8 +16,7 @@ import TablePagination from '@material-ui/core/TablePagination/TablePagination';
 import SearchBar from '../common/SearchBar';
 import { Query } from 'react-apollo';
 import CircularProgress from '@material-ui/core/es/CircularProgress';
-import getSpecificUser from '../../queries/UsersQueries/getSpecificUser';
-import getUserForForm from '../../queries/FormQueries/getUserForForm';
+import { selectQueryForForm } from '../../queries/FormQueries/selectQueryForForm';
 
 class AutoTable extends React.Component {
   state = {
@@ -120,7 +119,7 @@ class AutoTable extends React.Component {
           </React.Fragment>
         )}
         {editForm && (
-          <Query query={getUserForForm(editForm)}>
+          <Query query={selectQueryForForm(dialogForm.type.name, editForm)}>
             {({ loading, error, data }) => {
               if (loading) return <CircularProgress />;
               if (error)

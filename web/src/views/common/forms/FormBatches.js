@@ -7,6 +7,7 @@ import UniversalValidationHandler from './UniversalValidationHandler/UniversalVa
 import { batchValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import getDictBatchType from '../../../queries/DictionaryQueries/getDictBatchType';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import convertDatetimeForm from '../../../functions/convertDatetimeForm';
 
 const errorMap = {
   amount: false,
@@ -54,6 +55,20 @@ export class FormBatches extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
+    }
+  }
+
+  componentDidMount() {
+    const { initState } = this.props;
+    console.log('63, initState jakub: ', initState);
+    if (initState) {
+      let data = initState.Partie[0];
+      this.setState({
+        amount: data.ilosc,
+        desc: data.opis,
+        creationDate: convertDatetimeForm(data.dataUtworzenia),
+        batchType: data.typPartii.nazwa
+      });
     }
   }
 
