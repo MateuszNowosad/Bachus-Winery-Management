@@ -15,6 +15,7 @@ import getAddresses from '../../../queries/AdressesQueries/getAddresses';
 import getDictUserRole from '../../../queries/DictionaryQueries/getDictUserRole';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 import { FormContractors } from '../../common/forms/FormContractors';
+import { FormDictUserRole } from '../../common/forms/FormDictUserRole';
 
 const labels = ['Użytkownicy', 'Kontrachenci', 'Spis adresów', 'Słowniki'];
 
@@ -98,7 +99,15 @@ class DatabaseContactsAndUsers extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let userRoles = data.DictRolaUzytkownikow;
-                return <AutoTable queryData={userRoles} querySize={userRoles.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={userRoles}
+                    querySize={userRoles.length}
+                    dialogForm={<FormDictUserRole />}
+                    dialogFormTitle={'Rola użytkownika'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
           </TabContainer>

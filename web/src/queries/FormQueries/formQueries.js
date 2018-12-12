@@ -67,3 +67,14 @@ export const getContractorForForm = contractorID => gql`
     }
   }
 `;
+
+export const getDictUserRoleForForm = dictUserRoleID => gql`
+  {
+    DictRolaUzytkownikow(idRolaUzytkownikow: ${dictUserRoleID}) {
+      idRolaUzytkownikow
+      nazwa
+      opis
+      typ
+    }
+  }
+`;
