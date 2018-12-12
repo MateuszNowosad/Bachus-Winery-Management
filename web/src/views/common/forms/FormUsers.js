@@ -160,14 +160,6 @@ export class FormUsers extends React.Component {
         PESEL: data.PESEL,
         eMail: data.eMail,
         phoneNumber: data.nrTelefonu,
-        address: {
-          street: data.adres.ulica,
-          buildingNumber: data.adres.nrPosesji,
-          apartmentNumber: data.adres.nrLokalu,
-          postalCode: data.adres.kodPocztowy,
-          city: data.adres.miasto,
-          country: data.adres.kraj
-        },
         userRole: data.rola.nazwa,
         imagePreviewUrl: data.zdjecie
       });
@@ -377,7 +369,12 @@ export class FormUsers extends React.Component {
               </Query>
             </Grid>
             <Grid item md={12}>
-              <FormAddress varName="address" onChange={this.handleAddressChange} ref={this.subForm} />
+              <FormAddress
+                varName="address"
+                onChange={this.handleAddressChange}
+                ref={this.subForm}
+                initState={this.props.initState.Uzytkownicy[0].adres}
+              />
             </Grid>
           </Grid>
         </form>

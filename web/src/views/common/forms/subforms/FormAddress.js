@@ -70,6 +70,33 @@ export class FormAddress extends React.Component {
     });
   };
 
+  componentDidMount() {
+    const { initState, varName } = this.props;
+    if (initState) {
+      this.setState(
+        {
+          street: initState.ulica,
+          buildingNumber: initState.nrPosesji,
+          apartmentNumber: initState.nrLokalu,
+          postalCode: initState.kodPocztowy,
+          city: initState.miasto,
+          country: initState.kraj
+        },
+        () => {
+          const { street, buildingNumber, apartmentNumber, postalCode, city, country } = this.state;
+          this.props.onChange(varName, {
+            street,
+            buildingNumber,
+            apartmentNumber,
+            postalCode,
+            city,
+            country
+          });
+        }
+      );
+    }
+  }
+
   render() {
     const { street, buildingNumber, apartmentNumber, postalCode, city, country, errors } = this.state;
     return (
