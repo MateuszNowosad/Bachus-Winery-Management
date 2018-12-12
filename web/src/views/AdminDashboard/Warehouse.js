@@ -5,12 +5,12 @@ import Typography from '@material-ui/core/Typography';
 import AdminDashboardStyle from '../../assets/jss/common/views/AdminDashboard/AdminDashboardStyle.js';
 import List from '@material-ui/core/List/List';
 import Drawer from '@material-ui/core/Drawer/Drawer';
-import ListItem from '@material-ui/core/ListItem/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText/ListItemText';
 import PlaceIcon from '@material-ui/icons/Place';
 import getWarehouseForList from '../../queries/getWarehouseForList';
 import { Query } from 'react-apollo';
+import { Route, Switch } from 'react-router-dom';
+import WarehouseDetails from './Subpages/WarehouseDetails';
+import ListItemLink from '../../components/Drawer/ListItemLink';
 
 class Warehouse extends React.Component {
   render() {
@@ -20,6 +20,9 @@ class Warehouse extends React.Component {
         <Typography variant="h4" gutterBottom component="h2">
           Magazyny
         </Typography>
+        <Switch>
+          <Route path={'/admindashboard/warehouse/:id'} exact={true} component={WarehouseDetails} />
+        </Switch>
         <Drawer className={classes.drawer} variant="permanent" anchor="right">
           <div className={classes.appBarSpacer} />
           <List>
@@ -30,15 +33,13 @@ class Warehouse extends React.Component {
                 console.log('33,  jakub: query odpalone: ', data);
                 let warehouses = data.Magazyn;
                 return warehouses.map(text => (
-                  <ListItem button key={text.idMagazyn}>
-                    <ListItemIcon>
-                      <PlaceIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={`${text.adres.miasto} ${text.adres.ulica} ${text.adres.nrPosesji}`}
-                      secondary={`${text.rodzaj}`}
-                    />
-                  </ListItem>
+                  <ListItemLink
+                    key={text.idMagazyn}
+                    icon={<PlaceIcon />}
+                    primary={`${text.adres.miasto} ${text.adres.ulica} ${text.adres.nrPosesji}`}
+                    to={'/admindashboard/warehouse/' + text.idMagazyn}
+                    secondary={`${text.rodzaj}`}
+                  />
                 ));
               }}
             </Query>
