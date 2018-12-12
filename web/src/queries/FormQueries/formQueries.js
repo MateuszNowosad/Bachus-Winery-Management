@@ -97,5 +97,15 @@ export const getDictCategoryForForm = dictCategoryID => gql`
   jednostka
   opis
 }
-  }
+}
+`;
+
+export const getDictGrapeTypeForForm = dictGrapeTypeID => gql`
+  {
+  DictOdmianaWinogron (idOdmianaWinogron: ${dictGrapeTypeID}) {
+  idOdmianaWinogron
+  nazwa
+  opis
+}
+}
 `;
