@@ -17,6 +17,7 @@ import SearchBar from '../common/SearchBar';
 import { Query } from 'react-apollo';
 import CircularProgress from '@material-ui/core/es/CircularProgress';
 import getSpecificUser from '../../queries/UsersQueries/getSpecificUser';
+import getUserForForm from '../../queries/FormQueries/getUserForForm';
 
 class AutoTable extends React.Component {
   state = {
@@ -35,7 +36,7 @@ class AutoTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  handleOpen = (name) => {
+  handleOpen = name => {
     this.setState({ [name]: true });
   };
 
@@ -68,7 +69,7 @@ class AutoTable extends React.Component {
     return (
       <div style={{ minWidth: '100%' }}>
         <div className={classes.actions}>
-          <SearchBar/>
+          <SearchBar />
         </div>
         <Paper className={classes.root}>
           <Table className={classes.table}>
@@ -119,9 +120,9 @@ class AutoTable extends React.Component {
           </React.Fragment>
         )}
         {editForm && (
-          <Query query={getSpecificUser(editForm)}>
+          <Query query={getUserForForm(editForm)}>
             {({ loading, error, data }) => {
-              if (loading) return <CircularProgress/>;
+              if (loading) return <CircularProgress />;
               if (error)
                 return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
               return (
@@ -136,8 +137,7 @@ class AutoTable extends React.Component {
               );
             }}
           </Query>
-        )
-        }
+        )}
       </div>
     );
   }
