@@ -9,6 +9,7 @@ import UniversalValidationHandler from './UniversalValidationHandler/UniversalVa
 import { usersValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
 import getDictUserRole from '../../../queries/DictionaryQueries/getDictUserRole';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const errorMap = {
   firstName: false,
@@ -322,8 +323,9 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <Query query={getDictUserRole}>
                 {({ loading, error, data }) => {
-                  if (loading) return <p>Loading...</p>;
-                  if (error) return <p>Error :(</p>;
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
                     <TextField
                       fullWidth

@@ -6,6 +6,7 @@ import currentDate from './CurrentDate';
 import { vineyardValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import getDictGrapeType from '../../../queries/DictionaryQueries/getDictGrapeType';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const stany = ['czynna', 'rośnie'];
 
@@ -186,8 +187,9 @@ export class FormVineyard extends React.Component {
           <Grid item md={12}>
             <Query query={getDictGrapeType}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 return (
                   <TextField
                     fullWidth

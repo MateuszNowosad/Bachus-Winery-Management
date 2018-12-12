@@ -9,6 +9,7 @@ import UniversalValidationHandler from './UniversalValidationHandler/UniversalVa
 import { itemInStockValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import getDictCategories from '../../../queries/DictionaryQueries/getDictCategories';
 import getBatches from '../../../queries/BatchesQueries/getBatches';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const errorMap = {
   name: false,
@@ -200,8 +201,9 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <Query query={getDictCategories}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 return (
                   <TextField
                     fullWidth
@@ -241,8 +243,9 @@ export class FormItemInStock extends React.Component {
             <DialogForForm title={'Partie'} open={open} onClose={() => this.handleClose('open')}>
               <Query query={getBatches}>
                 {({ loading, error, data }) => {
-                  if (loading) return <p>Loading...</p>;
-                  if (error) return <p>Error :(</p>;
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
                     <SelectableAutoTable
                       queryData={data}

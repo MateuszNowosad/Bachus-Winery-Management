@@ -14,6 +14,7 @@ import getParcels from '../../../queries/WaybillQueries/getParcels';
 import getWaybills from '../../../queries/WaybillQueries/getWaybills';
 import getWarehouses from '../../../queries/WarehouseQueries/getWarehouses';
 import getDictCategories from '../../../queries/DictionaryQueries/getDictCategories';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const labels = ['Pozycje w magazynie', 'Przesyłki', 'Listy przwozowe', 'Magazyny', 'Słowniki'];
 
@@ -31,8 +32,9 @@ class DatabaseProduction extends React.Component {
             </Typography>
             <Query query={getItemsInStock}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let items = data.PozycjaWMagazynie;
                 return <AutoTable queryData={items} querySize={items.length} editMode={false} />;
               }}
@@ -44,8 +46,9 @@ class DatabaseProduction extends React.Component {
             </Typography>
             <Query query={getParcels}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let parcel = data.Przesylka;
                 return <AutoTable queryData={parcel} querySize={parcel.length} editMode={false} />;
               }}
@@ -57,8 +60,9 @@ class DatabaseProduction extends React.Component {
             </Typography>
             <Query query={getWaybills}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let waybill = data.ListPrzewozowy;
                 return <AutoTable queryData={waybill} querySize={waybill.length} editMode={false} />;
               }}
@@ -70,8 +74,9 @@ class DatabaseProduction extends React.Component {
             </Typography>
             <Query query={getWarehouses}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let warehouses = data.Magazyn;
                 return <AutoTable queryData={warehouses} querySize={warehouses.length} editMode={false} />;
               }}
@@ -86,8 +91,9 @@ class DatabaseProduction extends React.Component {
             </Typography>
             <Query query={getDictCategories}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let categories = data.DictKategorie;
                 return <AutoTable queryData={categories} querySize={categories.length} editMode={false} />;
               }}

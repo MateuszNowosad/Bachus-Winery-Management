@@ -12,6 +12,7 @@ import DataToPDF from '../../../components/DataToPDF/DataToPDF';
 import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesses';
 import { Query } from 'react-apollo';
 import getReports from '../../../queries/ReportsQueries/getReports';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const labels = ['Raporty', 'Generuj raport'];
 
@@ -29,8 +30,9 @@ class DatabaseReports extends React.Component {
             </Typography>
             <Query query={getReports}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let reports = data.Raporty;
                 return <AutoTable queryData={reports} querySize={reports.length} editMode={false} />;
               }}

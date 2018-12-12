@@ -21,6 +21,7 @@ import red from '@material-ui/core/colors/red';
 import getContractors from '../../../queries/ContractorsQueries/getContractors';
 import PDFShow from '../../../components/PDFSchemes/PDFShow';
 import PDFWaybill from '../../../components/PDFSchemes/PDFWaybill';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const errorMap = {
   driverName: false,
@@ -282,8 +283,9 @@ export class FormWaybill extends React.Component {
             <DialogForForm title={'Kontrahenci'} open={openSender} onClose={() => this.handleClose('openSender')}>
               <Query query={getContractors}>
                 {({ loading, error, data }) => {
-                  if (loading) return <p>Loading...</p>;
-                  if (error) return <p>Error :(</p>;
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
                     <SelectableAutoTable
                       queryData={this.filterContractors(data)}
@@ -316,8 +318,9 @@ export class FormWaybill extends React.Component {
             <DialogForForm title={'Kontrahenci'} open={openRecipent} onClose={() => this.handleClose('openRecipent')}>
               <Query query={getContractors}>
                 {({ loading, error, data }) => {
-                  if (loading) return <p>Loading...</p>;
-                  if (error) return <p>Error :(</p>;
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
                     <SelectableAutoTable
                       queryData={this.filterContractors(data)}
@@ -350,8 +353,9 @@ export class FormWaybill extends React.Component {
             <DialogForForm title={'Kontrahenci'} open={openCarrier} onClose={() => this.handleClose('openCarrier')}>
               <Query query={getContractors}>
                 {({ loading, error, data }) => {
-                  if (loading) return <p>Loading...</p>;
-                  if (error) return <p>Error :(</p>;
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
                     <SelectableAutoTable
                       queryData={this.filterContractors(data)}

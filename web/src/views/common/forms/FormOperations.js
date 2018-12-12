@@ -19,6 +19,7 @@ import { operationsValidationKeys } from './UniversalValidationHandler/validatio
 import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesses';
 import DialogForForm from './DialogForForm';
 import StepperItemFromWarehouse from './StepperItemFromWarehouse';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const errorMap = {
   beginAmount: false,
@@ -155,8 +156,9 @@ export class FormOperations extends React.Component {
           <Grid item md={12}>
             <Query query={getDictProcesses}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 return (
                   <TextField
                     fullWidth

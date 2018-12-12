@@ -30,8 +30,8 @@ const currentTheme = createMuiTheme(standard);
 //     `}
 //   >
 //     {({ loading, error, data }) => {
-//       if (loading) return <p>Loading...</p>;
-//       if (error) return <p>Error :(</p>;
+//       if (loading) return <CircularProgress />;
+//       if (error) return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
 //
 //       return data.Adresy.map(args => (
 //         <div key={args.idAdres}>

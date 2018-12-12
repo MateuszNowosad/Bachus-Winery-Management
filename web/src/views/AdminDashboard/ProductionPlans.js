@@ -18,6 +18,7 @@ import { FormProductionPlan } from '../common/forms/FormProductionPlan';
 import getProductionPlans from '../../queries/ProductionPlansQueries/getProductionPlans';
 import TabContainer from '../../components/Tab/TabContainer';
 import { Query } from 'react-apollo';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 class ProductionPlans extends React.Component {
   state = {
@@ -55,8 +56,9 @@ class ProductionPlans extends React.Component {
           {/*{testDataProductionPlan.test.map(currElement => (*/}
           <Query query={getProductionPlans}>
             {({ loading, error, data }) => {
-              if (loading) return <p>Loading...</p>;
-              if (error) return <p>Error :(</p>;
+              if (loading) return <CircularProgress />;
+              if (error)
+                return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
               let productionPlans = data.PlanyProdukcyjne;
               return productionPlans.map(currElement => (
                 <MediaCard
@@ -76,8 +78,9 @@ class ProductionPlans extends React.Component {
           <ExpansionPanelDetails>
             <Query query={getProductionPlans}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let productionPlans = data.PlanyProdukcyjne;
                 return (
                   <AutoTable

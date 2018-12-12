@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import { batchDatabaseLabels, operationsDatabaseLabels } from '../../../localisation/DatabaseLabels';
 import { Query } from 'react-apollo';
 import getSpecificProductionPlan from '../../../queries/ProductionPlansQueries/getSpecificProductionPlan';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const MyLink = props => <Link to="/admindashboard/productionplans" {...props} />;
 
@@ -32,8 +33,9 @@ class ProductionPlanDetails extends React.Component {
         </div>
         <Query query={getSpecificProductionPlan('8')}>
           {({ loading, error, data }) => {
-            if (loading) return <p>Loading...</p>;
-            if (error) return <p>Error :(</p>;
+            if (loading) return <CircularProgress />;
+            if (error)
+              return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
             let productionPlan = data.PlanyProdukcyjne[0];
             return (
               <React.Fragment>

@@ -14,6 +14,7 @@ import getVineyardOperations from '../../queries/VineyardQueries/getVineyardOper
 import { FormOperations } from '../common/forms/FormOperations';
 import { FormVineyardOperation } from '../common/forms/FormVineyardOperation';
 import { Query } from 'react-apollo';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const labels = ['Ostatnie wydarzenia', 'Ostatnie operacje na partiach', 'Ostatnie na winnicach'];
 
@@ -43,8 +44,9 @@ class News extends React.Component {
           <TabContainer>
             <Query query={getOperations}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let operations = [].concat(data.Operacje);
                 operations = this.sortOperations(operations).slice(0, 15);
                 return (
@@ -63,8 +65,9 @@ class News extends React.Component {
           <TabContainer>
             <Query query={getVineyardOperations}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let vineyardOperations = [].concat(data.OperacjeNaWinnicy);
                 vineyardOperations = this.sortVineyardOperations(vineyardOperations).slice(0, 15);
                 return (

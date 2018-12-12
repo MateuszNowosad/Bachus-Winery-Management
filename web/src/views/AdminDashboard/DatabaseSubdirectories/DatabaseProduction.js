@@ -16,6 +16,7 @@ import getOperations from '../../../queries/OperationQueries/getOperations';
 import getDictBatchType from '../../../queries/DictionaryQueries/getDictBatchType';
 import getDictWineCategory from '../../../queries/DictionaryQueries/getDictWineCategory';
 import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesses';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const labels = ['Partie', 'Informacje o winie', 'Operacje', 'Słowniki'];
 
@@ -33,8 +34,9 @@ class DatabaseProduction extends React.Component {
             </Typography>
             <Query query={getBatches}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let batches = data.Partie;
                 return <AutoTable queryData={batches} querySize={batches.length} editMode={false} />;
               }}
@@ -46,8 +48,9 @@ class DatabaseProduction extends React.Component {
             </Typography>
             <Query query={getWineInformations}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let wineInfo = data.InformacjeOWinie;
                 return <AutoTable queryData={wineInfo} querySize={wineInfo.length} editMode={false} />;
               }}
@@ -59,8 +62,9 @@ class DatabaseProduction extends React.Component {
             </Typography>
             <Query query={getOperations}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let operations = data.Operacje;
                 return <AutoTable queryData={operations} querySize={operations.length} editMode={false} />;
               }}
@@ -75,8 +79,9 @@ class DatabaseProduction extends React.Component {
             </Typography>
             <Query query={getDictBatchType}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let batchTypes = data.DictTypPartii;
                 return <AutoTable queryData={batchTypes} querySize={batchTypes.length} editMode={false} />;
               }}
@@ -86,8 +91,9 @@ class DatabaseProduction extends React.Component {
             </Typography>
             <Query query={getDictWineCategory}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let wineCategories = data.DictKategoriaWina;
                 return <AutoTable queryData={wineCategories} querySize={wineCategories.length} editMode={false} />;
               }}
@@ -97,8 +103,9 @@ class DatabaseProduction extends React.Component {
             </Typography>
             <Query query={getDictProcesses}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let processes = data.DictProcesy;
                 return <AutoTable queryData={processes} querySize={processes.length} editMode={false} />;
               }}

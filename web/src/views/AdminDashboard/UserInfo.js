@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid/Grid';
 import { Query } from 'react-apollo';
 import getSpecificUser from '../../queries/UsersQueries/getSpecificUser';
 import convertDatetime from '../../functions/convertDatetime';
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 
 class Users extends React.Component {
   render() {
@@ -22,8 +23,10 @@ class Users extends React.Component {
         {/* Changed to 9 because 15th user.role = null */}
         <Query query={getSpecificUser(9)}>
           {({ loading, error, data }) => {
-            if (loading) return <p>Loading...</p>;
-            if (error) return <p>Error :(</p>;
+            error = true;
+            if (loading) return <CircularProgress />;
+            if (error)
+              return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
             let user = data.Uzytkownicy[0];
             console.log('26,  jakub: ', user);
             return (

@@ -14,6 +14,7 @@ import getUsers from '../../../queries/UsersQueries/getUsers';
 import getContractors from '../../../queries/ContractorsQueries/getContractors';
 import getAddresses from '../../../queries/AdressesQueries/getAddresses';
 import getDictUserRole from '../../../queries/DictionaryQueries/getDictUserRole';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const labels = ['Użytkownicy', 'Kontrachenci', 'Spis adresów', 'Słowniki'];
 
@@ -31,8 +32,9 @@ class DatabaseContactsAndUsers extends React.Component {
             </Typography>
             <Query query={getUsers}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let users = data.Uzytkownicy;
                 return (
                   <AutoTable
@@ -53,8 +55,9 @@ class DatabaseContactsAndUsers extends React.Component {
             </Typography>
             <Query query={getContractors}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let contractors = data.Kontrahenci;
                 return <AutoTable queryData={contractors} querySize={contractors.length} editMode={false} />;
               }}
@@ -66,8 +69,9 @@ class DatabaseContactsAndUsers extends React.Component {
             </Typography>
             <Query query={getAddresses}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let addresses = data.Adres;
                 return <AutoTable queryData={addresses} querySize={addresses.length} editMode={false} />;
               }}
@@ -82,8 +86,9 @@ class DatabaseContactsAndUsers extends React.Component {
             </Typography>
             <Query query={getDictUserRole}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let userRoles = data.DictRolaUzytkownikow;
                 return <AutoTable queryData={userRoles} querySize={userRoles.length} editMode={false} />;
               }}

@@ -6,6 +6,7 @@ import UniversalValidationHandler from './UniversalValidationHandler/UniversalVa
 import { vineyardOperationsValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import { Query } from 'react-apollo';
 import getDictVineyardOperations from '../../../queries/DictionaryQueries/getDictVineyardOperations';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const errorMap = {
   dateOfOperation: false,
@@ -101,8 +102,9 @@ export class FormVineyardOperation extends React.Component {
           <Grid item md={12}>
             <Query query={getDictVineyardOperations}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 return (
                   <TextField
                     fullWidth

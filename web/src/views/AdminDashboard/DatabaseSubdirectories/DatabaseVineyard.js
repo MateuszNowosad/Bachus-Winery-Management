@@ -15,6 +15,7 @@ import getGrapeHarvests from '../../../queries/VineyardQueries/getGrapeHarvests'
 import getVineyardOperations from '../../../queries/VineyardQueries/getVineyardOperations';
 import getDictVineyardOperations from '../../../queries/DictionaryQueries/getDictVineyardOperations';
 import getDictGrapeType from '../../../queries/DictionaryQueries/getDictGrapeType';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const labels = ['Winnice', 'Winobrania', 'Operacje na winnicy', 'Słowniki'];
 
@@ -32,8 +33,9 @@ class DatabaseVineyard extends React.Component {
             </Typography>
             <Query query={getVineyards}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let vineyards = data.Winnica;
                 return <AutoTable queryData={vineyards} querySize={vineyards.length} editMode={false} />;
               }}
@@ -45,8 +47,9 @@ class DatabaseVineyard extends React.Component {
             </Typography>
             <Query query={getGrapeHarvests}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let grapeHarvests = data.Winobranie;
                 return <AutoTable queryData={grapeHarvests} querySize={grapeHarvests.length} editMode={false} />;
               }}
@@ -58,8 +61,9 @@ class DatabaseVineyard extends React.Component {
             </Typography>
             <Query query={getVineyardOperations}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let vineyardOperations = data.OperacjeNaWinnicy;
                 return (
                   <AutoTable queryData={vineyardOperations} querySize={vineyardOperations.length} editMode={false} />
@@ -73,8 +77,9 @@ class DatabaseVineyard extends React.Component {
             </Typography>
             <Query query={getDictVineyardOperations}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let dictVineyardOperations = data.DictOperacjeNaWinnicy;
                 return (
                   <AutoTable
@@ -90,8 +95,9 @@ class DatabaseVineyard extends React.Component {
             </Typography>
             <Query query={getDictGrapeType}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let grapeTypes = data.DictOdmianaWinogron;
                 return <AutoTable queryData={grapeTypes} querySize={grapeTypes.length} editMode={false} />;
               }}
