@@ -120,3 +120,12 @@ export const getDictProcesForForm = dictProcesID => gql`
 }
 }
 `;
+
+export const getDictVineyardOperationForForm = dictVineyardOperationID => gql`
+{
+DictOperacjeNaWinnicy(idDictOperacjeNaWinnicy: ${dictVineyardOperationID}) {
+  idDictOperacjeNaWinnicy
+  nazwa
+  opis
+}
+}`;

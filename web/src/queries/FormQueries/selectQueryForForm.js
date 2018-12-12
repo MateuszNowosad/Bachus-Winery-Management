@@ -6,6 +6,7 @@ import {
   getDictGrapeTypeForForm,
   getDictProcesForForm,
   getDictUserRoleForForm,
+  getDictVineyardOperationForForm,
   getUserForForm
 } from './formQueries';
 
@@ -27,5 +28,7 @@ export const selectQueryForForm = (formName, id) => {
       return getDictGrapeTypeForForm(id);
     case 'FormDictProcesses':
       return getDictProcesForForm(id);
+    case 'FormDictVineyardOperations':
+      return getDictVineyardOperationForForm(id);
   }
 };
