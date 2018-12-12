@@ -149,3 +149,29 @@ export const getGrapeHarvestForForm = grapeHarvestID => gql`
     }
   }
 `;
+
+export const getItemInStockForForm = itemInStockID => gql`
+{
+PozycjaWMagazynie(idPozycja: ${itemInStockID}) {
+  idPozycja
+  nazwa
+  opis
+  ilosc
+  kodKreskowy
+  stanAktualny
+  dataPrzyjecia
+  dataWydania
+  nazwaSektora
+  kategorie {
+    idKategorie
+    nazwa
+  }
+  partie {
+    idPartie
+    ilosc
+    opis
+    dataUtworzenia
+  }  
+}
+}
+`;

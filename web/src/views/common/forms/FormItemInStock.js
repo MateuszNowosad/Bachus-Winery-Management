@@ -10,6 +10,7 @@ import { itemInStockValidationKeys } from './UniversalValidationHandler/validati
 import getDictCategories from '../../../queries/DictionaryQueries/getDictCategories';
 import getBatches from '../../../queries/BatchesQueries/getBatches';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import convertDatetimeForm from '../../../functions/convertDatetimeForm';
 
 const errorMap = {
   name: false,
@@ -106,6 +107,24 @@ export class FormItemInStock extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.PozycjaWMagazynie[0];
+      this.setState({
+        name: data.nazwa,
+        desc: data.opis,
+        amount: data.ilosc,
+        barcode: data.kodKreskowy,
+        actualState: data.stanAktualny,
+        acceptanceDate: convertDatetimeForm(data.dataPrzyjecia),
+        releaseDate: convertDatetimeForm(data.dataWydania),
+        sectorName: data.nazwaSektora,
+        category: data.kategorie.nazwa,
+        batch: data.partie
+      });
+    }
+  }
   render() {
     const { name, desc, amount, acceptanceDate, releaseDate, sectorName, category, batch, open, errors } = this.state;
 
