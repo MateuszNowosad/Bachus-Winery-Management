@@ -19,7 +19,8 @@ class Users extends React.Component {
         <Typography variant="h4" gutterBottom component="h2">
           Twój Profil
         </Typography>
-        <Query query={getSpecificUser(15)}>
+        {/* Changed to 9 because 15th user.role = null */}
+        <Query query={getSpecificUser(9)}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error :(</p>;
