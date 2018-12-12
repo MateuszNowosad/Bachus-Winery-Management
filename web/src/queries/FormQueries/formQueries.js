@@ -109,3 +109,14 @@ export const getDictGrapeTypeForForm = dictGrapeTypeID => gql`
 }
 }
 `;
+
+export const getDictProcesForForm = dictProcesID => gql`
+  {
+  DictProcesy(idDictProcesy ${dictProcesID}) {
+  idDictProcesy
+  nazwa
+  opis
+  dodatkowe
+}
+}
+`;

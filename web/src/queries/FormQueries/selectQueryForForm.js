@@ -4,6 +4,7 @@ import {
   getDictBatchTypeForForm,
   getDictCategoryForForm,
   getDictGrapeTypeForForm,
+  getDictProcesForForm,
   getDictUserRoleForForm,
   getUserForForm
 } from './formQueries';
@@ -24,5 +25,7 @@ export const selectQueryForForm = (formName, id) => {
       return getDictCategoryForForm(id);
     case 'FormDictGrapeType':
       return getDictGrapeTypeForForm(id);
+    case 'FormDictProcesses':
+      return getDictProcesForForm(id);
   }
 };
