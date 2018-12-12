@@ -51,13 +51,13 @@ class DatabaseContactsAndUsers extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Kontrachenci
             </Typography>
-            {/*<AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />*/}
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Spis adresów
             </Typography>
-            {/*<AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />*/}
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
           <TabContainer>
             <Typography variant="h4" gutterBottom component="h1">
@@ -66,7 +66,7 @@ class DatabaseContactsAndUsers extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Role użytkowników
             </Typography>
-            {/*<AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />*/}
+            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
           </TabContainer>
         </OCBigTab>
       </React.Fragment>
