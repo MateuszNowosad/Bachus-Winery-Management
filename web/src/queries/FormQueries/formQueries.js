@@ -129,3 +129,13 @@ DictOperacjeNaWinnicy(idDictOperacjeNaWinnicy: ${dictVineyardOperationID}) {
   opis
 }
 }`;
+
+export const getDictWineCategoryForForm = dictWineCategoryID => gql`
+{
+DictKategoriaWina(idDictKategoriaWina: ${dictWineCategoryID}) {
+  idDictKategoriaWina
+  nazwaKategoria
+  opis
+}
+}
+`;
