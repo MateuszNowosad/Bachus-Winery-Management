@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { harvestValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import convertDatetimeForm from '../../../functions/convertDatetimeForm';
 
 const errorMap = {
   dateOfHarvest: false,
@@ -49,6 +50,17 @@ export class FormGrapeHarvest extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
+    }
+  }
+
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Winobranie[0];
+      this.setState({
+        dateOfHarvest: convertDatetimeForm(data.dataWinobrania),
+        amount: data.iloscZebranychWinogron
+      });
     }
   }
 

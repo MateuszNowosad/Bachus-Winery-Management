@@ -139,3 +139,13 @@ DictKategoriaWina(idDictKategoriaWina: ${dictWineCategoryID}) {
 }
 }
 `;
+
+export const getGrapeHarvestForForm = grapeHarvestID => gql`
+  {
+    Winobranie(idWinobranie ${grapeHarvestID}) {
+      idWinobranie
+      dataWinobrania
+      iloscZebranychWinogron
+    }
+  }
+`;

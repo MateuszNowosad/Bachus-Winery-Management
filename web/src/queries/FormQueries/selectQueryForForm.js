@@ -8,6 +8,7 @@ import {
   getDictUserRoleForForm,
   getDictVineyardOperationForForm,
   getDictWineCategoryForForm,
+  getGrapeHarvestForForm,
   getUserForForm
 } from './formQueries';
 
@@ -33,5 +34,7 @@ export const selectQueryForForm = (formName, id) => {
       return getDictVineyardOperationForForm(id);
     case 'FormDictWineCategory':
       return getDictWineCategoryForForm(id);
+    case 'FormGrapeHarvest':
+      return getGrapeHarvestForForm(id);
   }
 };
