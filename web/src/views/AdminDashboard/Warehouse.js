@@ -16,13 +16,15 @@ class Warehouse extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <React.Fragment>
-        <Typography variant="h4" gutterBottom component="h2">
-          Magazyny
-        </Typography>
-        <Switch>
-          <Route path={'/admindashboard/warehouse/:id'} exact={true} component={WarehouseDetails} />
-        </Switch>
+      <div className={classes.root}>
+        <main className={classes.content}>
+          <Typography variant="h4" gutterBottom component="h2">
+            Magazyny
+          </Typography>
+          <Switch>
+            <Route path={'/admindashboard/warehouse/:id'} exact={true} component={WarehouseDetails} />
+          </Switch>
+        </main>
         <Drawer className={classes.drawer} variant="permanent" anchor="right">
           <div className={classes.appBarSpacer} />
           <List>
@@ -45,7 +47,7 @@ class Warehouse extends React.Component {
             </Query>
           </List>
         </Drawer>
-      </React.Fragment>
+      </div>
     );
   }
 }
