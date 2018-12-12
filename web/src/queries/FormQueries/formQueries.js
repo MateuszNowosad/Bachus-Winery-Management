@@ -88,3 +88,14 @@ export const getDictBatchTypeForForm = dictBatchTypesID => gql`
     }
   }
 `;
+
+export const getDictCategoryForForm = dictCategoryID => gql`
+  {
+    DictKategorie(idKategorie: ${dictCategoryID}) {
+  idKategorie
+  nazwa
+  jednostka
+  opis
+}
+  }
+`;

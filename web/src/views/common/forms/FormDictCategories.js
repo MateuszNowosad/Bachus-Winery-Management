@@ -55,6 +55,18 @@ export class FormDictCategories extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.DictKategorie[0];
+      this.setState({
+        name: data.nazwa,
+        unit: data.jednostka,
+        desc: data.opis
+      });
+    }
+  }
+
   render() {
     const { name, unit, desc, errors } = this.state;
     return (

@@ -2,6 +2,7 @@ import {
   getBatchForForm,
   getContractorForForm,
   getDictBatchTypeForForm,
+  getDictCategoryForForm,
   getDictUserRoleForForm,
   getUserForForm
 } from './formQueries';
@@ -18,5 +19,7 @@ export const selectQueryForForm = (formName, id) => {
       return getDictUserRoleForForm(id);
     case 'FormDictBatchType':
       return getDictBatchTypeForForm(id);
+    case 'FormDictCategories':
+      return getDictCategoryForForm(id);
   }
 };
