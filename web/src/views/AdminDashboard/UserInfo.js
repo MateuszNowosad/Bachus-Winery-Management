@@ -7,7 +7,7 @@ import AdminDashboardStyle from '../../assets/jss/common/views/AdminDashboard/Ad
 import userData from '../../variables/AdminDashboard/ExampleUser';
 import example from '../../assets/img/example.jpg';
 import Grid from '@material-ui/core/Grid/Grid';
-import {Query} from 'react-apollo'
+import { Query } from 'react-apollo';
 import getSpecificUser from '../../queries/UsersQueries/getSpecificUser';
 import convertDatetime from '../../functions/convertDatetime';
 
@@ -73,10 +73,10 @@ class Users extends React.Component {
                     {user.rola.nazwa}
                   </Typography>
                   {/*<Typography variant="h5" gutterBottom component="h1">*/}
-                    {/*Data utworzenia konta*/}
+                  {/*Data utworzenia konta*/}
                   {/*</Typography>*/}
                   {/*<Typography variant="subtitle1" gutterBottom component="div">*/}
-                    {/*/!*{userData['userData']['user'][0].createdAt*!/*/}
+                  {/*/!*{userData['userData']['user'][0].createdAt*!/*/}
                   {/*</Typography>*/}
                   <Typography variant="h5" gutterBottom component="h1">
                     Data ostatniego logowania
@@ -91,11 +91,11 @@ class Users extends React.Component {
                     Zdjecie
                   </Typography>
                   <Typography variant="subtitle1" gutterBottom component="div">
-                    <img src={example} height={200} width={200}/>
+                    <img src={example} height={200} width={200} />
                   </Typography>
                 </Grid>
               </Grid>
-            )
+            );
           }}
         </Query>
       </React.Fragment>

@@ -9,7 +9,7 @@ import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
 import getReports from '../../../queries/ReportsQueries/getReports';
-import {Query} from 'react-apollo'
+import { Query } from 'react-apollo';
 import getVineyards from '../../../queries/VineyardQueries/getVineyards';
 import getGrapeHarvests from '../../../queries/VineyardQueries/getGrapeHarvests';
 import getVineyardOperations from '../../../queries/VineyardQueries/getVineyardOperations';
@@ -35,12 +35,7 @@ class DatabaseVineyard extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let vineyards = data.Winnica;
-                return (
-                  <AutoTable
-                    queryData={vineyards}
-                    querySize={vineyards.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={vineyards} querySize={vineyards.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>
@@ -53,15 +48,10 @@ class DatabaseVineyard extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let grapeHarvests = data.Winobranie;
-                return (
-                  <AutoTable
-                    queryData={grapeHarvests}
-                    querySize={grapeHarvests.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={grapeHarvests} querySize={grapeHarvests.length} editMode={false} />;
               }}
             </Query>
-            </TabContainer>
+          </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Operacje na winnicy
@@ -72,14 +62,11 @@ class DatabaseVineyard extends React.Component {
                 if (error) return <p>Error :(</p>;
                 let vineyardOperations = data.OperacjeNaWinnicy;
                 return (
-                  <AutoTable
-                    queryData={vineyardOperations}
-                    querySize={vineyardOperations.length}
-                    editMode={false} />
-                )
+                  <AutoTable queryData={vineyardOperations} querySize={vineyardOperations.length} editMode={false} />
+                );
               }}
             </Query>
-            </TabContainer>
+          </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Dozwolone operacje na winnicy
@@ -93,8 +80,9 @@ class DatabaseVineyard extends React.Component {
                   <AutoTable
                     queryData={dictVineyardOperations}
                     querySize={dictVineyardOperations.length}
-                    editMode={false} />
-                )
+                    editMode={false}
+                  />
+                );
               }}
             </Query>
             <Typography variant="h5" gutterBottom component="h1">
@@ -105,12 +93,7 @@ class DatabaseVineyard extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let grapeTypes = data.DictOdmianaWinogron;
-                return (
-                  <AutoTable
-                    queryData={grapeTypes}
-                    querySize={grapeTypes.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={grapeTypes} querySize={grapeTypes.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>

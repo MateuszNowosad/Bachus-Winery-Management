@@ -34,12 +34,7 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let items = data.PozycjaWMagazynie;
-                return (
-                  <AutoTable
-                    queryData={items}
-                    querySize={items.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={items} querySize={items.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>
@@ -52,12 +47,7 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let parcel = data.Przesylka;
-                return (
-                  <AutoTable
-                    queryData={parcel}
-                    querySize={parcel.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={parcel} querySize={parcel.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>
@@ -70,12 +60,7 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let waybill = data.ListPrzewozowy;
-                return (
-                  <AutoTable
-                    queryData={waybill}
-                    querySize={waybill.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={waybill} querySize={waybill.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>
@@ -88,12 +73,7 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let warehouses = data.Magazyn;
-                return (
-                  <AutoTable
-                    queryData={warehouses}
-                    querySize={warehouses.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={warehouses} querySize={warehouses.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>
@@ -109,15 +89,10 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let categories = data.DictKategorie;
-                return (
-                  <AutoTable
-                    queryData={categories}
-                    querySize={categories.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={categories} querySize={categories.length} editMode={false} />;
               }}
             </Query>
-            </TabContainer>
+          </TabContainer>
         </OCBigTab>
       </React.Fragment>
     );

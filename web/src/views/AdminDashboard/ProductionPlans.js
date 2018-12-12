@@ -17,7 +17,7 @@ import ScrollableDialogForm from '../../components/ScrollableDialogForm/Scrollab
 import { FormProductionPlan } from '../common/forms/FormProductionPlan';
 import getProductionPlans from '../../queries/ProductionPlansQueries/getProductionPlans';
 import TabContainer from '../../components/Tab/TabContainer';
-import {Query} from 'react-apollo'
+import { Query } from 'react-apollo';
 
 class ProductionPlans extends React.Component {
   state = {
@@ -37,7 +37,7 @@ class ProductionPlans extends React.Component {
             Aktywne plany produkcyjne
           </Typography>
           <div className={classes.combo}>
-            <SearchBar/>
+            <SearchBar />
             <Button variant="contained" className={classes.button} onClick={this.handleOpen} color={'primary'}>
               Dodaj nowy plan
             </Button>
@@ -47,7 +47,7 @@ class ProductionPlans extends React.Component {
               closeForm={() => this.setState({ open: false })}
               openForm={() => this.setState({ open: true })}
             >
-              <FormProductionPlan/>
+              <FormProductionPlan />
             </ScrollableDialogForm>
           </div>
         </div>
@@ -58,15 +58,19 @@ class ProductionPlans extends React.Component {
               if (loading) return <p>Loading...</p>;
               if (error) return <p>Error :(</p>;
               let productionPlans = data.PlanyProdukcyjne;
-              return (productionPlans.map(currElement =>
-                  <MediaCard key={currElement.idPlanyProdukcyjne} heading={currElement.nazwa} contents={currElement.opis} id={currElement.idPlanyProdukcyjne}/>
-                )
-              );
+              return productionPlans.map(currElement => (
+                <MediaCard
+                  key={currElement.idPlanyProdukcyjne}
+                  heading={currElement.nazwa}
+                  contents={currElement.opis}
+                  id={currElement.idPlanyProdukcyjne}
+                />
+              ));
             }}
           </Query>
         </div>
         <ExpansionPanel defaultExpanded>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>Zakończone plany produkcyjne</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -84,7 +88,8 @@ class ProductionPlans extends React.Component {
                   />
                 );
               }}
-            </Query>          </ExpansionPanelDetails>
+            </Query>{' '}
+          </ExpansionPanelDetails>
         </ExpansionPanel>
       </React.Fragment>
     );

@@ -2,15 +2,15 @@ import gql from 'graphql-tag';
 
 const getParcels = gql`
   {
-   Przesylka {
-    idPrzesylka
-    nazwaPrzesylki
-    ciezarLadunku
-    data
-    listPrzewozowy {
-      idListPrzewozowy
+    Przesylka {
+      idPrzesylka
+      nazwaPrzesylki
+      ciezarLadunku
+      data
+      listPrzewozowy {
+        idListPrzewozowy
+      }
     }
-  }
   }
 `;
 

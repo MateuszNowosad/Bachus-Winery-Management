@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const getSpecificUser = (userID) => gql`
+const getSpecificUser = userID => gql`
   {
     Uzytkownicy(idUzytkownika: ${userID}) {
       idUzytkownika

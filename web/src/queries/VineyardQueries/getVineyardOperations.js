@@ -3,16 +3,16 @@ import gql from 'graphql-tag';
 const getVineyardOperations = gql`
   {
     OperacjeNaWinnicy {
-    idOperacja
-    data
-    opis
-    dictOperacjeNaWinnicy {
-      nazwa
+      idOperacja
+      data
+      opis
+      dictOperacjeNaWinnicy {
+        nazwa
+      }
+      winnica {
+        nazwa
+      }
     }
-    winnica {
-      nazwa
-    }
-  }
   }
 `;
 

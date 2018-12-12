@@ -56,12 +56,7 @@ class DatabaseContactsAndUsers extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let contractors = data.Kontrahenci;
-                return (
-                <AutoTable
-                queryData={contractors}
-                querySize={contractors.length}
-                editMode={false} />
-                )
+                return <AutoTable queryData={contractors} querySize={contractors.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>
@@ -74,12 +69,7 @@ class DatabaseContactsAndUsers extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let addresses = data.Adres;
-                return (
-                  <AutoTable
-                    queryData={addresses}
-                    querySize={addresses.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={addresses} querySize={addresses.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>
@@ -95,12 +85,7 @@ class DatabaseContactsAndUsers extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let userRoles = data.DictRolaUzytkownikow;
-                return (
-                  <AutoTable
-                    queryData={userRoles}
-                    querySize={userRoles.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={userRoles} querySize={userRoles.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>

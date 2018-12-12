@@ -30,7 +30,7 @@ class ProductionPlanDetails extends React.Component {
             Powrót do poprzedniej strony
           </Button>
         </div>
-        <Query query={getSpecificProductionPlan("8")}>
+        <Query query={getSpecificProductionPlan('8')}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error :(</p>;
@@ -64,10 +64,10 @@ class ProductionPlanDetails extends React.Component {
         </Query>
         <Grid container direction="row" justify="center" alignItems="center">
           <Grid item xs>
-            <SimpleRadialBarChart/>
+            <SimpleRadialBarChart />
           </Grid>
           <Grid item xs>
-            <TwoLevelPieChart/>
+            <TwoLevelPieChart />
           </Grid>
         </Grid>
         <Tree

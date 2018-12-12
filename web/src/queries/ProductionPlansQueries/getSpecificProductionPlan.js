@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const getSpecificProductionPlan = (id) => gql`
+const getSpecificProductionPlan = id => gql`
   {
     PlanyProdukcyjne(idPlanyProdukcyjne: ${id}) {
   idPlanyProdukcyjne

@@ -13,16 +13,16 @@ import { FormUsers } from '../common/forms/FormUsers';
 import getVineyardOperations from '../../queries/VineyardQueries/getVineyardOperations';
 import { FormOperations } from '../common/forms/FormOperations';
 import { FormVineyardOperation } from '../common/forms/FormVineyardOperation';
-import {Query} from 'react-apollo'
+import { Query } from 'react-apollo';
 
 const labels = ['Ostatnie wydarzenia', 'Ostatnie operacje na partiach', 'Ostatnie na winnicach'];
 
 class News extends React.Component {
-  sortOperations = (data) => {
-    return data.sort( (a,b) => Number(b.dataZakonczenia) - Number(a.dataZakonczenia))
+  sortOperations = data => {
+    return data.sort((a, b) => Number(b.dataZakonczenia) - Number(a.dataZakonczenia));
   };
-  sortVineyardOperations = (data) => {
-    return data.sort( (a,b) => Number(b.data) - Number(a.data) )
+  sortVineyardOperations = data => {
+    return data.sort((a, b) => Number(b.data) - Number(a.data));
   };
   render() {
     return (
@@ -46,13 +46,13 @@ class News extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let operations = [].concat(data.Operacje);
-                operations = this.sortOperations(operations).slice(0,15);
+                operations = this.sortOperations(operations).slice(0, 15);
                 return (
                   <AutoTable
                     queryData={operations}
                     // querySubject="hero"
                     querySize={operations.length}
-                    dialogForm={<FormOperations/>}
+                    dialogForm={<FormOperations />}
                     dialogFormTitle={'Operacja na partii'}
                     editMode={true}
                   />
@@ -66,13 +66,13 @@ class News extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let vineyardOperations = [].concat(data.OperacjeNaWinnicy);
-                vineyardOperations = this.sortVineyardOperations(vineyardOperations).slice(0,15);
+                vineyardOperations = this.sortVineyardOperations(vineyardOperations).slice(0, 15);
                 return (
                   <AutoTable
                     queryData={vineyardOperations}
                     // querySubject="hero"
                     querySize={vineyardOperations.length}
-                    dialogForm={<FormVineyardOperation/>}
+                    dialogForm={<FormVineyardOperation />}
                     dialogFormTitle={'Operacja na winnicy'}
                     editMode={true}
                   />

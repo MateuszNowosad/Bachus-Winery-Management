@@ -10,7 +10,7 @@ import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
 import DataToPDF from '../../../components/DataToPDF/DataToPDF';
 import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesses';
-import {Query} from 'react-apollo'
+import { Query } from 'react-apollo';
 import getReports from '../../../queries/ReportsQueries/getReports';
 
 const labels = ['Raporty', 'Generuj raport'];
@@ -32,12 +32,7 @@ class DatabaseReports extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let reports = data.Raporty;
-                return (
-                  <AutoTable
-                    queryData={reports}
-                    querySize={reports.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={reports} querySize={reports.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>

@@ -2,15 +2,15 @@ import gql from 'graphql-tag';
 
 const getAddresses = gql`
   {
-   Adres {
-    idAdres
-    miasto
-    kodPocztowy
-    ulica
-    nrLokalu
-    nrPosesji
-    kraj
-  }
+    Adres {
+      idAdres
+      miasto
+      kodPocztowy
+      ulica
+      nrLokalu
+      nrPosesji
+      kraj
+    }
   }
 `;
 

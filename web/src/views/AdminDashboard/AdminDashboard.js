@@ -21,11 +21,11 @@ import { FormVineyardOperation } from '../common/forms/FormVineyardOperation';
 const labels = ['Ostatnie wydarzenia', 'Plany produkcyjne', 'Ostatnie operacje na partiach', 'Ostatnie na winnicach'];
 
 class AdminDashboard extends React.Component {
-  sortOperations = (data) => {
-    return data.sort( (a,b) => Number(b.dataZakonczenia) - Number(a.dataZakonczenia))
+  sortOperations = data => {
+    return data.sort((a, b) => Number(b.dataZakonczenia) - Number(a.dataZakonczenia));
   };
-  sortVineyardOperations = (data) => {
-    return data.sort( (a,b) => Number(b.data) - Number(a.data) )
+  sortVineyardOperations = data => {
+    return data.sort((a, b) => Number(b.data) - Number(a.data));
   };
   render() {
     const { classes } = this.props;
@@ -35,12 +35,12 @@ class AdminDashboard extends React.Component {
           Zamówienia
         </Typography>
         <Typography component="div" className={classes.chartContainer}>
-          <ExampleChart/>
+          <ExampleChart />
         </Typography>
         {/*<OCTabs theme={standard} labels={['Użytkownicy', 'Kontrahenci', 'Coś tam jeszcze']}/>*/}
         <OCBigTab labels={labels}>
           <TabContainer>
-            <AutoTable queryData={data} querySubject={'hero'} querySize={259} editMode={false}/>
+            <AutoTable queryData={data} querySubject={'hero'} querySize={259} editMode={false} />
           </TabContainer>
           <TabContainer>
             <Query query={getProductionPlans}>
@@ -65,52 +65,52 @@ class AdminDashboard extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let operations = [].concat(data.Operacje);
-                operations = this.sortOperations(operations).slice(0,15);
+                operations = this.sortOperations(operations).slice(0, 15);
                 return (
                   <AutoTable
                     queryData={operations}
                     // querySubject="hero"
                     querySize={operations.length}
-                    dialogForm={<FormOperations/>}
+                    dialogForm={<FormOperations />}
                     dialogFormTitle={'Operacja na partii'}
                     editMode={true}
                   />
                 );
               }}
-                </Query>
-                </TabContainer>
-                <TabContainer>
-                <Query query={getVineyardOperations}>
-                {({ loading, error, data }) => {
-                  if (loading) return <p>Loading...</p>;
-                  if (error) return <p>Error :(</p>;
-                  let vineyardOperations = [].concat(data.OperacjeNaWinnicy);
-                  vineyardOperations = this.sortVineyardOperations(vineyardOperations).slice(0,15);
-                  return (
-                    <AutoTable
-                      queryData={vineyardOperations}
-                      // querySubject="hero"
-                      querySize={vineyardOperations.length}
-                      dialogForm={<FormVineyardOperation/>}
-                      dialogFormTitle={'Operacja na winnicy'}
-                      editMode={true}
-                    />
-                  );
-                }}
-                </Query>
-                </TabContainer>
-                </OCBigTab>
-                <Typography variant="h4" gutterBottom component="h2">
-                Najnowsze zamówienia
-                </Typography>
-                <AutoTable queryData={data} querySubject={'hero'} querySize={259} editMode={false}/>
-                </React.Fragment>
+            </Query>
+          </TabContainer>
+          <TabContainer>
+            <Query query={getVineyardOperations}>
+              {({ loading, error, data }) => {
+                if (loading) return <p>Loading...</p>;
+                if (error) return <p>Error :(</p>;
+                let vineyardOperations = [].concat(data.OperacjeNaWinnicy);
+                vineyardOperations = this.sortVineyardOperations(vineyardOperations).slice(0, 15);
+                return (
+                  <AutoTable
+                    queryData={vineyardOperations}
+                    // querySubject="hero"
+                    querySize={vineyardOperations.length}
+                    dialogForm={<FormVineyardOperation />}
+                    dialogFormTitle={'Operacja na winnicy'}
+                    editMode={true}
+                  />
                 );
-              }
-              }
+              }}
+            </Query>
+          </TabContainer>
+        </OCBigTab>
+        <Typography variant="h4" gutterBottom component="h2">
+          Najnowsze zamówienia
+        </Typography>
+        <AutoTable queryData={data} querySubject={'hero'} querySize={259} editMode={false} />
+      </React.Fragment>
+    );
+  }
+}
 
-              AdminDashboard.propTypes = {
-              classes: PropTypes.object.isRequired
-            };
+AdminDashboard.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
-              export default withStyles(AdminDashboardStyle)(AdminDashboard);
+export default withStyles(AdminDashboardStyle)(AdminDashboard);

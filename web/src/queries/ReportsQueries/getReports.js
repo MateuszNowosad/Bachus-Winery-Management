@@ -3,10 +3,10 @@ import gql from 'graphql-tag';
 const getReports = gql`
   {
     Raporty {
-    idRaport
-    nazwa
-    dataUtworzenia
-  }
+      idRaport
+      nazwa
+      dataUtworzenia
+    }
   }
 `;
 

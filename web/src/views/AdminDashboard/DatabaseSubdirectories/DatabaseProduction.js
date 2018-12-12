@@ -9,7 +9,7 @@ import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
 import getDictCategories from '../../../queries/DictionaryQueries/getDictCategories';
-import {Query} from 'react-apollo'
+import { Query } from 'react-apollo';
 import getBatches from '../../../queries/BatchesQueries/getBatches';
 import getWineInformations from '../../../queries/BatchesQueries/getWineInformations';
 import getOperations from '../../../queries/OperationQueries/getOperations';
@@ -36,12 +36,7 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let batches = data.Partie;
-                return (
-                  <AutoTable
-                    queryData={batches}
-                    querySize={batches.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={batches} querySize={batches.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>
@@ -54,12 +49,7 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let wineInfo = data.InformacjeOWinie;
-                return (
-                  <AutoTable
-                    queryData={wineInfo}
-                    querySize={wineInfo.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={wineInfo} querySize={wineInfo.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>
@@ -72,15 +62,10 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let operations = data.Operacje;
-                return (
-                  <AutoTable
-                    queryData={operations}
-                    querySize={operations.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={operations} querySize={operations.length} editMode={false} />;
               }}
             </Query>
-            </TabContainer>
+          </TabContainer>
           <TabContainer>
             <Typography variant="h4" gutterBottom component="h1">
               Słowniki
@@ -93,12 +78,7 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let batchTypes = data.DictTypPartii;
-                return (
-                  <AutoTable
-                    queryData={batchTypes}
-                    querySize={batchTypes.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={batchTypes} querySize={batchTypes.length} editMode={false} />;
               }}
             </Query>
             <Typography variant="h5" gutterBottom component="h1">
@@ -109,12 +89,7 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let wineCategories = data.DictKategoriaWina;
-                return (
-                  <AutoTable
-                    queryData={wineCategories}
-                    querySize={wineCategories.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={wineCategories} querySize={wineCategories.length} editMode={false} />;
               }}
             </Query>
             <Typography variant="h5" gutterBottom component="h1">
@@ -125,12 +100,7 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
                 let processes = data.DictProcesy;
-                return (
-                  <AutoTable
-                    queryData={processes}
-                    querySize={processes.length}
-                    editMode={false} />
-                )
+                return <AutoTable queryData={processes} querySize={processes.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>
