@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 
 class MediaCard extends React.Component {
   MyLink = props => {
-    console.log('14, props Mateusz: ', props);
     return <Link to={'/admindashboard/productionplans/' + this.props.id} {...props} />;
   };
 
