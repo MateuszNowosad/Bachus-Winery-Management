@@ -11,10 +11,16 @@ import { Query } from 'react-apollo';
 import { Route, Switch } from 'react-router-dom';
 import WarehouseDetails from './Subpages/WarehouseDetails';
 import ListItemLink from '../../components/Drawer/ListItemLink';
+import Redirect from 'react-router-dom/es/Redirect';
 
 class Warehouse extends React.Component {
+  state = {
+    defaultWarehouseRedirect: 0
+  };
+
   render() {
     const { classes } = this.props;
+    const { defaultWarehouseRedirect } = this.state;
     return (
       <div className={classes.root}>
         <main className={classes.content}>
@@ -34,19 +40,27 @@ class Warehouse extends React.Component {
                 if (error) return <p>Error :(</p>;
                 console.log('33,  jakub: query odpalone: ', data);
                 let warehouses = data.Magazyn;
-                return warehouses.map(text => (
-                  <ListItemLink
-                    key={text.idMagazyn}
-                    icon={<PlaceIcon />}
-                    primary={`${text.adres.miasto} ${text.adres.ulica} ${text.adres.nrPosesji}`}
-                    to={'/admindashboard/warehouse/' + text.idMagazyn}
-                    secondary={`${text.rodzaj}`}
-                  />
-                ));
+                return warehouses
+                  .map((text, index) => {
+                    if(index === 0 && defaultWarehouseRedirect!==text.idMagazyn) this.setState({ defaultWarehouseRedirect: text.idMagazyn });
+                    return (
+                        <ListItemLink
+                          key={text.idMagazyn}
+                          icon={<PlaceIcon />}
+                          primary={`${text.adres.miasto} ${text.adres.ulica} ${text.adres.nrPosesji}`}
+                          to={'/admindashboard/warehouse/' + text.idMagazyn}
+                          secondary={`${text.rodzaj}`}
+                        />
+                    );
+                  })
               }}
             </Query>
           </List>
         </Drawer>
+        {defaultWarehouseRedirect!==0 && <Redirect
+          from="/admindashboard/warehouse/"
+          to={'/admindashboard/warehouse/' + defaultWarehouseRedirect}
+        />}
       </div>
     );
   }
