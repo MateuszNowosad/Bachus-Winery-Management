@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 //import BackupStyle from "../../assets/jss/common/views/Database/BackupStyle.js";
 import AdminDashboardStyle from '../../../assets/jss/common/views/AdminDashboard/AdminDashboardStyle.js';
 import AutoTable from '../../../components/AutoTable/AutoTable';
-import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
 import { Query } from 'react-apollo';
@@ -15,6 +14,7 @@ import getWaybills from '../../../queries/WaybillQueries/getWaybills';
 import getWarehouses from '../../../queries/WarehouseQueries/getWarehouses';
 import getDictCategories from '../../../queries/DictionaryQueries/getDictCategories';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import { FormWaybill } from '../../common/forms/FormWaybill';
 
 const labels = ['Pozycje w magazynie', 'Przesyłki', 'Listy przwozowe', 'Magazyny', 'Słowniki'];
 
@@ -64,7 +64,15 @@ class DatabaseProduction extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let waybill = data.ListPrzewozowy;
-                return <AutoTable queryData={waybill} querySize={waybill.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={waybill}
+                    querySize={waybill.length}
+                    dialogForm={<FormWaybill />}
+                    dialogFormTitle={'List przewozowy'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
           </TabContainer>

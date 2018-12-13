@@ -14,7 +14,8 @@ import {
   getUserForForm,
   getVineyardForForm,
   getVineyardOperationForForm,
-  getWarehouseForForm
+  getWarehouseForForm,
+  getWaybillForForm
 } from './formQueries';
 
 export const selectQueryForForm = (formName, id) => {
@@ -51,5 +52,7 @@ export const selectQueryForForm = (formName, id) => {
       return getVineyardOperationForForm(id);
     case 'FormWarehouse':
       return getWarehouseForForm(id);
+    case 'FormWaybill':
+      return getWaybillForForm(id);
   }
 };

@@ -188,6 +188,32 @@ export class FormWaybill extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.ListPrzewozowy[0];
+      this.setState({
+        driverName: data.imieKierowcy,
+        driverSurname: data.nazwiskoKierowcy,
+        comments: data.uwagiPrzewoznika,
+        reservations: data.zastrzezeniaOdbiorcy,
+        file: data.eDokument,
+        sender: data.kontrahent[0],
+        recipent: data.kontrahent[0],
+        carrier: data.kontrahent[0]
+      });
+    }
+  }
+
+  //TODO dopasować nazwę zmiennej typ do bazy
+  initContractor = (data, type) => {
+    return data.find(contractor => contractor.typ === type);
+  };
+
+  initAddress = (data, type) => {
+    return data.find(address => address.miejsce === type);
+  };
+
   filterContractors = data => {
     const { sender, recipent, carrier } = this.state;
     return data.Kontrahenci.filter(
@@ -212,6 +238,8 @@ export class FormWaybill extends React.Component {
       openCarrier,
       errors
     } = this.state;
+
+    const { initState } = this.props;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -402,7 +430,12 @@ export class FormWaybill extends React.Component {
                 <Typography variant="inherit">Adres odbiorcy</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <FormAddress varName="pickupAddress" onChange={this.handleObjectChange} ref={this.subFormPickup} />
+                <FormAddress
+                  varName="pickupAddress"
+                  onChange={this.handleObjectChange}
+                  ref={this.subFormPickup}
+                  initState={this.initAddress(initState.ListPrzewozowy[0].adres, 'Odbioru')}
+                />
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>
@@ -412,7 +445,12 @@ export class FormWaybill extends React.Component {
                 <Typography variant="inherit">Adres nadawcy</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <FormAddress varName="mailingAddress" onChange={this.handleObjectChange} ref={this.subFormMailing} />
+                <FormAddress
+                  varName="mailingAddress"
+                  onChange={this.handleObjectChange}
+                  ref={this.subFormMailing}
+                  initState={this.initAddress(initState.ListPrzewozowy[0].adres, 'Nadania')}
+                />
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>
@@ -422,7 +460,12 @@ export class FormWaybill extends React.Component {
                 <Typography variant="inherit">Przesyłka</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <FormParcel varName="parcel" onChange={this.handleObjectChange} ref={this.subFormParcel} />
+                <FormParcel
+                  varName="parcel"
+                  onChange={this.handleObjectChange}
+                  ref={this.subFormParcel}
+                  initState={initState.ListPrzewozowy[0].przesylka}
+                />
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>

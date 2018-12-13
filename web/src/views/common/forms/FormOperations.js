@@ -152,7 +152,7 @@ export class FormOperations extends React.Component {
         content: data.pozycjaWMagazynie.map(curr => ({
           key: curr.idPozycja,
           selectedItem: curr,
-          //Change to amount from connecting table
+          //TODO Change to amount from connecting table
           amount: curr.ilosc
         }))
       });

@@ -7,6 +7,7 @@ import StepperItemFromWarehouse from '../StepperItemFromWarehouse';
 import PropTypes from 'prop-types';
 import UniversalValidationHandler from '../UniversalValidationHandler/UniversalValidationHandler';
 import { parcelValidationKeys } from '../UniversalValidationHandler/validationKeys/validationKeys';
+import convertDatetimeForm from '../../../../functions/convertDatetimeForm';
 
 const errorMap = {
   packageName: false,
@@ -93,6 +94,23 @@ export class FormParcel extends React.Component {
       return { content };
     });
   };
+
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      this.setState({
+        packageName: initState.nazwaPrzesylki,
+        weight: initState.ciezarLadunku,
+        date: convertDatetimeForm(initState.data),
+        content: initState.pozycjaWMagazynie.map(curr => ({
+          key: curr.idPozycja,
+          selectedItem: curr,
+          //TODO Change to amount from connecting table
+          amount: curr.ilosc
+        }))
+      });
+    }
+  }
 
   render() {
     const { packageName, weight, date, open, errors, content } = this.state;

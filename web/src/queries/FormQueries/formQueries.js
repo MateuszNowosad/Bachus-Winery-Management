@@ -253,3 +253,48 @@ export const getWarehouseForForm = warehouseID => gql`
     }
   }
 `;
+
+export const getWaybillForForm = waybillID => gql`
+  {
+    ListPrzewozowy(idListPrzewozowy: ${waybillID}) {
+      idListPrzewozowy
+      imieKierowcy
+      nazwiskoKierowcy
+      uwagiPrzewoznika
+      zastrzezeniaOdbiorcy
+      eDokument
+      kontrahent {
+        idKontrahenci
+        NIP
+        nazwaSpolki
+        telefon
+        eMail
+        stronaWww
+        KRS
+        nrKonta
+        fax
+      }
+      przesylka {
+        idPrzesylka
+        nazwaPrzesylki
+        ciezarLadunku
+        data
+        pozycjaWMagazynie {
+          idPozycja
+          nazwa
+          ilosc
+        }
+      }
+      adres {
+        idAdres
+        miasto
+        kodPocztowy
+        ulica
+        nrLokalu
+        nrPosesji
+        kraj
+        miejsce
+      }
+    }
+  }
+`;
