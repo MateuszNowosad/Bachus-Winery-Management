@@ -234,3 +234,22 @@ export const getVineyardOperationForForm = vineyardOperationID => gql`
   }
 }
 `;
+
+export const getWarehouseForForm = warehouseID => gql`
+  {
+    Magazyn(idMagazyn: ${warehouseID}) {
+      idMagazyn
+      rodzaj
+      pojemnosc
+      adres {
+        idAdres
+        miasto
+        kodPocztowy
+        ulica
+        nrLokalu
+        nrPosesji
+        kraj
+      }
+    }
+  }
+`;
