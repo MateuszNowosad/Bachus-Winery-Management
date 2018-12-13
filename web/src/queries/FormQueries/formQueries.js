@@ -220,3 +220,17 @@ export const getVineyardForForm = vineyardID => gql`
   }
 }
 `;
+
+export const getVineyardOperationForForm = vineyardOperationID => gql`
+{
+  OperacjeNaWinnicy(idOperacja: ${vineyardOperationID}) {
+    idOperacja
+    data
+    opis
+    dictOperacjeNaWinnicy {
+      idDictOperacjeNaWinnicy
+      nazwa
+    }
+  }
+}
+`;

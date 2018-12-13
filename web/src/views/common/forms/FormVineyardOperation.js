@@ -7,6 +7,7 @@ import { vineyardOperationsValidationKeys } from './UniversalValidationHandler/v
 import { Query } from 'react-apollo';
 import getDictVineyardOperations from '../../../queries/DictionaryQueries/getDictVineyardOperations';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import convertDatetimeForm from '../../../functions/convertDatetimeForm';
 
 const errorMap = {
   dateOfOperation: false,
@@ -56,6 +57,18 @@ export class FormVineyardOperation extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
+    }
+  }
+
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.OperacjeNaWinnicy[0];
+      this.setState({
+        dateOfOperation: convertDatetimeForm(data.data),
+        desc: data.opis,
+        dictOperation: data.dictOperacjeNaWinnicy.nazwa
+      });
     }
   }
 
