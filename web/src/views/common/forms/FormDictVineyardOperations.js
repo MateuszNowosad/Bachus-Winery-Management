@@ -58,7 +58,7 @@ export class FormDictVineyardOperations extends React.Component {
       let data = initState.DictOperacjeNaWinnicy[0];
       this.setState({
         name: data.nazwa,
-        desc: data.opis
+        desc: data.opis ? data.opis : ''
       });
     }
   }

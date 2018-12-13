@@ -62,7 +62,7 @@ export class FormDictCategories extends React.Component {
       this.setState({
         name: data.nazwa,
         unit: data.jednostka,
-        desc: data.opis
+        desc: data.opis ? data.opis : ''
       });
     }
   }

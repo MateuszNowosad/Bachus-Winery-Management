@@ -113,15 +113,15 @@ export class FormItemInStock extends React.Component {
       let data = initState.PozycjaWMagazynie[0];
       this.setState({
         name: data.nazwa,
-        desc: data.opis,
+        desc: data.opis ? data.opis : '',
         amount: data.ilosc,
         barcode: data.kodKreskowy,
         actualState: data.stanAktualny,
         acceptanceDate: convertDatetimeForm(data.dataPrzyjecia),
-        releaseDate: convertDatetimeForm(data.dataWydania),
+        releaseDate: data.dataWydania ? convertDatetimeForm(data.dataWydania) : '',
         sectorName: data.nazwaSektora,
         category: data.kategorie.nazwa,
-        batch: data.partie
+        batch: data.partie ? data.partie : ''
       });
     }
   }

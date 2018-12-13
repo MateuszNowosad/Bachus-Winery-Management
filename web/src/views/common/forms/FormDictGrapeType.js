@@ -59,7 +59,7 @@ export class FormDictGrapeType extends React.Component {
       let data = initState.DictOdmianaWinogron[0];
       this.setState({
         name: data.nazwa,
-        desc: data.opis
+        desc: data.opis ? data.opis : ''
       });
     }
   }

@@ -61,8 +61,8 @@ export class FormDictProcesses extends React.Component {
       let data = initState.DictProcesy[0];
       this.setState({
         name: data.nazwa,
-        desc: data.opis,
-        additional: data.dodatkowe
+        desc: data.opis ? data.opis : '',
+        additional: data.dodatkowe ? data.dodatkowe : ''
       });
     }
   }

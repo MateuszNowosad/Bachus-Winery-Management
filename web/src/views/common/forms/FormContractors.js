@@ -98,14 +98,14 @@ export class FormContractors extends React.Component {
     if (initState) {
       let data = initState.Kontrahenci[0];
       this.setState({
-        NIP: data.NIP,
+        NIP: data.NIP ? data.NIP : '',
         companyName: data.nazwaSpolki,
         phoneNumber: data.telefon,
         eMail: data.eMail,
-        wwwSite: data.stronaWww,
-        KRS: data.KRS,
+        wwwSite: data.stronaWww ? data.stronaWww : '',
+        KRS: data.KRS ? data.KRS : '',
         accountNumber: data.nrKonta,
-        fax: data.fax
+        fax: data.fax ? data.fax : ''
       });
     }
   }

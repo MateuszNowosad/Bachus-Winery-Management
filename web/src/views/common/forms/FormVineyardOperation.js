@@ -66,7 +66,7 @@ export class FormVineyardOperation extends React.Component {
       let data = initState.OperacjeNaWinnicy[0];
       this.setState({
         dateOfOperation: convertDatetimeForm(data.data),
-        desc: data.opis,
+        desc: data.opis ? data.opis : '',
         dictOperation: data.dictOperacjeNaWinnicy.nazwa
       });
     }

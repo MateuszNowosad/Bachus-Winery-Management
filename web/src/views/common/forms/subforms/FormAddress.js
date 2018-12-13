@@ -77,7 +77,7 @@ export class FormAddress extends React.Component {
         {
           street: initState.ulica,
           buildingNumber: initState.nrPosesji,
-          apartmentNumber: initState.nrLokalu,
+          apartmentNumber: initState.nrLokalu ? initState.nrLokalu : '',
           postalCode: initState.kodPocztowy,
           city: initState.miasto,
           country: initState.kraj

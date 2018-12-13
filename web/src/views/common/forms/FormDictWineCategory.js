@@ -58,7 +58,7 @@ export class FormDictWineCategory extends React.Component {
       let data = initState.DictKategoriaWina[0];
       this.setState({
         name: data.nazwaKategoria,
-        desc: data.opis
+        desc: data.opis ? data.opis : ''
       });
     }
   }

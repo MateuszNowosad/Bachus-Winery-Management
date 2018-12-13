@@ -139,22 +139,24 @@ export class FormOperations extends React.Component {
       let data = initState.Operacje[0];
       this.setState({
         beginAmount: data.iloscPrzed,
-        endAmount: data.iloscPo,
+        endAmount: data.iloscPo ? data.iloscPo : '',
         beginDate: convertDatetimeForm(data.dataPoczatku),
-        endDate: convertDatetimeForm(data.dataZakonczenia),
-        alcoholContent: data.zawartoscAlkoholu,
-        additiveAmount: data.iloscDodatku,
-        sugarContent: data.zawartoscCukru,
-        acidity: data.kwasowosc,
-        temperature: data.temperatura,
-        desc: data.opis,
-        process: data.dictProcesy.nazwa,
-        content: data.pozycjaWMagazynie.map(curr => ({
-          key: curr.idPozycja,
-          selectedItem: curr,
-          //TODO Change to amount from connecting table
-          amount: curr.ilosc
-        }))
+        endDate: data.dataZakonczenia ? convertDatetimeForm(data.dataZakonczenia) : '',
+        alcoholContent: data.zawartoscAlkoholu ? data.zawartoscAlkoholu : '',
+        additiveAmount: data.iloscDodatku ? data.iloscDodatku : '',
+        sugarContent: data.zawartoscCukru ? data.zawartoscCukru : '',
+        acidity: data.kwasowosc ? data.kwasowosc : '',
+        temperature: data.temperatura ? data.temperatura : '',
+        desc: data.opis ? data.opis : '',
+        process: data.dictProcesy ? data.dictProcesy.nazwa : '',
+        content: data.pozycjaWMagazynie
+          ? data.pozycjaWMagazynie.map(curr => ({
+              key: curr.idPozycja,
+              selectedItem: curr,
+              //TODO Change to amount from connecting table
+              amount: curr.ilosc
+            }))
+          : ''
       });
     }
   }

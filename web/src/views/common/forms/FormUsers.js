@@ -161,7 +161,7 @@ export class FormUsers extends React.Component {
         eMail: data.eMail,
         phoneNumber: data.nrTelefonu,
         userRole: data.rola.nazwa,
-        imagePreviewUrl: data.zdjecie
+        imagePreviewUrl: data.zdjecie ? data.zdjecie : ''
       });
     }
   }

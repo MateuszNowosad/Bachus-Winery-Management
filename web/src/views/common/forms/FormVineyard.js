@@ -79,7 +79,7 @@ export class FormVineyard extends React.Component {
       this.setState({
         name: data.nazwa,
         area: data.powierzchnia,
-        terroir: data.terroir,
+        terroir: data.terroir ? data.terroir : '',
         dateOfPlanting: data.dataZasadzenia,
         registrationPlotId: data.ewidencyjnyIdDzialki,
         grapeType: data.dictOdmianaWinogron.nazwa,

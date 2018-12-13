@@ -195,8 +195,8 @@ export class FormWaybill extends React.Component {
       this.setState({
         driverName: data.imieKierowcy,
         driverSurname: data.nazwiskoKierowcy,
-        comments: data.uwagiPrzewoznika,
-        reservations: data.zastrzezeniaOdbiorcy,
+        comments: data.uwagiPrzewoznika ? data.uwagiPrzewoznika : '',
+        reservations: data.zastrzezeniaOdbiorcy ? data.zastrzezeniaOdbiorcy : '',
         file: data.eDokument,
         sender: data.kontrahent[0],
         recipent: data.kontrahent[0],

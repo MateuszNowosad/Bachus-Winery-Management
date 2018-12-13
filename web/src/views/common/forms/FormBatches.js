@@ -64,7 +64,7 @@ export class FormBatches extends React.Component {
       let data = initState.Partie[0];
       this.setState({
         amount: data.ilosc,
-        desc: data.opis,
+        desc: data.opis ? data.opis : '',
         creationDate: convertDatetimeForm(data.dataUtworzenia),
         batchType: data.typPartii.nazwa
       });

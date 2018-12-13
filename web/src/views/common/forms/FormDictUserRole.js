@@ -61,7 +61,7 @@ export class FormDictUserRole extends React.Component {
       let data = initState.DictRolaUzytkownikow[0];
       this.setState({
         name: data.nazwa,
-        desc: data.opis,
+        desc: data.opis ? data.opis : '',
         type: data.typ
       });
     }

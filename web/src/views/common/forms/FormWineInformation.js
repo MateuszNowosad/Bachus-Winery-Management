@@ -70,8 +70,8 @@ export class FormWineInformation extends React.Component {
       let data = initState.InformacjeOWinie[0];
       this.setState({
         name: data.nazwa,
-        motto: data.motto,
-        allergens: data.zawartoscPotAlergenow,
+        motto: data.motto ? data.motto : '',
+        allergens: data.zawartoscPotAlergenow ? data.zawartoscPotAlergenow : '',
         energyValue: data.wartoscEnergetyczna,
         wineCategory: data.kategoriaWina.nazwaKategoria
       });
