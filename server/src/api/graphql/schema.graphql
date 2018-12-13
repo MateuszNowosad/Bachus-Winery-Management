@@ -4,6 +4,8 @@ schema {
 }
 # TODO add many to many in query fields and in resolvers
 # TODO add fields in many to many from join tables to correct tables
+# TODO add fields that could be used when making query
+
 type Query {
   Adres(
     idAdres: ID
@@ -19,14 +21,15 @@ type Query {
   DictOdmianaWinogron(idOdmianaWinogron: ID, nazwa: String, opis: String): [DictOdmianaWinogron]
   DictOperacjeNaWinnicy(idDictOperacjeNaWinnicy: ID, nazwa: String, opis: String): [DictOperacjeNaWinnicy]
   DictProcesy(idDictProcesy: ID, nazwa: String, opis: String, dodatkowe: String): [DictProcesy]
-  DictRolaUzytkownikow(idRolaUzytkownikow: ID, nazwa: String, opis: String): [DictRolaUzytkownikow]
-  DictTypPartii(idTypPartii: ID, nazwa: String, jednostka: String, typ: String): [DictTypPartii]
+  DictRolaUzytkownikow(idRolaUzytkownikow: ID, nazwa: String, opis: String, typ: String): [DictRolaUzytkownikow]
+  DictTypPartii(idTypPartii: ID, nazwa: String, jednostka: String): [DictTypPartii]
   InformacjeOWinie(
     idInformacjeOWinie: ID
     nazwa: String
     motto: String
     zawartoscPotAlergenow: String
     wartoscEnergetyczna: String
+    dictKategoriaWinaIdDictKategoriaWina: String
   ): [InformacjeOWinie]
   Kontrahenci(
     idKontrahenci: ID
@@ -38,6 +41,7 @@ type Query {
     KRS: String
     nrKonta: String
     fax: String
+    adresIdAdres: String
   ): [Kontrahenci]
   ListPrzewozowy(
     idListPrzewozowy: ID
@@ -46,8 +50,9 @@ type Query {
     uwagiPrzewoznika: String
     zastrzezeniaOdbiorcy: String
     eDokument: String
+    przesylkaIdPrzesylka: String
   ): [ListPrzewozowy]
-  Magazyn(idMagazyn: ID, rodzaj: String, pojemnosc: Float): [Magazyn]
+  Magazyn(idMagazyn: ID, rodzaj: String, pojemnosc: Float, adresIdAdres: String): [Magazyn]
   Operacje(
     idOperacja: ID
     iloscPrzed: Float
@@ -60,9 +65,27 @@ type Query {
     kwasowosc: Float
     temperatura: Float
     opis: String
+    uzytkownicyIdUzytkownicy: String
+    dictProcesyIdDictProcesy: String
   ): [Operacje]
-  OperacjeNaWinnicy(idOperacja: ID, data: String, opis: String): [OperacjeNaWinnicy]
-  Partie(idPartie: ID, ilosc: Float, opis: String, dataUtworzenia: String): [Partie]
+  OperacjeNaWinnicy(
+    idOperacja: ID
+    data: String
+    opis: String
+    dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: String
+    winnicaIdWinnica: String
+  ): [OperacjeNaWinnicy]
+  Partie(
+    idPartie: ID
+    ilosc: Float
+    opis: String
+    dataUtworzenia: String
+    winobranieIdWinobranie: String
+    partieIdPartie: String
+    informacjeOWinieIdInformacjeOWinie: String
+    planyProdukcyjneIdPlanyProdukcyjne: String
+    czyPrzepis: String
+  ): [Partie]
   PlanyProdukcyjne(idPlanyProdukcyjne: ID, nazwa: String, opis: String, eDokument: String): [PlanyProdukcyjne]
   PozycjaWMagazynie(
     idPozycja: ID
@@ -74,6 +97,9 @@ type Query {
     dataPrzyjecia: String
     dataWydania: String
     nazwaSektora: String
+    kategorieIdKategorie: String
+    magazynIdMagazyn: String
+    partieIdPartie: String
   ): [PozycjaWMagazynie]
   Przesylka(idPrzesylka: ID, nazwaPrzesylki: String, ciezarLadunku: Float, data: String): [Przesylka]
   Raporty(idRaport: ID, nazwa: String, eDokument: String, dataUtworzenia: String): [Raporty]
@@ -89,6 +115,8 @@ type Query {
     dataOstatniegoLogowania: String
     zdjecie: String
     czyAktywne: String
+    adresIdAdres: String
+    dictRolaUzytkownikowIdRolaUzytkownikow: String
   ): [Uzytkownicy]
   Winnica(
     idWinnica: ID
@@ -99,12 +127,18 @@ type Query {
     dataOstatniegoZbioru: String
     dataZasadzenia: String
     ewidencyjnyIdDzialki: String
+    odmianiaWinogronIdOdmianaWinogron: String
   ): [Winnica]
-  Winobranie(idWinobranie: ID, dataWinobrania: String, iloscZebranychWinogron: Float): [Winobranie]
+  Winobranie(
+    idWinobranie: ID
+    dataWinobrania: String
+    iloscZebranychWinogron: Float
+    winnicaIdWinnica: String
+  ): [Winobranie]
 }
 
 type Mutation {
-  addAddress(
+  upsertAdres(
     idAdres: ID
     miasto: String
     kodPocztowy: String
@@ -113,6 +147,93 @@ type Mutation {
     nrPosesji: String
     kraj: String
   ): Adres
+  upsertDictKategoriaWina(idDictKategoriaWina: ID, nazwaKategoria: String, opis: String): DictKategoriaWina
+  upsertDictKategorie(idKategorie: ID, nazwa: String, jednostka: String, opis: String): DictKategorie
+  upsertDictOdmianaWinogron(idOdmianaWinogron: ID, nazwa: String, opis: String): DictOdmianaWinogron
+  upsertDictOperacjeNaWinnicy(idDictOperacjeNaWinnicy: ID, nazwa: String, opis: String): DictOperacjeNaWinnicy
+  upsertDictProcesy(idDictProcesy: ID, nazwa: String, opis: String, dodatkowe: String): DictProcesy
+  upsertDictRolaUzytkownikow(idRolaUzytkownikow: ID, nazwa: String, opis: String): DictRolaUzytkownikow
+  upsertDictTypPartii(idTypPartii: ID, nazwa: String, jednostka: String, typ: String): DictTypPartii
+  upsertInformacjeOWinie(
+    idInformacjeOWinie: ID
+    nazwa: String
+    motto: String
+    zawartoscPotAlergenow: String
+    wartoscEnergetyczna: String
+  ): InformacjeOWinie
+  upsertKontrahenci(
+    idKontrahenci: ID
+    NIP: String
+    nazwaSpolki: String
+    telefon: String
+    eMail: String
+    stronaWww: String
+    KRS: String
+    nrKonta: String
+    fax: String
+  ): Kontrahenci
+  upsertListPrzewozowy(
+    idListPrzewozowy: ID
+    imieKierowcy: String
+    nazwiskoKierowcy: String
+    uwagiPrzewoznika: String
+    zastrzezeniaOdbiorcy: String
+    eDokument: String
+  ): ListPrzewozowy
+  upsertMagazyn(idMagazyn: ID, rodzaj: String, pojemnosc: Float, adresIdAdres: String): Magazyn
+  upsertOperacje(
+    idOperacja: ID
+    iloscPrzed: Float
+    iloscPo: Float
+    dataPoczatku: String
+    dataZakonczenia: String
+    zawartoscAlkoholu: Float
+    iloscDodatku: Float
+    zawartoscCukru: Float
+    kwasowosc: Float
+    temperatura: Float
+    opis: String
+  ): Operacje
+  upsertOperacjeNaWinnicy(idOperacja: ID, data: String, opis: String): OperacjeNaWinnicy
+  upsertPartie(idPartie: ID, ilosc: Float, opis: String, dataUtworzenia: String): Partie
+  upsertPlanyProdukcyjne(idPlanyProdukcyjne: ID, nazwa: String, opis: String, eDokument: String): PlanyProdukcyjne
+  upsertPozycjaWMagazynie(
+    idPozycja: ID
+    nazwa: String
+    opis: String
+    ilosc: Float
+    kodKreskowy: String
+    stanAktualny: String
+    dataPrzyjecia: String
+    dataWydania: String
+    nazwaSektora: String
+  ): PozycjaWMagazynie
+  upsertPrzesylka(idPrzesylka: ID, nazwaPrzesylki: String, ciezarLadunku: Float, data: String): Przesylka
+  upsertRaporty(idRaport: ID, nazwa: String, eDokument: String, dataUtworzenia: String): Raporty
+  upsertUzytkownicy(
+    idUzytkownika: ID
+    imie: String
+    nazwisko: String
+    login: String
+    haslo: String
+    PESEL: String
+    eMail: String
+    nrTelefonu: String
+    dataOstatniegoLogowania: String
+    zdjecie: String
+    czyAktywne: String
+  ): Uzytkownicy
+  upsertWinnica(
+    idWinnica: ID
+    nazwa: String
+    powierzchnia: Float
+    stan: String
+    terroir: String
+    dataOstatniegoZbioru: String
+    dataZasadzenia: String
+    ewidencyjnyIdDzialki: String
+  ): Winnica
+  upsertWinobranie(idWinobranie: ID, dataWinobrania: String, iloscZebranychWinogron: Float): Winobranie
 }
 
 type Adres {
@@ -127,6 +248,7 @@ type Adres {
   kontrahent: Kontrahenci
   listprzewozowy: [ListPrzewozowy]
   miejsce: String
+  magazyn: Magazyn
 }
 
 type DictKategoriaWina {
@@ -225,7 +347,7 @@ type Magazyn {
   idMagazyn: ID
   rodzaj: String!
   pojemnosc: Float!
-  adres: Adres
+  adresIdAdres: Adres
   pozycjaWMagazynie: [PozycjaWMagazynie]
 }
 
