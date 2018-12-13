@@ -11,7 +11,8 @@ import {
   getGrapeHarvestForForm,
   getItemInStockForForm,
   getOperationForForm,
-  getUserForForm
+  getUserForForm,
+  getVineyardForForm
 } from './formQueries';
 
 export const selectQueryForForm = (formName, id) => {
@@ -42,5 +43,7 @@ export const selectQueryForForm = (formName, id) => {
       return getItemInStockForForm(id);
     case 'FormOperations':
       return getOperationForForm(id);
+    case 'FormVineyard':
+      return getVineyardForForm(id);
   }
 };

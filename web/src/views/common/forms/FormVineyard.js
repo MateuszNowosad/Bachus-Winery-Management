@@ -72,6 +72,22 @@ export class FormVineyard extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Winnica[0];
+      this.setState({
+        name: data.nazwa,
+        area: data.powierzchnia,
+        terroir: data.terroir,
+        dateOfPlanting: data.dataZasadzenia,
+        registrationPlotId: data.ewidencyjnyIdDzialki,
+        grapeType: data.dictOdmianaWinogron.nazwa,
+        state: data.stan
+      });
+    }
+  }
+
   render() {
     const { name, area, terroir, dateOfPlanting, registrationPlotId, grapeType, state, errors } = this.state;
 

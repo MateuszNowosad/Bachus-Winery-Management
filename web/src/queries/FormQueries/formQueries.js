@@ -202,3 +202,21 @@ export const getOperationForForm = operationID => gql`
     }
   }
 `;
+
+export const getVineyardForForm = vineyardID => gql`
+{
+  Winnica(idWinnica: ${vineyardID}) {
+    idWinnica
+    nazwa
+    powierzchnia
+    terroir
+    dataZasadzenia
+    ewidencyjnyIdDzialki
+    dictOdmianaWinogron {
+      idOdmianaWinogron
+      nazwa
+    }
+    stan
+  }
+}
+`;
