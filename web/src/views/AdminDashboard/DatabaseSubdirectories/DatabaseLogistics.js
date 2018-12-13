@@ -15,6 +15,9 @@ import getWarehouses from '../../../queries/WarehouseQueries/getWarehouses';
 import getDictCategories from '../../../queries/DictionaryQueries/getDictCategories';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 import { FormWaybill } from '../../common/forms/FormWaybill';
+import { FormItemInStock } from '../../common/forms/FormItemInStock';
+import { FormWarehouse } from '../../common/forms/FormWarehouse';
+import { FormDictCategories } from '../../common/forms/FormDictCategories';
 
 const labels = ['Pozycje w magazynie', 'Przesyłki', 'Listy przwozowe', 'Magazyny', 'Słowniki'];
 
@@ -36,7 +39,15 @@ class DatabaseProduction extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let items = data.PozycjaWMagazynie;
-                return <AutoTable queryData={items} querySize={items.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={items}
+                    querySize={items.length}
+                    dialogForm={<FormItemInStock />}
+                    dialogFormTitle={'Pozycja w magazynie'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
           </TabContainer>
@@ -86,7 +97,15 @@ class DatabaseProduction extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let warehouses = data.Magazyn;
-                return <AutoTable queryData={warehouses} querySize={warehouses.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={warehouses}
+                    querySize={warehouses.length}
+                    dialogForm={<FormWarehouse />}
+                    dialogFormTitle={'Magazyn'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
           </TabContainer>
@@ -103,7 +122,15 @@ class DatabaseProduction extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let categories = data.DictKategorie;
-                return <AutoTable queryData={categories} querySize={categories.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={categories}
+                    querySize={categories.length}
+                    dialogForm={<FormDictCategories />}
+                    dialogFormTitle={'Kategoria przedmiotu w magazynie'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
           </TabContainer>

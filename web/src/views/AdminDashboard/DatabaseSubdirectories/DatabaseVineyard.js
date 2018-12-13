@@ -5,10 +5,8 @@ import Typography from '@material-ui/core/Typography';
 //import BackupStyle from "../../assets/jss/common/views/Database/BackupStyle.js";
 import AdminDashboardStyle from '../../../assets/jss/common/views/AdminDashboard/AdminDashboardStyle.js';
 import AutoTable from '../../../components/AutoTable/AutoTable';
-import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
-import getReports from '../../../queries/ReportsQueries/getReports';
 import { Query } from 'react-apollo';
 import getVineyards from '../../../queries/VineyardQueries/getVineyards';
 import getGrapeHarvests from '../../../queries/VineyardQueries/getGrapeHarvests';
@@ -16,6 +14,11 @@ import getVineyardOperations from '../../../queries/VineyardQueries/getVineyardO
 import getDictVineyardOperations from '../../../queries/DictionaryQueries/getDictVineyardOperations';
 import getDictGrapeType from '../../../queries/DictionaryQueries/getDictGrapeType';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import { FormVineyard } from '../../common/forms/FormVineyard';
+import { FormGrapeHarvest } from '../../common/forms/FormGrapeHarvest';
+import { FormVineyardOperation } from '../../common/forms/FormVineyardOperation';
+import { FormDictVineyardOperations } from '../../common/forms/FormDictVineyardOperations';
+import { FormDictGrapeType } from '../../common/forms/FormDictGrapeType';
 
 const labels = ['Winnice', 'Winobrania', 'Operacje na winnicy', 'Słowniki'];
 
@@ -37,7 +40,15 @@ class DatabaseVineyard extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let vineyards = data.Winnica;
-                return <AutoTable queryData={vineyards} querySize={vineyards.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={vineyards}
+                    querySize={vineyards.length}
+                    dialogForm={<FormVineyard />}
+                    dialogFormTitle={'Winnica'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
           </TabContainer>
@@ -51,7 +62,15 @@ class DatabaseVineyard extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let grapeHarvests = data.Winobranie;
-                return <AutoTable queryData={grapeHarvests} querySize={grapeHarvests.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={grapeHarvests}
+                    querySize={grapeHarvests.length}
+                    dialogForm={<FormGrapeHarvest />}
+                    dialogFormTitle={'Winobranie'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
           </TabContainer>
@@ -66,7 +85,13 @@ class DatabaseVineyard extends React.Component {
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let vineyardOperations = data.OperacjeNaWinnicy;
                 return (
-                  <AutoTable queryData={vineyardOperations} querySize={vineyardOperations.length} editMode={false} />
+                  <AutoTable
+                    queryData={vineyardOperations}
+                    querySize={vineyardOperations.length}
+                    dialogForm={<FormVineyardOperation />}
+                    dialogFormTitle={'Operacja na winnicy'}
+                    editMode={true}
+                  />
                 );
               }}
             </Query>
@@ -85,7 +110,9 @@ class DatabaseVineyard extends React.Component {
                   <AutoTable
                     queryData={dictVineyardOperations}
                     querySize={dictVineyardOperations.length}
-                    editMode={false}
+                    dialogForm={<FormDictVineyardOperations />}
+                    dialogFormTitle={'Dozwolona operacja na winnicy'}
+                    editMode={true}
                   />
                 );
               }}
@@ -99,7 +126,15 @@ class DatabaseVineyard extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let grapeTypes = data.DictOdmianaWinogron;
-                return <AutoTable queryData={grapeTypes} querySize={grapeTypes.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={grapeTypes}
+                    querySize={grapeTypes.length}
+                    dialogForm={<FormDictGrapeType />}
+                    dialogFormTitle={'Odmiana winogron'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
           </TabContainer>

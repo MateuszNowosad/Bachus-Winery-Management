@@ -17,6 +17,10 @@ import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesse
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 import { FormBatches } from '../../common/forms/FormBatches';
 import { FormOperations } from '../../common/forms/FormOperations';
+import { FormWineInformation } from '../../common/forms/FormWineInformation';
+import { FormDictBatchType } from '../../common/forms/FormDictBatchType';
+import { FormDictWineCategory } from '../../common/forms/FormDictWineCategory';
+import { FormDictProcesses } from '../../common/forms/FormDictProcesses';
 
 const labels = ['Partie', 'Informacje o winie', 'Operacje', 'Słowniki'];
 
@@ -60,7 +64,15 @@ class DatabaseProduction extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let wineInfo = data.InformacjeOWinie;
-                return <AutoTable queryData={wineInfo} querySize={wineInfo.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={wineInfo}
+                    querySize={wineInfo.length}
+                    dialogForm={<FormWineInformation />}
+                    dialogFormTitle={'Informacja o winie'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
           </TabContainer>
@@ -99,7 +111,15 @@ class DatabaseProduction extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let batchTypes = data.DictTypPartii;
-                return <AutoTable queryData={batchTypes} querySize={batchTypes.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={batchTypes}
+                    querySize={batchTypes.length}
+                    dialogForm={<FormDictBatchType />}
+                    dialogFormTitle={'Typ partii'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
             <Typography variant="h5" gutterBottom component="h1">
@@ -111,7 +131,15 @@ class DatabaseProduction extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let wineCategories = data.DictKategoriaWina;
-                return <AutoTable queryData={wineCategories} querySize={wineCategories.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={wineCategories}
+                    querySize={wineCategories.length}
+                    dialogForm={<FormDictWineCategory />}
+                    dialogFormTitle={'Kategoria wina'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
             <Typography variant="h5" gutterBottom component="h1">
@@ -123,7 +151,15 @@ class DatabaseProduction extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let processes = data.DictProcesy;
-                return <AutoTable queryData={processes} querySize={processes.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={processes}
+                    querySize={processes.length}
+                    dialogForm={<FormDictProcesses />}
+                    dialogFormTitle={'Proces'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
           </TabContainer>

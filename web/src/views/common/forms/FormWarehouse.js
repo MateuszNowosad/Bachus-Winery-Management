@@ -73,6 +73,7 @@ export class FormWarehouse extends React.Component {
     if (initState) {
       let data = initState.Magazyn[0];
       this.setState({
+        //TODO poprawić rodzaj magazynu
         type: data.rodzaj,
         capacity: data.pojemnosc
       });

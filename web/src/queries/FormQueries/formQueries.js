@@ -112,7 +112,7 @@ export const getDictGrapeTypeForForm = dictGrapeTypeID => gql`
 
 export const getDictProcesForForm = dictProcesID => gql`
   {
-  DictProcesy(idDictProcesy ${dictProcesID}) {
+  DictProcesy(idDictProcesy: ${dictProcesID}) {
   idDictProcesy
   nazwa
   opis
@@ -142,7 +142,7 @@ DictKategoriaWina(idDictKategoriaWina: ${dictWineCategoryID}) {
 
 export const getGrapeHarvestForForm = grapeHarvestID => gql`
   {
-    Winobranie(idWinobranie ${grapeHarvestID}) {
+    Winobranie(idWinobranie: ${grapeHarvestID}) {
       idWinobranie
       dataWinobrania
       iloscZebranychWinogron
