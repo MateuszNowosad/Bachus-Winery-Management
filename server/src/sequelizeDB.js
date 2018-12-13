@@ -37,8 +37,18 @@ const sequelize = new Sequelize({
   }
 });
 
-const recordsToGenerate = 1;
-const fkKeyPoolNumber = { min: 1, max: 2 };
+export default sequelize;
+
+const recordsToGenerate = 10;
+let fkKeyNumber = 0;
+
+let uniqueLogins = [];
+while (uniqueLogins.length < recordsToGenerate + 20) {
+  if (uniqueLogins < recordsToGenerate + 20) {
+    uniqueLogins = _.uniq(uniqueLogins);
+  }
+  uniqueLogins.push(faker.internet.userName().substr(0, 20));
+}
 
 sequelize
   .authenticate()
@@ -94,8 +104,8 @@ async function createDictOperacjeNaWinnicy() {
     DICTOPERACJENAWINNICY.create({
       nazwa: faker.lorem.word(faker.random.number(100)),
       opis: faker.lorem.words(10),
-      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: faker.random.number(fkKeyPoolNumber),
-      winnicaIdWinnica: faker.random.number(fkKeyPoolNumber)
+      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: fkKeyNumber,
+      winnicaIdWinnica: fkKeyNumber
     })
   );
 }
@@ -136,7 +146,7 @@ async function createInformacjeOWinie() {
       motto: faker.lorem.words(10),
       zawartoscPotAlergenow: faker.random.word(2),
       wartoscEnergetyczna: faker.random.number(999),
-      dictKategoriaWinaIdDictKategoriaWina: faker.random.number(fkKeyPoolNumber)
+      dictKategoriaWinaIdDictKategoriaWina: fkKeyNumber
     })
   );
 }
@@ -152,7 +162,7 @@ async function createKontrahenci() {
       KRS: faker.finance.account(10),
       nrKonta: faker.finance.account(26),
       fax: faker.phone.phoneNumberFormat(),
-      adresIdAdres: faker.random.number(fkKeyPoolNumber)
+      adresIdAdres: fkKeyNumber
     })
   );
 }
@@ -165,7 +175,7 @@ async function createListPrzewozowy() {
       uwagiPrzewoznika: faker.random.words(3),
       zastrzezeniaOdbiorcy: faker.random.words(5),
       eDokument: 'web/src/' + faker.random.word(1),
-      przesylkaIdPrzesylka: faker.random.number(fkKeyPoolNumber)
+      przesylkaIdPrzesylka: fkKeyNumber
     })
   );
 }
@@ -175,7 +185,7 @@ async function createMagazyn() {
     MAGAZYN.create({
       rodzaj: faker.random.arrayElement(['polproduktow', 'materialow', 'produktow_skonczonych']),
       pojemnosc: faker.random.number({ min: 1, max: 99999 }) + '.' + faker.random.number(9),
-      adresIdAdres: faker.random.number(fkKeyPoolNumber)
+      adresIdAdres: fkKeyNumber
     })
   );
 }
@@ -193,8 +203,8 @@ async function createOperacje() {
       kwasowosc: faker.random.number(9) + '.' + faker.random.number(9),
       temperatura: faker.random.number(9) + '.' + faker.random.number(9),
       opis: faker.random.words(5),
-      uzytkownicyIdUzytkownicy: faker.random.number(fkKeyPoolNumber),
-      dictProcesyIdDictProcesy: faker.random.number(fkKeyPoolNumber)
+      uzytkownicyIdUzytkownicy: fkKeyNumber,
+      dictProcesyIdDictProcesy: fkKeyNumber
     })
   );
 }
@@ -204,8 +214,8 @@ async function createOperacjeNaWinnicy() {
     OPERACJENAWINNICY.create({
       data: faker.date.recent(),
       opis: faker.random.words(5),
-      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: faker.random.number(fkKeyPoolNumber),
-      winnicaIdWinnica: faker.random.number(fkKeyPoolNumber)
+      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: fkKeyNumber,
+      winnicaIdWinnica: fkKeyNumber
     })
   );
 }
@@ -216,10 +226,12 @@ async function createPartie() {
       ilosc: faker.random.number({ min: 1, max: 999 }) + '.' + faker.random.number(9),
       opis: faker.random.words(5),
       dataUtworzenia: faker.date.recent(),
-      winobranieIdWinobranie: faker.random.number(fkKeyPoolNumber),
-      partieIdPartie: faker.random.number(fkKeyPoolNumber),
-      typPartiiIdTypPartii: faker.random.number(fkKeyPoolNumber),
-      informacjeOWinieIdInformacjeOWinie: faker.random.number(fkKeyPoolNumber)
+      winobranieIdWinobranie: fkKeyNumber,
+      partieIdPartie: fkKeyNumber,
+      typPartiiIdTypPartii: fkKeyNumber,
+      informacjeOWinieIdInformacjeOWinie: fkKeyNumber,
+      planyProdukcyjneIdPlanyProdukcyjne: fkKeyNumber,
+      czyPrzepis: faker.random.arrayElement(['0', '0', '0', '0', '1'])
     })
   );
 }
@@ -229,9 +241,9 @@ async function createPlanyProdukcyjne() {
     PLANYPRODUKCYJNE.create({
       nazwa: faker.random.word(1),
       opis: faker.random.words(5),
-      dictRodzajWinogronIdOdmianaWinogron: faker.random.number(fkKeyPoolNumber),
-      dictTypPartiiIdTypPartii: faker.random.number(fkKeyPoolNumber),
-      dictKategorieIdKategorie: faker.random.number(fkKeyPoolNumber),
+      dictRodzajWinogronIdOdmianaWinogron: fkKeyNumber,
+      dictTypPartiiIdTypPartii: fkKeyNumber,
+      dictKategorieIdKategorie: fkKeyNumber,
       eDokument: 'web/documents/plans/' + faker.random.word(1) + '.pdf'
     })
   );
@@ -248,9 +260,9 @@ async function createPozycjaWMagazynie() {
       dataPrzyjecia: faker.date.past(),
       dataWydania: faker.date.recent(),
       nazwaSektora: faker.random.arrayElement(['SektorA', 'SektorB', 'SektorC', 'SektorD', 'SektorE', 'SektorF']),
-      kategorieIdKategorie: faker.random.number(fkKeyPoolNumber),
-      magazynIdMagazyn: faker.random.number(fkKeyPoolNumber),
-      partieIdPartie: faker.random.number(fkKeyPoolNumber)
+      kategorieIdKategorie: fkKeyNumber,
+      magazynIdMagazyn: fkKeyNumber,
+      partieIdPartie: fkKeyNumber
     })
   );
 }
@@ -280,7 +292,7 @@ async function createUzytkownicy() {
     UZYTKOWNICY.create({
       imie: faker.name.firstName(),
       nazwisko: faker.name.lastName(),
-      login: faker.internet.userName(),
+      login: uniqueLogins[fkKeyNumber],
       haslo: faker.random.uuid(),
       PESEL:
         faker.random.number({ min: 50, max: 98 }) +
@@ -290,8 +302,8 @@ async function createUzytkownicy() {
       eMail: faker.internet.email(),
       nrTelefonu: faker.random.number(999) + '-' + faker.random.number(999) + '-' + faker.random.number(999),
       dataOstatniegoLogowania: faker.date.recent(),
-      adresIdAdres: faker.random.number(fkKeyPoolNumber),
-      dictRolaUzytkownikowIdRolaUzytkownikow: faker.random.number(fkKeyPoolNumber),
+      adresIdAdres: fkKeyNumber,
+      dictRolaUzytkownikowIdRolaUzytkownikow: fkKeyNumber,
       zdjecie: faker.internet.avatar(),
       czyAktywne: faker.random.boolean()
     })
@@ -315,7 +327,7 @@ async function createWinnica() {
         faker.random.number(9999) +
         '.' +
         faker.random.number(999),
-      odmianiaWinogronIdOdmianaWinogron: faker.random.number(fkKeyPoolNumber)
+      odmianiaWinogronIdOdmianaWinogron: fkKeyNumber
     })
   );
 }
@@ -325,7 +337,7 @@ async function createWinobranie() {
     WINOBRANIE.create({
       dataWinobrania: faker.date.past(),
       iloscZebranychWinogron: faker.random.number(999) + '.' + faker.random.number(9),
-      winnicaIdWinnica: faker.random.number(fkKeyPoolNumber)
+      winnicaIdWinnica: fkKeyNumber
     })
   );
 }
@@ -333,17 +345,17 @@ async function createWinobranie() {
 async function createListPrzewozowyHasAdres() {
   await sequelize.sync().then(() => {
     LISTPRZEWOZOWYHASADRES.create({
-      adresIdAdres: faker.random.number(fkKeyPoolNumber),
+      adresIdAdres: fkKeyNumber,
       miejsce: faker.random.arrayElement(['Nadania', 'Odbioru']),
-      listPrzewozowyIdListPrzewozowy: faker.random.number(fkKeyPoolNumber)
+      listPrzewozowyIdListPrzewozowy: fkKeyNumber
     });
   });
 }
 async function createListPrzewozowyHasKontrahenci() {
   await sequelize.sync().then(() => {
     LISTPRZEWOZOWYHASKONTRAHENCI.create({
-      listPrzewozowyIdListPrzewozowy: faker.random.number(fkKeyPoolNumber),
-      kontrahenciIdKontrahenci: faker.random.number(fkKeyPoolNumber),
+      listPrzewozowyIdListPrzewozowy: fkKeyNumber,
+      kontrahenciIdKontrahenci: fkKeyNumber,
       typ: faker.random.arrayElement(['Odbiorca', 'Przewoznik'])
     });
   });
@@ -351,8 +363,8 @@ async function createListPrzewozowyHasKontrahenci() {
 async function createOperacjeHasPartie() {
   await sequelize.sync().then(() => {
     OPERACJEHASPARTIE.create({
-      operacjeIdOperacja: faker.random.number(fkKeyPoolNumber),
-      partieIdPartie: faker.random.number(fkKeyPoolNumber),
+      operacjeIdOperacja: fkKeyNumber,
+      partieIdPartie: fkKeyNumber,
       ilosc: faker.random.number(99) + '.' + faker.random.number(9)
     });
   });
@@ -360,25 +372,25 @@ async function createOperacjeHasPartie() {
 async function createOperacjeHasPozycjaWMagazynie() {
   await sequelize.sync().then(() => {
     OPERACJEHASPOZYCJAWMAGAZYNIE.create({
-      operacjeIdOperacja: faker.random.number(fkKeyPoolNumber),
-      pozycjaWMagazynieIdPozycja: faker.random.number(fkKeyPoolNumber),
+      operacjeIdOperacja: fkKeyNumber,
+      pozycjaWMagazynieIdPozycja: fkKeyNumber,
       ilosc: faker.random.number(99) + '.' + faker.random.number(99)
     });
   });
 }
-async function createPlanyProdukcyjneHasDictProcesy() {
+async function createPlanyProdukcyjneHasPozycjaWMagazynie() {
   await sequelize.sync().then(() => {
-    PLANYPRODUKCYJNEHASDICTPROCESY.create({
-      planyProdukcyjneIdPlanyProdukcyjne: faker.random.number(fkKeyPoolNumber),
-      dictProcesyIdDictProcesy: faker.random.number(fkKeyPoolNumber)
+    PLANYPRODUKCYJNEHASPOZYCJAWMAGAZYNIE.create({
+      planyProdukcyjneIdPlanyProdukcyjne: fkKeyNumber,
+      pozycjaWMagazynieIdPozycja: fkKeyNumber
     });
   });
 }
 async function createPrzesylkaHasPozycjaWMagazynie() {
   await sequelize.sync().then(() => {
     PRZESYLKAHASPOZYCJAWMAGAZYNIE.create({
-      przesylkaIdPrzesylka: faker.random.number(fkKeyPoolNumber),
-      pozycjaWMagazynieIdPozycja: faker.random.number(fkKeyPoolNumber),
+      przesylkaIdPrzesylka: fkKeyNumber,
+      pozycjaWMagazynieIdPozycja: fkKeyNumber,
       ilosc: faker.random.number(99) + '.' + faker.random.number(99)
     });
   });
@@ -386,8 +398,8 @@ async function createPrzesylkaHasPozycjaWMagazynie() {
 async function createRaportyHasUzytkownicy() {
   await sequelize.sync().then(() => {
     RAPORTYHASUZYTKOWNICY.create({
-      raportyIdRaport: faker.random.number(fkKeyPoolNumber),
-      uzytkownicyIdUzytkownika: faker.random.number(fkKeyPoolNumber)
+      raportyIdRaport: fkKeyNumber,
+      uzytkownicyIdUzytkownika: fkKeyNumber
     });
   });
 }
@@ -449,9 +461,9 @@ const DICTKATEGORIAWINA = sequelize.define('DictKategoriaWina', {
     type: Sequelize.STRING(45),
     allowNull: false,
     unique: true,
-    validate: { is: /^([\\p{L}\' ()]{3,45})$/u }
+    validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
   },
-  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: /^(|[\\s\\S]{2,255})$/u } }
+  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } }
 });
 
 const DICTKATEGORIE = sequelize.define('DictKategorie', {
@@ -460,9 +472,14 @@ const DICTKATEGORIE = sequelize.define('DictKategorie', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(20), allowNull: false, unique: true, validate: { is: /^([\\p{L}\' ()]{3,20})$/u } },
-  jednostka: { type: Sequelize.STRING(20), allowNull: false, validate: { is: /^\p{L}{2,20}$/u } },
-  opis: { type: Sequelize.STRING(250), allowNull: true, validate: { is: /^(|[\\s\\S]{2,250})$/u } }
+  nazwa: {
+    type: Sequelize.STRING(20),
+    allowNull: false,
+    unique: true,
+    validate: { is: new RegExp("^([\\p{L}' ()]{3,20})$", 'u') }
+  },
+  jednostka: { type: Sequelize.STRING(20), allowNull: false, validate: { is: new RegExp('^\\p{L}{2,20}$', 'u') } },
+  opis: { type: Sequelize.STRING(250), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,250})$', 'u') } }
 });
 
 const DICTODMIANAWINOGRON = sequelize.define('DictOdmianaWinogron', {
@@ -471,8 +488,13 @@ const DICTODMIANAWINOGRON = sequelize.define('DictOdmianaWinogron', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(45), allowNull: false, unique: true, validate: { is: /^([\\p{L}\' ()]{3,45})$/u } },
-  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: /^(|[\\s\\S]{2,255})$/u } }
+  nazwa: {
+    type: Sequelize.STRING(45),
+    allowNull: false,
+    unique: true,
+    validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
+  },
+  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } }
 });
 
 const DICTOPERACJENAWINNICY = sequelize.define('DictOperacjeNaWinnicy', {
@@ -481,8 +503,13 @@ const DICTOPERACJENAWINNICY = sequelize.define('DictOperacjeNaWinnicy', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(45), allowNull: false, unique: true, validate: { is: /^([\\p{L}\' ()]{3,45})$/u } },
-  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: /^(|[\\s\\S]{2,255})$/u } }
+  nazwa: {
+    type: Sequelize.STRING(45),
+    allowNull: false,
+    unique: true,
+    validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
+  },
+  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } }
 });
 
 const DICTPROCESY = sequelize.define('DictProcesy', {
@@ -491,9 +518,14 @@ const DICTPROCESY = sequelize.define('DictProcesy', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(40), allowNull: false, unique: true },
-  opis: { type: Sequelize.STRING(255), allowNull: true },
-  dodatkowe: { type: Sequelize.STRING(80), allowNull: true }
+  nazwa: {
+    type: Sequelize.STRING(40),
+    allowNull: false,
+    unique: true,
+    validate: { is: new RegExp("^([\\p{L}' ()]{3,40})$", 'u') }
+  },
+  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } },
+  dodatkowe: { type: Sequelize.STRING(80), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,80})$', 'u') } }
 });
 
 const DICTROLAUZYTKOWNIKOW = sequelize.define('DictRolaUzytkownikow', {
@@ -502,9 +534,14 @@ const DICTROLAUZYTKOWNIKOW = sequelize.define('DictRolaUzytkownikow', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(45), allowNull: false, unique: true },
-  opis: { type: Sequelize.STRING(255), allowNull: true },
-  typ: { type: Sequelize.STRING(45), allowNull: false }
+  nazwa: {
+    type: Sequelize.STRING(45),
+    allowNull: false,
+    unique: true,
+    validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
+  },
+  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } },
+  typ: { type: Sequelize.STRING(45), allowNull: false, validate: { is: new RegExp('^[\\S]{2,45}$', 'u') } }
 });
 
 const DICTTYPPARTII = sequelize.define('DictTypPartii', {
@@ -513,8 +550,13 @@ const DICTTYPPARTII = sequelize.define('DictTypPartii', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(45), allowNull: false, unique: true },
-  jednostka: { type: Sequelize.STRING(45), allowNull: true }
+  nazwa: {
+    type: Sequelize.STRING(45),
+    allowNull: false,
+    unique: true,
+    validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
+  },
+  jednostka: { type: Sequelize.STRING(45), allowNull: true, validate: { is: new RegExp('^[\\w]{1,45}$', 'u') } }
 });
 
 const INFORMACJEOWINIE = sequelize.define('InformacjeOWinie', {
@@ -523,10 +565,18 @@ const INFORMACJEOWINIE = sequelize.define('InformacjeOWinie', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(45), allowNull: false },
-  motto: { type: Sequelize.STRING(100), allowNull: true },
-  zawartoscPotAlergenow: { type: Sequelize.STRING(20), allowNull: true },
-  wartoscEnergetyczna: { type: Sequelize.INTEGER(3), allowNull: false },
+  nazwa: { type: Sequelize.STRING(45), allowNull: false, validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') } },
+  motto: { type: Sequelize.STRING(100), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,100})$', 'u') } },
+  zawartoscPotAlergenow: {
+    type: Sequelize.STRING(20),
+    allowNull: true,
+    validate: { is: new RegExp('^(|[\\s\\S]{2,20})$', 'u') }
+  },
+  wartoscEnergetyczna: {
+    type: Sequelize.INTEGER(3),
+    allowNull: false,
+    validate: { is: /^((?=.{1,3}$)\d*[1-9]+\d*)$/ }
+  },
   dictKategoriaWinaIdDictKategoriaWina: Sequelize.INTEGER
 });
 
@@ -536,14 +586,35 @@ const KONTRAHENCI = sequelize.define('Kontrahenci', {
     primaryKey: true,
     autoIncrement: true
   },
-  NIP: { type: Sequelize.STRING(10), allowNull: true, unique: true },
-  nazwaSpolki: { type: Sequelize.STRING(40), allowNull: false, unique: true },
+  NIP: { type: Sequelize.STRING(10), allowNull: true, unique: true, validate: { is: /^($|\d{10})$/u } },
+  nazwaSpolki: {
+    type: Sequelize.STRING(40),
+    allowNull: false,
+    unique: true,
+    validate: { is: new RegExp('^[\\s\\S]{2,40}$', 'u') }
+  },
   telefon: { type: Sequelize.STRING(14), allowNull: false, unique: true },
-  eMail: { type: Sequelize.STRING(90), allowNull: false, unique: true },
-  stronaWww: { type: Sequelize.STRING(255), allowNull: true },
-  KRS: { type: Sequelize.STRING(10), allowNull: true, unique: true },
-  nrKonta: { type: Sequelize.STRING(26), allowNull: false, unique: true },
-  fax: { type: Sequelize.STRING(45), allowNull: true },
+  eMail: {
+    type: Sequelize.STRING(90),
+    allowNull: false,
+    unique: true,
+    validate: {
+      is: /^(?=.{5,90}$)(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    }
+  },
+  stronaWww: {
+    type: Sequelize.STRING(255),
+    allowNull: true,
+    validate: {
+      is: /^(?=.{4,255}$)(|(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-.][a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)$/
+    }
+  },
+  KRS: { type: Sequelize.STRING(10), allowNull: true, unique: true, validate: { is: /^($|\d{10})$/ } },
+  nrKonta: { type: Sequelize.STRING(26), allowNull: false, unique: true, validate: { is: /^\d{26}$/ } },
+  fax: {
+    type: Sequelize.STRING(45),
+    allowNull: true
+  },
   adresIdAdres: Sequelize.INTEGER(11)
 });
 
@@ -553,10 +624,26 @@ const LISTPRZEWOZOWY = sequelize.define('ListPrzewozowy', {
     primaryKey: true,
     autoIncrement: true
   },
-  imieKierowcy: { type: Sequelize.STRING(45), allowNull: false },
-  nazwiskoKierowcy: { type: Sequelize.STRING(60), allowNull: false },
-  uwagiPrzewoznika: { type: Sequelize.STRING(255), allowNull: true },
-  zastrzezeniaOdbiorcy: { type: Sequelize.STRING(255), allowNull: true },
+  imieKierowcy: {
+    type: Sequelize.STRING(45),
+    allowNull: false,
+    validate: { is: new RegExp("^([\\p{L}' ]{3,45})$", 'u') }
+  },
+  nazwiskoKierowcy: {
+    type: Sequelize.STRING(60),
+    allowNull: false,
+    validate: { is: new RegExp("^([\\p{L}' ]{3,45})$", 'u') }
+  },
+  uwagiPrzewoznika: {
+    type: Sequelize.STRING(255),
+    allowNull: true,
+    validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') }
+  },
+  zastrzezeniaOdbiorcy: {
+    type: Sequelize.STRING(255),
+    allowNull: true,
+    validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') }
+  },
   eDokument: { type: Sequelize.STRING(255), allowNull: false },
   przesylkaIdPrzesylka: Sequelize.INTEGER
 });
@@ -567,8 +654,15 @@ const MAGAZYN = sequelize.define('Magazyn', {
     primaryKey: true,
     autoIncrement: true
   },
-  rodzaj: { type: Sequelize.ENUM('polproduktow', 'materialow', 'produktow_skonczonych'), allowNull: false },
-  pojemnosc: { type: Sequelize.DECIMAL(6, 1), allowNull: false },
+  rodzaj: {
+    type: Sequelize.ENUM('polproduktow', 'materialow', 'produktow_skonczonych'),
+    allowNull: false
+  },
+  pojemnosc: {
+    type: Sequelize.DECIMAL(6, 1),
+    allowNull: false,
+    validate: { is: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,6}\.[1-9])$/ }
+  },
   adresIdAdres: Sequelize.INTEGER
 });
 
@@ -578,16 +672,32 @@ const OPERACJE = sequelize.define('Operacje', {
     primaryKey: true,
     autoIncrement: true
   },
-  iloscPrzed: { type: Sequelize.DECIMAL(6, 2), allowNull: false },
-  iloscPo: { type: Sequelize.DECIMAL(6, 2), allowNull: true },
+  iloscPrzed: {
+    type: Sequelize.DECIMAL(6, 2),
+    allowNull: false,
+    validate: { is: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1,2}|0{1,6}\.\d[1-9])$/ }
+  },
+  iloscPo: {
+    type: Sequelize.DECIMAL(6, 2),
+    allowNull: true,
+    validate: { is: /^($|(?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1,2}|0{1,6}\.\d[1-9])$/ }
+  },
   dataPoczatku: { type: Sequelize.DATE, allowNull: false },
   dataZakonczenia: { type: Sequelize.DATE, allowNull: true },
-  zawartoscAlkoholu: { type: Sequelize.DECIMAL(2, 1), allowNull: true },
-  iloscDodatku: { type: Sequelize.DECIMAL(3, 1), allowNull: true },
-  zawartoscCukru: { type: Sequelize.DECIMAL(2, 1), allowNull: true },
-  kwasowosc: { type: Sequelize.DECIMAL(2, 1), allowNull: true },
-  temperatura: { type: Sequelize.DECIMAL(2, 1), allowNull: true },
-  opis: { type: Sequelize.STRING(255), allowNull: true },
+  zawartoscAlkoholu: {
+    type: Sequelize.DECIMAL(2, 1),
+    allowNull: true,
+    validate: { is: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/ }
+  },
+  iloscDodatku: { type: Sequelize.DECIMAL(3, 1), allowNull: true, validate: { is: /^($|\d{1,3}|\d{1,3}\.\d{0,1})$/ } },
+  zawartoscCukru: {
+    type: Sequelize.DECIMAL(2, 1),
+    allowNull: true,
+    validate: { is: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/ }
+  },
+  kwasowosc: { type: Sequelize.DECIMAL(2, 1), allowNull: true, validate: { is: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/ } },
+  temperatura: { type: Sequelize.DECIMAL(2, 1), allowNull: true, validate: { is: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/ } },
+  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } },
   uzytkownicyIdUzytkownicy: Sequelize.INTEGER,
   dictProcesyIdDictProcesy: Sequelize.INTEGER
 });
@@ -599,7 +709,7 @@ const OPERACJENAWINNICY = sequelize.define('OperacjeNaWinnicy', {
     autoIncrement: true
   },
   data: { type: Sequelize.DATE, allowNull: false },
-  opis: Sequelize.STRING(255),
+  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } },
   dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: Sequelize.INTEGER,
   winnicaIdWinnica: Sequelize.INTEGER
 });
@@ -610,13 +720,19 @@ const PARTIE = sequelize.define('Partie', {
     primaryKey: true,
     autoIncrement: true
   },
-  ilosc: { type: Sequelize.DECIMAL(4, 1), allowNull: false },
-  opis: { type: Sequelize.STRING(255), allowNull: true },
+  ilosc: {
+    type: Sequelize.DECIMAL(4, 1),
+    allowNull: false,
+    validate: { is: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,4}\.[1-9])$/ }
+  },
+  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } },
   dataUtworzenia: { type: Sequelize.DATE, allowNull: false },
   winobranieIdWinobranie: Sequelize.INTEGER,
   partieIdPartie: Sequelize.INTEGER,
   typPartiiIdTypPartii: Sequelize.INTEGER,
-  informacjeOWinieIdInformacjeOWinie: Sequelize.INTEGER
+  informacjeOWinieIdInformacjeOWinie: Sequelize.INTEGER,
+  planyProdukcyjneIdPlanyProdukcyjne: Sequelize.INTEGER,
+  czyPrzepis: { type: Sequelize.STRING, allowNull: false }
 });
 
 const PLANYPRODUKCYJNE = sequelize.define('PlanyProdukcyjne', {
@@ -626,7 +742,7 @@ const PLANYPRODUKCYJNE = sequelize.define('PlanyProdukcyjne', {
     autoIncrement: true
   },
   nazwa: { type: Sequelize.STRING(45), allowNull: false },
-  opis: Sequelize.STRING(255),
+  opis: { type: Sequelize.STRING(255), allowNull: true },
   dictRodzajWinogronIdOdmianaWinogron: Sequelize.INTEGER,
   dictTypPartiiIdTypPartii: Sequelize.INTEGER,
   dictKategorieIdKategorie: Sequelize.INTEGER,
@@ -640,13 +756,21 @@ const POZYCJAWMAGAZYNIE = sequelize.define('PozycjaWMagazynie', {
     autoIncrement: true
   },
   nazwa: { type: Sequelize.STRING(45), allowNull: false },
-  opis: { type: Sequelize.STRING(255), allowNull: true },
-  ilosc: { type: Sequelize.DECIMAL(4, 1), allowNull: false },
+  opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } },
+  ilosc: {
+    type: Sequelize.DECIMAL(4, 1),
+    allowNull: false,
+    validate: { is: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d|0{1,6}\.[1-9])$/ }
+  },
   kodKreskowy: { type: Sequelize.STRING(13), allowNull: false },
   stanAktualny: { type: Sequelize.BOOLEAN, allowNull: false },
   dataPrzyjecia: { type: Sequelize.DATE, allowNull: false },
   dataWydania: { type: Sequelize.DATE, allowNull: true },
-  nazwaSektora: { type: Sequelize.STRING(45), allowNull: false },
+  nazwaSektora: {
+    type: Sequelize.STRING(45),
+    allowNull: false,
+    validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
+  },
   kategorieIdKategorie: Sequelize.INTEGER,
   magazynIdMagazyn: Sequelize.INTEGER,
   partieIdPartie: Sequelize.INTEGER
@@ -658,8 +782,15 @@ const PRZESYLKA = sequelize.define('Przesylka', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwaPrzesylki: { type: Sequelize.STRING(45), allowNull: false },
-  ciezarLadunku: { type: Sequelize.DECIMAL(6, 2), allowNull: false },
+  nazwaPrzesylki: {
+    type: Sequelize.STRING(45),
+    allowNull: false
+  },
+  ciezarLadunku: {
+    type: Sequelize.DECIMAL(6, 2),
+    allowNull: false,
+    validate: { is: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1,2}|0{1,6}\.\d[1-9])$/ }
+  },
   data: { type: Sequelize.DATE, allowNull: false }
 });
 
@@ -682,15 +813,41 @@ const UZYTKOWNICY = sequelize.define('Uzytkownicy', {
   },
   imie: { type: Sequelize.STRING(30), allowNull: false },
   nazwisko: { type: Sequelize.STRING(30), allowNull: false },
-  login: { type: Sequelize.STRING(20), allowNull: false, unique: true },
-  haslo: { type: Sequelize.STRING(60), allowNull: false },
-  PESEL: { type: Sequelize.STRING(11), allowNull: false, unique: true },
-  eMail: { type: Sequelize.STRING(60), allowNull: false, unique: true },
-  nrTelefonu: { type: Sequelize.STRING(14), allowNull: false, unique: true },
+  login: {
+    type: Sequelize.STRING(20),
+    allowNull: false,
+    unique: true,
+    validate: { is: new RegExp('^([\\s\\S]{2,20})$', 'u') }
+  },
+  haslo: {
+    type: Sequelize.STRING(60),
+    allowNull: false
+    // validate: { is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/ }
+  },
+  PESEL: {
+    type: Sequelize.STRING(11),
+    allowNull: false,
+    unique: true
+    // validate: { is: /^\d{11}$/ }
+  },
+  eMail: {
+    type: Sequelize.STRING(60),
+    allowNull: false,
+    unique: true,
+    validate: {
+      is: /^(?=.{5,90}$)(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    }
+  },
+  nrTelefonu: {
+    type: Sequelize.STRING(14),
+    allowNull: false,
+    unique: true
+    // validate: { is: /^\d{14}$/ }
+  },
   dataOstatniegoLogowania: { type: Sequelize.DATE, allowNull: false },
   adresIdAdres: { type: Sequelize.INTEGER, allowNull: false },
   dictRolaUzytkownikowIdRolaUzytkownikow: { type: Sequelize.INTEGER, allowNull: false },
-  zdjecie: { type: Sequelize.STRING(100), allowNull: true },
+  zdjecie: { type: Sequelize.STRING(100), allowNull: true, validate: { is: /^.{5,100}$/ } },
   czyAktywne: { type: Sequelize.BOOLEAN, allowNull: false }
 });
 
@@ -700,13 +857,26 @@ const WINNICA = sequelize.define('Winnica', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(40), allowNull: false },
-  powierzchnia: { type: Sequelize.DECIMAL(6, 2), allowNull: false },
-  stan: { type: Sequelize.ENUM('Aktywna', 'Nieczynna'), allowNull: false },
-  terroir: { type: Sequelize.STRING(255), allowNull: true },
+  nazwa: { type: Sequelize.STRING(40), allowNull: false, validate: { is: new RegExp("^([\\p{L}' ()]{2,40})$", 'u') } },
+  powierzchnia: {
+    type: Sequelize.DECIMAL(6, 2),
+    allowNull: false,
+    validate: { is: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1,2}|0{1,6}\.\d[1-9])$/ }
+  },
+  stan: {
+    type: Sequelize.ENUM('Aktywna', 'Nieczynna'),
+    allowNull: false,
+    validate: { is: new RegExp("^([\\p{L}' ()]{2,40})$", 'u') }
+  },
+  terroir: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^([\\s\\S]{2,255})$', 'u') } },
   dataOstatniegoZbioru: { type: Sequelize.DATE, allowNull: true },
   dataZasadzenia: { type: Sequelize.DATE, allowNull: false },
-  ewidencyjnyIdDzialki: { type: Sequelize.STRING(45), allowNull: false, unique: true },
+  ewidencyjnyIdDzialki: {
+    type: Sequelize.STRING(45),
+    allowNull: false,
+    unique: true,
+    validate: { is: new RegExp('^(|[\\s\\S]{2,45})$', 'u') }
+  },
   odmianiaWinogronIdOdmianaWinogron: { type: Sequelize.INTEGER, allowNull: false }
 });
 
@@ -717,9 +887,38 @@ const WINOBRANIE = sequelize.define('Winobranie', {
     autoIncrement: true
   },
   dataWinobrania: { type: Sequelize.DATE, allowNull: false },
-  iloscZebranychWinogron: { type: Sequelize.DECIMAL(4, 1), allowNull: false },
+  iloscZebranychWinogron: {
+    type: Sequelize.DECIMAL(4, 1),
+    allowNull: false,
+    validate: { is: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,4}\.[1-9])$/ }
+  },
   winnicaIdWinnica: { type: Sequelize.INTEGER, allowNull: false }
 });
+
+const models = {
+  Adres: ADRES,
+  DictKategoriaWina: DICTKATEGORIAWINA,
+  DictKategorie: DICTKATEGORIE,
+  DictOdmianaWinogron: DICTODMIANAWINOGRON,
+  DictOperacjeNaWinnicy: DICTOPERACJENAWINNICY,
+  DictProcesy: DICTPROCESY,
+  DictRolaUzytkownikow: DICTROLAUZYTKOWNIKOW,
+  DictTypPartii: DICTTYPPARTII,
+  InformacjeOWinie: INFORMACJEOWINIE,
+  Kontrahenci: KONTRAHENCI,
+  ListPrzewozowy: LISTPRZEWOZOWY,
+  Magazyn: MAGAZYN,
+  Operacje: OPERACJE,
+  OperacjeNaWinnicy: OPERACJENAWINNICY,
+  Partie: PARTIE,
+  PlanyProdukcyjne: PLANYPRODUKCYJNE,
+  PozycjaWMagazynie: POZYCJAWMAGAZYNIE,
+  Przesylka: PRZESYLKA,
+  Raporty: RAPORTY,
+  Uzytkownicy: UZYTKOWNICY,
+  Winnica: WINNICA,
+  Winobranie: WINOBRANIE
+};
 
 // TABELE LACZACE
 
@@ -747,10 +946,10 @@ const OPERACJEHASPOZYCJAWMAGAZYNIE = sequelize.define('OperacjeHasPozycjaWMagazy
   pozycjaWMagazynieIdPozycja: { type: Sequelize.INTEGER, allowNull: false },
   ilosc: { type: Sequelize.STRING(45), allowNull: false }
 });
-const PLANYPRODUKCYJNEHASDICTPROCESY = sequelize.define('PlanyProdukcyjneHasDictProcesy', {
+const PLANYPRODUKCYJNEHASPOZYCJAWMAGAZYNIE = sequelize.define('PlanyProdukcyjneHasPozycjaWMagazynie', {
   idPlanyProdukcyjneHasDictProcesy: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   planyProdukcyjneIdPlanyProdukcyjne: { type: Sequelize.INTEGER, allowNull: false },
-  dictProcesyIdDictProcesy: { type: Sequelize.INTEGER, allowNull: false }
+  pozycjaWMagazynieIdPozycja: { type: Sequelize.INTEGER, allowNull: false }
 });
 const PRZESYLKAHASPOZYCJAWMAGAZYNIE = sequelize.define('PrzesylkaHasPozycjaWMagazynie', {
   idPrzesylkaHasPozycjaWMagazynie: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
@@ -764,40 +963,45 @@ const RAPORTYHASUZYTKOWNICY = sequelize.define('RaportyHasUzytkownicy', {
   uzytkownicyIdUzytkownika: { type: Sequelize.INTEGER, allowNull: false }
 });
 
-for (let i = 0; i < recordsToGenerate; i += 1) {
-  // TODO set in docker container after inserting SET FOREIGN_KEY_CHECKS=1;
-  // createAdres();
-  // createKontrahenci();
-  // createDictKategoriaWina();
-  // createDictKategorie();
-  // createDictOdmianaWinogron();
-  // createDictOperacjeNaWinnicy();
-  // createDictProcesy();
-  // createDictRolaUzytkownikow();
-  // createDictTypPartii();
-  // createInformacjeOWinie();
-  // createListPrzewozowy();
-  // createOperacjeNaWinnicy();
-  // createRaporty();
-  // createPlanyProdukcyjne();
-  // createMagazyn();
-  // createOperacje();
-  // createPartie();
-  // createPozycjaWMagazynie();
-  // createPrzesylka();
-  // createUzytkownicy();
-  // createWinnica();
-  // createWinobranie();
-  // createListPrzewozowyHasAdres();
-  // createListPrzewozowyHasKontrahenci();
-  // createOperacjeHasPartie();
-  // createOperacjeHasPozycjaWMagazynie();
-  // createPlanyProdukcyjneHasDictProcesy();
-  // createPrzesylkaHasPozycjaWMagazynie();
-  // createRaportyHasUzytkownicy();
-  // ------ above working data generation
-  // TODO FIX tables below this todo
+async function generateRows() {
+  for (let i = 0; i < recordsToGenerate; i += 1) {
+    fkKeyNumber = i + 1;
+    // TODO set in docker container after inserting
+    // TODO SET FOREIGN_KEY_CHECKS=1; and SET GLOBAL FOREIGN_KEY_CHECKS=1;
+    // await createAdres();
+    // await createDictKategoriaWina();
+    // await createDictKategorie();
+    // await createDictOdmianaWinogron();
+    // await createDictOperacjeNaWinnicy();
+    // await createDictProcesy();
+    // await createDictRolaUzytkownikow();
+    // await createDictTypPartii();
+    // await createInformacjeOWinie();
+    // await createKontrahenci();
+    // await createListPrzewozowy();
+    // await createMagazyn();
+    // await createOperacje();
+    // await createOperacjeNaWinnicy();
+    // await createRaporty();
+    // TODO await createPlanyProdukcyjne();
+    // await createPartie();
+    // await createPozycjaWMagazynie();
+    // await createPrzesylka();
+    // await createUzytkownicy();
+    // await createWinnica();
+    // await createWinobranie();
+    // await createListPrzewozowyHasAdres();
+    // await createListPrzewozowyHasKontrahenci();
+    // await createOperacjeHasPartie();
+    // await createOperacjeHasPozycjaWMagazynie(); //TODO FIX KEY NAMES
+    // await createPlanyProdukcyjneHasPozycjaWMagazynie();
+    // await createPrzesylkaHasPozycjaWMagazynie();
+    // await createRaportyHasUzytkownicy();
+    // ------ above working data generation
+    // TODO FIX tables below this todo
+  }
 }
+generateRows();
 
 // INSERT OR UPDATE
 // async function insertAnyRecord(tableName, query) {
@@ -815,31 +1019,38 @@ for (let i = 0; i < recordsToGenerate; i += 1) {
 //   sqlQuery += `${keys}) VALUES (${values})`;
 //   return await sequelize.query(sqlQuery, ADRES, { raw: true, type: Sequelize.QueryTypes.INSERT });
 // }
+// async function updateAnyRecord(tableName, query) {
+//   let sqlQuery = `UPDATE ${tableName} SET `;
+//   let whereQuery = `${Object.keys(query)[0]}="${Object.values(query)[0]}"`;
+//   delete query[Object.keys(query)[0]];
+//   _.each(query, (value, key) => {
+//     sqlQuery += `${key}="${value}", `;
+//   });
+//   sqlQuery = sqlQuery.slice(0, -2);
+//   sqlQuery += ` WHERE ${whereQuery}`;
+//   return await sequelize.query(sqlQuery, { raw: true, type: Sequelize.QueryTypes.INSERT });
+// }
+
 async function insertAnyRecord(tableName, query) {
-  const result = await sequelize.sync().then(() =>
-    ADRES.create({
-      idAdres: query.idAdres,
-      miasto: query.miasto,
-      kodPocztowy: query.kodPocztowy,
-      ulica: query.ulica,
-      nrLokalu: query.nrLokalu,
-      nrPosesji: query.nrPosesji,
-      kraj: query.kraj
-    })
-  );
-  return [178]; // TODO fix correct return id of created record
+  let lastId = null;
+  await sequelize
+    .sync()
+    .then(() => models[tableName].create(query))
+    .then(async () => {
+      lastId = await sequelize.query(`SELECT * FROM ${tableName} ORDER BY id${tableName} DESC LIMIT 1`, {
+        raw: true,
+        type: Sequelize.QueryTypes.SELECT
+      });
+    });
+  return lastId;
 }
 
 async function updateAnyRecord(tableName, query) {
-  let sqlQuery = `UPDATE ${tableName} SET `;
-  let whereQuery = `${Object.keys(query)[0]}="${Object.values(query)[0]}"`;
-  delete query[Object.keys(query)[0]];
-  _.each(query, (value, key) => {
-    sqlQuery += `${key}="${value}", `;
-  });
-  sqlQuery = sqlQuery.slice(0, -2);
-  sqlQuery += ` WHERE ${whereQuery}`;
-  return await sequelize.query(sqlQuery, { raw: true, type: Sequelize.QueryTypes.INSERT });
+  return await sequelize
+    .sync()
+    .then(() =>
+      models[tableName].update(query, { returning: true, where: { [Object.keys(query)[0]]: Object.values(query)[0] } })
+    );
 }
 
 async function deleteAnyRecord(tableName, query) {
@@ -851,12 +1062,103 @@ export async function selectLast(sqlQuery) {
   return await sequelize.query(sqlQuery, { raw: true, type: Sequelize.QueryTypes.SELECT });
 }
 
-//
-export async function insertAddress(query) {
-  if (Object.keys(query)[0] === 'idAdres') {
-    return await updateAnyRecord('Adres', query);
+async function upsertRow(tableName, query) {
+  if (Object.keys(query)[0] === `id${tableName}`) {
+    console.log('1065, tableName, query filip: ', tableName, query);
+    return await updateAnyRecord(tableName, query);
   }
-  return await insertAnyRecord('Adres', query);
+  console.log('1068, tableName, query filip: ', tableName, query);
+  return await insertAnyRecord(tableName, query);
+}
+
+// UPSERT ANY
+// TODO add logic to update join tables
+export async function insertAdres(query) {
+  return await upsertRow('Adres', query);
+}
+export async function insertKontrahenci(query) {
+  return await upsertRow('Kontrahenci', query);
+}
+export async function insertDictKategoriaWina(query) {
+  return await upsertRow('DictKategoriaWina', query);
+}
+export async function insertDictKategorie(query) {
+  return await upsertRow('DictKategorie', query);
+}
+export async function insertDictOdmianaWinogron(query) {
+  return await upsertRow('DictOdmianaWinogron', query);
+}
+export async function insertDictOperacjeNaWinnicy(query) {
+  return await upsertRow('DictOperacjeNaWinnicy', query);
+}
+export async function insertDictProcesy(query) {
+  return await upsertRow('DictProcesy', query);
+}
+export async function insertDictRolaUzytkownikow(query) {
+  return await upsertRow('DictRolaUzytkownikow', query);
+}
+export async function insertDictTypPartii(query) {
+  return await upsertRow('DictTypPartii', query);
+}
+export async function insertInformacjeOWinie(query) {
+  return await upsertRow('InformacjeOWinie', query);
+}
+export async function insertListPrzewozowy(query) {
+  return await upsertRow('ListPrzewozowy', query);
+}
+export async function insertOperacjeNaWinnicy(query) {
+  return await upsertRow('OperacjeNaWinnicy', query);
+}
+export async function insertRaporty(query) {
+  return await upsertRow('Raporty', query);
+}
+export async function insertPlanyProdukcyjne(query) {
+  return await upsertRow('PlanyProdukcyjne', query);
+}
+export async function insertMagazyn(query) {
+  return await upsertRow('Magazyn', query);
+}
+export async function insertOperacje(query) {
+  return await upsertRow('Operacje', query);
+}
+export async function insertPartie(query) {
+  return await upsertRow('Partie', query);
+}
+export async function insertPozycjaWMagazynie(query) {
+  return await upsertRow('PozycjaWMagazynie', query);
+}
+export async function insertPrzesylka(query) {
+  return await upsertRow('Przesylka', query);
+}
+export async function insertUzytkownicy(query) {
+  return await upsertRow('Uzytkownicy', query);
+}
+export async function insertWinnica(query) {
+  return await upsertRow('Winnica', query);
+}
+export async function insertWinobranie(query) {
+  return await upsertRow('Winobranie', query);
+}
+export async function insertListPrzewozowyHasAdres(query) {
+  return await upsertRow(tableName, query);
+}
+export async function insertListPrzewozowyHasKontrahenci(query) {
+  return await upsertRow(tableName, query);
+}
+export async function insertOperacjeHasPartie(query) {
+  return await upsertRow(tableName, query);
+}
+export async function insertOperacjeHasPozycjaWMagazynie(query) {
+  return await upsertRow(tableName, query);
+}
+export async function insertPlanyProdukcyjneHasPozycjaWMagazynie(query) {
+  return await upsertRow(tableName, query);
+}
+export async function insertPrzesylkaHasPozycjaWMagazynie(query) {
+  return await upsertRow(tableName, query);
+}
+export async function insertRaportyHasUzytkownicy(query) {
+  return await upsertRow(tableName, query);
 }
 
 // SELECT ANY FROM DATABASE
@@ -981,8 +1283,8 @@ export async function getOperacjeHasPartie(query) {
 export async function getOperacjeHasPozycjaWMagazynie(query) {
   return await selectAnyQuery('OperacjeHasPozycjaWMagazynie', query);
 }
-export async function getPlanyProdukcyjneHasDictProcesy(query) {
-  return await selectAnyQuery('PlanyProdukcyjneHasDictProcesy', query);
+export async function getPlanyProdukcyjneHasPozycjaWMagazynie(query) {
+  return await selectAnyQuery('PlanyProdukcyjneHasPozycjaWMagazynie', query);
 }
 export async function getPrzesylkaHasPozycjaWMagazynie(query) {
   return await selectAnyQuery('PrzesylkaHasPozycjaWMagazynie', query);

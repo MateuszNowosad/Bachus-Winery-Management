@@ -1,10 +1,52 @@
 import * as sequelize from '../../sequelizeDB';
 // import * as testData from '../../../.variables/graphGLStaticData';
 import _ from 'underscore';
+// import insert from '../common/insertModels';
+
+const insert = {
+  Adres: sequelize.insertAdres,
+  DictKategoriaWina: sequelize.insertDictKategoriaWina,
+  DictKategorie: sequelize.insertDictKategorie,
+  DictOdmianaWinogron: sequelize.insertDictOdmianaWinogron,
+  DictOperacjeNaWinnicy: sequelize.insertDictOperacjeNaWinnicy,
+  DictProcesy: sequelize.insertDictProcesy,
+  DictRolaUzytkownikow: sequelize.insertDictRolaUzytkownikow,
+  DictTypPartii: sequelize.insertDictTypPartii,
+  InformacjeOWinie: sequelize.insertInformacjeOWinie,
+  Kontrahenci: sequelize.insertKontrahenci,
+  ListPrzewozowy: sequelize.insertListPrzewozowy,
+  Magazyn: sequelize.insertMagazyn,
+  Operacje: sequelize.insertOperacje,
+  OperacjeNaWinnicy: sequelize.insertOperacjeNaWinnicy,
+  Partie: sequelize.insertPartie,
+  PlanyProdukcyjne: sequelize.insertPlanyProdukcyjne,
+  PozycjaWMagazynie: sequelize.insertPozycjaWMagazynie,
+  Przesylka: sequelize.insertPrzesylka,
+  Raporty: sequelize.insertRaporty,
+  Uzytkownicy: sequelize.insertUzytkownicy,
+  Winnica: sequelize.insertWinnica,
+  Winobranie: sequelize.insertWinobranie
+};
 
 export default {
   Query: {
-    Adres: async (_, { idAdres, miasto, kodPocztowy, ulica, nrLokalu, nrPosesji, kraj }, context) => {
+    Adres: async (
+      _,
+      {
+        idAdres,
+        miasto,
+        kodPocztowy,
+        ulica,
+        nrLokalu,
+        nrPosesji,
+        kraj,
+        idUzytkownika,
+        idKontrahenci,
+        idListPrzewozowy,
+        idMagazyn
+      },
+      context
+    ) => {
       return await sequelize.getAddresses({
         idAdres,
         miasto,
@@ -12,7 +54,11 @@ export default {
         ulica,
         nrLokalu,
         nrPosesji,
-        kraj
+        kraj,
+        idUzytkownika,
+        idKontrahenci,
+        idListPrzewozowy,
+        idMagazyn
       });
     },
     DictKategoriaWina: async (_, { idDictKategoriaWina, nazwaKategoria, opis }, context) => {
@@ -285,6 +331,10 @@ export default {
         await Promise.all(promises);
       }
       return await [].concat.apply([], list2);
+    },
+    magazyn: async (_, input, context) => {
+      let query = await sequelize.getMagazyn({ adresIdAdres: _.idAdres });
+      return query[0];
     }
   },
   DictKategoriaWina: {
@@ -457,7 +507,7 @@ export default {
     }
   },
   Magazyn: {
-    adres: async (_, input, context) => {
+    adresIdAdres: async (_, input, context) => {
       const adr = await sequelize.getAddresses({ idAdres: _.adresIdAdres });
       return adr[0];
     },
@@ -764,26 +814,97 @@ export default {
     }
   },
   Mutation: {
-    addAddress: async (root, input, context) => {
-      let insertResult;
-      let sqlQuery;
-      if (Object.keys(input)[0] !== 'idAdres') {
-        insertResult = await sequelize.insertAddress(input);
-        sqlQuery = `select * from Adres where 1=1 AND idAdres = ${insertResult[0]}`;
-      } else {
-        sqlQuery = `select * from Adres where 1=1 AND idAdres = ${Object.values(input)[0]}`;
-        await sequelize.insertAddress(input);
-      }
-
-      let result = [];
-      await new Promise(async resolve => {
-        result.push(await sequelize.selectLast(sqlQuery));
-        resolve();
-      });
-      result = _.flatten(result);
-      return result[0];
+    upsertAdres: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'Adres', 'idAdres');
+    },
+    upsertDictKategoriaWina: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'DictKategoriaWina', 'idDictKategoriaWina');
+    },
+    upsertDictKategorie: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'DictKategorie', 'idDictKategorie');
+    },
+    upsertDictOdmianaWinogron: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'DictOdmianaWinogron', 'idDictOdmianaWinogron');
+    },
+    upsertDictOperacjeNaWinnicy: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'DictOperacjeNaWinnicy', 'idDictOperacjeNaWinnicy');
+    },
+    upsertDictProcesy: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'DictProcesy', 'idDictProcesy');
+    },
+    upsertDictRolaUzytkownikow: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'DictRolaUzytkownikow', 'idDictRolaUzytkownikow');
+    },
+    upsertDictTypPartii: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'DictTypPartii', 'idDictTypPartii');
+    },
+    upsertInformacjeOWinie: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'InformacjeOWinie', 'idInformacjeOWinie');
+    },
+    upsertKontrahenci: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'Kontrahenci', 'idKontrahenci');
+    },
+    upsertListPrzewozowy: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'ListPrzewozowy', 'idListPrzewozowy');
+    },
+    upsertMagazyn: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'Magazyn', 'idMagazyn');
+    },
+    upsertOperacje: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'Operacje', 'idOperacje');
+    },
+    upsertOperacjeNaWinnicy: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'OperacjeNaWinnicy', 'idOperacjeNaWinnicy');
+    },
+    upsertPartie: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'Partie', 'idPartie');
+    },
+    upsertPlanyProdukcyjne: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'PlanyProdukcyjne', 'idPlanyProdukcyjne');
+    },
+    upsertPozycjaWMagazynie: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'PozycjaWMagazynie', 'idPozycjaWMagazynie');
+    },
+    upsertPrzesylka: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'Przesylka', 'idPrzesylka');
+    },
+    upsertRaporty: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'Raporty', 'idRaporty');
+    },
+    upsertUzytkownicy: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'Uzytkownicy', 'idUzytkownicy');
+    },
+    upsertWinnica: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'Winnica', 'idWinnica');
+    },
+    upsertWinobranie: async (root, input, context) => {
+      return await genericUpsertMutation(input, 'Winobranie', 'idWinobranie');
     }
   }
+};
+
+const genericUpsertMutation = async (input, tableName, primaryKeyName) => {
+  console.log('887, input, tableName, primaryKeyName filip: ', input, ' ', tableName, ' ', primaryKeyName);
+  let insertResult;
+  let sqlQuery;
+  if (Object.keys(input)[0] !== primaryKeyName) {
+    // get dynamic FUNCTION name from insert model
+    insertResult = await insert[tableName](input);
+    sqlQuery = `select * from ${tableName} where 1=1 AND ${primaryKeyName} = ${insertResult[0][primaryKeyName]}`;
+  } else {
+    sqlQuery = `select * from ${tableName} where 1=1 AND ${primaryKeyName} = ${Object.values(input)[0]}`;
+    console.log('894, sqlQuery filip: ', sqlQuery);
+    await insert[tableName](input);
+  }
+
+  let result = [];
+  await new Promise(async resolve => {
+    result.push(await sequelize.selectLast(sqlQuery));
+    resolve();
+  });
+  result = _.flatten(result);
+  console.log('906, result filip: ', result);
+  return result[0];
 };
 
 // const userPermissions = await sequelize.query(
