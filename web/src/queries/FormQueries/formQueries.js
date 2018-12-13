@@ -298,3 +298,19 @@ export const getWaybillForForm = waybillID => gql`
     }
   }
 `;
+
+export const getWineInformationForForm = wineInformationID => gql`
+{
+ InformacjeOWinie(idInformacjeOWinie: ${wineInformationID}) {
+  idInformacjeOWinie
+  nazwa
+  motto
+  zawartoscPotAlergenow
+  wartoscEnergetyczna
+  kategoriaWina {
+    idDictKategoriaWina
+    nazwaKategoria
+  }
+}
+}
+`;
