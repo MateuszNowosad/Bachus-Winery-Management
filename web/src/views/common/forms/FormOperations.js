@@ -20,6 +20,7 @@ import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesse
 import DialogForForm from './DialogForForm';
 import StepperItemFromWarehouse from './StepperItemFromWarehouse';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import convertDatetimeForm from '../../../functions/convertDatetimeForm';
 
 const errorMap = {
   beginAmount: false,
@@ -129,6 +130,32 @@ export class FormOperations extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
+    }
+  }
+
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Operacje[0];
+      this.setState({
+        beginAmount: data.iloscPrzed,
+        endAmount: data.iloscPo,
+        beginDate: convertDatetimeForm(data.dataPoczatku),
+        endDate: convertDatetimeForm(data.dataZakonczenia),
+        alcoholContent: data.zawartoscAlkoholu,
+        additiveAmount: data.iloscDodatku,
+        sugarContent: data.zawartoscCukru,
+        acidity: data.kwasowosc,
+        temperature: data.temperatura,
+        desc: data.opis,
+        process: data.dictProcesy.nazwa,
+        content: data.pozycjaWMagazynie.map(curr => ({
+          key: curr.idPozycja,
+          selectedItem: curr,
+          //Change to amount from connecting table
+          amount: curr.ilosc
+        }))
+      });
     }
   }
 

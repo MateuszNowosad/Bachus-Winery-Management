@@ -175,3 +175,30 @@ PozycjaWMagazynie(idPozycja: ${itemInStockID}) {
 }
 }
 `;
+
+export const getOperationForForm = operationID => gql`
+  {
+    Operacje(idOperacja: ${operationID}) {
+      idOperacja
+      iloscPrzed
+      iloscPo
+      dataPoczatku
+      dataZakonczenia
+      zawartoscAlkoholu
+      iloscDodatku
+      zawartoscCukru
+      kwasowosc
+      temperatura
+      opis
+      dictProcesy {
+        idDictProcesy
+        nazwa
+      }
+      pozycjaWMagazynie {
+        idPozycja
+        nazwa
+        ilosc
+      }
+    }
+  }
+`;

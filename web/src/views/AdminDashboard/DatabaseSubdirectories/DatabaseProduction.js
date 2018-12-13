@@ -16,6 +16,7 @@ import getDictWineCategory from '../../../queries/DictionaryQueries/getDictWineC
 import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesses';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 import { FormBatches } from '../../common/forms/FormBatches';
+import { FormOperations } from '../../common/forms/FormOperations';
 
 const labels = ['Partie', 'Informacje o winie', 'Operacje', 'Słowniki'];
 
@@ -73,7 +74,15 @@ class DatabaseProduction extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let operations = data.Operacje;
-                return <AutoTable queryData={operations} querySize={operations.length} editMode={false} />;
+                return (
+                  <AutoTable
+                    queryData={operations}
+                    querySize={operations.length}
+                    dialogForm={<FormOperations />}
+                    dialogFormTitle={'Operacja'}
+                    editMode={true}
+                  />
+                );
               }}
             </Query>
           </TabContainer>
