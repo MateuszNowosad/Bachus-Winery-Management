@@ -1,9 +1,11 @@
 import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
-import { data } from './StaticData';
+import { Query } from 'react-apollo';
 import PropTypes from 'prop-types';
-import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
-import {wineInformationValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
+import { wineInformationValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import getDictWineCategory from '../../../queries/DictionaryQueries/getDictWineCategory';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const errorMap = {
   name: false,
@@ -23,7 +25,7 @@ export class FormWineInformation extends React.Component {
       allergens: '',
       energyValue: 0,
       wineCategory: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -35,21 +37,25 @@ export class FormWineInformation extends React.Component {
 
   handleSubmit = () => {
     const { name, motto, allergens, energyValue, wineCategory } = this.state;
-      let dataObject = {
-          name, motto, allergens, energyValue, wineCategory
-      };
+    let dataObject = {
+      name,
+      motto,
+      allergens,
+      energyValue,
+      wineCategory
+    };
 
-      let arrayOfErrors = UniversalValidationHandler(dataObject, wineInformationValidationKeys);
-      if (arrayOfErrors.length === 0) {
-          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-      } else{
-          let error = Object.assign({}, errorMap);
-          for (let errorField in arrayOfErrors) {
-              error[arrayOfErrors[errorField]] = true;
-          }
-          this.setState({error: error});
-          this.props.submitAborted();
+    let arrayOfErrors = UniversalValidationHandler(dataObject, wineInformationValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
       }
+      this.setState({ errors: error });
+      this.props.submitAborted();
+    }
   };
 
   componentDidUpdate(prevProps) {
@@ -58,15 +64,30 @@ export class FormWineInformation extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.InformacjeOWinie[0];
+      this.setState({
+        name: data.nazwa,
+        motto: data.motto ? data.motto : '',
+        allergens: data.zawartoscPotAlergenow ? data.zawartoscPotAlergenow : '',
+        energyValue: data.wartoscEnergetyczna,
+        wineCategory: data.kategoriaWina.nazwaKategoria
+      });
+    }
+  }
+
   render() {
-    const { name, motto, allergens, energyValue, wineCategory, error } = this.state;
+    const { name, motto, allergens, energyValue, wineCategory, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
+              required
               id="name"
               label="Nazwa wina"
               value={name}
@@ -78,7 +99,7 @@ export class FormWineInformation extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.motto}
+              error={errors.motto}
               id="motto"
               label="Motto"
               value={motto}
@@ -90,7 +111,7 @@ export class FormWineInformation extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.allergens}
+              error={errors.allergens}
               id="allergens"
               label="Zawarte alergeny"
               value={allergens}
@@ -102,7 +123,8 @@ export class FormWineInformation extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.energyValue}
+              error={errors.energyValue}
+              required
               id="energyValue"
               label="Wartość energetyczna"
               type="number"
@@ -113,24 +135,34 @@ export class FormWineInformation extends React.Component {
             />
           </Grid>
           <Grid item md={12}>
-            <TextField
-              fullWidth
-              id="wineCategory"
-              select
-              label="Kategoria wina"
-              placeholder="Kategoria wina"
-              value={wineCategory}
-              error={error.wineCategory}
-              onChange={this.handleChange('wineCategory')}
-              margin="dense"
-              variant={'outlined'}
-            >
-              {data.data.dictWineCategories.map(option => (
-                <MenuItem key={option.name} value={option.name}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </TextField>
+            <Query query={getDictWineCategory}>
+              {({ loading, error, data }) => {
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                return (
+                  <TextField
+                    fullWidth
+                    id="wineCategory"
+                    select
+                    label="Kategoria wina"
+                    placeholder="Kategoria wina"
+                    value={wineCategory}
+                    error={errors.wineCategory}
+                    required
+                    onChange={this.handleChange('wineCategory')}
+                    margin="dense"
+                    variant={'outlined'}
+                  >
+                    {data.DictKategoriaWina.map(record => (
+                      <MenuItem key={record.idDictKategoriaWina} value={record.nazwaKategoria}>
+                        {record.nazwaKategoria}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                );
+              }}
+            </Query>
           </Grid>
         </Grid>
       </form>

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Grid, InputAdornment, MenuItem, TextField } from '@material-ui/core';
+import { Query } from 'react-apollo';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
-import {vineyardValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
-import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
-
-const odmiany = ['Agat doński', 'Ajwaz', 'Alden'];
+import { vineyardValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
+import getDictGrapeType from '../../../queries/DictionaryQueries/getDictGrapeType';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const stany = ['czynna', 'rośnie'];
 
@@ -30,7 +31,7 @@ export class FormVineyard extends React.Component {
       registrationPlotId: '',
       grapeType: '',
       state: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -42,21 +43,27 @@ export class FormVineyard extends React.Component {
 
   handleSubmit = () => {
     const { name, area, terroir, dateOfPlanting, registrationPlotId, grapeType, state } = this.state;
-      let dataObject = {
-          name, area, terroir, dateOfPlanting, registrationPlotId, grapeType, state
-      };
+    let dataObject = {
+      name,
+      area,
+      terroir,
+      dateOfPlanting,
+      registrationPlotId,
+      grapeType,
+      state
+    };
 
-      let arrayOfErrors = UniversalValidationHandler(dataObject, vineyardValidationKeys);
-      if (arrayOfErrors.length === 0) {
-          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-      } else{
-          let error = Object.assign({}, errorMap);
-          for (let errorField in arrayOfErrors) {
-              error[arrayOfErrors[errorField]] = true;
-          }
-          this.setState({error: error});
-          this.props.submitAborted();
+    let arrayOfErrors = UniversalValidationHandler(dataObject, vineyardValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
       }
+      this.setState({ errors: error });
+      this.props.submitAborted();
+    }
   };
 
   componentDidUpdate(prevProps) {
@@ -65,8 +72,24 @@ export class FormVineyard extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Winnica[0];
+      this.setState({
+        name: data.nazwa,
+        area: data.powierzchnia,
+        terroir: data.terroir ? data.terroir : '',
+        dateOfPlanting: data.dataZasadzenia,
+        registrationPlotId: data.ewidencyjnyIdDzialki,
+        grapeType: data.dictOdmianaWinogron.nazwa,
+        state: data.stan
+      });
+    }
+  }
+
   render() {
-    const { name, area, terroir, dateOfPlanting, registrationPlotId, grapeType, state, error } = this.state;
+    const { name, area, terroir, dateOfPlanting, registrationPlotId, grapeType, state, errors } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -74,7 +97,8 @@ export class FormVineyard extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
+              required
               id="name"
               label="Nazwa winnicy"
               placeholder="Nazwa"
@@ -90,7 +114,8 @@ export class FormVineyard extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.area}
+              error={errors.area}
+              required
               id="area"
               label="Powierzchnia"
               value={area}
@@ -106,7 +131,8 @@ export class FormVineyard extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.state}
+              error={errors.state}
+              required
               id="state"
               select
               label="Stan winnicy"
@@ -126,7 +152,7 @@ export class FormVineyard extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.terroir}
+              error={errors.terroir}
               id="terroir"
               label="Terroir"
               placeholder="Terroir"
@@ -143,7 +169,8 @@ export class FormVineyard extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.dateOfPlanting}
+              error={errors.dateOfPlanting}
+              required
               id="dateOfPlanting"
               label="Data zasadzenie"
               type="date"
@@ -159,7 +186,8 @@ export class FormVineyard extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.registrationPlotId}
+              error={errors.registrationPlotId}
+              required
               id="registrationPlotId"
               label="Ewidencyjny numer działki"
               placeholder="Nr. działki"
@@ -173,24 +201,34 @@ export class FormVineyard extends React.Component {
             />
           </Grid>
           <Grid item md={12}>
-            <TextField
-              fullWidth
-              error={error.grapeType}
-              id="grapeType"
-              select
-              label="Odmiana winogron"
-              placeholder="Odmiana winogron"
-              value={grapeType}
-              onChange={this.handleChange('grapeType')}
-              margin="dense"
-              variant={'outlined'}
-            >
-              {odmiany.map(option => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
+            <Query query={getDictGrapeType}>
+              {({ loading, error, data }) => {
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                return (
+                  <TextField
+                    fullWidth
+                    error={errors.grapeType}
+                    required
+                    id="grapeType"
+                    select
+                    label="Odmiana winogron"
+                    placeholder="Odmiana winogron"
+                    value={grapeType}
+                    onChange={this.handleChange('grapeType')}
+                    margin="dense"
+                    variant={'outlined'}
+                  >
+                    {data.DictOdmianaWinogron.map(record => (
+                      <MenuItem key={record.idOdmianaWinogron} value={record.nazwa}>
+                        {record.nazwa}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                );
+              }}
+            </Query>
           </Grid>
         </Grid>
       </form>

@@ -2,8 +2,8 @@ import React from 'react';
 import { TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid/Grid';
 import PropTypes from 'prop-types';
-import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
-import { addressValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import UniversalValidationHandler from '../UniversalValidationHandler/UniversalValidationHandler';
+import { addressValidationKeys } from '../UniversalValidationHandler/validationKeys/validationKeys';
 
 const errorMap = {
   street: false,
@@ -24,7 +24,7 @@ export class FormAddress extends React.Component {
       postalCode: '',
       city: '',
       country: '',
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -42,14 +42,14 @@ export class FormAddress extends React.Component {
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, addressValidationKeys);
     if (arrayOfErrors.length === 0) {
-       this.setState({error: errorMap});
+      this.setState({ error: errorMap });
       return true;
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
         error[arrayOfErrors[errorField]] = true;
       }
-      this.setState({ error: error });
+      this.setState({ errors: error });
       return false;
     }
   }
@@ -70,14 +70,42 @@ export class FormAddress extends React.Component {
     });
   };
 
+  componentDidMount() {
+    const { initState, varName } = this.props;
+    if (initState) {
+      this.setState(
+        {
+          street: initState.ulica,
+          buildingNumber: initState.nrPosesji,
+          apartmentNumber: initState.nrLokalu ? initState.nrLokalu : '',
+          postalCode: initState.kodPocztowy,
+          city: initState.miasto,
+          country: initState.kraj
+        },
+        () => {
+          const { street, buildingNumber, apartmentNumber, postalCode, city, country } = this.state;
+          this.props.onChange(varName, {
+            street,
+            buildingNumber,
+            apartmentNumber,
+            postalCode,
+            city,
+            country
+          });
+        }
+      );
+    }
+  }
+
   render() {
-    const { street, buildingNumber, apartmentNumber, postalCode, city, country, error } = this.state;
+    const { street, buildingNumber, apartmentNumber, postalCode, city, country, errors } = this.state;
     return (
       <Grid container spacing={8}>
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.city}
+            error={errors.city}
+            required
             id="city"
             label="Miasto"
             placeholder="Miasto"
@@ -93,7 +121,8 @@ export class FormAddress extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.street}
+            error={errors.street}
+            required
             id="street"
             label="Ulica"
             placeholder="Ulica"
@@ -109,7 +138,8 @@ export class FormAddress extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.buildingNumber}
+            error={errors.buildingNumber}
+            required
             id="buildingNumber"
             label="Nr. posesji"
             placeholder="Nr. posesji"
@@ -125,7 +155,7 @@ export class FormAddress extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.apartmentNumber}
+            error={errors.apartmentNumber}
             id="apartmentNumber"
             label="Nr. lokalu"
             placeholder="Nr. lokalu"
@@ -141,7 +171,8 @@ export class FormAddress extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.postalCode}
+            error={errors.postalCode}
+            required
             id="postalCode"
             label="Kod pocztowy"
             placeholder="Kod pocztowy"
@@ -157,7 +188,8 @@ export class FormAddress extends React.Component {
         <Grid item md={6}>
           <TextField
             fullWidth
-            error={error.country}
+            error={errors.country}
+            required
             id="country"
             label="Kraj"
             placeholder="Kraj"

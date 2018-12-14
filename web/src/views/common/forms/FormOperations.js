@@ -6,17 +6,21 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   Typography,
-  ExpansionPanelDetails
+  ExpansionPanelDetails,
+  Button,
+  Chip
 } from '@material-ui/core';
+import { Query } from 'react-apollo';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
-import {
-    operationsValidationKeys
-} from "./UniversalValidationHandler/validationKeys/validationKeys";
-
-const operations = ['fermentacja', 'dojrzewanie'];
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
+import { operationsValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesses';
+import DialogForForm from './DialogForForm';
+import StepperItemFromWarehouse from './StepperItemFromWarehouse';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import convertDatetimeForm from '../../../functions/convertDatetimeForm';
 
 const errorMap = {
   beginAmount: false,
@@ -47,13 +51,38 @@ export class FormOperations extends React.Component {
       temperature: '',
       desc: '',
       process: '',
-      error: errorMap
+      content: [],
+      open: false,
+      errors: errorMap
     };
   }
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value
+    });
+  };
+
+  handleAddContent = data => {
+    this.setState(prevState => ({
+      content: [...prevState.content, data]
+    }));
+  };
+
+  handleDelete = data => () => {
+    this.setState(state => {
+      const content = [...state.content];
+      const contentToDelete = content.indexOf(data);
+      content.splice(contentToDelete, 1);
+      return { content };
     });
   };
 
@@ -71,36 +100,64 @@ export class FormOperations extends React.Component {
       desc,
       process
     } = this.state;
-      let dataObject = {
-          beginAmount,
-          endAmount,
-          beginDate,
-          endDate,
-          alcoholContent,
-          additiveAmount,
-          sugarContent,
-          acidity,
-          temperature,
-          desc,
-          process
-      };
+    let dataObject = {
+      beginAmount,
+      endAmount,
+      beginDate,
+      endDate,
+      alcoholContent,
+      additiveAmount,
+      sugarContent,
+      acidity,
+      temperature,
+      desc,
+      process
+    };
 
-      let arrayOfErrors = UniversalValidationHandler(dataObject, operationsValidationKeys);
-      if (arrayOfErrors.length === 0) {
-          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-      } else{
-          let error = Object.assign({}, errorMap);
-          for (let errorField in arrayOfErrors) {
-              error[arrayOfErrors[errorField]] = true;
-          }
-          this.setState({error: error});
-          this.props.submitAborted();
+    let arrayOfErrors = UniversalValidationHandler(dataObject, operationsValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
       }
+      this.setState({ errors: error });
+      this.props.submitAborted();
+    }
   };
 
   componentDidUpdate(prevProps) {
     if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
+    }
+  }
+
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Operacje[0];
+      this.setState({
+        beginAmount: data.iloscPrzed,
+        endAmount: data.iloscPo ? data.iloscPo : '',
+        beginDate: convertDatetimeForm(data.dataPoczatku),
+        endDate: data.dataZakonczenia ? convertDatetimeForm(data.dataZakonczenia) : '',
+        alcoholContent: data.zawartoscAlkoholu ? data.zawartoscAlkoholu : '',
+        additiveAmount: data.iloscDodatku ? data.iloscDodatku : '',
+        sugarContent: data.zawartoscCukru ? data.zawartoscCukru : '',
+        acidity: data.kwasowosc ? data.kwasowosc : '',
+        temperature: data.temperatura ? data.temperatura : '',
+        desc: data.opis ? data.opis : '',
+        process: data.dictProcesy ? data.dictProcesy.nazwa : '',
+        content: data.pozycjaWMagazynie
+          ? data.pozycjaWMagazynie.map(curr => ({
+              key: curr.idPozycja,
+              selectedItem: curr,
+              //TODO Change to amount from connecting table
+              amount: curr.ilosc
+            }))
+          : ''
+      });
     }
   }
 
@@ -117,36 +174,49 @@ export class FormOperations extends React.Component {
       temperature,
       desc,
       process,
-      error
+      content,
+      open,
+      errors
     } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
-            <TextField
-              fullWidth
-              error={error.process}
-              id="process"
-              select
-              label="Rodzaj operacji"
-              placeholder="Rodzaj operacji"
-              value={process}
-              onChange={this.handleChange('process')}
-              margin="dense"
-              variant={'outlined'}
-            >
-              {operations.map(option => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
+            <Query query={getDictProcesses}>
+              {({ loading, error, data }) => {
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                return (
+                  <TextField
+                    fullWidth
+                    error={errors.process}
+                    required
+                    id="process"
+                    select
+                    label="Rodzaj operacji"
+                    placeholder="Rodzaj operacji"
+                    value={process}
+                    onChange={this.handleChange('process')}
+                    margin="dense"
+                    variant={'outlined'}
+                  >
+                    {data.DictProcesy.map(record => (
+                      <MenuItem key={record.idDictProcesy} value={record.nazwa}>
+                        {record.nazwa}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                );
+              }}
+            </Query>
           </Grid>
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.beginAmount}
+              error={errors.beginAmount}
+              required
               id="beginAmount"
               label="Ilość początkowa"
               value={beginAmount}
@@ -159,7 +229,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.endAmount}
+              error={errors.endAmount}
               id="endAmount"
               label="Ilość końcowa"
               value={endAmount}
@@ -172,7 +242,8 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.beginData}
+              error={errors.beginData}
+              required
               id="beginDate"
               label="Data początku"
               type="datetime-local"
@@ -188,7 +259,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.endDate}
+              error={errors.endDate}
               id="endDate"
               label="Data zakończenia"
               type="datetime-local"
@@ -204,7 +275,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.alcoholContent}
+              error={errors.alcoholContent}
               id="alcoholContent"
               label="Zawartość alkoholu"
               value={alcoholContent}
@@ -217,7 +288,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.additiveAmount}
+              error={errors.additiveAmount}
               id="additiveAmount"
               label="Ilość dodatku"
               value={additiveAmount}
@@ -230,7 +301,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.sugarContent}
+              error={errors.sugarContent}
               id="sugarContent"
               label="Zawartość cukru"
               value={sugarContent}
@@ -243,7 +314,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.acidity}
+              error={errors.acidity}
               id="acidity"
               label="Kwasowość"
               value={acidity}
@@ -256,7 +327,7 @@ export class FormOperations extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.temperature}
+              error={errors.temperature}
               id="temperature"
               label="Temperatura"
               value={temperature}
@@ -269,7 +340,7 @@ export class FormOperations extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.desc}
+              error={errors.desc}
               id="desc"
               label="Opis"
               placeholder="Opis"
@@ -288,7 +359,34 @@ export class FormOperations extends React.Component {
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="inherit">Produkty z magazynu</Typography>
               </ExpansionPanelSummary>
-              <ExpansionPanelDetails />
+              <ExpansionPanelDetails>
+                <Grid container spacing={8} justify={'center'}>
+                  <Grid item md={12}>
+                    {content.map(data => {
+                      return (
+                        <Chip
+                          key={data.key}
+                          label={data.selectedItem.name + ' ' + data.amount}
+                          onDelete={this.handleDelete(data)}
+                        />
+                      );
+                    })}
+                  </Grid>
+                  <Grid item md={12}>
+                    <Button variant="outlined" onClick={this.handleClickOpen}>
+                      Dodaj
+                    </Button>
+                    <DialogForForm
+                      title={'Magazyn'}
+                      open={open}
+                      onClose={this.handleClose}
+                      children={
+                        <StepperItemFromWarehouse onSubmit={this.handleAddContent} onClose={this.handleClose} />
+                      }
+                    />
+                  </Grid>
+                </Grid>
+              </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>
         </Grid>

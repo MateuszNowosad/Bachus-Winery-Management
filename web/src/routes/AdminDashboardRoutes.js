@@ -11,15 +11,22 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import DnsIcon from '@material-ui/icons/Dns';
 import LocalShipping from '@material-ui/icons/LocalShipping';
+import Description from '@material-ui/icons/Description';
 import SaveIcon from '@material-ui/icons/Save';
 import Flower from '@material-ui/icons/LocalFlorist';
 import Bar from '@material-ui/icons/LocalBar';
 import UserInfo from '../views/AdminDashboard/UserInfo';
 import FaceIcon from '@material-ui/icons/Face';
+import TodayIcon from '@material-ui/icons/Today';
+import StorageIcon from '@material-ui/icons/Storage';
 import DatabaseVineyard from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseVineyard';
 import DatabaseProduction from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseProduction';
 import DatabaseContactsAndUsers from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseContactsAndUsers';
 import DatabaseLogistics from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseLogistics';
+import ProductionPlans from '../views/AdminDashboard/ProductionPlans';
+import ProductionPlanDetails from '../views/AdminDashboard/Subpages/ProductionPlanDetails';
+import DatabaseReports from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseReports';
+import Warehouse from '../views/AdminDashboard/Warehouse';
 
 const AdminDashboardRoutes = [
   {
@@ -69,8 +76,24 @@ const AdminDashboardRoutes = [
         drawerIcon: <LocalShipping />,
         component: DatabaseLogistics,
         exact: false
+      },
+      {
+        path: '/admindashboard/database/raporty',
+        drawerName: 'Raporty',
+        navbarName: 'Raporty',
+        drawerIcon: <Description />,
+        component: DatabaseReports,
+        exact: false
       }
     ]
+  },
+  {
+    path: '/admindashboard/warehouse',
+    drawerName: 'Magazyn',
+    navbarName: 'Magazyn',
+    drawerIcon: <StorageIcon />,
+    component: Warehouse,
+    exact: false
   },
   {
     path: '/admindashboard/profile',
@@ -103,6 +126,20 @@ const AdminDashboardRoutes = [
     drawerIcon: <SaveIcon />,
     component: Backup,
     exact: false
+  },
+  {
+    path: '/admindashboard/productionplans',
+    drawerName: 'Plany produkcyjne',
+    navbarName: 'Plany produkcyjne',
+    drawerIcon: <TodayIcon />,
+    component: ProductionPlans,
+    exact: true
+  },
+  {
+    path: '/admindashboard/productionplans/:id',
+    component: ProductionPlanDetails,
+    hidden: true,
+    exact: true
   }
 
   // {redirect: true, path: "/", to: "/login", navbarName: "Redirect"}

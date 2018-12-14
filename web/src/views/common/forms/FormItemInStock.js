@@ -2,12 +2,15 @@ import React from 'react';
 import { Grid, MenuItem, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
-
-import { data } from './StaticData';
-import { DialogForForm } from './DialogForForm';
+import { Query } from 'react-apollo';
+import DialogForForm from './DialogForForm';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
-import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
-import {itemInStockValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
+import { itemInStockValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import getDictCategories from '../../../queries/DictionaryQueries/getDictCategories';
+import getBatches from '../../../queries/BatchesQueries/getBatches';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import convertDatetimeForm from '../../../functions/convertDatetimeForm';
 
 const errorMap = {
   name: false,
@@ -36,7 +39,7 @@ export class FormItemInStock extends React.Component {
       category: '',
       batch: {},
       open: false,
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -72,30 +75,30 @@ export class FormItemInStock extends React.Component {
       category,
       batch
     } = this.state;
-      let dataObject = {
-          name,
-          desc,
-          amount,
-          barcode,
-          actualState,
-          acceptanceDate,
-          releaseDate,
-          sectorName,
-          category,
-          batch
-      };
+    let dataObject = {
+      name,
+      desc,
+      amount,
+      barcode,
+      actualState,
+      acceptanceDate,
+      releaseDate,
+      sectorName,
+      category,
+      batch
+    };
 
-      let arrayOfErrors = UniversalValidationHandler(dataObject, itemInStockValidationKeys);
-      if (arrayOfErrors.length === 0) {
-          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-      } else{
-          let error = Object.assign({}, errorMap);
-          for (let errorField in arrayOfErrors) {
-              error[arrayOfErrors[errorField]] = true;
-          }
-          this.setState({error: error});
-          this.props.submitAborted();
+    let arrayOfErrors = UniversalValidationHandler(dataObject, itemInStockValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
       }
+      this.setState({ errors: error });
+      this.props.submitAborted();
+    }
   };
 
   componentDidUpdate(prevProps) {
@@ -104,8 +107,26 @@ export class FormItemInStock extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.PozycjaWMagazynie[0];
+      this.setState({
+        name: data.nazwa,
+        desc: data.opis ? data.opis : '',
+        amount: data.ilosc,
+        barcode: data.kodKreskowy,
+        actualState: data.stanAktualny,
+        acceptanceDate: convertDatetimeForm(data.dataPrzyjecia),
+        releaseDate: data.dataWydania ? convertDatetimeForm(data.dataWydania) : '',
+        sectorName: data.nazwaSektora,
+        category: data.kategorie.nazwa,
+        batch: data.partie ? data.partie : ''
+      });
+    }
+  }
   render() {
-    const { name, desc, amount, acceptanceDate, releaseDate, sectorName, category, batch, open, error } = this.state;
+    const { name, desc, amount, acceptanceDate, releaseDate, sectorName, category, batch, open, errors } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -113,7 +134,8 @@ export class FormItemInStock extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.name}
+              error={errors.name}
+              required
               id="name"
               label="Nazwa"
               placeholder="Nazwa"
@@ -126,7 +148,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.desc}
+              error={errors.desc}
               id="desc"
               label="Opis"
               value={desc}
@@ -138,7 +160,8 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.amount}
+              error={errors.amount}
+              required
               id="amount"
               label="Ilość"
               value={amount}
@@ -151,7 +174,8 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.acceptanceDate}
+              error={errors.acceptanceDate}
+              required
               id="acceptanceDate"
               label="Data przyjęcia"
               type="datetime-local"
@@ -167,7 +191,7 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.releaseDate}
+              error={errors.releaseDate}
               id="releaseDate"
               label="Data wydania"
               type="datetime-local"
@@ -183,7 +207,8 @@ export class FormItemInStock extends React.Component {
           <Grid item md={6}>
             <TextField
               fullWidth
-              error={error.sectorName}
+              error={errors.sectorName}
+              required
               id="sectorName"
               label="Nazwa sektora"
               value={sectorName}
@@ -193,30 +218,40 @@ export class FormItemInStock extends React.Component {
             />
           </Grid>
           <Grid item md={6}>
-            <TextField
-              fullWidth
-              error={error.category}
-              id="category"
-              label="Kategoria"
-              select
-              value={category}
-              margin="dense"
-              onChange={this.handleChange('category')}
-              variant={'outlined'}
-            >
-              {data.data.dictCategories.map(option => (
-                <MenuItem key={option.name} value={option.name}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </TextField>
+            <Query query={getDictCategories}>
+              {({ loading, error, data }) => {
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                return (
+                  <TextField
+                    fullWidth
+                    error={errors.category}
+                    required
+                    id="category"
+                    label="Kategoria"
+                    select
+                    value={category}
+                    margin="dense"
+                    onChange={this.handleChange('category')}
+                    variant={'outlined'}
+                  >
+                    {data.DictKategorie.map(record => (
+                      <MenuItem key={record.idKategorie} value={record.nazwa}>
+                        {record.nazwa}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                );
+              }}
+            </Query>
           </Grid>
           <Grid item md={12}>
             <TextField
               fullWidth
               id="batch"
               label="Partia"
-              value={batch.name ? batch.name : 'Nie wybrano partii'}
+              value={batch.idPartie ? batch.idPartie : 'Nie wybrano partii'}
               margin="dense"
               variant="outlined"
               InputProps={{
@@ -224,21 +259,26 @@ export class FormItemInStock extends React.Component {
               }}
               onClick={() => this.handleClickOpen('open')}
             />
-            <DialogForForm
-              title={'Partie'}
-              open={open}
-              onClose={() => this.handleClose('open')}
-              children={
-                <SelectableAutoTable
-                  queryData={data}
-                  querySubject="batches"
-                  funParam="batch"
-                  onSelect={this.handleSelectBatch}
-                  onClose={() => this.handleClose('open')}
-                  id={batch.id}
-                />
-              }
-            />
+            <DialogForForm title={'Partie'} open={open} onClose={() => this.handleClose('open')}>
+              <Query query={getBatches}>
+                {({ loading, error, data }) => {
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                  return (
+                    <SelectableAutoTable
+                      queryData={data}
+                      querySubject="Partie"
+                      querySize={data.Partie.length}
+                      funParam="batch"
+                      onSelect={this.handleSelectBatch}
+                      onClose={() => this.handleClose('open')}
+                      id={batch.idPartie}
+                    />
+                  );
+                }}
+              </Query>
+            </DialogForForm>
           </Grid>
         </Grid>
       </form>

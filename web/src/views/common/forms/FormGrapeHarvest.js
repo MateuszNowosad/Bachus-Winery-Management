@@ -2,8 +2,8 @@ import React from 'react';
 import { Grid, InputAdornment, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
-import UniversalValidationHandler from "./UniversalValidationHandler/UniversalValidationHandler";
-import {harvestValidationKeys} from "./UniversalValidationHandler/validationKeys/validationKeys";
+import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
+import { harvestValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 
 const errorMap = {
   dateOfHarvest: false,
@@ -17,7 +17,7 @@ export class FormGrapeHarvest extends React.Component {
     this.state = {
       dateOfHarvest: currentDate('date'),
       amount: 0,
-      error: errorMap
+      errors: errorMap
     };
   }
 
@@ -29,20 +29,21 @@ export class FormGrapeHarvest extends React.Component {
 
   handleSubmit = () => {
     const { dateOfHarvest, amount } = this.state;
-      let dataObject = {
-          dateOfHarvest, amount
-      };
-      let arrayOfErrors = UniversalValidationHandler(dataObject, harvestValidationKeys);
-      if (arrayOfErrors.length === 0) {
-          if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
-      } else{
-          let error = Object.assign({}, errorMap);
-          for (let errorField in arrayOfErrors) {
-              error[arrayOfErrors[errorField]] = true;
-          }
-          this.setState({error: error});
-          this.props.submitAborted();
+    let dataObject = {
+      dateOfHarvest,
+      amount
+    };
+    let arrayOfErrors = UniversalValidationHandler(dataObject, harvestValidationKeys);
+    if (arrayOfErrors.length === 0) {
+      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+    } else {
+      let error = Object.assign({}, errorMap);
+      for (let errorField in arrayOfErrors) {
+        error[arrayOfErrors[errorField]] = true;
       }
+      this.setState({ errors: error });
+      this.props.submitAborted();
+    }
   };
 
   componentDidUpdate(prevProps) {
@@ -51,15 +52,27 @@ export class FormGrapeHarvest extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Winobranie[0];
+      this.setState({
+        dateOfHarvest: data.dataWinobrania,
+        amount: data.iloscZebranychWinogron
+      });
+    }
+  }
+
   render() {
-    const { dateOfHarvest, amount, error } = this.state;
+    const { dateOfHarvest, amount, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.dateOfHarvest}
+              error={errors.dateOfHarvest}
+              required
               id="dateOfHarvest"
               label="Data zbioru"
               type="date"
@@ -75,7 +88,8 @@ export class FormGrapeHarvest extends React.Component {
           <Grid item md={12}>
             <TextField
               fullWidth
-              error={error.amount}
+              error={errors.amount}
+              required
               id="amount"
               label="Ilość"
               value={amount}

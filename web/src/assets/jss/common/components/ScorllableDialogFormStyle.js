@@ -5,9 +5,9 @@ const ScrollableDialogFormStyle = () => ({
     overflow: 'auto'
   },
   root: {
-      display:'flex',
-      maxWidth: '100%',
-      justifyContent: 'center',
+    display: 'flex',
+    maxWidth: '100%',
+    justifyContent: 'center'
   }
 });
 

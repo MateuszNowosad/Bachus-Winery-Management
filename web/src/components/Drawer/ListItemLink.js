@@ -10,12 +10,16 @@ class ListItemLink extends React.Component {
   renderLink = itemProps => <Link to={this.props.to} {...itemProps} />; //to prevent unexpected unmounting.
 
   render() {
-    const { icon, primary } = this.props;
+    const { icon, primary, secondary } = this.props;
     return (
       <li>
         <ListItem button component={this.renderLink}>
           <ListItemIcon>{icon}</ListItemIcon>
-          <ListItemText primary={primary} />
+          {secondary !== undefined ? (
+            <ListItemText primary={primary} secondary={secondary} />
+          ) : (
+            <ListItemText primary={primary} />
+          )}
         </ListItem>
       </li>
     );
@@ -25,6 +29,7 @@ class ListItemLink extends React.Component {
 ListItemLink.propTypes = {
   icon: PropTypes.node.isRequired,
   primary: PropTypes.node.isRequired,
+  secondary: PropTypes.node,
   to: PropTypes.string.isRequired,
   nested: PropTypes.bool
 };

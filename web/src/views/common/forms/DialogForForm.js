@@ -1,13 +1,21 @@
 import React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import DialogForFormStyle from '../../../assets/jss/common/components/DialogForFormStyle';
 
-export class DialogForForm extends React.Component {
+class DialogForForm extends React.Component {
   render() {
-    const { open, onClose, title } = this.props;
+    const { open, onClose, title, classes } = this.props;
 
     return (
-      <Dialog open={open} onClose={() => onClose()} aria-labelledby="form-dialog-title">
+      <Dialog
+        fullWidth={true}
+        maxWidth={'lg'}
+        open={open}
+        onClose={() => onClose()}
+        aria-labelledby="form-dialog-title"
+        className={classes.dialog}
+      >
         <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>{this.props.children}</DialogContent>
         <DialogActions>
@@ -25,3 +33,5 @@ DialogForForm.propTypes = {
   title: PropTypes.string,
   onClose: PropTypes.func
 };
+
+export default withStyles(DialogForFormStyle)(DialogForForm);

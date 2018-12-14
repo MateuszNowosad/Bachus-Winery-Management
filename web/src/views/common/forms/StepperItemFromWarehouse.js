@@ -12,14 +12,17 @@ import {
   InputAdornment,
   Paper
 } from '@material-ui/core';
-import { data } from './StaticData';
+import { Query } from 'react-apollo';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
+import getWarehouses from '../../../queries/WarehouseQueries/getWarehouses';
+import getItemsFromWarehouse from '../../../queries/WarehouseQueries/getItemsFromWarehouse';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 function getSteps() {
   return ['Wybierz magazyn', 'Wybierz produkt', 'Określ rozmiar'];
 }
 
-class StepperParcelContent extends React.Component {
+class StepperItemFromWarehouse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,8 +48,13 @@ class StepperParcelContent extends React.Component {
   handleValueChange = event => {
     this.setState({
       valuePercent: event.target.value,
-      value: (event.target.value / 100) * this.state.selectedItem.amount
+      value: (event.target.value / 100) * this.state.selectedItem.ilosc
     });
+  };
+
+  filterItems = data => {
+    const { content } = this.props;
+    return data.pozycjaWMagazynie.filter(item => content.every(val => item.idPozycja !== val.key));
   };
 
   getStepContent = step => {
@@ -54,23 +62,43 @@ class StepperParcelContent extends React.Component {
     switch (step) {
       case 0:
         return (
-          <SelectableAutoTable
-            queryData={data}
-            querySubject="warehouses"
-            funParam="selectedWarehouse"
-            onSelect={this.handleSelect}
-            id={this.state.selectedWarehouse.id}
-          />
+          <Query query={getWarehouses}>
+            {({ loading, error, data }) => {
+              if (loading) return <CircularProgress />;
+              if (error)
+                return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+              return (
+                <SelectableAutoTable
+                  queryData={data.Magazyn}
+                  // querySubject="Magazyn"
+                  querySize={data.Magazyn.length}
+                  funParam="selectedWarehouse"
+                  onSelect={this.handleSelect}
+                  id={this.state.selectedWarehouse.idMagazyn}
+                />
+              );
+            }}
+          </Query>
         );
       case 1:
         return (
-          <SelectableAutoTable
-            queryData={data}
-            querySubject={'iteminstock' + this.state.selectedWarehouse.id}
-            funParam="selectedItem"
-            onSelect={this.handleSelect}
-            id={this.state.selectedItem.id}
-          />
+          <Query query={getItemsFromWarehouse(this.state.selectedWarehouse.idMagazyn)}>
+            {({ loading, error, data }) => {
+              if (loading) return <CircularProgress />;
+              if (error)
+                return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+              return (
+                <SelectableAutoTable
+                  queryData={this.filterItems(data.Magazyn[0])}
+                  // querySubject={'pozycjaWMagazynie'}
+                  querySize={data.Magazyn[0].pozycjaWMagazynie.length}
+                  funParam="selectedItem"
+                  onSelect={this.handleSelect}
+                  id={this.state.selectedItem.idPozycja}
+                />
+              );
+            }}
+          </Query>
         );
       case 2:
         return (
@@ -102,7 +130,7 @@ class StepperParcelContent extends React.Component {
                   variant="outlined"
                 />
                 <Typography variant={'body1'}>
-                  {this.state.value} of {this.state.selectedItem.amount}
+                  {this.state.value} of {this.state.selectedItem.ilosc}
                 </Typography>
               </div>
             )}
@@ -129,20 +157,21 @@ class StepperParcelContent extends React.Component {
   handleSubmit = () => {
     const { selectedItem, value, fullItem } = this.state;
     const object = {
-      key: selectedItem.id,
+      key: selectedItem.idPozycja,
       selectedItem: selectedItem,
-      amount: fullItem ? selectedItem.amount : value
+      amount: fullItem ? selectedItem.ilosc : value
     };
+    console.log('161, object jakub: ', object);
     this.props.onSubmit(object);
     this.props.onClose();
   };
 
   isSelected = step => {
     if (step === 0) {
-      return this.state.selectedWarehouse.id === undefined;
+      return this.state.selectedWarehouse.idMagazyn === undefined;
     }
     if (step === 1) {
-      return this.state.selectedItem.id === undefined;
+      return this.state.selectedItem.idPozycja === undefined;
     }
   };
 
@@ -186,9 +215,9 @@ class StepperParcelContent extends React.Component {
   }
 }
 
-StepperParcelContent.propTypes = {
+StepperItemFromWarehouse.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 
-export default StepperParcelContent;
+export default StepperItemFromWarehouse;

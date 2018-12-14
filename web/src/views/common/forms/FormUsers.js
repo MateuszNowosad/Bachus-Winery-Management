@@ -1,14 +1,15 @@
 import React from 'react';
 import { Avatar, Button, Grid, IconButton, InputAdornment, MenuItem, TextField } from '@material-ui/core';
+import { Query } from 'react-apollo';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { FormAddress } from './FormAddress';
+import { FormAddress } from './subforms/FormAddress';
 import PropTypes from 'prop-types';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler.js';
 import { usersValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
-
-const roles = ['administrator', 'pracownik produkcji', 'pracownik magazynu'];
+import getDictUserRole from '../../../queries/DictionaryQueries/getDictUserRole';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const errorMap = {
   firstName: false,
@@ -19,10 +20,8 @@ const errorMap = {
   eMail: false,
   phoneNumber: false,
   userRole: false,
-  photo: false
+  photoURL: false
 };
-
-export const formTitle = 'Nowy użytkownik';
 
 export class FormUsers extends React.Component {
   constructor(props) {
@@ -37,10 +36,9 @@ export class FormUsers extends React.Component {
       phoneNumber: '',
       address: {},
       userRole: '',
-      photo: '',
-      imagePreviewUrl: '',
+      photoURL: '',
       showPassword: false,
-      error: errorMap,
+      errors: errorMap,
       passwordStrength: 0
     };
     this.subForm = React.createRef();
@@ -120,7 +118,7 @@ export class FormUsers extends React.Component {
       for (let errorField in arrayOfErrors) {
         error[arrayOfErrors[errorField]] = true;
       }
-      this.setState({ error: error });
+      this.setState({ errors: error });
       this.props.submitAborted();
     }
   };
@@ -133,19 +131,38 @@ export class FormUsers extends React.Component {
     let reader = new FileReader();
     let photo = event.target.files[0];
 
-    reader.onloadend = () => {
-      this.setState({
-        photo: photo,
-        imagePreviewUrl: reader.result
-      });
-    };
-
     reader.readAsDataURL(photo);
+
+    reader.onload = () => {
+      this.setState(
+        {
+          photoURL: reader.result
+        },
+      );
+    };
   };
 
   componentDidUpdate(prevProps) {
     if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
+    }
+  }
+
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Uzytkownicy[0];
+      this.setState({
+        firstName: data.imie,
+        lastName: data.nazwisko,
+        login: data.login,
+        // password: data.haslo,
+        PESEL: data.PESEL,
+        eMail: data.eMail,
+        phoneNumber: data.nrTelefonu,
+        userRole: data.rola.nazwa,
+        photoURL: data.zdjecie ? data.zdjecie : ''
+      });
     }
   }
 
@@ -159,11 +176,12 @@ export class FormUsers extends React.Component {
       eMail,
       phoneNumber,
       userRole,
-      imagePreviewUrl,
+      photoURL,
       showPassword,
-      error
+      errors
     } = this.state;
 
+    const { initState } = this.props;
     return (
       <div>
         <form
@@ -175,7 +193,8 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
-                error={error.firstName}
+                error={errors.firstName}
+                required
                 id="firstName"
                 label="Imię"
                 placeholder="Imię"
@@ -192,7 +211,8 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
-                error={error.lastName}
+                error={errors.lastName}
+                required
                 id="lastName"
                 label="Nazwisko"
                 placeholder="Nazwisko"
@@ -216,7 +236,7 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <Avatar
                 alt="Zdjęcie użytkownika"
-                src={imagePreviewUrl}
+                src={photoURL}
                 style={{
                   width: 140,
                   height: 140,
@@ -227,7 +247,8 @@ export class FormUsers extends React.Component {
             <Grid item md={12}>
               <TextField
                 fullWidth
-                error={error.eMail}
+                error={errors.eMail}
+                required
                 id="eMail"
                 label="Adres e-mail"
                 placeholder="Adres e-mail"
@@ -243,7 +264,8 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
-                error={error.login}
+                error={errors.login}
+                required
                 id="login"
                 label="Login"
                 placeholder="Login"
@@ -259,7 +281,8 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
-                error={error.password}
+                error={errors.password}
+                required
                 id="password"
                 label="Haslo"
                 placeholder="Haslo"
@@ -285,7 +308,8 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
-                error={error.PESEL}
+                error={errors.PESEL}
+                required
                 id="PESEL"
                 label="PESEL"
                 placeholder="PESEL"
@@ -301,7 +325,8 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <TextField
                 fullWidth
-                error={error.phoneNumber}
+                error={errors.phoneNumber}
+                required
                 id="phoneNumber"
                 label="Numer telefonu"
                 placeholder="Numer telefonu"
@@ -315,27 +340,42 @@ export class FormUsers extends React.Component {
               />
             </Grid>
             <Grid item md={6}>
-              <TextField
-                fullWidth
-                error={error.userRole}
-                id="userRole"
-                select
-                label="Rola użytkownika"
-                placeholder="Rola użytkownika"
-                value={userRole}
-                onChange={this.handleChange('userRole')}
-                margin="dense"
-                variant={'outlined'}
-              >
-                {roles.map(option => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              </TextField>
+              <Query query={getDictUserRole}>
+                {({ loading, error, data }) => {
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                  return (
+                    <TextField
+                      fullWidth
+                      error={errors.userRole.nazwa}
+                      required
+                      id="userRole"
+                      select
+                      label="Rola użytkownika"
+                      placeholder="Rola użytkownika"
+                      value={userRole}
+                      onChange={this.handleChange('userRole')}
+                      margin="dense"
+                      variant={'outlined'}
+                    >
+                      {data.DictRolaUzytkownikow.map(record => (
+                        <MenuItem key={record.idRolaUzytkownikow} value={record.nazwa}>
+                          {record.nazwa}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  );
+                }}
+              </Query>
             </Grid>
             <Grid item md={12}>
-              <FormAddress varName="address" onChange={this.handleAddressChange} ref={this.subForm} />
+              <FormAddress
+                varName="address"
+                onChange={this.handleAddressChange}
+                ref={this.subForm}
+                initState={initState ? initState.Uzytkownicy[0].adres : null}
+              />
             </Grid>
           </Grid>
         </form>

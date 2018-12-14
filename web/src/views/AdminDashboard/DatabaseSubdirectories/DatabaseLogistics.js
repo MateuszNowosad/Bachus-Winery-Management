@@ -5,9 +5,19 @@ import Typography from '@material-ui/core/Typography';
 //import BackupStyle from "../../assets/jss/common/views/Database/BackupStyle.js";
 import AdminDashboardStyle from '../../../assets/jss/common/views/AdminDashboard/AdminDashboardStyle.js';
 import AutoTable from '../../../components/AutoTable/AutoTable';
-import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
+import { Query } from 'react-apollo';
+import getItemsInStock from '../../../queries/WarehouseQueries/getItemsInStock';
+import getParcels from '../../../queries/WaybillQueries/getParcels';
+import getWaybills from '../../../queries/WaybillQueries/getWaybills';
+import getWarehouses from '../../../queries/WarehouseQueries/getWarehouses';
+import getDictCategories from '../../../queries/DictionaryQueries/getDictCategories';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import { FormWaybill } from '../../common/forms/FormWaybill';
+import { FormItemInStock } from '../../common/forms/FormItemInStock';
+import { FormWarehouse } from '../../common/forms/FormWarehouse';
+import { FormDictCategories } from '../../common/forms/FormDictCategories';
 
 const labels = ['Pozycje w magazynie', 'Przesyłki', 'Listy przwozowe', 'Magazyny', 'Słowniki'];
 
@@ -23,25 +33,81 @@ class DatabaseProduction extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Pozycje w magazynie
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getItemsInStock}>
+              {({ loading, error, data }) => {
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                let items = data.PozycjaWMagazynie;
+                return (
+                  <AutoTable
+                    queryData={items}
+                    querySize={items.length}
+                    dialogForm={<FormItemInStock />}
+                    dialogFormTitle={'Pozycja w magazynie'}
+                    editMode={true}
+                  />
+                );
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Przesyłki
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getParcels}>
+              {({ loading, error, data }) => {
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                let parcel = data.Przesylka;
+                return <AutoTable queryData={parcel} querySize={parcel.length} editMode={false} />;
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Listy przwozowe
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getWaybills}>
+              {({ loading, error, data }) => {
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                let waybill = data.ListPrzewozowy;
+                return (
+                  <AutoTable
+                    queryData={waybill}
+                    querySize={waybill.length}
+                    dialogForm={<FormWaybill />}
+                    dialogFormTitle={'List przewozowy'}
+                    editMode={true}
+                  />
+                );
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">
               Magazyny
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getWarehouses}>
+              {({ loading, error, data }) => {
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                let warehouses = data.Magazyn;
+                return (
+                  <AutoTable
+                    queryData={warehouses}
+                    querySize={warehouses.length}
+                    dialogForm={<FormWarehouse />}
+                    dialogFormTitle={'Magazyn'}
+                    editMode={true}
+                  />
+                );
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h4" gutterBottom component="h1">
@@ -50,7 +116,23 @@ class DatabaseProduction extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Kategorie przedmiotów w magazynie
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getDictCategories}>
+              {({ loading, error, data }) => {
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                let categories = data.DictKategorie;
+                return (
+                  <AutoTable
+                    queryData={categories}
+                    querySize={categories.length}
+                    dialogForm={<FormDictCategories />}
+                    dialogFormTitle={'Kategoria przedmiotu w magazynie'}
+                    editMode={true}
+                  />
+                );
+              }}
+            </Query>
           </TabContainer>
         </OCBigTab>
       </React.Fragment>
