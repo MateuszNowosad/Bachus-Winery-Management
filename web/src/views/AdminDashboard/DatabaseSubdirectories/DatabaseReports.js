@@ -9,6 +9,10 @@ import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
 import DataToPDF from '../../../components/DataToPDF/DataToPDF';
+import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesses';
+import { Query } from 'react-apollo';
+import getReports from '../../../queries/ReportsQueries/getReports';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const labels = ['Raporty', 'Generuj raport'];
 
@@ -24,7 +28,15 @@ class DatabaseReports extends React.Component {
             <Typography variant="h5" gutterBottom component="h1">
               Raporty
             </Typography>
-            <AutoTable queryData={data} querySubject="hero" querySize={2} editMode={false} />
+            <Query query={getReports}>
+              {({ loading, error, data }) => {
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                let reports = data.Raporty;
+                return <AutoTable queryData={reports} querySize={reports.length} editMode={false} />;
+              }}
+            </Query>
           </TabContainer>
           <TabContainer>
             <Typography variant="h5" gutterBottom component="h1">

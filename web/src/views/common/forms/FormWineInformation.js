@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { wineInformationValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import getDictWineCategory from '../../../queries/DictionaryQueries/getDictWineCategory';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const errorMap = {
   name: false,
@@ -60,6 +61,20 @@ export class FormWineInformation extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
+    }
+  }
+
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.InformacjeOWinie[0];
+      this.setState({
+        name: data.nazwa,
+        motto: data.motto ? data.motto : '',
+        allergens: data.zawartoscPotAlergenow ? data.zawartoscPotAlergenow : '',
+        energyValue: data.wartoscEnergetyczna,
+        wineCategory: data.kategoriaWina.nazwaKategoria
+      });
     }
   }
 
@@ -122,8 +137,9 @@ export class FormWineInformation extends React.Component {
           <Grid item md={12}>
             <Query query={getDictWineCategory}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 return (
                   <TextField
                     fullWidth

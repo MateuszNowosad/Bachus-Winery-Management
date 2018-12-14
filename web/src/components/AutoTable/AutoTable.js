@@ -14,12 +14,17 @@ import TableFooter from '@material-ui/core/TableFooter/TableFooter';
 import TableRow from '@material-ui/core/TableRow/TableRow';
 import TablePagination from '@material-ui/core/TablePagination/TablePagination';
 import SearchBar from '../common/SearchBar';
+import { Query } from 'react-apollo';
+import CircularProgress from '@material-ui/core/es/CircularProgress';
+import { selectQueryForForm } from '../../queries/FormQueries/selectQueryForForm';
 
 class AutoTable extends React.Component {
   state = {
     open: false,
+    openEdit: false,
     page: 0,
-    rowsPerPage: 5
+    rowsPerPage: 5,
+    editForm: ''
   };
 
   handleChangePage = (event, page) => {
@@ -35,7 +40,12 @@ class AutoTable extends React.Component {
   };
 
   handleEdit = recordId => {
+    console.log('38, this.props.dialogForm.type.name jakub: ', this.props.dialogForm.type.name);
     console.log('45, recordId Mateusz: ', recordId);
+    this.setState({
+      openEdit: true,
+      editForm: recordId
+    });
   };
 
   handleDeletion = recordId => {
@@ -53,8 +63,8 @@ class AutoTable extends React.Component {
         labelCount = newlabelCount;
       }
     });
-    const { classes, queryData, querySubject, querySize, dialogFormTitle, dialogForm, editMode } = this.props;
-    const { open, rowsPerPage, page } = this.state;
+    const { classes, queryData, querySize, dialogFormTitle, dialogForm, editMode } = this.props;
+    const { open, rowsPerPage, page, editForm, openEdit } = this.state;
     return (
       <div style={{ minWidth: '100%' }}>
         <div className={classes.actions}>
@@ -107,6 +117,25 @@ class AutoTable extends React.Component {
               {dialogForm}
             </ScrollableDialogForm>
           </React.Fragment>
+        )}
+        {editForm && (
+          <Query query={selectQueryForForm(dialogForm.type.name, editForm)}>
+            {({ loading, error, data }) => {
+              if (loading) return <CircularProgress />;
+              if (error)
+                return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+              return (
+                <ScrollableDialogForm
+                  dialogTitle={dialogFormTitle}
+                  open={openEdit}
+                  closeForm={() => this.setState({ openEdit: false, editForm: false })}
+                  openForm={() => this.setState({ openEdit: true })}
+                >
+                  {React.cloneElement(dialogForm, { initState: data })}
+                </ScrollableDialogForm>
+              );
+            }}
+          </Query>
         )}
       </div>
     );

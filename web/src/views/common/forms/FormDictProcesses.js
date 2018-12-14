@@ -55,6 +55,18 @@ export class FormDictProcesses extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.DictProcesy[0];
+      this.setState({
+        name: data.nazwa,
+        desc: data.opis ? data.opis : '',
+        additional: data.dodatkowe ? data.dodatkowe : ''
+      });
+    }
+  }
+
   render() {
     const { name, desc, additional, errors } = this.state;
     return (

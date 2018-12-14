@@ -6,6 +6,8 @@ import UniversalValidationHandler from './UniversalValidationHandler/UniversalVa
 import { vineyardOperationsValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import { Query } from 'react-apollo';
 import getDictVineyardOperations from '../../../queries/DictionaryQueries/getDictVineyardOperations';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import convertDatetimeForm from '../../../functions/convertDatetimeForm';
 
 const errorMap = {
   dateOfOperation: false,
@@ -58,6 +60,18 @@ export class FormVineyardOperation extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.OperacjeNaWinnicy[0];
+      this.setState({
+        dateOfOperation: convertDatetimeForm(data.data),
+        desc: data.opis ? data.opis : '',
+        dictOperation: data.dictOperacjeNaWinnicy.nazwa
+      });
+    }
+  }
+
   render() {
     const { dateOfOperation, desc, dictOperation, errors } = this.state;
 
@@ -101,8 +115,9 @@ export class FormVineyardOperation extends React.Component {
           <Grid item md={12}>
             <Query query={getDictVineyardOperations}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 return (
                   <TextField
                     fullWidth

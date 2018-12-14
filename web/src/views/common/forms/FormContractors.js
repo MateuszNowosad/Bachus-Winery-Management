@@ -93,8 +93,26 @@ export class FormContractors extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Kontrahenci[0];
+      this.setState({
+        NIP: data.NIP ? data.NIP : '',
+        companyName: data.nazwaSpolki,
+        phoneNumber: data.telefon,
+        eMail: data.eMail,
+        wwwSite: data.stronaWww ? data.stronaWww : '',
+        KRS: data.KRS ? data.KRS : '',
+        accountNumber: data.nrKonta,
+        fax: data.fax ? data.fax : ''
+      });
+    }
+  }
+
   render() {
     const { NIP, companyName, phoneNumber, eMail, wwwSite, KRS, accountNumber, fax, errors } = this.state;
+    const {initState} = this.props;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -232,7 +250,12 @@ export class FormContractors extends React.Component {
             />
           </Grid>
           <Grid item md={12}>
-            <FormAddress varName="address" onChange={this.handleAddressChange} ref={this.subForm} />
+            <FormAddress
+              varName="address"
+              onChange={this.handleAddressChange}
+              ref={this.subForm}
+              initState={initState ? initState.Kontrahenci[0].adres : null}
+            />
           </Grid>
         </Grid>
       </form>

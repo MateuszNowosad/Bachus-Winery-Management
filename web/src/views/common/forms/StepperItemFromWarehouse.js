@@ -14,8 +14,9 @@ import {
 } from '@material-ui/core';
 import { Query } from 'react-apollo';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
-import getWarehouses from '../../../queries/getWarehouses';
-import getItemsFromWarehouse from '../../../queries/getItemsFromWarehouse';
+import getWarehouses from '../../../queries/WarehouseQueries/getWarehouses';
+import getItemsFromWarehouse from '../../../queries/WarehouseQueries/getItemsFromWarehouse';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 function getSteps() {
   return ['Wybierz magazyn', 'Wybierz produkt', 'Określ rozmiar'];
@@ -63,8 +64,9 @@ class StepperItemFromWarehouse extends React.Component {
         return (
           <Query query={getWarehouses}>
             {({ loading, error, data }) => {
-              if (loading) return <p>Loading...</p>;
-              if (error) return <p>Error :(</p>;
+              if (loading) return <CircularProgress />;
+              if (error)
+                return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
               return (
                 <SelectableAutoTable
                   queryData={data.Magazyn}
@@ -82,8 +84,9 @@ class StepperItemFromWarehouse extends React.Component {
         return (
           <Query query={getItemsFromWarehouse(this.state.selectedWarehouse.idMagazyn)}>
             {({ loading, error, data }) => {
-              if (loading) return <p>Loading...</p>;
-              if (error) return <p>Error :(</p>;
+              if (loading) return <CircularProgress />;
+              if (error)
+                return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
               return (
                 <SelectableAutoTable
                   queryData={this.filterItems(data.Magazyn[0])}

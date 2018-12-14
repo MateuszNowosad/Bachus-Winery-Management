@@ -52,6 +52,17 @@ export class FormGrapeHarvest extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Winobranie[0];
+      this.setState({
+        dateOfHarvest: data.dataWinobrania,
+        amount: data.iloscZebranychWinogron
+      });
+    }
+  }
+
   render() {
     const { dateOfHarvest, amount, errors } = this.state;
     return (

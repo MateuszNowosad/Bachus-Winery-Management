@@ -52,6 +52,17 @@ export class FormDictBatchType extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.DictTypPartii[0];
+      this.setState({
+        name: data.nazwa,
+        unit: data.jednostka
+      });
+    }
+  }
+
   render() {
     const { name, unit, errors } = this.state;
     return (

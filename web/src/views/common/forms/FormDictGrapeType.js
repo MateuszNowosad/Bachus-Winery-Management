@@ -53,6 +53,17 @@ export class FormDictGrapeType extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.DictOdmianaWinogron[0];
+      this.setState({
+        name: data.nazwa,
+        desc: data.opis ? data.opis : ''
+      });
+    }
+  }
+
   render() {
     const { name, desc, errors } = this.state;
     return (

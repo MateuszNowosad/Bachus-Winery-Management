@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const getWarehouses = gql`
+const getContractors = gql`
   {
     Kontrahenci {
       idKontrahenci
@@ -16,4 +16,4 @@ const getWarehouses = gql`
   }
 `;
 
-export default getWarehouses;
+export default getContractors;
