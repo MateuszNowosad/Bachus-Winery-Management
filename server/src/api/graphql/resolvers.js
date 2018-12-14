@@ -1,6 +1,7 @@
 import * as sequelize from '../../sequelizeDB';
 // import * as testData from '../../../.variables/graphGLStaticData';
 import _ from 'underscore';
+import { tableIdName } from '../../sequelizeDB';
 // import insert from '../common/insertModels';
 
 const insert = {
@@ -620,6 +621,7 @@ export default {
       });
     },
     operacje: async root => {
+      // 1 query to fkkeyName from base table primary key
       const list = await sequelize.getOperacjeHasPartie({
         partieIdPartie: root.idPartie
       });
@@ -629,6 +631,7 @@ export default {
           listItem =>
             new Promise(async resolve => {
               list2.push(
+                // 2 query target table primary key from join table fkKey
                 await sequelize.getOperacje({
                   idOperacja: listItem.operacjeIdOperacja
                 })
@@ -638,7 +641,16 @@ export default {
         );
         await Promise.all(promises);
       }
-      return _.flatten(list2);
+      const resolvedQuery = _.flatten(list2);
+      resolvedQuery.forEach(queryElement => {
+        const queryResult = list.find(
+          // 3 compare fkKey from join table and primary key from target table
+          listElement => listElement.operacjeIdOperacja.toString() === queryElement.idOperacja.toString()
+        );
+        // 4 add extra field to result
+        queryElement.iloscFromJoinTable = queryResult.ilosc;
+      });
+      return resolvedQuery;
     }
   },
   PlanyProdukcyjne: {
@@ -706,7 +718,7 @@ export default {
         const queryResult = list.find(
           listElement => listElement.przesylkaIdPrzesylka.toString() === queryElement.idPrzesylka.toString()
         );
-        queryElement.ilosc = queryResult.ilosc;
+        queryElement.iloscFromJoinTable = queryResult.ilosc;
       });
       return resolvedQuery;
     },
@@ -733,9 +745,8 @@ export default {
     }
   },
   Przesylka: {
-    listPrzewozowy: async (_, input) => {
-      // TODO destructure from input
-      let query = await sequelize.getListPrzewozowy();
+    listPrzewozowy: async (_) => {
+      let query = await sequelize.getListPrzewozowy({ przesylkaIdPrzesylka: _.idPrzesylka });
       return query[0];
     },
     pozycjaWMagazynie: async root => {
@@ -757,7 +768,14 @@ export default {
         );
         await Promise.all(promises);
       }
-      return _.flatten(list2);
+      const resolvedQuery = _.flatten(list2);
+      resolvedQuery.forEach(queryElement => {
+        const queryResult = list.find(
+          listElement => listElement.pozycjaWMagazynieIdPozycja.toString() === queryElement.idPozycja.toString()
+        );
+        queryElement.iloscFromJoinTable = queryResult.ilosc;
+      });
+      return resolvedQuery;
     }
   },
   Raporty: {
@@ -844,83 +862,194 @@ export default {
   },
   Mutation: {
     upsertAdres: async (root, input) => {
-      return await genericUpsertMutation(input, 'Adres', 'idAdres');
+      return await genericUpsertMutation(input, 'Adres');
     },
     upsertDictKategoriaWina: async (root, input) => {
-      return await genericUpsertMutation(input, 'DictKategoriaWina', 'idDictKategoriaWina');
+      return await genericUpsertMutation(input, 'DictKategoriaWina');
     },
     upsertDictKategorie: async (root, input) => {
-      return await genericUpsertMutation(input, 'DictKategorie', 'idDictKategorie');
+      return await genericUpsertMutation(input, 'DictKategorie');
     },
     upsertDictOdmianaWinogron: async (root, input) => {
-      return await genericUpsertMutation(input, 'DictOdmianaWinogron', 'idDictOdmianaWinogron');
+      return await genericUpsertMutation(input, 'DictOdmianaWinogron');
     },
     upsertDictOperacjeNaWinnicy: async (root, input) => {
-      return await genericUpsertMutation(input, 'DictOperacjeNaWinnicy', 'idDictOperacjeNaWinnicy');
+      return await genericUpsertMutation(input, 'DictOperacjeNaWinnicy');
     },
     upsertDictProcesy: async (root, input) => {
-      return await genericUpsertMutation(input, 'DictProcesy', 'idDictProcesy');
+      return await genericUpsertMutation(input, 'DictProcesy');
     },
     upsertDictRolaUzytkownikow: async (root, input) => {
-      return await genericUpsertMutation(input, 'DictRolaUzytkownikow', 'idDictRolaUzytkownikow');
+      return await genericUpsertMutation(input, 'DictRolaUzytkownikow');
     },
     upsertDictTypPartii: async (root, input) => {
-      return await genericUpsertMutation(input, 'DictTypPartii', 'idDictTypPartii');
+      return await genericUpsertMutation(input, 'DictTypPartii');
     },
     upsertInformacjeOWinie: async (root, input) => {
-      return await genericUpsertMutation(input, 'InformacjeOWinie', 'idInformacjeOWinie');
+      return await genericUpsertMutation(input, 'InformacjeOWinie');
     },
     upsertKontrahenci: async (root, input) => {
-      return await genericUpsertMutation(input, 'Kontrahenci', 'idKontrahenci');
+      return await genericUpsertMutation(input, 'Kontrahenci');
     },
     upsertListPrzewozowy: async (root, input) => {
-      return await genericUpsertMutation(input, 'ListPrzewozowy', 'idListPrzewozowy');
+      return await genericUpsertMutation(input, 'ListPrzewozowy');
     },
     upsertMagazyn: async (root, input) => {
-      return await genericUpsertMutation(input, 'Magazyn', 'idMagazyn');
+      return await genericUpsertMutation(input, 'Magazyn');
     },
     upsertOperacje: async (root, input) => {
-      return await genericUpsertMutation(input, 'Operacje', 'idOperacje');
+      return await genericUpsertMutation(input, 'Operacje');
     },
     upsertOperacjeNaWinnicy: async (root, input) => {
-      return await genericUpsertMutation(input, 'OperacjeNaWinnicy', 'idOperacjeNaWinnicy');
+      return await genericUpsertMutation(input, 'OperacjeNaWinnicy');
     },
     upsertPartie: async (root, input) => {
-      return await genericUpsertMutation(input, 'Partie', 'idPartie');
+      return await genericUpsertMutation(input, 'Partie');
     },
     upsertPlanyProdukcyjne: async (root, input) => {
-      return await genericUpsertMutation(input, 'PlanyProdukcyjne', 'idPlanyProdukcyjne');
+      return await genericUpsertMutation(input, 'PlanyProdukcyjne');
     },
     upsertPozycjaWMagazynie: async (root, input) => {
-      return await genericUpsertMutation(input, 'PozycjaWMagazynie', 'idPozycjaWMagazynie');
+      return await genericUpsertMutation(input, 'PozycjaWMagazynie');
     },
     upsertPrzesylka: async (root, input) => {
-      return await genericUpsertMutation(input, 'Przesylka', 'idPrzesylka');
+      return await genericUpsertMutation(input, 'Przesylka');
     },
     upsertRaporty: async (root, input) => {
-      return await genericUpsertMutation(input, 'Raporty', 'idRaporty');
+      return await genericUpsertMutation(input, 'Raporty');
     },
     upsertUzytkownicy: async (root, input) => {
-      return await genericUpsertMutation(input, 'Uzytkownicy', 'idUzytkownicy');
+      return await genericUpsertMutation(input, 'Uzytkownicy');
     },
     upsertWinnica: async (root, input) => {
-      return await genericUpsertMutation(input, 'Winnica', 'idWinnica');
+      return await genericUpsertMutation(input, 'Winnica');
     },
     upsertWinobranie: async (root, input) => {
-      return await genericUpsertMutation(input, 'Winobranie', 'idWinobranie');
+      return await genericUpsertMutation(input, 'Winobranie');
+    },
+    upsertListPrzewozowyHasAdres: async (root, input) => {
+      return await genericUpsertMutation(input, 'ListPrzewozowyHasAdres');
+    },
+    upsertListPrzewozowyHasKontrahenci: async (root, input) => {
+      return await genericUpsertMutation(input, 'ListPrzewozowyHasKontrahenci');
+    },
+    upsertOperacjeHasPartie: async (root, input) => {
+      return await genericUpsertMutation(input, 'OperacjeHasPartie');
+    },
+    upsertOperacjeHasPozycjaWMagazynie: async (root, input) => {
+      return await genericUpsertMutation(input, 'OperacjeHasPozycjaWMagazynie');
+    },
+    upsertPlanyProdukcyjneHasPozycjaWMagazynie: async (root, input) => {
+      return await genericUpsertMutation(input, 'PlanyProdukcyjneHasPozycjaWMagazynie');
+    },
+    upsertPrzesylkaHasPozycjaWMagazynie: async (root, input) => {
+      return await genericUpsertMutation(input, 'PrzesylkaHasPozycjaWMagazynie');
+    },
+    upsertRaportyHasUzytkownicy: async (root, input) => {
+      return await genericUpsertMutation(input, 'RaportyHasUzytkownicy');
+    },
+
+    deleteAdres: async (root, input) => {
+      return await sequelize.deleteAdres(input);
+    },
+    deleteDictKategoriaWina: async (root, input) => {
+      return await sequelize.deleteDictKategoriaWina(input);
+    },
+    deleteDictKategorie: async (root, input) => {
+      return await sequelize.deleteDictKategorie(input);
+    },
+    deleteDictOdmianaWinogron: async (root, input) => {
+      return await sequelize.deleteDictOdmianaWinogron(input);
+    },
+    deleteDictOperacjeNaWinnicy: async (root, input) => {
+      return await sequelize.deleteDictOperacjeNaWinnicy(input);
+    },
+    deleteDictProcesy: async (root, input) => {
+      return await sequelize.deleteDictProcesy(input);
+    },
+    deleteDictRolaUzytkownikow: async (root, input) => {
+      return await sequelize.deleteDictRolaUzytkownikow(input);
+    },
+    deleteDictTypPartii: async (root, input) => {
+      return await sequelize.deleteDictTypPartii(input);
+    },
+    deleteInformacjeOWinie: async (root, input) => {
+      return await sequelize.deleteInformacjeOWinie(input);
+    },
+    deleteKontrahenci: async (root, input) => {
+      return await sequelize.deleteKontrahenci(input);
+    },
+    deleteListPrzewozowy: async (root, input) => {
+      return await sequelize.deleteListPrzewozowy(input);
+    },
+    deleteListPrzewozowyHasAdres: async (root, input) => {
+      return await sequelize.deleteListPrzewozowyHasAdres(input);
+    },
+    deleteListPrzewozowyHasKontrahenci: async (root, input) => {
+      return await sequelize.deleteListPrzewozowyHasKontrahenci(input);
+    },
+    deleteMagazyn: async (root, input) => {
+      return await sequelize.deleteMagazyn(input);
+    },
+    deleteOperacje: async (root, input) => {
+      return await sequelize.deleteOperacje(input);
+    },
+    deleteOperacjeHasPartie: async (root, input) => {
+      return await sequelize.deleteOperacjeHasPartie(input);
+    },
+    deleteOperacjeHasPozycjaWMagazynie: async (root, input) => {
+      return await sequelize.deleteOperacjeHasPozycjaWMagazynie(input);
+    },
+    deleteOperacjeNaWinnicy: async (root, input) => {
+      return await sequelize.deleteOperacjeNaWinnicy(input);
+    },
+    deletePartie: async (root, input) => {
+      return await sequelize.deletePartie(input);
+    },
+    deletePlanyProdukcyjne: async (root, input) => {
+      return await sequelize.deletePlanyProdukcyjne(input);
+    },
+    deletePlanyProdukcyjneHasPozycjaWMagazynie: async (root, input) => {
+      return await sequelize.deletePlanyProdukcyjneHasPozycjaWMagazynie(input);
+    },
+    deletePozycjaWMagazynie: async (root, input) => {
+      return await sequelize.deletePozycjaWMagazynie(input);
+    },
+    deletePrzesylka: async (root, input) => {
+      return await sequelize.deletePrzesylka(input);
+    },
+    deletePrzesylkaHasPozycjaWMagazynie: async (root, input) => {
+      return await sequelize.deletePrzesylkaHasPozycjaWMagazynie(input);
+    },
+    deleteRaporty: async (root, input) => {
+      return await sequelize.deleteRaporty(input);
+    },
+    deleteRaportyHasUzytkownicy: async (root, input) => {
+      return await sequelize.deleteRaportyHasUzytkownicy(input);
+    },
+    deleteUzytkownicy: async (root, input) => {
+      return await sequelize.deleteUzytkownicy(input);
+    },
+    deleteWinnica: async (root, input) => {
+      return await sequelize.deleteWinnica(input);
+    },
+    deleteWinobranie: async (root, input) => {
+      return await sequelize.deleteWinobranie(input);
     }
   }
 };
 
-const genericUpsertMutation = async (input, tableName, primaryKeyName) => {
+const genericUpsertMutation = async (input, tableName) => {
   let insertResult;
   let sqlQuery;
-  if (Object.keys(input)[0] !== primaryKeyName) {
+  if (Object.keys(input)[0] !== tableIdName[tableName]) {
     // get dynamic FUNCTION name from insert model
     insertResult = await insert[tableName](input);
-    sqlQuery = `select * from ${tableName} where 1=1 AND ${primaryKeyName} = ${insertResult[0][primaryKeyName]}`;
+    sqlQuery = `select * from ${tableName} where 1=1 AND ${tableIdName[tableName]} = ${
+      insertResult[0][tableIdName[tableName]]
+    }`;
   } else {
-    sqlQuery = `select * from ${tableName} where 1=1 AND ${primaryKeyName} = ${Object.values(input)[0]}`;
+    sqlQuery = `select * from ${tableName} where 1=1 AND ${tableIdName[tableName]} = ${Object.values(input)[0]}`;
     await insert[tableName](input);
   }
 

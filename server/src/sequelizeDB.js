@@ -12,11 +12,6 @@ const _ = require('underscore');
 const faker = require('faker');
 const Sequelize = require('sequelize');
 
-// TODO ADD many-to-many tables to docker
-// TODO ADD many-to-many tables to docker
-// TODO ADD many-to-many tables to docker
-// TODO ADD many-to-many tables to docker
-
 // const sequelize = new Sequelize('mysql://test@172.17.0.2:3306/bachusWinery');
 const sequelize = new Sequelize({
   database: 'bachusWinery',
@@ -29,7 +24,7 @@ const sequelize = new Sequelize({
     min: 1,
     idle: 10000
   },
-  retry: { max: 3 },
+  retry: { max: 1 },
   logging: false,
   define: {
     freezeTableName: true,
@@ -241,9 +236,6 @@ async function createPlanyProdukcyjne() {
     PLANYPRODUKCYJNE.create({
       nazwa: faker.random.word(1),
       opis: faker.random.words(5),
-      dictRodzajWinogronIdOdmianaWinogron: fkKeyNumber,
-      dictTypPartiiIdTypPartii: fkKeyNumber,
-      dictKategorieIdKategorie: fkKeyNumber,
       eDokument: 'web/documents/plans/' + faker.random.word(1) + '.pdf'
     })
   );
@@ -303,7 +295,7 @@ async function createUzytkownicy() {
       nrTelefonu: faker.random.number(999) + '-' + faker.random.number(999) + '-' + faker.random.number(999),
       dataOstatniegoLogowania: faker.date.recent(),
       adresIdAdres: fkKeyNumber,
-      dictRolaUzytkownikowIdRolaUzytkownikow: fkKeyNumber,
+      dictRolaUzytkownikowIdRolaUzytkownikow: faker.random.number({ min: 1, max: 10 }),
       zdjecie: faker.internet.avatar(),
       czyAktywne: faker.random.boolean()
     })
@@ -947,7 +939,7 @@ const OPERACJEHASPOZYCJAWMAGAZYNIE = sequelize.define('OperacjeHasPozycjaWMagazy
   ilosc: { type: Sequelize.STRING(45), allowNull: false }
 });
 const PLANYPRODUKCYJNEHASPOZYCJAWMAGAZYNIE = sequelize.define('PlanyProdukcyjneHasPozycjaWMagazynie', {
-  idPlanyProdukcyjneHasDictProcesy: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+  idPlanyProdukcyjneHasPozycjaWMagazynie: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   planyProdukcyjneIdPlanyProdukcyjne: { type: Sequelize.INTEGER, allowNull: false },
   pozycjaWMagazynieIdPozycja: { type: Sequelize.INTEGER, allowNull: false }
 });
@@ -979,26 +971,24 @@ async function generateRows() {
     // await createInformacjeOWinie();
     // await createKontrahenci();
     // await createListPrzewozowy();
+    // await createListPrzewozowyHasAdres();
+    // await createListPrzewozowyHasKontrahenci();
     // await createMagazyn();
     // await createOperacje();
+    // await createOperacjeHasPartie();
+    // await createOperacjeHasPozycjaWMagazynie(); //TODO FIX KEY NAMES
     // await createOperacjeNaWinnicy();
-    // await createRaporty();
-    // TODO await createPlanyProdukcyjne();
     // await createPartie();
+    // await createPlanyProdukcyjne();
+    // await createPlanyProdukcyjneHasPozycjaWMagazynie();
     // await createPozycjaWMagazynie();
     // await createPrzesylka();
+    // await createPrzesylkaHasPozycjaWMagazynie();
+    // await createRaporty();
+    // await createRaportyHasUzytkownicy();
     // await createUzytkownicy();
     // await createWinnica();
     // await createWinobranie();
-    // await createListPrzewozowyHasAdres();
-    // await createListPrzewozowyHasKontrahenci();
-    // await createOperacjeHasPartie();
-    // await createOperacjeHasPozycjaWMagazynie(); //TODO FIX KEY NAMES
-    // await createPlanyProdukcyjneHasPozycjaWMagazynie();
-    // await createPrzesylkaHasPozycjaWMagazynie();
-    // await createRaportyHasUzytkownicy();
-    // ------ above working data generation
-    // TODO FIX tables below this todo
   }
 }
 generateRows();
@@ -1037,7 +1027,7 @@ async function insertAnyRecord(tableName, query) {
     .sync()
     .then(() => models[tableName].create(query))
     .then(async () => {
-      lastId = await sequelize.query(`SELECT * FROM ${tableName} ORDER BY id${tableName} DESC LIMIT 1`, {
+      lastId = await sequelize.query(`SELECT * FROM ${tableName} ORDER BY ${tableIdName[tableName]} DESC LIMIT 1`, {
         raw: true,
         type: Sequelize.QueryTypes.SELECT
       });
@@ -1053,21 +1043,59 @@ async function updateAnyRecord(tableName, query) {
     );
 }
 
+// async function deleteAnyRecord(tableName, query) {
+//   let sqlQuery = `DELETE FROM ${tableName} WHERE ${Object.keys(query)[0]}="${Object.values(query)[0]}"`;
+//   return await sequelize.query(sqlQuery, { raw: true, type: Sequelize.QueryTypes.DELETE });
+// }
+
 async function deleteAnyRecord(tableName, query) {
-  let sqlQuery = `DELETE FROM ${tableName} WHERE ${Object.keys(query)[0]}="${Object.values(query)[0]}"`;
-  return await sequelize.query(sqlQuery, { raw: true, type: Sequelize.QueryTypes.DELETE });
+  await sequelize.sync().then(() =>
+    models[tableName].destroy({
+      where: { [tableIdName[tableName]]: Object.values(query)[0] }
+    })
+  );
 }
 
 export async function selectLast(sqlQuery) {
   return await sequelize.query(sqlQuery, { raw: true, type: Sequelize.QueryTypes.SELECT });
 }
 
+export const tableIdName = {
+  Adres: 'idAdres',
+  DictKategoriaWina: 'idDictKategoriaWina',
+  DictKategorie: 'idKategorie',
+  DictOdmianaWinogron: 'idOdmianaWinogron',
+  DictOperacjeNaWinnicy: 'idDictOperacjeNaWinnicy',
+  DictProcesy: 'idDictProcesy',
+  DictRolaUzytkownikow: 'idRolaUzytkownikow',
+  DictTypPartii: 'idTypPartii',
+  InformacjeOWinie: 'idInformacjeOWinie',
+  Kontrahenci: 'idKontrahenci',
+  ListPrzewozowy: 'idListPrzewozowy',
+  ListPrzewozowyHasAdres: 'idListPrzewozowyHasAdres',
+  ListPrzewozowyHasKontrahenci: 'idListPrzewozowyHasKontrahenci',
+  Magazyn: 'idMagazyn',
+  Operacje: 'idOperacja',
+  OperacjeHasPartie: 'idOperacjeHasPartie',
+  OperacjeHasPozycjaWMagazynie: 'idOperacjeHasPozycjaWMagazynie',
+  OperacjeNaWinnicy: 'idOperacja',
+  Partie: 'idPartie',
+  PlanyProdukcyjne: 'idPlanyProdukcyjne',
+  PlanyProdukcyjneHasPozycjaWMagazynie: 'idPlanyProdukcyjneHasPozycjaWMagazynie',
+  PozycjaWMagazynie: 'idPozycja',
+  Przesylka: 'idPrzesylka',
+  PrzesylkaHasPozycjaWMagazynie: 'idPrzesylkaHasPozycjaWMagazynie',
+  Raporty: 'idRaport',
+  RaportyHasUzytkownicy: 'idRaportyHasUzytkownicy',
+  Uzytkownicy: 'idUzytkownika',
+  Winnica: 'idWinnica',
+  Winobranie: 'idWinobranie'
+};
+
 async function upsertRow(tableName, query) {
-  if (Object.keys(query)[0] === `id${tableName}`) {
-    console.log('1065, tableName, query filip: ', tableName, query);
+  if (Object.keys(query)[0] === tableIdName[tableName]) {
     return await updateAnyRecord(tableName, query);
   }
-  console.log('1068, tableName, query filip: ', tableName, query);
   return await insertAnyRecord(tableName, query);
 }
 
@@ -1075,9 +1103,6 @@ async function upsertRow(tableName, query) {
 // TODO add logic to update join tables
 export async function insertAdres(query) {
   return await upsertRow('Adres', query);
-}
-export async function insertKontrahenci(query) {
-  return await upsertRow('Kontrahenci', query);
 }
 export async function insertDictKategoriaWina(query) {
   return await upsertRow('DictKategoriaWina', query);
@@ -1103,17 +1128,17 @@ export async function insertDictTypPartii(query) {
 export async function insertInformacjeOWinie(query) {
   return await upsertRow('InformacjeOWinie', query);
 }
+export async function insertKontrahenci(query) {
+  return await upsertRow('Kontrahenci', query);
+}
 export async function insertListPrzewozowy(query) {
   return await upsertRow('ListPrzewozowy', query);
 }
-export async function insertOperacjeNaWinnicy(query) {
-  return await upsertRow('OperacjeNaWinnicy', query);
+export async function insertListPrzewozowyHasAdres(query) {
+  return await upsertRow(tableName, query);
 }
-export async function insertRaporty(query) {
-  return await upsertRow('Raporty', query);
-}
-export async function insertPlanyProdukcyjne(query) {
-  return await upsertRow('PlanyProdukcyjne', query);
+export async function insertListPrzewozowyHasKontrahenci(query) {
+  return await upsertRow(tableName, query);
 }
 export async function insertMagazyn(query) {
   return await upsertRow('Magazyn', query);
@@ -1121,14 +1146,38 @@ export async function insertMagazyn(query) {
 export async function insertOperacje(query) {
   return await upsertRow('Operacje', query);
 }
+export async function insertOperacjeHasPartie(query) {
+  return await upsertRow(tableName, query);
+}
+export async function insertOperacjeHasPozycjaWMagazynie(query) {
+  return await upsertRow(tableName, query);
+}
+export async function insertOperacjeNaWinnicy(query) {
+  return await upsertRow('OperacjeNaWinnicy', query);
+}
 export async function insertPartie(query) {
   return await upsertRow('Partie', query);
+}
+export async function insertPlanyProdukcyjne(query) {
+  return await upsertRow('PlanyProdukcyjne', query);
+}
+export async function insertPlanyProdukcyjneHasPozycjaWMagazynie(query) {
+  return await upsertRow(tableName, query);
 }
 export async function insertPozycjaWMagazynie(query) {
   return await upsertRow('PozycjaWMagazynie', query);
 }
 export async function insertPrzesylka(query) {
   return await upsertRow('Przesylka', query);
+}
+export async function insertPrzesylkaHasPozycjaWMagazynie(query) {
+  return await upsertRow(tableName, query);
+}
+export async function insertRaporty(query) {
+  return await upsertRow('Raporty', query);
+}
+export async function insertRaportyHasUzytkownicy(query) {
+  return await upsertRow(tableName, query);
 }
 export async function insertUzytkownicy(query) {
   return await upsertRow('Uzytkownicy', query);
@@ -1138,27 +1187,6 @@ export async function insertWinnica(query) {
 }
 export async function insertWinobranie(query) {
   return await upsertRow('Winobranie', query);
-}
-export async function insertListPrzewozowyHasAdres(query) {
-  return await upsertRow(tableName, query);
-}
-export async function insertListPrzewozowyHasKontrahenci(query) {
-  return await upsertRow(tableName, query);
-}
-export async function insertOperacjeHasPartie(query) {
-  return await upsertRow(tableName, query);
-}
-export async function insertOperacjeHasPozycjaWMagazynie(query) {
-  return await upsertRow(tableName, query);
-}
-export async function insertPlanyProdukcyjneHasPozycjaWMagazynie(query) {
-  return await upsertRow(tableName, query);
-}
-export async function insertPrzesylkaHasPozycjaWMagazynie(query) {
-  return await upsertRow(tableName, query);
-}
-export async function insertRaportyHasUzytkownicy(query) {
-  return await upsertRow(tableName, query);
 }
 
 // SELECT ANY FROM DATABASE
@@ -1180,7 +1208,93 @@ async function selectAnyQuery(tableName, query) {
 
 // MYSQL DELETES
 
-// MYSQL UPSERTS
+export async function deleteAdres(query) {
+  return await deleteAnyRecord('Adres', query);
+}
+export async function deleteDictKategoriaWina(query) {
+  return await deleteAnyRecord('DictKategoriaWina', query);
+}
+export async function deleteDictKategorie(query) {
+  return await deleteAnyRecord('DictKategorie', query);
+}
+export async function deleteDictOdmianaWinogron(query) {
+  return await deleteAnyRecord('DictOdmianaWinogron', query);
+}
+export async function deleteDictOperacjeNaWinnicy(query) {
+  return await deleteAnyRecord('DictOperacjeNaWinnicy', query);
+}
+export async function deleteDictProcesy(query) {
+  return await deleteAnyRecord('DictProcesy', query);
+}
+export async function deleteDictRolaUzytkownikow(query) {
+  return await deleteAnyRecord('DictRolaUzytkownikow', query);
+}
+export async function deleteDictTypPartii(query) {
+  return await deleteAnyRecord('DictTypPartii', query);
+}
+export async function deleteInformacjeOWinie(query) {
+  return await deleteAnyRecord('InformacjeOWinie', query);
+}
+export async function deleteKontrahenci(query) {
+  return await deleteAnyRecord('Kontrahenci', query);
+}
+export async function deleteListPrzewozowy(query) {
+  return await deleteAnyRecord('ListPrzewozowy', query);
+}
+export async function deleteListPrzewozowyHasAdres(query) {
+  return await deleteAnyRecord('ListPrzewozowyHasAdres', query);
+}
+export async function deleteListPrzewozowyHasKontrahenci(query) {
+  return await deleteAnyRecord('ListPrzewozowyHasKontrahenci', query);
+}
+export async function deleteMagazyn(query) {
+  return await deleteAnyRecord('Magazyn', query);
+}
+export async function deleteOperacje(query) {
+  return await deleteAnyRecord('Operacje', query);
+}
+export async function deleteOperacjeHasPartie(query) {
+  return await deleteAnyRecord('OperacjeHasPartie', query);
+}
+export async function deleteOperacjeHasPozycjaWMagazynie(query) {
+  return await deleteAnyRecord('OperacjeHasPozycjaWMagazynie', query);
+}
+export async function deleteOperacjeNaWinnicy(query) {
+  return await deleteAnyRecord('OperacjeNaWinnicy', query);
+}
+export async function deletePartie(query) {
+  return await deleteAnyRecord('Partie', query);
+}
+export async function deletePlanyProdukcyjne(query) {
+  return await deleteAnyRecord('PlanyProdukcyjne', query);
+}
+export async function deletePlanyProdukcyjneHasPozycjaWMagazynie(query) {
+  return await deleteAnyRecord('PlanyProdukcyjneHasPozycjaWMagazynie', query);
+}
+export async function deletePozycjaWMagazynie(query) {
+  return await deleteAnyRecord('PozycjaWMagazynie', query);
+}
+export async function deletePrzesylka(query) {
+  return await deleteAnyRecord('Przesylka', query);
+}
+export async function deletePrzesylkaHasPozycjaWMagazynie(query) {
+  return await deleteAnyRecord('PrzesylkaHasPozycjaWMagazynie', query);
+}
+export async function deleteRaporty(query) {
+  return await deleteAnyRecord('Raporty', query);
+}
+export async function deleteRaportyHasUzytkownicy(query) {
+  return await deleteAnyRecord('RaportyHasUzytkownicy', query);
+}
+export async function deleteUzytkownicy(query) {
+  return await deleteAnyRecord('Uzytkownicy', query);
+}
+export async function deleteWinnica(query) {
+  return await deleteAnyRecord('Winnica', query);
+}
+export async function deleteWinobranie(query) {
+  return await deleteAnyRecord('Winobranie', query);
+}
 
 // MYSQL SELECTS
 export async function getAddresses(query) {
