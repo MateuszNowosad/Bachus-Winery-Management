@@ -19,6 +19,8 @@ import { operationsValidationKeys } from './UniversalValidationHandler/validatio
 import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesses';
 import DialogForForm from './DialogForForm';
 import StepperItemFromWarehouse from './StepperItemFromWarehouse';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import convertDatetimeForm from '../../../functions/convertDatetimeForm';
 
 const errorMap = {
   beginAmount: false,
@@ -131,6 +133,34 @@ export class FormOperations extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Operacje[0];
+      this.setState({
+        beginAmount: data.iloscPrzed,
+        endAmount: data.iloscPo ? data.iloscPo : '',
+        beginDate: convertDatetimeForm(data.dataPoczatku),
+        endDate: data.dataZakonczenia ? convertDatetimeForm(data.dataZakonczenia) : '',
+        alcoholContent: data.zawartoscAlkoholu ? data.zawartoscAlkoholu : '',
+        additiveAmount: data.iloscDodatku ? data.iloscDodatku : '',
+        sugarContent: data.zawartoscCukru ? data.zawartoscCukru : '',
+        acidity: data.kwasowosc ? data.kwasowosc : '',
+        temperature: data.temperatura ? data.temperatura : '',
+        desc: data.opis ? data.opis : '',
+        process: data.dictProcesy ? data.dictProcesy.nazwa : '',
+        content: data.pozycjaWMagazynie
+          ? data.pozycjaWMagazynie.map(curr => ({
+              key: curr.idPozycja,
+              selectedItem: curr,
+              //TODO Change to amount from connecting table
+              amount: curr.ilosc
+            }))
+          : ''
+      });
+    }
+  }
+
   render() {
     const {
       beginAmount,
@@ -155,8 +185,9 @@ export class FormOperations extends React.Component {
           <Grid item md={12}>
             <Query query={getDictProcesses}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 return (
                   <TextField
                     fullWidth

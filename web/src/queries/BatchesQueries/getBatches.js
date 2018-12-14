@@ -7,6 +7,9 @@ const getBatches = gql`
       ilosc
       opis
       dataUtworzenia
+      typPartii {
+        nazwa
+      }
     }
   }
 `;

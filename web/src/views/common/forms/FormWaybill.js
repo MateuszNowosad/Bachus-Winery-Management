@@ -18,16 +18,17 @@ import { FormParcel } from './subforms/FormParcel';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { waybillValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import red from '@material-ui/core/colors/red';
-import getContractors from '../../../queries/getContractors';
+import getContractors from '../../../queries/ContractorsQueries/getContractors';
 import PDFShow from '../../../components/PDFSchemes/PDFShow';
 import PDFWaybill from '../../../components/PDFSchemes/PDFWaybill';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const errorMap = {
   driverName: false,
   driverSurname: false,
   comments: false,
   reservations: false,
-  file: false,
+  fileURL: false,
   sender: false,
   recipent: false,
   carrier: false
@@ -42,7 +43,7 @@ export class FormWaybill extends React.Component {
       driverSurname: '',
       comments: '',
       reservations: '',
-      file: '',
+      fileURL: '',
       sender: {},
       recipent: {},
       carrier: {},
@@ -117,7 +118,7 @@ export class FormWaybill extends React.Component {
       driverSurname,
       comments,
       reservations,
-      file,
+      fileURL,
       sender,
       recipent,
       carrier,
@@ -131,7 +132,7 @@ export class FormWaybill extends React.Component {
       driverSurname,
       comments,
       reservations,
-      file,
+      fileURL,
       sender,
       recipent,
       carrier,
@@ -181,11 +182,56 @@ export class FormWaybill extends React.Component {
     });
   };
 
+  handleFileChange = event => {
+    let reader = new FileReader();
+    let file = event.target.files[0];
+
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      this.setState(
+        {
+          fileURL: reader.result,
+          errors: {
+            ...this.state.errors,
+            fileURL: false
+          }
+        },
+      );
+    };
+  };
+
   componentDidUpdate(prevProps) {
     if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
     }
   }
+
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.ListPrzewozowy[0];
+      this.setState({
+        driverName: data.imieKierowcy,
+        driverSurname: data.nazwiskoKierowcy,
+        comments: data.uwagiPrzewoznika ? data.uwagiPrzewoznika : '',
+        reservations: data.zastrzezeniaOdbiorcy ? data.zastrzezeniaOdbiorcy : '',
+        fileURL: data.eDokument,
+        sender: data.kontrahent[0],
+        recipent: data.kontrahent[0],
+        carrier: data.kontrahent[0]
+      });
+    }
+  }
+
+  //TODO dopasować nazwę zmiennej typ do bazy
+  initContractor = (data, type) => {
+    return data.find(contractor => contractor.typ === type);
+  };
+
+  initAddress = (data, type) => {
+    return data.find(address => address.miejsce === type);
+  };
 
   filterContractors = data => {
     const { sender, recipent, carrier } = this.state;
@@ -211,6 +257,8 @@ export class FormWaybill extends React.Component {
       openCarrier,
       errors
     } = this.state;
+
+    const { initState } = this.props;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -282,8 +330,9 @@ export class FormWaybill extends React.Component {
             <DialogForForm title={'Kontrahenci'} open={openSender} onClose={() => this.handleClose('openSender')}>
               <Query query={getContractors}>
                 {({ loading, error, data }) => {
-                  if (loading) return <p>Loading...</p>;
-                  if (error) return <p>Error :(</p>;
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
                     <SelectableAutoTable
                       queryData={this.filterContractors(data)}
@@ -316,8 +365,9 @@ export class FormWaybill extends React.Component {
             <DialogForForm title={'Kontrahenci'} open={openRecipent} onClose={() => this.handleClose('openRecipent')}>
               <Query query={getContractors}>
                 {({ loading, error, data }) => {
-                  if (loading) return <p>Loading...</p>;
-                  if (error) return <p>Error :(</p>;
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
                     <SelectableAutoTable
                       queryData={this.filterContractors(data)}
@@ -350,8 +400,9 @@ export class FormWaybill extends React.Component {
             <DialogForForm title={'Kontrahenci'} open={openCarrier} onClose={() => this.handleClose('openCarrier')}>
               <Query query={getContractors}>
                 {({ loading, error, data }) => {
-                  if (loading) return <p>Loading...</p>;
-                  if (error) return <p>Error :(</p>;
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
                     <SelectableAutoTable
                       queryData={this.filterContractors(data)}
@@ -368,13 +419,13 @@ export class FormWaybill extends React.Component {
             </DialogForForm>
           </Grid>
           <Grid item md={12}>
-            <input hidden accept="application/pdf" id="addFile" type="file" onChange={this.handleFileChange} />
-            <label htmlFor="addImage">
+            <input hidden accept=".pdf" id="addFile" type="file" onChange={this.handleFileChange} />
+            <label htmlFor="addFile">
               <Button
                 variant="contained"
                 component="span"
                 style={
-                  errors.file
+                  errors.fileURL
                     ? {
                         color: red[300],
                         backgroundColor: red[700],
@@ -388,6 +439,8 @@ export class FormWaybill extends React.Component {
                 Dodaj dokument
               </Button>
             </label>
+          </Grid>
+          <Grid item md={12}>
             <Button variant={'contained'} onClick={this.generateWaybill}>
               Generuj list przewozowy
             </Button>
@@ -398,7 +451,12 @@ export class FormWaybill extends React.Component {
                 <Typography variant="inherit">Adres odbiorcy</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <FormAddress varName="pickupAddress" onChange={this.handleObjectChange} ref={this.subFormPickup} />
+                <FormAddress
+                  varName="pickupAddress"
+                  onChange={this.handleObjectChange}
+                  ref={this.subFormPickup}
+                  initState={initState ? this.initAddress(initState.ListPrzewozowy[0].adres, 'Odbioru') : null}
+                />
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>
@@ -408,7 +466,12 @@ export class FormWaybill extends React.Component {
                 <Typography variant="inherit">Adres nadawcy</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <FormAddress varName="mailingAddress" onChange={this.handleObjectChange} ref={this.subFormMailing} />
+                <FormAddress
+                  varName="mailingAddress"
+                  onChange={this.handleObjectChange}
+                  ref={this.subFormMailing}
+                  initState={initState ? this.initAddress(initState.ListPrzewozowy[0].adres, 'Nadania') : null}
+                />
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>
@@ -418,7 +481,12 @@ export class FormWaybill extends React.Component {
                 <Typography variant="inherit">Przesyłka</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <FormParcel varName="parcel" onChange={this.handleObjectChange} ref={this.subFormParcel} />
+                <FormParcel
+                  varName="parcel"
+                  onChange={this.handleObjectChange}
+                  ref={this.subFormParcel}
+                  initState={initState ? initState.ListPrzewozowy[0].przesylka : null}
+                />
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Grid>

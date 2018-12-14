@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AdminDashboardStyle from '../../../assets/jss/common/views/AdminDashboard/AdminDashboardStyle.js';
 import AutoTable from '../../../components/AutoTable/AutoTable';
 import { Query } from 'react-apollo';
-import getItemsFromWarehouse from '../../../queries/getItemsFromWarehouse';
+import getItemsFromWarehouse from '../../../queries/WarehouseQueries/getItemsFromWarehouse';
 
 class WarehouseDetails extends React.Component {
   render() {

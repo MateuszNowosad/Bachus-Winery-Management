@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 import { vineyardValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
-import getDictGrapeType from '../../../queries/DictionaryQueries/getDictGrapType';
+import getDictGrapeType from '../../../queries/DictionaryQueries/getDictGrapeType';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const stany = ['czynna', 'rośnie'];
 
@@ -68,6 +69,22 @@ export class FormVineyard extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
+    }
+  }
+
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Winnica[0];
+      this.setState({
+        name: data.nazwa,
+        area: data.powierzchnia,
+        terroir: data.terroir ? data.terroir : '',
+        dateOfPlanting: data.dataZasadzenia,
+        registrationPlotId: data.ewidencyjnyIdDzialki,
+        grapeType: data.dictOdmianaWinogron.nazwa,
+        state: data.stan
+      });
     }
   }
 
@@ -186,8 +203,9 @@ export class FormVineyard extends React.Component {
           <Grid item md={12}>
             <Query query={getDictGrapeType}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 return (
                   <TextField
                     fullWidth

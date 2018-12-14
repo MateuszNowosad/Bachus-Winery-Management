@@ -6,6 +6,8 @@ import currentDate from './CurrentDate';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { batchValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import getDictBatchType from '../../../queries/DictionaryQueries/getDictBatchType';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import convertDatetimeForm from '../../../functions/convertDatetimeForm';
 
 const errorMap = {
   amount: false,
@@ -53,6 +55,19 @@ export class FormBatches extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
+    }
+  }
+
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Partie[0];
+      this.setState({
+        amount: data.ilosc,
+        desc: data.opis ? data.opis : '',
+        creationDate: convertDatetimeForm(data.dataUtworzenia),
+        batchType: data.typPartii.nazwa
+      });
     }
   }
 
@@ -107,8 +122,9 @@ export class FormBatches extends React.Component {
           <Grid item md={12}>
             <Query query={getDictBatchType}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 return (
                   <TextField
                     fullWidth

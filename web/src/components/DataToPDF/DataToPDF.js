@@ -14,6 +14,7 @@ import PDFDownload from '../PDFSchemes/PDFDownload';
 import UniversalValidationHandler from '../../views/common/forms/UniversalValidationHandler/UniversalValidationHandler';
 import { dataToPDFValidationKeys } from '../../views/common/forms/UniversalValidationHandler/validationKeys/validationKeys';
 import classNames from 'classnames';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const errorMap = {
   title: false,
@@ -121,8 +122,9 @@ class DataToPDF extends React.Component {
           <Grid item md={12}>
             <Query query={getAllTablesNames}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
 
                 return (
                   <TextField
@@ -158,8 +160,9 @@ class DataToPDF extends React.Component {
           <Grid item md={12}>
             <Query query={getAllTablesFieldNames}>
               {({ loading, error, data }) => {
-                if (loading) return <p>Loading...</p>;
-                if (error) return <p>Error :(</p>;
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
 
                 const filteredData = data.__schema.tables.filter(table => table.name === tableName);
                 return (
@@ -258,7 +261,7 @@ class DataToPDF extends React.Component {
           <Grid item md={12}>
             <ApolloConsumer>
               {client => (
-                <Button variant={'outlined'} onClick={this.generateFile(client, 'donwload')}>
+                <Button variant={'outlined'} onClick={this.generateFile(client, 'download')}>
                   Generuj Dokument
                 </Button>
               )}

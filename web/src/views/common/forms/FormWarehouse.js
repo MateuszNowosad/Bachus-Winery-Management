@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, InputAdornment, MenuItem, TextField } from '@material-ui/core';
-import { FormAddress } from './FormAddress';
+import { FormAddress } from './subforms/FormAddress';
 import PropTypes from 'prop-types';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { warehouseValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
@@ -68,8 +68,21 @@ export class FormWarehouse extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Magazyn[0];
+      this.setState({
+        //TODO poprawić rodzaj magazynu
+        type: data.rodzaj,
+        capacity: data.pojemnosc
+      });
+    }
+  }
+
   render() {
     const { type, capacity, errors } = this.state;
+    const {initState} = this.props;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -117,7 +130,12 @@ export class FormWarehouse extends React.Component {
             />
           </Grid>
           <Grid item>
-            <FormAddress varName="address" onChange={this.handleAddressChange} ref={this.subForm} />
+            <FormAddress
+              varName="address"
+              onChange={this.handleAddressChange}
+              ref={this.subForm}
+              initState={initState ? initState.Magazyn[0].adres : null}
+            />
           </Grid>
         </Grid>
       </form>

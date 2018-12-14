@@ -15,6 +15,10 @@ import SearchBar from '../../components/common/SearchBar';
 import testDataProductionPlan from '../../variables/AdminDashboard/testDataProductionPlan';
 import ScrollableDialogForm from '../../components/ScrollableDialogForm/ScrollableDialogForm';
 import { FormProductionPlan } from '../common/forms/FormProductionPlan';
+import getProductionPlans from '../../queries/ProductionPlansQueries/getProductionPlans';
+import TabContainer from '../../components/Tab/TabContainer';
+import { Query } from 'react-apollo';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 class ProductionPlans extends React.Component {
   state = {
@@ -49,16 +53,45 @@ class ProductionPlans extends React.Component {
           </div>
         </div>
         <div className={classes.flexSidewaysContainer}>
-          {testDataProductionPlan.test.map(currElement => (
-            <MediaCard key={currElement.id} heading={currElement.nazwa} contents={currElement.opis} id={0} />
-          ))}
+          {/*{testDataProductionPlan.test.map(currElement => (*/}
+          <Query query={getProductionPlans}>
+            {({ loading, error, data }) => {
+              if (loading) return <CircularProgress />;
+              if (error)
+                return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+              let productionPlans = data.PlanyProdukcyjne;
+              return productionPlans.map(currElement => (
+                <MediaCard
+                  key={currElement.idPlanyProdukcyjne}
+                  heading={currElement.nazwa}
+                  contents={currElement.opis}
+                  id={currElement.idPlanyProdukcyjne}
+                />
+              ));
+            }}
+          </Query>
         </div>
         <ExpansionPanel defaultExpanded>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>Zakończone plany produkcyjne</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <AutoTable queryData={data} querySubject="hero" querySize={249} editMode={false} />
+            <Query query={getProductionPlans}>
+              {({ loading, error, data }) => {
+                if (loading) return <CircularProgress />;
+                if (error)
+                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                let productionPlans = data.PlanyProdukcyjne;
+                return (
+                  <AutoTable
+                    queryData={productionPlans}
+                    // querySubject="hero"
+                    querySize={productionPlans.length}
+                    editMode={false}
+                  />
+                );
+              }}
+            </Query>{' '}
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </React.Fragment>

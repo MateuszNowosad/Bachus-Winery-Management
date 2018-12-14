@@ -9,6 +9,7 @@ import UniversalValidationHandler from './UniversalValidationHandler/UniversalVa
 import { usersValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
 import getDictUserRole from '../../../queries/DictionaryQueries/getDictUserRole';
+import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
 const errorMap = {
   firstName: false,
@@ -19,7 +20,7 @@ const errorMap = {
   eMail: false,
   phoneNumber: false,
   userRole: false,
-  photo: false
+  photoURL: false
 };
 
 export class FormUsers extends React.Component {
@@ -35,8 +36,7 @@ export class FormUsers extends React.Component {
       phoneNumber: '',
       address: {},
       userRole: '',
-      photo: '',
-      imagePreviewUrl: '',
+      photoURL: '',
       showPassword: false,
       errors: errorMap,
       passwordStrength: 0
@@ -131,19 +131,38 @@ export class FormUsers extends React.Component {
     let reader = new FileReader();
     let photo = event.target.files[0];
 
-    reader.onloadend = () => {
-      this.setState({
-        photo: photo,
-        imagePreviewUrl: reader.result
-      });
-    };
-
     reader.readAsDataURL(photo);
+
+    reader.onload = () => {
+      this.setState(
+        {
+          photoURL: reader.result
+        },
+      );
+    };
   };
 
   componentDidUpdate(prevProps) {
     if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
+    }
+  }
+
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.Uzytkownicy[0];
+      this.setState({
+        firstName: data.imie,
+        lastName: data.nazwisko,
+        login: data.login,
+        // password: data.haslo,
+        PESEL: data.PESEL,
+        eMail: data.eMail,
+        phoneNumber: data.nrTelefonu,
+        userRole: data.rola.nazwa,
+        photoURL: data.zdjecie ? data.zdjecie : ''
+      });
     }
   }
 
@@ -157,11 +176,12 @@ export class FormUsers extends React.Component {
       eMail,
       phoneNumber,
       userRole,
-      imagePreviewUrl,
+      photoURL,
       showPassword,
       errors
     } = this.state;
 
+    const { initState } = this.props;
     return (
       <div>
         <form
@@ -216,7 +236,7 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <Avatar
                 alt="Zdjęcie użytkownika"
-                src={imagePreviewUrl}
+                src={photoURL}
                 style={{
                   width: 140,
                   height: 140,
@@ -322,12 +342,13 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <Query query={getDictUserRole}>
                 {({ loading, error, data }) => {
-                  if (loading) return <p>Loading...</p>;
-                  if (error) return <p>Error :(</p>;
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
                     <TextField
                       fullWidth
-                      error={errors.userRole}
+                      error={errors.userRole.nazwa}
                       required
                       id="userRole"
                       select
@@ -349,7 +370,12 @@ export class FormUsers extends React.Component {
               </Query>
             </Grid>
             <Grid item md={12}>
-              <FormAddress varName="address" onChange={this.handleAddressChange} ref={this.subForm} />
+              <FormAddress
+                varName="address"
+                onChange={this.handleAddressChange}
+                ref={this.subForm}
+                initState={initState ? initState.Uzytkownicy[0].adres : null}
+              />
             </Grid>
           </Grid>
         </form>

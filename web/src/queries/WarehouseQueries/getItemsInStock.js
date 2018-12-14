@@ -8,6 +8,15 @@ const getItemsInStock = gql`
       opis
       ilosc
       stanAktualny
+      dataPrzyjecia
+      dataWydania
+      nazwaSektora
+      kategorie {
+        nazwa
+      }
+      magazyn {
+        idMagazyn
+      }
     }
   }
 `;

@@ -52,6 +52,17 @@ export class FormDictWineCategory extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { initState } = this.props;
+    if (initState) {
+      let data = initState.DictKategoriaWina[0];
+      this.setState({
+        name: data.nazwaKategoria,
+        desc: data.opis ? data.opis : ''
+      });
+    }
+  }
+
   render() {
     const { name, desc, errors } = this.state;
     return (
