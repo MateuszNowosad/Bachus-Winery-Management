@@ -403,16 +403,19 @@ CREATE TABLE `Partie` (
   `partieIdPartie` int(11) DEFAULT NULL,
   `typPartiiIdTypPartii` int(11) NOT NULL,
   `informacjeOWinieIdInformacjeOWinie` int(11) DEFAULT NULL,
+  `planyProdukcyjneIdPlanyProdukcyjne` int(11) DEFAULT NULL,
+  `czyPrzepis` tinyint(4) NOT NULL,
   PRIMARY KEY (`idPartie`),
   UNIQUE KEY `idPartie_UNIQUE` (`idPartie`),
   KEY `fk_partie_winobranie1_idx` (`winobranieIdWinobranie`),
   KEY `fk_partie_partie1_idx` (`partieIdPartie`),
   KEY `fk_partie_typ_partii1_idx` (`typPartiiIdTypPartii`),
   KEY `fk_partie_informacje_o_winie1_idx` (`informacjeOWinieIdInformacjeOWinie`),
+  KEY `fk_partie_plany_produkcyjne1_idx` (`planyProdukcyjneIdPlanyProdukcyjne`),
   CONSTRAINT `fk_partie_informacje_o_winie1` FOREIGN KEY (`informacjeOWinieIdInformacjeOWinie`) REFERENCES `InformacjeOWinie` (`idInformacjeOWinie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_partie_partie1` FOREIGN KEY (`partieIdPartie`) REFERENCES `Partie` (`idPartie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_partie_typ_partii1` FOREIGN KEY (`typPartiiIdTypPartii`) REFERENCES `DictTypPartii` (`idTypPartii`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_partie_winobranie1` FOREIGN KEY (`winobranieIdWinobranie`) REFERENCES `Winobranie` (`idWinobranie`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_partie_plany_produkcyjne1` FOREIGN KEY (`planyProdukcyjneIdPlanyProdukcyjne`) REFERENCES `PlanyProdukcyjne` (`idPlanyProdukcyjne`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -427,38 +430,29 @@ CREATE TABLE `PlanyProdukcyjne` (
   `idPlanyProdukcyjne` int(11) NOT NULL AUTO_INCREMENT,
   `nazwa` varchar(45) NOT NULL,
   `opis` varchar(255) DEFAULT NULL,
-  `dictRodzajWinogronIdOdmianaWinogron` int(11) NOT NULL,
-  `dictTypPartiiIdTypPartii` int(11) NOT NULL,
-  `dictKategorieIdKategorie` int(11) NOT NULL,
   `eDokument` varchar(255) NOT NULL,
   PRIMARY KEY (`idPlanyProdukcyjne`),
-  UNIQUE KEY `idPlanyProdukcyjne_UNIQUE` (`idPlanyProdukcyjne`),
-  KEY `fk_plany_produkcyjne_dict_rodzaj_winogron1_idx` (`dictRodzajWinogronIdOdmianaWinogron`),
-  KEY `fk_plany_produkcyjne_dict_typ_partii1_idx` (`dictTypPartiiIdTypPartii`),
-  KEY `fk_plany_produkcyjne_dict_kategorie1_idx` (`dictKategorieIdKategorie`),
-  CONSTRAINT `fk_plany_produkcyjne_dict_kategorie1` FOREIGN KEY (`dictKategorieIdKategorie`) REFERENCES `DictKategorie` (`idKategorie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_plany_produkcyjne_dict_rodzaj_winogron1` FOREIGN KEY (`dictRodzajWinogronIdOdmianaWinogron`) REFERENCES `DictOdmianaWinogron` (`idOdmianaWinogron`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_plany_produkcyjneTict_typ_partii1` FOREIGN KEY (`dictTypPartiiIdTypPartii`) REFERENCES `DictTypPartii` (`idTypPartii`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  UNIQUE KEY `idPlanyProdukcyjne_UNIQUE` (`idPlanyProdukcyjne`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `PlanyProdukcyjneHasDictProcesy`
+-- Table structure for table `PlanyProdukcyjneHasPozycjaWMagazynie`
 --
 
-DROP TABLE IF EXISTS `PlanyProdukcyjneHasDictProcesy`;
+DROP TABLE IF EXISTS `PlanyProdukcyjneHasPozycjaWMagazynie`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PlanyProdukcyjneHasDictProcesy` (
-  `idPlanyProdukcyjneHasDictProcesy` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `PlanyProdukcyjneHasPozycjaWMagazynie` (
+  `idPlanyProdukcyjneHasPozycjaWMagazynie` int(11) NOT NULL AUTO_INCREMENT,
   `planyProdukcyjneIdPlanyProdukcyjne` int(11) NOT NULL,
-  `dictProcesyIdDictProcesy` int(11) NOT NULL,
-  PRIMARY KEY (`idPlanyProdukcyjneHasDictProcesy`),
-  UNIQUE KEY `idPlanyProdukcyjneHasDictProcesy_UNIQUE` (`idPlanyProdukcyjneHasDictProcesy`),
-  KEY `fk_plany_produkcyjne_has_dict_procesy_dict_procesy1_idx` (`dictProcesyIdDictProcesy`),
-  KEY `fk_plany_produkcyjne_has_dict_procesy_plany_produkcyjne1_idx` (`planyProdukcyjneIdPlanyProdukcyjne`),
-  CONSTRAINT `fk_plany_produkcyjne_has_dict_procesy_dict_procesy1` FOREIGN KEY (`dictProcesyIdDictProcesy`) REFERENCES `DictProcesy` (`idDictProcesy`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_plany_produkcyjne_has_dict_procesy_plany_produkcyjne1` FOREIGN KEY (`planyProdukcyjneIdPlanyProdukcyjne`) REFERENCES `PlanyProdukcyjne` (`idPlanyProdukcyjne`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `pozycjaWMagazynieIdPozycja` int(11) NOT NULL,
+  PRIMARY KEY (`idPlanyProdukcyjneHasPozycjaWMagazynie`),
+  UNIQUE KEY `idPlanyProdukcyjneHasPozycjaWMagazynie_UNIQUE` (`idPlanyProdukcyjneHasPozycjaWMagazynie`),
+  KEY `fk_plany_produkcyjne_has_pozycja__w_magazynie1_idx` (`pozycjaWMagazynieIdPozycja`),
+  KEY `fk_plany_produkcyjne_has_dict_procesy_plany_produkcyjne2_idx` (`planyProdukcyjneIdPlanyProdukcyjne`),
+  CONSTRAINT `fk_plany_produkcyjne_has_pozycja__w_magazynie1` FOREIGN KEY (`pozycjaWMagazynieIdPozycja`) REFERENCES `PozycjaWMagazynie` (`idPozycja`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_plany_produkcyjne_has_dict_procesy_plany_produkcyjne2` FOREIGN KEY (`planyProdukcyjneIdPlanyProdukcyjne`) REFERENCES `PlanyProdukcyjne` (`idPlanyProdukcyjne`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
