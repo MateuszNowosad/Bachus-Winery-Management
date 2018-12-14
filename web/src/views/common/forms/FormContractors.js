@@ -112,6 +112,7 @@ export class FormContractors extends React.Component {
 
   render() {
     const { NIP, companyName, phoneNumber, eMail, wwwSite, KRS, accountNumber, fax, errors } = this.state;
+    const {initState} = this.props;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -253,7 +254,7 @@ export class FormContractors extends React.Component {
               varName="address"
               onChange={this.handleAddressChange}
               ref={this.subForm}
-              initState={this.props.initState.Kontrahenci[0].adres}
+              initState={initState ? initState.Kontrahenci[0].adres : null}
             />
           </Grid>
         </Grid>

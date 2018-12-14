@@ -10,6 +10,7 @@ import { usersValidationKeys } from './UniversalValidationHandler/validationKeys
 import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
 import getDictUserRole from '../../../queries/DictionaryQueries/getDictUserRole';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import fileDownload from 'js-file-download';
 
 const errorMap = {
   firstName: false,
@@ -132,14 +133,17 @@ export class FormUsers extends React.Component {
     let reader = new FileReader();
     let photo = event.target.files[0];
 
-    reader.onloadend = () => {
-      this.setState({
-        photo: photo,
-        imagePreviewUrl: reader.result
-      });
-    };
-
     reader.readAsDataURL(photo);
+
+    reader.onload = () => {
+      this.setState(
+        {
+          photo: photo,
+          imagePreviewUrl: reader.result
+        },
+        () => fileDownload(reader.result, 'file.jpg')
+      );
+    };
   };
 
   componentDidUpdate(prevProps) {
@@ -181,6 +185,7 @@ export class FormUsers extends React.Component {
       errors
     } = this.state;
 
+    const { initState } = this.props;
     return (
       <div>
         <form
@@ -373,7 +378,7 @@ export class FormUsers extends React.Component {
                 varName="address"
                 onChange={this.handleAddressChange}
                 ref={this.subForm}
-                initState={this.props.initState.Uzytkownicy[0].adres}
+                initState={initState ? initState.Uzytkownicy[0].adres : null}
               />
             </Grid>
           </Grid>

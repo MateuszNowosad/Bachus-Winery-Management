@@ -82,6 +82,7 @@ export class FormWarehouse extends React.Component {
 
   render() {
     const { type, capacity, errors } = this.state;
+    const {initState} = this.props;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -133,7 +134,7 @@ export class FormWarehouse extends React.Component {
               varName="address"
               onChange={this.handleAddressChange}
               ref={this.subForm}
-              initState={this.props.initState.Magazyn[0].adres}
+              initState={initState ? initState.Magazyn[0].adres : null}
             />
           </Grid>
         </Grid>

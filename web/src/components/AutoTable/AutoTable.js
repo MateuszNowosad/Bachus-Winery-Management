@@ -35,8 +35,8 @@ class AutoTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  handleOpen = name => {
-    this.setState({ [name]: true });
+  handleOpen = () => {
+    this.setState({ open: true });
   };
 
   handleEdit = recordId => {

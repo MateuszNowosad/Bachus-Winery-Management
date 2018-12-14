@@ -434,7 +434,7 @@ export class FormWaybill extends React.Component {
                   varName="pickupAddress"
                   onChange={this.handleObjectChange}
                   ref={this.subFormPickup}
-                  initState={this.initAddress(initState.ListPrzewozowy[0].adres, 'Odbioru')}
+                  initState={initState ? this.initAddress(initState.ListPrzewozowy[0].adres, 'Odbioru') : null}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -449,7 +449,7 @@ export class FormWaybill extends React.Component {
                   varName="mailingAddress"
                   onChange={this.handleObjectChange}
                   ref={this.subFormMailing}
-                  initState={this.initAddress(initState.ListPrzewozowy[0].adres, 'Nadania')}
+                  initState={initState ? this.initAddress(initState.ListPrzewozowy[0].adres, 'Nadania') : null}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -464,7 +464,7 @@ export class FormWaybill extends React.Component {
                   varName="parcel"
                   onChange={this.handleObjectChange}
                   ref={this.subFormParcel}
-                  initState={initState.ListPrzewozowy[0].przesylka}
+                  initState={initState ? initState.ListPrzewozowy[0].przesylka : null}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>
