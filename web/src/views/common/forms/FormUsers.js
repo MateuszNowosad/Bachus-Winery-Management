@@ -134,11 +134,9 @@ export class FormUsers extends React.Component {
     reader.readAsDataURL(photo);
 
     reader.onload = () => {
-      this.setState(
-        {
-          photoURL: reader.result
-        },
-      );
+      this.setState({
+        photoURL: reader.result
+      });
     };
   };
 
