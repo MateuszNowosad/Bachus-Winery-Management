@@ -1,3 +1,4 @@
+const drawerWidth = 400;
 const AdminDashboardStyle = theme => ({
   root: {
     display: 'flex',
@@ -62,6 +63,10 @@ const AdminDashboardStyle = theme => ({
   combo: {
     display: 'flex',
     flexDirection: 'row'
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0
   }
 });
 

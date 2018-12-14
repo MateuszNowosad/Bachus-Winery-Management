@@ -18,6 +18,7 @@ import Bar from '@material-ui/icons/LocalBar';
 import UserInfo from '../views/AdminDashboard/UserInfo';
 import FaceIcon from '@material-ui/icons/Face';
 import TodayIcon from '@material-ui/icons/Today';
+import StorageIcon from '@material-ui/icons/Storage';
 import DatabaseVineyard from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseVineyard';
 import DatabaseProduction from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseProduction';
 import DatabaseContactsAndUsers from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseContactsAndUsers';
@@ -25,6 +26,7 @@ import DatabaseLogistics from '../views/AdminDashboard/DatabaseSubdirectories/Da
 import ProductionPlans from '../views/AdminDashboard/ProductionPlans';
 import ProductionPlanDetails from '../views/AdminDashboard/Subpages/ProductionPlanDetails';
 import DatabaseReports from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseReports';
+import Warehouse from '../views/AdminDashboard/Warehouse';
 
 const AdminDashboardRoutes = [
   {
@@ -84,6 +86,14 @@ const AdminDashboardRoutes = [
         exact: false
       }
     ]
+  },
+  {
+    path: '/admindashboard/warehouse',
+    drawerName: 'Magazyn',
+    navbarName: 'Magazyn',
+    drawerIcon: <StorageIcon />,
+    component: Warehouse,
+    exact: false
   },
   {
     path: '/admindashboard/profile',
