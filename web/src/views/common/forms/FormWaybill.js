@@ -28,7 +28,7 @@ const errorMap = {
   driverSurname: false,
   comments: false,
   reservations: false,
-  file: false,
+  fileURL: false,
   sender: false,
   recipent: false,
   carrier: false
@@ -43,7 +43,7 @@ export class FormWaybill extends React.Component {
       driverSurname: '',
       comments: '',
       reservations: '',
-      file: '',
+      fileURL: '',
       sender: {},
       recipent: {},
       carrier: {},
@@ -118,7 +118,7 @@ export class FormWaybill extends React.Component {
       driverSurname,
       comments,
       reservations,
-      file,
+      fileURL,
       sender,
       recipent,
       carrier,
@@ -132,7 +132,7 @@ export class FormWaybill extends React.Component {
       driverSurname,
       comments,
       reservations,
-      file,
+      fileURL,
       sender,
       recipent,
       carrier,
@@ -182,6 +182,25 @@ export class FormWaybill extends React.Component {
     });
   };
 
+  handleFileChange = event => {
+    let reader = new FileReader();
+    let file = event.target.files[0];
+
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      this.setState(
+        {
+          fileURL: reader.result,
+          errors: {
+            ...this.state.errors,
+            fileURL: false
+          }
+        },
+      );
+    };
+  };
+
   componentDidUpdate(prevProps) {
     if (!prevProps.submitFromOutside && this.props.submitFromOutside) {
       this.handleSubmit();
@@ -197,7 +216,7 @@ export class FormWaybill extends React.Component {
         driverSurname: data.nazwiskoKierowcy,
         comments: data.uwagiPrzewoznika ? data.uwagiPrzewoznika : '',
         reservations: data.zastrzezeniaOdbiorcy ? data.zastrzezeniaOdbiorcy : '',
-        file: data.eDokument,
+        fileURL: data.eDokument,
         sender: data.kontrahent[0],
         recipent: data.kontrahent[0],
         carrier: data.kontrahent[0]
@@ -400,13 +419,13 @@ export class FormWaybill extends React.Component {
             </DialogForForm>
           </Grid>
           <Grid item md={12}>
-            <input hidden accept="application/pdf" id="addFile" type="file" onChange={this.handleFileChange} />
-            <label htmlFor="addImage">
+            <input hidden accept=".pdf" id="addFile" type="file" onChange={this.handleFileChange} />
+            <label htmlFor="addFile">
               <Button
                 variant="contained"
                 component="span"
                 style={
-                  errors.file
+                  errors.fileURL
                     ? {
                         color: red[300],
                         backgroundColor: red[700],
@@ -420,6 +439,8 @@ export class FormWaybill extends React.Component {
                 Dodaj dokument
               </Button>
             </label>
+          </Grid>
+          <Grid item md={12}>
             <Button variant={'contained'} onClick={this.generateWaybill}>
               Generuj list przewozowy
             </Button>

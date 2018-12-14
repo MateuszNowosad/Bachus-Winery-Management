@@ -10,7 +10,6 @@ import { usersValidationKeys } from './UniversalValidationHandler/validationKeys
 import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
 import getDictUserRole from '../../../queries/DictionaryQueries/getDictUserRole';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
-import fileDownload from 'js-file-download';
 
 const errorMap = {
   firstName: false,
@@ -21,7 +20,7 @@ const errorMap = {
   eMail: false,
   phoneNumber: false,
   userRole: false,
-  photo: false
+  photoURL: false
 };
 
 export class FormUsers extends React.Component {
@@ -37,8 +36,7 @@ export class FormUsers extends React.Component {
       phoneNumber: '',
       address: {},
       userRole: '',
-      photo: '',
-      imagePreviewUrl: '',
+      photoURL: '',
       showPassword: false,
       errors: errorMap,
       passwordStrength: 0
@@ -138,10 +136,8 @@ export class FormUsers extends React.Component {
     reader.onload = () => {
       this.setState(
         {
-          photo: photo,
-          imagePreviewUrl: reader.result
+          photoURL: reader.result
         },
-        () => fileDownload(reader.result, 'file.jpg')
       );
     };
   };
@@ -165,7 +161,7 @@ export class FormUsers extends React.Component {
         eMail: data.eMail,
         phoneNumber: data.nrTelefonu,
         userRole: data.rola.nazwa,
-        imagePreviewUrl: data.zdjecie ? data.zdjecie : ''
+        photoURL: data.zdjecie ? data.zdjecie : ''
       });
     }
   }
@@ -180,7 +176,7 @@ export class FormUsers extends React.Component {
       eMail,
       phoneNumber,
       userRole,
-      imagePreviewUrl,
+      photoURL,
       showPassword,
       errors
     } = this.state;
@@ -240,7 +236,7 @@ export class FormUsers extends React.Component {
             <Grid item md={6}>
               <Avatar
                 alt="Zdjęcie użytkownika"
-                src={imagePreviewUrl}
+                src={photoURL}
                 style={{
                   width: 140,
                   height: 140,
