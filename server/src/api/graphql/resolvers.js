@@ -1,7 +1,9 @@
 import * as sequelize from '../../sequelizeDB';
+import { tableIdName } from '../../sequelizeDB';
 // import * as testData from '../../../.variables/graphGLStaticData';
 import _ from 'underscore';
-import { tableIdName } from '../../sequelizeDB';
+import bcrypt from 'bcrypt';
+import faker from 'faker';
 // import insert from '../common/insertModels';
 
 const insert = {
@@ -745,7 +747,7 @@ export default {
     }
   },
   Przesylka: {
-    listPrzewozowy: async (_) => {
+    listPrzewozowy: async _ => {
       let query = await sequelize.getListPrzewozowy({ przesylkaIdPrzesylka: _.idPrzesylka });
       return query[0];
     },
@@ -919,6 +921,7 @@ export default {
       return await genericUpsertMutation(input, 'Raporty');
     },
     upsertUzytkownicy: async (root, input) => {
+      input.haslo = await hashPassword(input.haslo);
       return await genericUpsertMutation(input, 'Uzytkownicy');
     },
     upsertWinnica: async (root, input) => {
@@ -1035,8 +1038,24 @@ export default {
     },
     deleteWinobranie: async (root, input) => {
       return await sequelize.deleteWinobranie(input);
+    },
+    userLogin: async (root, input) => {
+      const user = await sequelize.getUzytkownicy({ login: input.login });
+      let token;
+      if (await bcrypt.compare(input.password, user[0].haslo.toString())) {
+        token = hashPassword(faker.random.word());
+      } else {
+        console.log('1048,  User password match ERROR');
+        token = "error"
+      }
+      return { login: input.login, password: input.password, token };
     }
   }
+};
+
+const hashPassword = async password => {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
 };
 
 const genericUpsertMutation = async (input, tableName) => {
