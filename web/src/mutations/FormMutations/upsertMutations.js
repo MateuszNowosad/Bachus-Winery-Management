@@ -1,14 +1,26 @@
-export const upsertBatch = data => gql`
-  mutation {
+import gql from 'graphql-tag';
+
+export const upsertBatch = gql`
+  mutation upsertBatch(
+    $batchId: ID
+    $amount: Float!
+    $desc: String
+    $creationDate: String!
+    $batchTypeId: String!
+    $grapeHarvestId: String
+    $parentBatchId: String
+  ) {
     upsertPartie(
-    ${data.idPartie ? 'idPartie: ' + data.idPartie + ',' : ''}
-    ilosc: ${data.amount},
-    ${data.amount ? 'opis: ' + data.amount + ',' : ''}
-    dataUtworzenia: ${data.creationDate},
-    typPartii: { idTypPartii: ${data.batchType.id} },
-    ${data.grapeHarvest ? 'winobranie: { ' + data.grapeHarvest.id + '},' : ''}
-    ${data.batch ? 'partie: { ' + data.batch.id + '},' : ''}
-    )
+      idPartie: $batchId
+      ilosc: $amount
+      opis: $desc
+      dataUtworzenia: $creationDate
+      typPartiiIdTypPartii: $batchTypeId
+      winobranieIdWinobranie: $grapeHarvestId
+      partieIdPartie: $parentBatchId
+    ) {
+      idPartie
+    }
   }
 `;
 
@@ -62,16 +74,24 @@ export const upsertDictWineCategory = data => gql`
   }
 `;
 
-export const upsertDictCategory = data => gql`
-  mutation {
-    upsertDictKategorie(
-       ${data.idDictCategory ? 'idKategorie: ' + data.idDictCategory + ',' : ''}
-  nazwa: ${data.name},
-  jednostka: ${data.unit},
-  ${data.desc ? 'opis: ' + data.desc + ',' : ''}  
-    )
+export const upsertDictCategory = gql`
+  mutation upsertDictCategory($id: ID, $name: String!, $unit: String!, $desc: String) {
+    upsertDictKategorie(idKategorie: $id, nazwa: $name, jednostka: $unit, opis: $desc) {
+      idKategorie
+    }
   }
 `;
+
+// export const upsertDictCategory = data => gql`
+//   mutation {
+//     upsertDictKategorie(
+//        ${data.idDictCategory ? 'idKategorie: ' + data.idDictCategory + ',' : ''}
+//   nazwa: ${data.name},
+//   jednostka: ${data.unit},
+//   ${data.desc ? 'opis: ' + data.desc + ',' : ''}
+//     )
+//   }
+// `;
 
 export const upsertDictGrapeType = data => gql`
   mutation {

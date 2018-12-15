@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button/Button';
 import UniversalSubmitHander from '../../views/common/forms/UniversalSubmitHandler';
 import OCSnackbar from '../../views/common/prompts/OCSnackbar';
 import ConfirmationSlide from './ConfirmationSlide';
+import { Mutation } from 'react-apollo';
+import { upsertDictCategory } from '../../mutations/FormMutations/upsertMutations';
 
 class ScrollableDialogForm extends React.Component {
   state = {
@@ -60,12 +62,17 @@ class ScrollableDialogForm extends React.Component {
         >
           <DialogContent>
             <DialogTitle>{dialogTitle}</DialogTitle>
-            {React.cloneElement(children, {
-              submitFromOutside: submit,
-              onSubmit: UniversalSubmitHander,
-              formSubmitted: this.formSubmitted,
-              submitAborted: this.submitAborted
-            })}
+            <Mutation mutation={upsertDictCategory} onCompleted={this.formSubmitted}>
+              {mutation =>
+                React.cloneElement(children, {
+                  submitFromOutside: submit,
+                  onSubmit: UniversalSubmitHander,
+                  //formSubmitted: this.formSubmitted,
+                  submitAborted: this.submitAborted,
+                  mutation: mutation
+                })
+              }
+            </Mutation>
           </DialogContent>
           <DialogActions classes={{ root: classes.root }}>
             {openConfirmationPrompt ? (
