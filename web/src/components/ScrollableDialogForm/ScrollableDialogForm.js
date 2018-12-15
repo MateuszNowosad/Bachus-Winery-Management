@@ -67,15 +67,16 @@ class ScrollableDialogForm extends React.Component {
               onCompleted={this.formSubmitted}
               refetchQueries={[{ query: query }]}
             >
-              {mutation =>
-                React.cloneElement(children, {
+              {(mutation, { error }) => {
+                console.log('79, error jakub: ', error);
+                return React.cloneElement(children, {
                   submitFromOutside: submit,
                   onSubmit: UniversalSubmitHander,
                   //formSubmitted: this.formSubmitted,
                   submitAborted: this.submitAborted,
                   mutation: mutation
-                })
-              }
+                });
+              }}
             </Mutation>
           </DialogContent>
           <DialogActions classes={{ root: classes.root }}>

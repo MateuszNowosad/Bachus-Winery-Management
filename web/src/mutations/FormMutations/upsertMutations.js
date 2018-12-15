@@ -334,7 +334,6 @@ export const upsertVineyard = gql`
     $area: Float!
     $state: String!
     $terroir: String
-    $dateOfHarvest: String
     $dateOfPlanting: String!
     $registrationPlotId: String!
     $grapeTypeId: String!
@@ -345,10 +344,9 @@ export const upsertVineyard = gql`
       powierzchnia: $area
       stan: $state
       terroir: $terroir
-      dataOstatniegoZbioru: $dateOfHarvest
       dataZasadzenia: $dateOfPlanting
       ewidencyjnyIdDzialki: $registrationPlotId
-      odmianaWinogronIdOdmianaWinogron: $grapeTypeId
+      odmianiaWinogronIdOdmianaWinogron: $grapeTypeId
     ) {
       idWinnica
     }
