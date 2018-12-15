@@ -35,7 +35,7 @@ export class FormDictWineCategory extends React.Component {
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, wineCategoriesDictValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {

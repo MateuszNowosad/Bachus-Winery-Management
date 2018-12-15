@@ -90,7 +90,7 @@ export const upsertDictGrapeType = gql`
 
 export const upsertDictVineyardOperation = gql`
   mutation upsertDictVineyardOperation($dictVineyardOperationId: ID, $name: String!, $desc: String) {
-    upsertDictOperacjeNaWinnicy(idDictOperacjeNaWinnicy: $dictVineyardOperationId: ID, nazwa: $name, opis: $desc) {
+    upsertDictOperacjeNaWinnicy(idDictOperacjeNaWinnicy: $dictVineyardOperationId, nazwa: $name, opis: $desc) {
       idDictOperacjeNaWinnicy
     }
   }
@@ -114,7 +114,9 @@ export const upsertDictUserRole = gql`
 
 export const upsertDictBatchType = gql`
   mutation upsertDictBatchType($dictBatchTypeId: ID, $name: String!, $unit: String!) {
-    upsertDictRolaUzytkownikow(idTypPartii: $dictBatchTypeId, nazwa: $name, jednostka: $unit)
+    upsertDictTypPartii(idTypPartii: $dictBatchTypeId, nazwa: $name, jednostka: $unit) {
+      idTypPartii
+    }
   }
 `;
 
