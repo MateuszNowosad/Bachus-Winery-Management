@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const deleteBatch = gql`
-  mutation deleteBatch($batchId: ID) {
-    deletePartie(idPartie: $batchId) {
+  mutation deleteBatch($id: ID) {
+    deletePartie(idPartie: $id) {
       idPartie
     }
   }
@@ -31,104 +31,104 @@ const parcel = data => `
 `;
 
 export const deleteContractors = gql`
-  mutation deleteContractors($contractorId: ID) {
-    deleteKontrahenci(idKontrahenci: $contractorId) {
+  mutation deleteContractors($id: ID) {
+    deleteKontrahenci(idKontrahenci: $id) {
       idKontrahenci
     }
   }
 `;
 
 export const deleteDictWineCategory = gql`
-  mutation deleteDictWineCategory($dictWineCategoryId: ID) {
-    deleteDictKategoriaWina(idDictKategoriaWina: $dictWineCategoryId) {
+  mutation deleteDictWineCategory($id: ID) {
+    deleteDictKategoriaWina(idDictKategoriaWina: $id) {
       idDictKategoriaWina
     }
   }
 `;
 
 export const deleteDictCategory = gql`
-  mutation deleteDictCategory($dictCategoryId: ID) {
-    deleteDictKategorie(idKategorie: $dictCategoryId) {
+  mutation deleteDictCategory($id: ID) {
+    deleteDictKategorie(idKategorie: $id) {
       idKategorie
     }
   }
 `;
 
 export const deleteDictGrapeType = gql`
-  mutation deleteDictGrapeType($dictGrapeTypeId: ID) {
-    deleteDictOdmianaWinogron(idOdmianaWinogron: $dictGrapeTypeId) {
+  mutation deleteDictGrapeType($id: ID) {
+    deleteDictOdmianaWinogron(idOdmianaWinogron: $id) {
       idOdmianaWinogron
     }
   }
 `;
 
 export const deleteDictVineyardOperation = gql`
-  mutation deleteDictVineyardOperation($dictVineyardOperationId: ID) {
-    deleteDictOperacjeNaWinnicy(idDictOperacjeNaWinnicy: $dictVineyardOperationId) {
+  mutation deleteDictVineyardOperation($id: ID) {
+    deleteDictOperacjeNaWinnicy(idDictOperacjeNaWinnicy: $id) {
       idDictOperacjeNaWinnicy
     }
   }
 `;
 
 export const deleteDictProcess = gql`
-  mutation deleteDictProcess($dictProcessId: ID) {
-    deleteDictProcesy(idDictProcesy: $dictProcessId) {
+  mutation deleteDictProcess($id: ID) {
+    deleteDictProcesy(idDictProcesy: $id) {
       idDictProcesy
     }
   }
 `;
 
 export const deleteDictUserRole = gql`
-  mutation deleteDictUserRole($dictUserRoleId: ID) {
-    deleteDictRolaUzytkownikow(idRolaUzytkownikow: $dictUserRoleId) {
+  mutation deleteDictUserRole($id: ID) {
+    deleteDictRolaUzytkownikow(idRolaUzytkownikow: $id) {
       idRolaUzytkownikow
     }
   }
 `;
 
 export const deleteDictBatchType = gql`
-  mutation deleteDictBatchType($dictBatchTypeId: ID) {
-    deleteDictTypPartii(idTypPartii: $dictBatchTypeId) {
+  mutation deleteDictBatchType($id: ID) {
+    deleteDictTypPartii(idTypPartii: $id) {
       idTypPartii
     }
   }
 `;
 
 export const deleteWineInformation = gql`
-  mutation deleteWineInformation($wineInformationId: ID) {
-    deleteInformacjeOWinie(idInformacjeOWinie: $wineInformationId) {
+  mutation deleteWineInformation($id: ID) {
+    deleteInformacjeOWinie(idInformacjeOWinie: $id) {
       idInformacjeOWinie
     }
   }
 `;
 
 export const deleteWaybill = gql`
-  mutation deleteWaybill($waybillId: ID) {
-    deleteListPrzewozowy(idListPrzewozowy: $waybillId) {
+  mutation deleteWaybill($id: ID) {
+    deleteListPrzewozowy(idListPrzewozowy: $id) {
       idListPrzewozowy
     }
   }
 `;
 
 export const deleteWarehouse = gql`
-  mutation deleteWarehouse($warehouseId: ID) {
-    deleteMagazyn(idMagazyn: $warehouseId) {
+  mutation deleteWarehouse($id: ID) {
+    deleteMagazyn(idMagazyn: $id) {
       idMagazyn
     }
   }
 `;
 
 export const deleteOperations = gql`
-  mutation deleteOperations($operationId: ID) {
-    deleteOperacje(idOperacja: $operationId) {
+  mutation deleteOperations($id: ID) {
+    deleteOperacje(idOperacja: $id) {
       idOperacja
     }
   }
 `;
 
 export const deleteVineyardOperation = gql`
-  mutation deleteVineyardOperation($vineyardOperationId: ID) {
-    deleteOperacjeNaWinnicy(idOperacja: $vineyardOperationId) {
+  mutation deleteVineyardOperation($id: ID) {
+    deleteOperacjeNaWinnicy(idOperacja: $id) {
       idOperacja
     }
   }
@@ -136,40 +136,40 @@ export const deleteVineyardOperation = gql`
 
 //TODO sprawdzić
 export const deleteProductionPlan = gql`
-  mutation deleteProductionPlan($productionPlanId: ID) {
-    deletePlanyProdukcyjne(idPlanyProdukcyjne: $productionPlanId) {
+  mutation deleteProductionPlan($id: ID) {
+    deletePlanyProdukcyjne(idPlanyProdukcyjne: $id) {
       idPlanyProdukcyjne
     }
   }
 `;
 
 export const deleteItemInStock = gql`
-  mutation deleteItemInStock($itemInStockId: ID) {
-    deletePozycjaWMagazynie(idPozycja: $itemInStockId) {
+  mutation deleteItemInStock($id: ID) {
+    deletePozycjaWMagazynie(idPozycja: $id) {
       idPozycja
     }
   }
 `;
 
 export const deleteUser = gql`
-  mutation deleteUser($userId: ID) {
-    deleteUzytkownicy(idUzytkownika: $userId) {
+  mutation deleteUser($id: ID) {
+    deleteUzytkownicy(idUzytkownika: $id) {
       idUzytkownika
     }
   }
 `;
 
 export const deleteVineyard = gql`
-  mutation deleteVineyard($vineyardId: ID) {
-    deleteWinnica(idWinnica: $vineyardId) {
+  mutation deleteVineyard($id: ID) {
+    deleteWinnica(idWinnica: $id) {
       idWinnica
     }
   }
 `;
 
 export const deleteGrapeHarvest = gql`
-  mutation deleteGrapeHarvest($grapeHarvestId: ID) {
-    deleteWinobranie(idWinobranie: $grapeHarvestId) {
+  mutation deleteGrapeHarvest($id: ID) {
+    deleteWinobranie(idWinobranie: $id) {
       idWinobranie
     }
   }

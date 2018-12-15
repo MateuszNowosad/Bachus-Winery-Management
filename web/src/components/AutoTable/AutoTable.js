@@ -48,8 +48,9 @@ class AutoTable extends React.Component {
     });
   };
 
-  handleDeletion = recordId => {
+  handleDeletion = (mutation, recordId) => {
     console.log('45, recordId DEMateusz: ', recordId);
+    mutation({ variables: { id: recordId } });
   };
 
   render() {
@@ -63,7 +64,7 @@ class AutoTable extends React.Component {
         labelCount = newlabelCount;
       }
     });
-    const { classes, queryData, querySize, dialogFormTitle, dialogForm, editMode } = this.props;
+    const { classes, queryData, querySize, dialogFormTitle, dialogForm, editMode, query } = this.props;
     const { open, rowsPerPage, page, editForm, openEdit } = this.state;
     return (
       <div style={{ minWidth: '100%' }}>
@@ -75,6 +76,8 @@ class AutoTable extends React.Component {
             {labels}
             <TableBody>
               <AutoContent
+                query={query}
+                formName={dialogForm.type.name}
                 queryData={queryData}
                 // querySubject={querySubject}
                 editMode={editMode}
