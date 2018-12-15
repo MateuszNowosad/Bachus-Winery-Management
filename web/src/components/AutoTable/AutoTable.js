@@ -76,8 +76,8 @@ class AutoTable extends React.Component {
             {labels}
             <TableBody>
               <AutoContent
-                query={query}
-                formName={dialogForm.type.name}
+                query={editMode && query}
+                formName={editMode && dialogForm.type.name}
                 queryData={queryData}
                 // querySubject={querySubject}
                 editMode={editMode}
