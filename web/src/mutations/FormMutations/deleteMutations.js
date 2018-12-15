@@ -1,24 +1,8 @@
 import gql from 'graphql-tag';
 
-export const upsertBatch = gql`
-  mutation upsertBatch(
-    $batchId: ID
-    $amount: Float!
-    $desc: String
-    $creationDate: String!
-    $batchTypeId: String!
-    $grapeHarvestId: String
-    $parentBatchId: String
-  ) {
-    upsertPartie(
-      idPartie: $batchId
-      ilosc: $amount
-      opis: $desc
-      dataUtworzenia: $creationDate
-      typPartiiIdTypPartii: $batchTypeId
-      winobranieIdWinobranie: $grapeHarvestId
-      partieIdPartie: $parentBatchId
-    ) {
+export const deleteBatch = gql`
+  mutation deleteBatch($batchId: ID) {
+    deletePartie(idPartie: $batchId) {
       idPartie
     }
   }
@@ -36,7 +20,6 @@ const address = data => `
   }
 `;
 
-//TODO dodawanie pzocycji w magazynie
 const parcel = data => `
  {
  ${data.idParcel ? 'idPrzesylka: ' + data.idParcel + ',' : ''}
@@ -47,32 +30,9 @@ const parcel = data => `
  }
 `;
 
-//TODO dodawanie adresu
-export const upsertContractors = gql`
-  mutation upsertContractors(
-    $contractorId: ID
-    $NIP: String
-    $companyName: String
-    $phoneNumber: String
-    $eMail: String
-    $wwwSite: String
-    $KRS: String
-    $accountNumber: String
-    $fax: String
-    $addressId: String
-  ) {
-    upsertKontrahenci(
-      idKontrahenci: $contractorId
-      NIP: $NIP
-      nazwaSpolki: $companyName
-      telefon: $phoneNumber
-      eMail: $eMail
-      stronaWww: $wwwSite
-      KRS: $KRS
-      nrKonta: $accountNumber
-      fax: $fax
-      adresIdAdres: $addressId
-    ) {
+export const deleteContractors = gql`
+  mutation deleteContractors($contractorId: ID) {
+    deleteKontrahenci(idKontrahenci: $contractorId) {
       idKontrahenci
     }
   }
