@@ -11,7 +11,7 @@ import UniversalSubmitHander from '../../views/common/forms/UniversalSubmitHandl
 import OCSnackbar from '../../views/common/prompts/OCSnackbar';
 import ConfirmationSlide from './ConfirmationSlide';
 import { Mutation } from 'react-apollo';
-import { upsertDictCategory } from '../../mutations/FormMutations/upsertMutations';
+import { selectUpsertForForm } from '../../mutations/FormMutations/selectUpsertForForm';
 
 class ScrollableDialogForm extends React.Component {
   state = {
@@ -62,7 +62,7 @@ class ScrollableDialogForm extends React.Component {
         >
           <DialogContent>
             <DialogTitle>{dialogTitle}</DialogTitle>
-            <Mutation mutation={upsertDictCategory} onCompleted={this.formSubmitted}>
+            <Mutation mutation={selectUpsertForForm(children.type.name)} onCompleted={this.formSubmitted}>
               {mutation =>
                 React.cloneElement(children, {
                   submitFromOutside: submit,
