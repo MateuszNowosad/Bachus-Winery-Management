@@ -26,7 +26,7 @@ const sequelize = new Sequelize({
   password: 'test',
   dialect: 'mysql',
   host: 'localhost',
-    port: '3306',
+  port: '3306',
   connectionTimeout: 0,
   pool: {
     min: 1,
