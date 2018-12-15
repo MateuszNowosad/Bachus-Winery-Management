@@ -189,15 +189,13 @@ export class FormWaybill extends React.Component {
     reader.readAsDataURL(file);
 
     reader.onload = () => {
-      this.setState(
-        {
-          fileURL: reader.result,
-          errors: {
-            ...this.state.errors,
-            fileURL: false
-          }
-        },
-      );
+      this.setState({
+        fileURL: reader.result,
+        errors: {
+          ...this.state.errors,
+          fileURL: false
+        }
+      });
     };
   };
 
