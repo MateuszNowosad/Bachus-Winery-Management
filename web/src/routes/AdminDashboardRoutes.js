@@ -35,7 +35,8 @@ const AdminDashboardRoutes = [
     navbarName: 'Panel administratora',
     drawerIcon: <DashboardIcon />,
     component: AdminDashboard,
-    exact: true
+    exact: true,
+    role: ['admin','userproduction', 'userwarehouse', 'useraccounting']
   },
   {
     path: '/admindashboard/database',
@@ -44,6 +45,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <DnsIcon />,
     component: Database,
     exact: true,
+    role: ['admin','userproduction', 'userwarehouse', 'useraccounting'],
     childRoutes: [
       {
         path: '/admindashboard/database/winnice',
@@ -51,7 +53,8 @@ const AdminDashboardRoutes = [
         navbarName: 'Winnice',
         drawerIcon: <Flower />,
         component: DatabaseVineyard,
-        exact: false
+        exact: false,
+        role: ['admin','userproduction']
       },
       {
         path: '/admindashboard/database/produkcja',
@@ -59,7 +62,8 @@ const AdminDashboardRoutes = [
         navbarName: 'Produkcja',
         drawerIcon: <Bar />,
         component: DatabaseProduction,
-        exact: false
+        exact: false,
+        role: ['admin','userproduction']
       },
       {
         path: '/admindashboard/database/personalia',
@@ -67,7 +71,8 @@ const AdminDashboardRoutes = [
         navbarName: 'Personalia',
         drawerIcon: <PeopleIcon />,
         component: DatabaseContactsAndUsers,
-        exact: false
+        exact: false,
+        role: ['admin','useraccounting']
       },
       {
         path: '/admindashboard/database/logistyka',
@@ -75,7 +80,8 @@ const AdminDashboardRoutes = [
         navbarName: 'Logistyka',
         drawerIcon: <LocalShipping />,
         component: DatabaseLogistics,
-        exact: false
+        exact: false,
+        role: ['admin','useraccounting', 'userwarehouse']
       },
       {
         path: '/admindashboard/database/raporty',
@@ -83,7 +89,8 @@ const AdminDashboardRoutes = [
         navbarName: 'Raporty',
         drawerIcon: <Description />,
         component: DatabaseReports,
-        exact: false
+        exact: false,
+        role: ['admin','useraccounting', 'userwarehouse', 'userproduction'] //TODO special verification logic in component
       }
     ]
   },
@@ -93,7 +100,8 @@ const AdminDashboardRoutes = [
     navbarName: 'Magazyn',
     drawerIcon: <StorageIcon />,
     component: Warehouse,
-    exact: false
+    exact: false,
+    role: ['admin','useraccounting', 'userwarehouse', 'userproduction']
   },
   {
     path: '/admindashboard/profile',
@@ -101,7 +109,8 @@ const AdminDashboardRoutes = [
     navbarName: 'Twój profil',
     drawerIcon: <FaceIcon />,
     component: UserInfo,
-    exact: false
+    exact: false,
+    role: ['admin','useraccounting', 'userwarehouse', 'userproduction']
   },
   {
     path: '/admindashboard/diagnostics',
@@ -109,7 +118,8 @@ const AdminDashboardRoutes = [
     navbarName: 'Dane Diagnostyczne',
     drawerIcon: <BarChartIcon />,
     component: Diagnostics,
-    exact: false
+    exact: false,
+    role: ['admin']
   },
   {
     path: '/admindashboard/news',
@@ -117,7 +127,8 @@ const AdminDashboardRoutes = [
     navbarName: 'Najnowsze zdarzenia',
     drawerIcon: <LayersIcon />,
     component: News,
-    exact: false
+    exact: false,
+    role: ['admin','useraccounting', 'userwarehouse', 'userproduction'] //TODO special verification logic in component
   },
   {
     path: '/admindashboard/backup',
@@ -125,7 +136,8 @@ const AdminDashboardRoutes = [
     navbarName: 'Kopie zapasowe',
     drawerIcon: <SaveIcon />,
     component: Backup,
-    exact: false
+    exact: false,
+    role: ['admin']
   },
   {
     path: '/admindashboard/productionplans',
@@ -133,13 +145,15 @@ const AdminDashboardRoutes = [
     navbarName: 'Plany produkcyjne',
     drawerIcon: <TodayIcon />,
     component: ProductionPlans,
-    exact: true
+    exact: true,
+    role: ['admin','useraccounting', 'userproduction']
   },
   {
     path: '/admindashboard/productionplans/:id',
     component: ProductionPlanDetails,
     hidden: true,
-    exact: true
+    exact: true,
+    role: ['admin','useraccounting', 'userproduction']
   }
 
   // {redirect: true, path: "/", to: "/login", navbarName: "Redirect"}
