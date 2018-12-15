@@ -47,22 +47,36 @@ const parcel = data => `
  }
 `;
 
-export const upsertContractors = data => gql`
-  mutation {
+//TODO dodawanie adresu
+export const upsertContractors = gql`
+  mutation upsertContractors(
+    $contractorId: ID
+    $NIP: String
+    $companyName: String
+    $phoneNumber: String
+    $eMail: String
+    $wwwSite: String
+    $KRS: String
+    $accountNumber: String
+    $fax: String
+    $addressId: String
+  ) {
     upsertKontrahenci(
-      ${data.idContractor ? 'idKontrahenci: ' + data.idContractor : ''}
-      ${data.NIP ? 'NIP: ' + data.NIP : ''}
-      nazwaSpolki: ${data.companyName},
-      telefon: ${data.phoneNumber},
-      eMail: ${data.eMaila},
-      ${data.wwwSite ? 'stronaWww: ' + data.wwwSite : ''}
-      ${data.KRS ? 'KRS: ' + data.KRS : ''}
-      nrKonta: ${data.accountNumber},
-      ${data.fax ? 'fax: ' + data.fax : ''}
-      adres: ${address(data.address)},    
-    )
+      idKontrahenci: $contractorId
+      NIP: $NIP
+      nazwaSpolki: $companyName
+      telefon: $phoneNumber
+      eMail: $eMail
+      stronaWww: $wwwSite
+      KRS: $KRS
+      nrKonta: $accountNumber
+      fax: $fax
+      adresIdAdres: $addressId
+    ) {
+      idKontrahenci
+    }
   }
-  `;
+`;
 
 export const upsertDictWineCategory = gql`
   mutation upsertDictWineCategory($dictWineCategoryId: ID, $name: String!, $desc: String) {
@@ -121,147 +135,235 @@ export const upsertDictBatchType = gql`
 `;
 
 //TODO rozwiązać jak dodać informacje o winie do partii
-export const upsertWineInformation = data => gql`
-mutation {
+export const upsertWineInformation = gql`
+  mutation upsertWineInformation(
+    $wineInformationId: ID
+    $name: String!
+    $motto: String!
+    $allergens: String
+    $energyValue: String!
+    $wineCategoryId: String!
+  ) {
     upsertInformacjeOWinie(
-  ${data.idWineInformation ? 'idInformacjeOWinie: ' + data.idWineInformation + ',' : ''} 
-  nazwa: ${data.name},
-  motto: ${data.motto},
-  ${data.allergens ? 'zawartoscPotAlergenow: ' + data.allergens + ',' : ''}
-  wartoscEnergetyczna: ${data.energyValue},
-  kategoriaWina: { idDictKategoriaWina: ${data.wineCategory.id}
-  partie: 
-    )
+      idInformacjeOWinie: $wineInformationId
+      nazwa: $name
+      motto: $motto
+      zawartoscPotAlergenow: $allergens
+      wartoscEnergetyczna: $energyValue
+      dictKategoriaWinaIdDictKategoriaWina: $wineCategoryId
+    ) {
+      idInformacjeOWinie
+    }
   }
 `;
 
-//TODO dodawanie kontrahentów i adresów
-export const upsertWaybill = data => gql`
-mutation {
+//TODO dodawanie przesyłki, kontrahentów i adresów
+export const upsertWaybill = gql`
+  mutation upsertWaybill(
+    $waybillId: ID
+    $driverName: String
+    $driverSurname: String
+    $comments: String
+    $reservations: String
+    $fileURL: String
+    $parcelID: String
+  ) {
     upsertListPrzewozowy(
-  ${data.idWaybill ? 'idListPrzewozowy: ' + data.idWaybill + ',' : ''} 
-  imieKierowcy: ${data.driverName},
-  nazwiskoKierowcy: ${data.driverSurname},
-  ${data.comments ? 'uwagiPrzewoznika: ' + data.comments + ',' : ''} 
-  ${data.reservations ? 'zastrzezeniaOdbiorcy: ' + data.reservations + ',' : ''}
-  eDokument: ${data.fileURL},
-  kontrahent: [Kontrahenci]
-  przesylka: ${parcel(data.parcel)},
-  adres: [Adres]
-    )
+      idListPrzewozowy: $waybillId
+      imieKierowcy: $driverName
+      nazwiskoKierowcy: $driverSurname
+      uwagiPrzewoznika: $comments
+      zastrzezeniaOdbiorcy: $reservations
+      eDokument: $fileURL
+      przesylkaIdPrzesylka: $parcelID
+    ) {
+      idListPrzewozowy
+    }
   }
 `;
 
-export const upsertWarehouse = data => gql`
-mutation {
-    upsertMagazyn(
-  ${data.idWarehouse ? 'idMagazyn: ' + data.idWarehouse + ',' : ''} 
-  rodzaj: ${data.type},
-  pojemnosc: ${data.capacity},
-  adres: ${address(data.address)}
-    )
+//TODO dodawanie adresu
+export const upsertWarehouse = gql`
+  mutation upsertWarehouse($warehouseId: ID, $type: String!, $capacity: Float!) {
+    upsertMagazyn(idMagazyn: $warehouseId, rodzaj: $type, pojemnosc: $capacity) {
+      idMagazyn
+    }
   }
 `;
 
 //TODO dodawanie partii i pozycji w magazynie
-export const upsertOperations = data => gql`
-mutation {
+export const upsertOperations = gql`
+  mutation upsertOperations(
+    $operationId: ID
+    $beginAmount: Float!
+    $endAmount: Float
+    $beginDate: String!
+    $endDate: String!
+    $alcoholContent: Float
+    $additiveAmount: Float
+    $sugarContent: Float
+    $acidity: Float
+    $temperature: Float
+    $desc: String
+    $userId: String!
+    $processId: String!
+  ) {
     upsertOperacje(
-  ${data.idOperation ? 'idOperacja: ' + data.idOperation + ',' : ''} 
-  iloscPrzed: ${data.beginAmount},
-  ${data.endAmount ? 'iloscPo: ' + data.endAmount + ',' : ''} 
-  dataPoczatku: ${data.beginDate},
-  dataZakonczenia: ${data.endDate},
-  ${data.alcoholContent ? 'zawartoscAlkoholu: ' + data.alcoholContent + ',' : ''} 
-  ${data.additiveAmount ? 'iloscDodatku: ' + data.additiveAmount + ',' : ''} 
-  ${data.sugarContent ? 'zawartoscCukru: ' + data.sugarContent + ',' : ''} 
-  ${data.acidity ? 'kwasowosc: ' + data.acidity + ',' : ''} 
-  ${data.temperature ? 'temperatura: ' + data.temperature + ',' : ''} 
-  ${data.desc ? 'opis: ' + data.desc + ',' : ''} 
-  uzytkownicy: {idUzytkownika: ${data.idUser} },
-  dictProcesy: {idDictProcesy: ${data.process.id}},
-  pozycjaWMagazynie: [PozycjaWMagazynie]
-  partie: [Partie]
-    )
+      idOperacja: $operationId
+      iloscPrzed: $beginAmount
+      iloscPo: $endAmount
+      dataPoczatku: $beginDate
+      dataZakonczenia: $endDate
+      zawartoscAlkoholu: $alcoholContent
+      iloscDodatku: $additiveAmount
+      zawartoscCukru: $sugarContent
+      kwasowosc: $acidity
+      temperatura: $temperature
+      opis: $desc
+      uzytkownicyIdUzytkownicy: $userId
+      dictProcesyIdDictProcesy: $processId
+    ) {
+      idOperacja
+    }
   }
 `;
 
-export const upsertVineyardOperation = data => gql`
-mutation {
+export const upsertVineyardOperation = gql`
+  mutation upsertVineyardOperation(
+    $vineyardOperationId: ID
+    $dateOfOperation: String
+    $desc: String
+    $dictOperationId: String!
+    $vineyardId: String!
+  ) {
     upsertOperacjeNaWinnicy(
-  ${data.idVineyardOperation ? 'idOperacja: ' + data.idVineyardOperation + ',' : ''} 
-  data: ${data.dateOfOperation},
-  ${data.desc ? 'opis: ' + data.desc + ',' : ''} 
-  dictOperacjeNaWinnicy: {idDictOperacjeNaWinnicy: ${data.dictOperation.id}},
-  winnica: {idWinnica: ${data.vineyard}}
-    )
+      idOperacja: $vineyardOperationId
+      data: $dateOfOperation
+      opis: $desc
+      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: $dictOperationId
+      winnicaIdWinnica: $vineyardId
+    ) {
+      idOperacja
+    }
   }
 `;
 
-//TODO mutacja plany produkcyjne
+//TODO niepewne
+export const upsertProductionPlan = gql`
+  mutation upsertProductionPlan($productionPlanId: ID, $name: String!, $desc: String, $eDocument: String!) {
+    upsertPlanyProdukcyjne(idPlanyProdukcyjne: $productionPlanId, nazwa: $name, opis: $desc, eDokument: $eDocument) {
+      idPlanyProdukcyjne
+    }
+  }
+`;
 
 //TODO poprawić partie
-export const upsertItemInStock = data => gql`
-mutation {
+export const upsertItemInStock = gql`
+  mutation upsertItemInStock(
+    $itemInStockId: ID
+    $name: String!
+    $desc: String
+    $amount: Float!
+    $barcode: String!
+    $actualState: String!
+    $acceptanceDate: String!
+    $releaseDate: String
+    $sectorName: String!
+    $categoryId: String!
+    $warehouseId: String!
+    $batchId: String
+  ) {
     upsertPozycjaWMagazynie(
-  ${data.idItemInStock ? 'idPozycja: ' + data.idItemInStock + ',' : ''} 
-  nazwa: ${data.name},
-  ${data.desc ? 'opis: ' + data.desc + ',' : ''} 
-  ilosc: ${data.amount},
-  kodKreskowy: ${data.barcode}, 
-  stanAktualny: ${data.actualState},
-  dataPrzyjecia: ${data.acceptanceDate},
-  ${data.releaseDate ? 'dataWydania: ' + data.releaseDate + ',' : ''} 
-  nazwaSektora: ${data.sectorName},
-  kategorie: {idKategoria: ${data.category.id}},
-  magazyn: {idMagazyn: ${data.warehouseid}},
-  ${data.batch ? 'partie: ' + data.batch + ',' : ''} 
-    )
+      idPozycja: $itemInStockId
+      nazwa: $name
+      opis: $desc
+      ilosc: $amount
+      kodKreskowy: $barcode
+      stanAktualny: $actualState
+      dataPrzyjecia: $acceptanceDate
+      dataWydania: $releaseDate
+      nazwaSektora: $sectorName
+      kategorieIdKategorie: $categoryId
+      magazynIdMagazyn: $warehouseId
+      partieIdPartie: $batchId
+    ) {
+      idPozycja
+    }
   }
 `;
 
-export const upsertUser = data => gql`
-mutation {
+//TODO dodawanie adresu
+export const upsertUser = gql`
+  mutation upsertUser(
+    $userId: ID
+    $firstName: String!
+    $lastName: String!
+    $login: String!
+    $password: String!
+    $PESEL: String!
+    $eMail: String!
+    $phoneNumber: String!
+    $lastLoginDate: String!
+    $photoURL: String
+    $isActive: String!
+    $userRoleId: String!
+  ) {
     upsertUzytkownicy(
-  ${data.idUser ? 'idUzytkownika: ' + data.idUser + ',' : ''} 
-  imie: ${data.firstName},
-  nazwisko: ${data.lastName},
-  login: ${data.login},
-  haslo: ${data.password},
-  PESEL: ${data.PESEL},
-  eMail: ${data.eMail},
-  nrTelefonu: ${data.phoneNumber},
-  dataOstatniegoLogowania: ${data.dataOstatniegoLogowania},
-  ${data.photoURL ? 'zdjecie: ' + data.photoURL + ',' : ''} 
-  czyAktywne: ${data.isActive},
-  adres: ${address(data.address)},
-  rola: {idRolaUzytkownikow: ${data.userRole.id}},
-    )
+      idUzytkownika: $userId
+      imie: $firstName
+      nazwisko: $lastName
+      login: $login
+      haslo: $password
+      PESEL: $PESEL
+      eMail: $eMail
+      nrTelefonu: $phoneNumber
+      dataOstatniegoLogowania: $lastLoginDate
+      zdjecie: $photoURL
+      czyAktywne: $isActive
+      rola: $userRoleId
+    ) {
+      idUzytkownika
+    }
   }
 `;
 
-export const upsertVineyard = data => gql`
-mutation {
+export const upsertVineyard = gql`
+  mutation upsertVineyard(
+    $vineyardId: ID
+    $name: String!
+    $area: Float!
+    $state: String!
+    $terroir: String
+    $dateOfHarvest: String
+    $dateOfPlanting: String!
+    $registrationPlotId: String!
+    $grapeTypeId: String!
+  ) {
     upsertWinnica(
-  ${data.idVineyard ? 'idWinnica: ' + data.idVineyard + ',' : ''} 
-  nazwa: ${data.name},
-  powierzchnia: ${data.area},
-  stan: ${data.state},
-  ${data.terroir ? 'terroir: ' + data.terroir + ',' : ''}  
-  dataZasadzenia: ${data.dateOfPlanting},
-  ewidencyjnyIdDzialki: ${data.registrationPlotId}
-  dictOdmianaWinogron: {idOdmianaWinogron ${data.grapeType.id}  
-    )
+      idWinnica: $vineyardId
+      nazwa: $name
+      powierzchnia: $area
+      stan: $state
+      terroir: $terroir
+      dataOstatniegoZbioru: $dateOfHarvest
+      dataZasadzenia: $dateOfPlanting
+      ewidencyjnyIdDzialki: $registrationPlotId
+      odmianaWinogronIdOdmianaWinogron: $grapeTypeId
+    ) {
+      idWinnica
+    }
   }
 `;
 
-export const upsertGrapeHarvest = data => gql`
-mutation {
+export const upsertGrapeHarvest = gql`
+  mutation upsertGrapeHarvest($grapeHarvestId: ID, $dateOfHarvest: String!, $amount: Float!, $vineyardId: String!) {
     upsertWinobranie(
-  ${data.idGrapeHarvest ? 'idWinobranie: ' + data.idGrapeHarvest + ',' : ''} 
- dataWinobrania: ${data.dateOfHarvest},
-  iloscZebranychWinogron: ${data.amount},
-  winnica: {idWinnica: ${data.vineyardid}}
-    )
+      idWinobranie: $grapeHarvestId
+      dataWinobrania: $dateOfHarvest
+      iloscZebranychWinogron: $amount
+      winnicaIdWinnica: $vineyardId
+    ) {
+      idWinobranie
+    }
   }
 `;

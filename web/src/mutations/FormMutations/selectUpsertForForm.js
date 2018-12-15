@@ -22,11 +22,11 @@ import {
 export const selectUpsertForForm = formName => {
   switch (formName) {
     case 'FormUsers':
-    // return upsertUser;
+      return upsertUser;
     case 'FormBatches':
       return upsertBatch;
     case 'FormContractors':
-    // return upsertContractors;
+      return upsertContractors;
     case 'FormDictUserRole':
       return upsertDictUserRole;
     case 'FormDictBatchType':
