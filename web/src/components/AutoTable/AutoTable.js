@@ -112,6 +112,7 @@ class AutoTable extends React.Component {
               </Button>
             </div>
             <ScrollableDialogForm
+              query={editMode && query}
               dialogTitle={dialogFormTitle}
               open={open}
               closeForm={() => this.setState({ open: false })}
@@ -129,6 +130,7 @@ class AutoTable extends React.Component {
                 return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
               return (
                 <ScrollableDialogForm
+                  query={editMode && query}
                   dialogTitle={dialogFormTitle}
                   open={openEdit}
                   closeForm={() => this.setState({ openEdit: false, editForm: false })}

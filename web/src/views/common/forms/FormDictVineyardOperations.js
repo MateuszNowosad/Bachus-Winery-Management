@@ -27,8 +27,9 @@ export class FormDictVineyardOperations extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, desc } = this.state;
+    const { name, desc, dictVineyardOperationId } = this.state;
     let dataObject = {
+      dictVineyardOperationId,
       name,
       desc
     };
@@ -57,6 +58,7 @@ export class FormDictVineyardOperations extends React.Component {
     if (initState) {
       let data = initState.DictOperacjeNaWinnicy[0];
       this.setState({
+        dictVineyardOperationId: data.idDictOperacjeNaWinnicy,
         name: data.nazwa,
         desc: data.opis ? data.opis : ''
       });

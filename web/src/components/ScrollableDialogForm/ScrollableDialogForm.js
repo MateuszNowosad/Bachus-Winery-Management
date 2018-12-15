@@ -46,7 +46,7 @@ class ScrollableDialogForm extends React.Component {
   };
 
   render() {
-    const { classes, children, dialogTitle, open } = this.props;
+    const { classes, children, dialogTitle, open, query } = this.props;
     const { openConfirmationPrompt, openSnackbar, submit } = this.state;
     return (
       <div>
@@ -62,7 +62,11 @@ class ScrollableDialogForm extends React.Component {
         >
           <DialogContent>
             <DialogTitle>{dialogTitle}</DialogTitle>
-            <Mutation mutation={selectUpsertForForm(children.type.name)} onCompleted={this.formSubmitted}>
+            <Mutation
+              mutation={selectUpsertForForm(children.type.name)}
+              onCompleted={this.formSubmitted}
+              refetchQueries={[{ query: query }]}
+            >
               {mutation =>
                 React.cloneElement(children, {
                   submitFromOutside: submit,

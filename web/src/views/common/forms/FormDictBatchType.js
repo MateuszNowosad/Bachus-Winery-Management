@@ -27,8 +27,9 @@ export class FormDictBatchType extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, unit } = this.state;
+    const { name, unit, dictBatchTypeId } = this.state;
     let dataObject = {
+      dictBatchTypeId,
       name,
       unit
     };
@@ -57,6 +58,7 @@ export class FormDictBatchType extends React.Component {
     if (initState) {
       let data = initState.DictTypPartii[0];
       this.setState({
+        dictBatchTypeId: data.idTypPartii,
         name: data.nazwa,
         unit: data.jednostka
       });

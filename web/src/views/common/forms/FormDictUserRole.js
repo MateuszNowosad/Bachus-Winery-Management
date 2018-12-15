@@ -29,8 +29,9 @@ export class FormDictUserRole extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, desc, type } = this.state;
+    const { name, desc, type, dictUserRoleId } = this.state;
     let dataObject = {
+      dictUserRoleId,
       name,
       desc,
       type
@@ -60,6 +61,7 @@ export class FormDictUserRole extends React.Component {
     if (initState) {
       let data = initState.DictRolaUzytkownikow[0];
       this.setState({
+        dictUserRoleId: data.idRolaUzytkownikow,
         name: data.nazwa,
         desc: data.opis ? data.opis : '',
         type: data.typ

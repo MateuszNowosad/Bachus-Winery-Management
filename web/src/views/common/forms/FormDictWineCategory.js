@@ -27,8 +27,9 @@ export class FormDictWineCategory extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, desc } = this.state;
+    const { name, desc, dictWineCategoryId } = this.state;
     let dataObject = {
+      dictWineCategoryId,
       name,
       desc
     };
@@ -57,6 +58,7 @@ export class FormDictWineCategory extends React.Component {
     if (initState) {
       let data = initState.DictKategoriaWina[0];
       this.setState({
+        dictWineCategoryId: data.idDictKategoriaWina,
         name: data.nazwaKategoria,
         desc: data.opis ? data.opis : ''
       });

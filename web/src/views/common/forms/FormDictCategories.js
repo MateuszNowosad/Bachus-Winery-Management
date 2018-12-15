@@ -29,8 +29,9 @@ export class FormDictCategories extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, unit, desc } = this.state;
+    const { name, unit, desc, dictCategoryId } = this.state;
     let dataObject = {
+      dictCategoryId,
       name,
       unit,
       desc
@@ -60,6 +61,7 @@ export class FormDictCategories extends React.Component {
     if (initState) {
       let data = initState.DictKategorie[0];
       this.setState({
+        dictCategoryId: data.idKategorie,
         name: data.nazwa,
         unit: data.jednostka,
         desc: data.opis ? data.opis : ''

@@ -29,8 +29,9 @@ export class FormDictProcesses extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, desc, additional } = this.state;
+    const { name, desc, additional, dictProcessId } = this.state;
     let dataObject = {
+      dictProcessId,
       name,
       desc,
       additional
@@ -60,6 +61,7 @@ export class FormDictProcesses extends React.Component {
     if (initState) {
       let data = initState.DictProcesy[0];
       this.setState({
+        dictProcessId: data.idDictProcesy,
         name: data.nazwa,
         desc: data.opis ? data.opis : '',
         additional: data.dodatkowe ? data.dodatkowe : ''
