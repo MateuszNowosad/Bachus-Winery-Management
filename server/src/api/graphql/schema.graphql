@@ -340,6 +340,8 @@ type Mutation {
   deleteUzytkownicy(idUzytkownika: ID): Uzytkownicy
   deleteWinnica(idWinnica: ID): Winnica
   deleteWinobranie(idWinobranie: ID): Winobranie
+
+  userLogin(login: String!, password: String): Login
 }
 
 type Adres {
@@ -634,4 +636,12 @@ type RaportyHasUzytkownicy {
   idRaportyHasUzytkownicy: ID
   raportyIdRaport: String
   uzytkownicyIdUzytkownika: String
+}
+
+# others
+
+type Login {
+  login: String!
+  password: String
+  token: String
 }
