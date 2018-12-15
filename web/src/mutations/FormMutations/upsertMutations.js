@@ -64,84 +64,57 @@ export const upsertContractors = data => gql`
   }
   `;
 
-export const upsertDictWineCategory = data => gql`
-  mutation {
-    upsertDictKategoriaWina(
-      ${data.idDictWineCategory ? 'idDictKategoriaWina: ' + data.idDictWineCategory + ',' : ''}
-      nazwaKategoria: ${data.name},
-      ${data.desc ? 'opis: ' + data.desc + ',' : ''} 
-    )
+export const upsertDictWineCategory = gql`
+  mutation upsertDictWineCategory($dictWineCategoryId: ID, $name: String!, $desc: String) {
+    upsertDictKategoriaWina(idDictKategoriaWina: $dictWineCategoryId, nazwaKategoria: $name, opis: $desc) {
+      idDictKategoriaWina
+    }
   }
 `;
 
 export const upsertDictCategory = gql`
-  mutation upsertDictCategory($id: ID, $name: String!, $unit: String!, $desc: String) {
-    upsertDictKategorie(idKategorie: $id, nazwa: $name, jednostka: $unit, opis: $desc) {
+  mutation upsertDictCategory($dictCategoryId: ID, $name: String!, $unit: String!, $desc: String) {
+    upsertDictKategorie(idKategorie: $dictCategoryId, nazwa: $name, jednostka: $unit, opis: $desc) {
       idKategorie
     }
   }
 `;
 
-// export const upsertDictCategory = data => gql`
-//   mutation {
-//     upsertDictKategorie(
-//        ${data.idDictCategory ? 'idKategorie: ' + data.idDictCategory + ',' : ''}
-//   nazwa: ${data.name},
-//   jednostka: ${data.unit},
-//   ${data.desc ? 'opis: ' + data.desc + ',' : ''}
-//     )
-//   }
-// `;
-
-export const upsertDictGrapeType = data => gql`
-  mutation {
-    upsertDictOdmianaWinogron(
-      ${data.idDictGrapeType ? 'idOdmianaWinogron: ' + data.idDictGrapeType + ',' : ''}
-  nazwa: ${data.name},
-  ${data.desc ? 'opis: ' + data.desc + ',' : ''}
-    )
+export const upsertDictGrapeType = gql`
+  mutation upsertDictGrapeType($dictGrapeTypeId: ID, $name: String!, $desc: String) {
+    upsertDictOdmianaWinogron(idOdmianaWinogron: $dictGrapeTypeId, nazwa: $name, opis: $desc) {
+      idOdmianaWinogron
+    }
   }
 `;
 
-export const upsertDictVineyardOperation = data => gql`
-mutation {
-    upsertDictOperacjeNaWinnicy(
-      ${data.idDictVineyardOperation ? 'DictOperacjeNaWinnicy: ' + data.idDictVineyardOperation + ',' : ''}
-  nazwa: ${data.name},
-  ${data.desc ? 'opis: ' + data.desc + ',' : ''}
-    )
+export const upsertDictVineyardOperation = gql`
+  mutation upsertDictVineyardOperation($dictVineyardOperationId: ID, $name: String!, $desc: String) {
+    upsertDictOperacjeNaWinnicy(idDictOperacjeNaWinnicy: $dictVineyardOperationId: ID, nazwa: $name, opis: $desc) {
+      idDictOperacjeNaWinnicy
+    }
   }
 `;
 
-export const upsertDictProcess = data => gql`
-mutation {
-    upsertDictProcesy(
-     ${data.idDictProcess ? 'idDictProcesy: ' + data.idDictProcess + ',' : ''} 
-  nazwa: ${data.name},
-  ${data.desc ? 'opis: ' + data.desc + ',' : ''},
-  ${data.addditional ? 'dodatkowe: ' + data.addditional + ',' : ''} 
-    )
+export const upsertDictProcess = gql`
+  mutation upsertDictProcess($dictProcessId: ID, $name: String!, $desc: String, $additional: String) {
+    upsertDictProcesy(idDictProcesy: $dictProcessId, nazwa: $name, opis: $desc, dodatkowe: $additional) {
+      idDictProcesy
+    }
   }
 `;
 
-export const upsertDictUserRole = data => gql`
-mutation {
-    upsertDictRolaUzytkownikow(
-  ${data.idDictUserRole ? 'idRolaUzytkownikow: ' + data.idDictUserRole + ',' : ''} 
-  nazwa: ${data.name},
-  ${data.desc ? 'opis: ' + data.desc + ',' : ''},
-  ${data.type ? 'typ: ' + data.type + ',' : ''} 
-    )
+export const upsertDictUserRole = gql`
+  mutation upsertDictUserRole($dictUserRoleId: ID, $name: String!, $desc: String, $type: String) {
+    upsertDictRolaUzytkownikow(idRolaUzytkownikow: $dictUserRoleId, nazwa: $name, opis: $desc, typ: $type) {
+      idRolaUzytkownikow
+    }
   }
 `;
 
-export const upsertDictBatchType = data => gql`
-  mutation {
-    upsertDictRolaUzytkownikow(
-  ${data.idDictBatchType ? 'idTypPartii: ' + data.idDictBatchType + ',' : ''} 
-  nazwa: ${data.name},
-  jednostka: ${data.unit}
-    )  
+export const upsertDictBatchType = gql`
+  mutation upsertDictBatchType($dictBatchTypeId: ID, $name: String!, $unit: String!) {
+    upsertDictRolaUzytkownikow(idTypPartii: $dictBatchTypeId, nazwa: $name, jednostka: $unit)
   }
 `;
 
