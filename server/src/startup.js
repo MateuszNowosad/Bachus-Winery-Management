@@ -8,7 +8,7 @@ const { ApolloServer } = require('apollo-server-express');
 const serverListen = async function serverListen() {
   const { app } = await createApp();
   const typeDefs = importSchema(`${__dirname}/api/graphql/schema.graphql`);
-  const server = new ApolloServer({ typeDefs, resolvers, context: ({ req, res }) => {}, playground: true });
+  const server = new ApolloServer({ typeDefs, resolvers, context: ({ req, res }) => ({req: req}), playground: true });
   server.applyMiddleware({ app });
   const port = process.env.PORT || 8080;
 

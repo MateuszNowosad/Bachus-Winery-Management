@@ -1039,11 +1039,15 @@ export default {
     deleteWinobranie: async (root, input) => {
       return await sequelize.deleteWinobranie(input);
     },
-    userLogin: async (root, input) => {
+    userLogin: async (root, input, {req}) => {
       const user = await sequelize.getUzytkownicy({ login: input.login });
       let token;
       if (await bcrypt.compare(input.password, user[0].haslo.toString())) {
         token = hashPassword(faker.random.word());
+
+        req.session.userId = user[0].idUzytkownika; //we should have access to session, if we don't something went wrong within our app.
+        //TODO Can be improved with just passing around session instead of whole request object. Requires changes in ResolverMaps.
+        console.log('1050, req.session Mateusz: ', req.session);
       } else {
         console.log('1048,  User password match ERROR');
         token = "error"
