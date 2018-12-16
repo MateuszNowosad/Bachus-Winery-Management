@@ -11,45 +11,22 @@ import { standard } from './assets/jss/themes/standard';
 
 import indexRoutes from './routes/index';
 import './App.css';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
 import NoMatch from "./components/common/NoMatch";
+import Redirect from "react-router-dom/es/Redirect";
 
 const user = { //TODO testuser should be in variables.
-  roles: ['user']
+  roles: ['admin']
 };
 
 const hasRole = (user, roles) =>
-  roles.some(role => user.roles.includes(role));
+  roles.some(role => {
+    if(user.roles !== undefined){
+      return user.roles.includes(role);
+    }else return false;
+  });
 
 
 const currentTheme = createMuiTheme(standard);
-
-// const adresyQuery = () => (
-//   <Query
-//     query={gql`
-//       {
-//         Adresy {
-//           idAdres
-//           miasto
-//           kodPocztowy
-//           kraj
-//         }
-//       }
-//     `}
-//   >
-//     {({ loading, error, data }) => {
-//       if (loading) return <CircularProgress />;
-//       if (error) return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
-//
-//       return data.Adresy.map(args => (
-//         <div key={args.idAdres}>
-//           <p>{`${args.idAdres}. ${args.miasto} ${args.kodPocztowy}`}</p>
-//         </div>
-//       ));
-//     }}
-//   </Query>
-// );
 
 class App extends Component {
   render() {
@@ -72,6 +49,11 @@ class App extends Component {
               })}
               <Route component={NoMatch} />
             </Switch>
+            {user.roles!==undefined && <Redirect
+              from="/"
+              to={'/admindashboard/'}
+            />
+            }
           </MuiThemeProvider>
         </React.Fragment>
       </BrowserRouter>
