@@ -354,14 +354,23 @@ export const upsertVineyard = gql`
 `;
 
 export const upsertGrapeHarvest = gql`
-  mutation upsertGrapeHarvest($grapeHarvestId: ID, $dateOfHarvest: String!, $amount: Float!, $vineyardId: String!) {
+  mutation upsertGrapeHarvest(
+    $grapeHarvestId: ID
+    $dateOfHarvest: String!
+    $amount: Float!
+    $vineyardIdFK: String!
+    $vineyardId: ID
+  ) {
     upsertWinobranie(
       idWinobranie: $grapeHarvestId
       dataWinobrania: $dateOfHarvest
       iloscZebranychWinogron: $amount
-      winnicaIdWinnica: $vineyardId
+      winnicaIdWinnica: $vineyardIdFK
     ) {
       idWinobranie
+    }
+    upsertWinnica(idWinnica: $vineyardId, dataOstatniegoZbioru: $dateOfHarvest) {
+      idWinnica
     }
   }
 `;

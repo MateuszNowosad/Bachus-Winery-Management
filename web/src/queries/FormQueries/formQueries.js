@@ -146,6 +146,9 @@ export const getGrapeHarvestForForm = grapeHarvestID => gql`
       idWinobranie
       dataWinobrania
       iloscZebranychWinogron
+       winnica {
+        idWinnica
+      }
     }
   }
 `;
