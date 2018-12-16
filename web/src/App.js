@@ -14,6 +14,14 @@ import './App.css';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
+const user = { //TODO testuser should be in variables.
+  roles: ['admin']
+};
+
+const hasRole = (user, roles) =>
+  roles.some(role => user.roles.includes(role));
+
+
 const currentTheme = createMuiTheme(standard);
 
 // const adresyQuery = () => (
@@ -55,7 +63,11 @@ class App extends Component {
           <MuiThemeProvider theme={currentTheme}>
             <Switch>
               {indexRoutes.map((prop, key) => {
-                return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
+                if(prop.role!==undefined){
+                  if(hasRole(user, prop.role) ) {
+                  return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />; //TODO Write PrivateRoute component. Use this to hide routes from drawer.
+                }}else
+                  return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
               })}
             </Switch>
           </MuiThemeProvider>
