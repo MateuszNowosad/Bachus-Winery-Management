@@ -24,29 +24,29 @@ export const upsertBatch = gql`
   }
 `;
 
-export const upsertAddress = gql`
-  mutation upsertAddress(
-    $addressId: ID
-    $street: String
-    $buildingNumber: String
-    $apartmentNumber: String
-    $postalCode: String
-    $city: String
-    $country: String
-  ) {
-    upsertAdres(
-      idAdres: $addressId
-      miasto: $city
-      kodPocztowy: $postalCode
-      ulica: $street
-      nrLokalu: $apartmentNumber
-      nrPosesji: $buildingNumber
-      kraj: $country
-    ) {
-      idAdres
-    }
-  }
-`;
+// export const upsertAddress = gql`
+//   mutation upsertAddress(
+//     $addressId: ID
+//     $street: String
+//     $buildingNumber: String
+//     $apartmentNumber: String
+//     $postalCode: String
+//     $city: String
+//     $country: String
+//   ) {
+//     upsertAdres(
+//       idAdres: $addressId
+//       miasto: $city
+//       kodPocztowy: $postalCode
+//       ulica: $street
+//       nrLokalu: $apartmentNumber
+//       nrPosesji: $buildingNumber
+//       kraj: $country
+//     ) {
+//       idAdres
+//     }
+//   }
+// `;
 
 //TODO dodawanie pzocycji w magazynie
 const parcel = data => `
@@ -66,7 +66,7 @@ export const contractorAddress = gql`
     }
   }
 `;
-//TODO dodawanie adresu
+
 export const upsertContractors = gql`
   mutation upsertContractors(
     $contractorId: ID

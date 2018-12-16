@@ -35,9 +35,16 @@ export const getBatchForForm = gql`
       ilosc
       opis
       dataUtworzenia
+      czyPrzepis
       typPartii {
         idTypPartii
         nazwa
+      }
+      winobranie {
+        idWinobranie
+      }
+      partie {
+        idPartie
       }
     }
   }

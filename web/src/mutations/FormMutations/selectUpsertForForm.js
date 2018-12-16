@@ -30,8 +30,8 @@ export const selectUpsertForForm = formName => {
       };
     case 'FormBatches':
       return {
-        query: upsertBatch
-        // simple: 0
+        query: upsertBatch,
+        simple: 1
       };
     case 'FormContractors':
       return {
