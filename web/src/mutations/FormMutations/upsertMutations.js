@@ -59,6 +59,13 @@ const parcel = data => `
  }
 `;
 
+export const contractorAddress = gql`
+  mutation contractorAddress($idKontrahenci: ID!, $idAdres: String!) {
+    upsertKontrahenci(idKontrahenci: $idKontrahenci, adresIdAdres: $idAdres) {
+      idKontrahenci
+    }
+  }
+`;
 //TODO dodawanie adresu
 export const upsertContractors = gql`
   mutation upsertContractors(
@@ -71,7 +78,7 @@ export const upsertContractors = gql`
     $KRS: String
     $accountNumber: String
     $fax: String
-    $addressIdFK: String
+    $addressIdFK: String = "1"
     $addressId: ID
     $street: String
     $buildingNumber: String
@@ -97,7 +104,7 @@ export const upsertContractors = gql`
     upsertAdres(
       idAdres: $addressId
       miasto: $city
-      kodPocztowy: $city
+      kodPocztowy: $postalCode
       ulica: $street
       nrLokalu: $apartmentNumber
       nrPosesji: $buildingNumber
@@ -220,7 +227,6 @@ export const warehouseAddress = gql`
   }
 `;
 
-//TODO dodawanie adresu
 export const upsertWarehouse = gql`
   mutation upsertWarehouse(
     $warehouseId: ID

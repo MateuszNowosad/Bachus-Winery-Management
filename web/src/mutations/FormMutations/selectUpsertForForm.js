@@ -1,4 +1,5 @@
 import {
+  contractorAddress,
   upsertBatch,
   upsertContractors,
   upsertDictBatchType,
@@ -24,18 +25,19 @@ export const selectUpsertForForm = formName => {
   switch (formName) {
     case 'FormUsers':
       return {
-        query: upsertUser,
-        simple: 0
+        query: upsertUser
+        // simple: 0
       };
     case 'FormBatches':
       return {
-        query: upsertBatch,
-        simple: 0
+        query: upsertBatch
+        // simple: 0
       };
     case 'FormContractors':
       return {
         query: upsertContractors,
-        simple: 0
+        simple: 0,
+        fkQuery: contractorAddress
       };
     case 'FormDictUserRole':
       return {
@@ -79,13 +81,13 @@ export const selectUpsertForForm = formName => {
       };
     case 'FormItemInStock':
       return {
-        query: upsertItemInStock,
-        simple: 0
+        query: upsertItemInStock
+        // simple: 0: 0
       };
     case 'FormOperations':
       return {
-        query: upsertOperations,
-        simple: 0
+        query: upsertOperations
+        // simple: 0
       };
     case 'FormVineyard':
       return {
@@ -105,13 +107,13 @@ export const selectUpsertForForm = formName => {
       };
     case 'FormWaybill':
       return {
-        query: upsertWaybill,
-        simple: 0
+        query: upsertWaybill
+        // simple: 0
       };
     case 'FormWineInformation':
       return {
-        query: upsertWineInformation,
-        simple: 0
+        query: upsertWineInformation
+        // simple: 0
       };
   }
 };

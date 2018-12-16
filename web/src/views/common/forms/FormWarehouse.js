@@ -146,7 +146,7 @@ export class FormWarehouse extends React.Component {
               varName="address"
               onChange={this.handleAddressChange}
               ref={this.subForm}
-              initState={initState ? initState.Magazyn[0].adresIdAdres : null}
+              initState={initState ? initState.Magazyn[0].adres : null}
             />
           </Grid>
         </Grid>

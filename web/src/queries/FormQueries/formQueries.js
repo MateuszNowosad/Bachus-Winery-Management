@@ -248,7 +248,7 @@ export const getWarehouseForForm = gql`
       idMagazyn
       rodzaj
       pojemnosc
-      adresIdAdres {
+      adres: adresIdAdres {
         idAdres
         miasto
         kodPocztowy
