@@ -180,7 +180,7 @@ export const wineInformationBatch = gql`
     }
   }
 `;
-//TODO rozwiązać jak dodać informacje o winie do partii
+//TODO rozrużnianie edycji od dodawania nowego
 export const upsertWineInformation = gql`
   mutation upsertWineInformation(
     $wineInformationId: ID
@@ -189,6 +189,7 @@ export const upsertWineInformation = gql`
     $allergens: String
     $energyValue: String!
     $wineCategoryId: String!
+    $batchId: ID!
   ) {
     upsertInformacjeOWinie(
       idInformacjeOWinie: $wineInformationId
@@ -199,6 +200,9 @@ export const upsertWineInformation = gql`
       dictKategoriaWinaIdDictKategoriaWina: $wineCategoryId
     ) {
       idInformacjeOWinie
+    }
+    upsertPartie(idPartie: $batchId) {
+      idPartie
     }
   }
 `;

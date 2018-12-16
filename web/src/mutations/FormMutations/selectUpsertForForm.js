@@ -18,7 +18,8 @@ import {
   upsertWarehouse,
   upsertWaybill,
   upsertWineInformation,
-  warehouseAddress
+  warehouseAddress,
+  wineInformationBatch
 } from './upsertMutations';
 
 export const selectUpsertForForm = formName => {
@@ -112,8 +113,9 @@ export const selectUpsertForForm = formName => {
       };
     case 'FormWineInformation':
       return {
-        query: upsertWineInformation
-        // simple: 0
+        query: upsertWineInformation,
+        simple: 0,
+        fkQuery: wineInformationBatch
       };
   }
 };
