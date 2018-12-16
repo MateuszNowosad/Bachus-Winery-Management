@@ -43,13 +43,14 @@ export class FormBatches extends React.Component {
   };
 
   handleSubmit = () => {
-    const { batchId, amount, desc, creationDate, batchType, grapeHarvestId, parentBatchId } = this.state;
+    const { batchId, amount, desc, creationDate, batchType, isRecipe, grapeHarvestId, parentBatchId } = this.state;
     let dataObject = {
       batchId,
       amount: Number(amount),
       desc,
       creationDate,
       batchTypeId: batchType.idTypPartii,
+      isRecipe,
       grapeHarvestId,
       parentBatchId
     };
@@ -82,6 +83,7 @@ export class FormBatches extends React.Component {
         amount: data.ilosc,
         desc: data.opis ? data.opis : '',
         creationDate: convertDatetimeForm(data.dataUtworzenia),
+        isRecipe: data.czyPrzepis ? data.czyPrzepis : '0',
         batchType: data.typPartii,
         grapeHarvestId: data.winobranie ? data.winobranie.idWinobranie : null,
         parentBatchId: data.partie[0] ? data.partie[0].idPartie : null

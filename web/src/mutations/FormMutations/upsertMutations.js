@@ -9,12 +9,14 @@ export const upsertBatch = gql`
     $batchTypeId: String!
     $grapeHarvestId: String
     $parentBatchId: String
+    $isRecipe: String
   ) {
     upsertPartie(
       idPartie: $batchId
       ilosc: $amount
       opis: $desc
       dataUtworzenia: $creationDate
+      czyPrzepis: $isRecipe
       typPartiiIdTypPartii: $batchTypeId
       winobranieIdWinobranie: $grapeHarvestId
       partieIdPartie: $parentBatchId
@@ -171,6 +173,13 @@ export const upsertDictBatchType = gql`
   }
 `;
 
+export const wineInformationBatch = gql`
+  mutation wineInformationBatch($idInformacjeOWinie: String!, $idPartie: ID!) {
+    upsertPartie(idPartie: $idPartie, informacjeOWinieIdInformacjeOWinie: $idInformacjeOWinie) {
+      idPartie
+    }
+  }
+`;
 //TODO rozwiązać jak dodać informacje o winie do partii
 export const upsertWineInformation = gql`
   mutation upsertWineInformation(
