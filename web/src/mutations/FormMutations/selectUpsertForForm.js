@@ -16,46 +16,102 @@ import {
   upsertVineyardOperation,
   upsertWarehouse,
   upsertWaybill,
-  upsertWineInformation
+  upsertWineInformation,
+  warehouseAddress
 } from './upsertMutations';
 
 export const selectUpsertForForm = formName => {
   switch (formName) {
     case 'FormUsers':
-      return upsertUser;
+      return {
+        query: upsertUser,
+        simple: 0
+      };
     case 'FormBatches':
-      return upsertBatch;
+      return {
+        query: upsertBatch,
+        simple: 0
+      };
     case 'FormContractors':
-      return upsertContractors;
+      return {
+        query: upsertContractors,
+        simple: 0
+      };
     case 'FormDictUserRole':
-      return upsertDictUserRole;
+      return {
+        query: upsertDictUserRole,
+        simple: 1
+      };
     case 'FormDictBatchType':
-      return upsertDictBatchType;
+      return {
+        query: upsertDictBatchType,
+        simple: 1
+      };
     case 'FormDictCategories':
-      return upsertDictCategory;
+      return {
+        query: upsertDictCategory,
+        simple: 1
+      };
     case 'FormDictGrapeType':
-      return upsertDictGrapeType;
+      return {
+        query: upsertDictGrapeType,
+        simple: 1
+      };
     case 'FormDictProcesses':
-      return upsertDictProcess;
+      return {
+        query: upsertDictProcess,
+        simple: 1
+      };
     case 'FormDictVineyardOperations':
-      return upsertDictVineyardOperation;
+      return {
+        query: upsertDictVineyardOperation,
+        simple: 1
+      };
     case 'FormDictWineCategory':
-      return upsertDictWineCategory;
+      return {
+        query: upsertDictWineCategory,
+        simple: 1
+      };
     case 'FormGrapeHarvest':
-      return upsertGrapeHarvest;
+      return {
+        query: upsertGrapeHarvest,
+        simple: 1
+      };
     case 'FormItemInStock':
-      return upsertItemInStock;
+      return {
+        query: upsertItemInStock,
+        simple: 0
+      };
     case 'FormOperations':
-      return upsertOperations;
+      return {
+        query: upsertOperations,
+        simple: 0
+      };
     case 'FormVineyard':
-      return upsertVineyard;
+      return {
+        query: upsertVineyard,
+        simple: 1
+      };
     case 'FormVineyardOperation':
-      return upsertVineyardOperation;
+      return {
+        query: upsertVineyardOperation,
+        simple: 1
+      };
     case 'FormWarehouse':
-      return upsertWarehouse;
+      return {
+        query: upsertWarehouse,
+        simple: 0,
+        fkQuery: warehouseAddress
+      };
     case 'FormWaybill':
-      return upsertWaybill;
+      return {
+        query: upsertWaybill,
+        simple: 0
+      };
     case 'FormWineInformation':
-      return upsertWineInformation;
+      return {
+        query: upsertWineInformation,
+        simple: 0
+      };
   }
 };

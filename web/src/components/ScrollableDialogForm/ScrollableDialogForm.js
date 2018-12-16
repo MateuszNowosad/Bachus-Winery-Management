@@ -62,25 +62,53 @@ class ScrollableDialogForm extends React.Component {
         >
           <DialogContent>
             <DialogTitle>{dialogTitle}</DialogTitle>
-            <Mutation
-              mutation={selectUpsertForForm(children.type.name)}
-              onCompleted={this.formSubmitted}
-              refetchQueries={[{ query: query }]}
-            >
-              {(mutation, { error, data, loading, called }) => {
-                if (called && !loading) {
-                  console.log('79, error jakub: ', error);
-                  console.log('72, data jakub: ', data);
-                }
-                return React.cloneElement(children, {
-                  submitFromOutside: submit,
-                  onSubmit: UniversalSubmitHander,
-                  //formSubmitted: this.formSubmitted,
-                  submitAborted: this.submitAborted,
-                  mutation: mutation
-                });
-              }}
-            </Mutation>
+            {selectUpsertForForm(children.type.name).simple === 0 ? (
+              <Mutation
+                mutation={selectUpsertForForm(children.type.name).fkQuery}
+                onCompleted={this.formSubmitted}
+                refetchQueries={[{ query: query }]}
+              >
+                {mutate => (
+                  <Mutation
+                    mutation={selectUpsertForForm(children.type.name).query}
+                    onCompleted={result => {
+                      let variables = {};
+                      Object.values(result).forEach(value => {
+                        const key = Object.keys(value)[0];
+                        variables[key] = value[key];
+                      });
+                      mutate({ variables: variables });
+                    }}
+                  >
+                    {mutation => {
+                      return React.cloneElement(children, {
+                        submitFromOutside: submit,
+                        onSubmit: UniversalSubmitHander,
+                        //formSubmitted: this.formSubmitted,
+                        submitAborted: this.submitAborted,
+                        mutation: mutation
+                      });
+                    }}
+                  </Mutation>
+                )}
+              </Mutation>
+            ) : (
+              <Mutation
+                mutation={selectUpsertForForm(children.type.name).query}
+                onCompleted={this.formSubmitted}
+                refetchQueries={[{ query: query }]}
+              >
+                {mutation => {
+                  return React.cloneElement(children, {
+                    submitFromOutside: submit,
+                    onSubmit: UniversalSubmitHander,
+                    //formSubmitted: this.formSubmitted,
+                    submitAborted: this.submitAborted,
+                    mutation: mutation
+                  });
+                }}
+              </Mutation>
+            )}
           </DialogContent>
           <DialogActions classes={{ root: classes.root }}>
             {openConfirmationPrompt ? (

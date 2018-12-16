@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { warehouseValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 
-const types = ['magazyn produktów', 'magazyn półproduktów'];
+const types = ['polproduktow', 'materialow', 'produktow_skonczonych'];
 
 const errorMap = {
   type: false,
@@ -41,17 +41,29 @@ export class FormWarehouse extends React.Component {
   };
 
   handleSubmit = () => {
-    const { type, capacity, address } = this.state;
-    let dataObject = {
+    const {
+      warehouseId,
       type,
       capacity,
-      address
+      address: { addressId, street, buildingNumber, apartmentNumber, postalCode, city, country }
+    } = this.state;
+    let dataObject = {
+      warehouseId,
+      type,
+      capacity: Number(capacity),
+      addressId,
+      street,
+      buildingNumber,
+      apartmentNumber,
+      postalCode,
+      city,
+      country
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, warehouseValidationKeys);
     !this.subFormValidation() && arrayOfErrors.push('address');
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -73,7 +85,7 @@ export class FormWarehouse extends React.Component {
     if (initState) {
       let data = initState.Magazyn[0];
       this.setState({
-        //TODO poprawić rodzaj magazynu
+        warehouseId: data.idMagazyn,
         type: data.rodzaj,
         capacity: data.pojemnosc
       });
@@ -82,7 +94,7 @@ export class FormWarehouse extends React.Component {
 
   render() {
     const { type, capacity, errors } = this.state;
-    const {initState} = this.props;
+    const { initState } = this.props;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -134,7 +146,7 @@ export class FormWarehouse extends React.Component {
               varName="address"
               onChange={this.handleAddressChange}
               ref={this.subForm}
-              initState={initState ? initState.Magazyn[0].adres : null}
+              initState={initState ? initState.Magazyn[0].adresIdAdres : null}
             />
           </Grid>
         </Grid>

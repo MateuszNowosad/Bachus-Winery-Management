@@ -112,7 +112,7 @@ export class FormContractors extends React.Component {
 
   render() {
     const { NIP, companyName, phoneNumber, eMail, wwwSite, KRS, accountNumber, fax, errors } = this.state;
-    const {initState} = this.props;
+    const { initState } = this.props;
 
     return (
       <form style={{ margin: '0% 25%' }}>

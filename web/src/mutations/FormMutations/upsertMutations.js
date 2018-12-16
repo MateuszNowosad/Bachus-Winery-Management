@@ -24,15 +24,27 @@ export const upsertBatch = gql`
   }
 `;
 
-const address = data => `
-  {
-    ${data.idAddress ? 'idAdres: ' + data.idAddress + ',' : ''} 
-    miasto: ${data.city},
-    kodPocztowy: ${data.postalCode},
-    ulica: ${data.street},
-    ${data.apartmentNumber ? 'nrLokalu: ' + data.apartmentNumber + ',' : ''}
-    nrPosesji: ${data.buildingNumber},
-    kraj: ${data.country},
+export const upsertAddress = gql`
+  mutation upsertAddress(
+    $addressId: ID
+    $street: String
+    $buildingNumber: String
+    $apartmentNumber: String
+    $postalCode: String
+    $city: String
+    $country: String
+  ) {
+    upsertAdres(
+      idAdres: $addressId
+      miasto: $city
+      kodPocztowy: $postalCode
+      ulica: $street
+      nrLokalu: $apartmentNumber
+      nrPosesji: $buildingNumber
+      kraj: $country
+    ) {
+      idAdres
+    }
   }
 `;
 
@@ -59,7 +71,14 @@ export const upsertContractors = gql`
     $KRS: String
     $accountNumber: String
     $fax: String
-    $addressId: String
+    $addressIdFK: String
+    $addressId: ID
+    $street: String
+    $buildingNumber: String
+    $apartmentNumber: String
+    $postalCode: String
+    $city: String
+    $country: String
   ) {
     upsertKontrahenci(
       idKontrahenci: $contractorId
@@ -71,9 +90,20 @@ export const upsertContractors = gql`
       KRS: $KRS
       nrKonta: $accountNumber
       fax: $fax
-      adresIdAdres: $addressId
+      adresIdAdres: $addressIdFK
     ) {
       idKontrahenci
+    }
+    upsertAdres(
+      idAdres: $addressId
+      miasto: $city
+      kodPocztowy: $city
+      ulica: $street
+      nrLokalu: $apartmentNumber
+      nrPosesji: $buildingNumber
+      kraj: $country
+    ) {
+      idAdres
     }
   }
 `;
@@ -182,11 +212,42 @@ export const upsertWaybill = gql`
   }
 `;
 
+export const warehouseAddress = gql`
+  mutation warehouseAddress($idMagazyn: ID!, $idAdres: String!) {
+    upsertMagazyn(idMagazyn: $idMagazyn, adresIdAdres: $idAdres) {
+      idMagazyn
+    }
+  }
+`;
+
 //TODO dodawanie adresu
 export const upsertWarehouse = gql`
-  mutation upsertWarehouse($warehouseId: ID, $type: String!, $capacity: Float!) {
-    upsertMagazyn(idMagazyn: $warehouseId, rodzaj: $type, pojemnosc: $capacity) {
+  mutation upsertWarehouse(
+    $warehouseId: ID
+    $type: String!
+    $capacity: Float!
+    $addressId: ID
+    $addressIdFK: String = "1"
+    $street: String
+    $buildingNumber: String
+    $apartmentNumber: String
+    $postalCode: String
+    $city: String
+    $country: String
+  ) {
+    upsertMagazyn(idMagazyn: $warehouseId, rodzaj: $type, pojemnosc: $capacity, adresIdAdres: $addressIdFK) {
       idMagazyn
+    }
+    upsertAdres(
+      idAdres: $addressId
+      miasto: $city
+      kodPocztowy: $postalCode
+      ulica: $street
+      nrLokalu: $apartmentNumber
+      nrPosesji: $buildingNumber
+      kraj: $country
+    ) {
+      idAdres
     }
   }
 `;
