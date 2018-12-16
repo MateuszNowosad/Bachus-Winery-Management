@@ -3,6 +3,9 @@ import session from 'express-session';
 import cors from 'cors';
 import * as bodyParser from 'body-parser';
 import path from 'path';
+import * as sequelize from "./sequelizeDB";
+import bcrypt from "bcrypt";
+
 
 //TODO Don't forget to change this file when refractoring routes.
 const SESSION_SECRET = 'SECRET'; //TODO place this in .env before production
@@ -19,6 +22,17 @@ export const createApp = async () => {
   //   credentials: true
   // };
 
+  const corsOptions = {
+    credentials: true,
+    origin: "http://localhost:3000"
+  };
+
+  app.use(cors(corsOptions));
+  app.use(urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+
+
+
   app.use(
     session({
       name: "loginID",
@@ -33,14 +47,47 @@ export const createApp = async () => {
     })
   );
 
-  const corsOptions = {
-    credentials: true,
-    origin: "http://localhost:3000"
-  };
+  app.use( (req, res, next) => {
+    console.log('req.session', req.session);
+    next()
+  });
 
-  app.use(cors(corsOptions));
-  app.use(urlencoded({ extended: true }));
-  app.use(bodyParser.json());
+  const salt = await bcrypt
+
+  app.post('/usrauthorization', async (req, res) => {
+    console.log('user signup');
+    console.log(req.body);
+    const user = await sequelize.getUzytkownicy({login: req.body.login});
+    console.log('60, user Mateusz: ', user);
+    if(!user.length){
+      res.end();
+    }
+     if(user[0].czyAktywne!==1) {
+       res.end();
+     }
+
+
+    req.session.login = req.body.login;
+    req.session.role = user[0].dictRolaUzytkownikowIdRolaUzytkownikow;
+    res.send({status: "Success", cookie: req.session.cookie});
+    res.end();
+  });
+
+  app.get('/usrrole', (req, res) => {
+    console.log('user rolelookup');
+    console.log(req.body);
+
+    res.send({ role: req.session.role });
+    res.end()
+  });
+
+  app.post('/usrlogout', async (req, res) => {
+    console.log('user logout');
+    console.log(req.body);
+    res.clearCookie('loginID');
+    res.end();
+  });
+
 
 //   app.use(session({ key: 'testCookie', secret: 'cat', cookie: { maxAge: 3*100*100 } }));
 //

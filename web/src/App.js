@@ -15,7 +15,6 @@ import NoMatch from "./components/common/NoMatch";
 import Redirect from "react-router-dom/es/Redirect";
 
 const user = { //TODO testuser should be in variables.
-  roles: ['admin']
 };
 
 const hasRole = (user, roles) =>
@@ -30,6 +29,18 @@ const currentTheme = createMuiTheme(standard);
 
 class App extends Component {
   render() {
+    // axios.get('/usrrole', {
+    //   params: {
+    //     id: todoId
+    //   }
+    // })
+    //   .then(function (response) {
+    //     console.log(response);
+    //     resultElement.innerHTML = generateSuccessHTMLOutput(response);
+    //   })
+    //   .catch(function (error) {
+    //     resultElement.innerHTML = generateErrorHTMLOutput(error);
+    //   });
     return (
       <BrowserRouter>
         <React.Fragment>
