@@ -342,6 +342,7 @@ type Mutation {
   deleteWinobranie(idWinobranie: ID): Winobranie
 
   userLogin(login: String!, password: String): Login
+  loggedUser(login: String!): isLoggedIn
 }
 
 type Adres {
@@ -644,4 +645,9 @@ type Login {
   login: String!
   password: String
   token: String
+}
+
+type isLoggedIn {
+  login: String!
+  loggedIn: Boolean
 }
