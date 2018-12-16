@@ -231,6 +231,9 @@ export const getVineyardOperationForForm = vineyardOperationID => gql`
       idDictOperacjeNaWinnicy
       nazwa
     }
+    winnica {
+      idWinnica
+    }
   }
 }
 `;

@@ -78,7 +78,7 @@ export class FormVineyardOperation extends React.Component {
         dateOfOperation: convertDatetimeForm(data.data),
         desc: data.opis ? data.opis : '',
         dictOperation: data.dictOperacjeNaWinnicy,
-        vineyardId: '1'
+        vineyardId: data.winnica ? data.winnica.idWinnica : '1'
       });
     }
   }
