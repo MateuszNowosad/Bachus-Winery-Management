@@ -13,9 +13,10 @@ import indexRoutes from './routes/index';
 import './App.css';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import NoMatch from "./components/common/NoMatch";
 
 const user = { //TODO testuser should be in variables.
-  roles: ['admin']
+  roles: ['user']
 };
 
 const hasRole = (user, roles) =>
@@ -69,6 +70,7 @@ class App extends Component {
                 }}else
                   return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
               })}
+              <Route component={NoMatch} />
             </Switch>
           </MuiThemeProvider>
         </React.Fragment>
