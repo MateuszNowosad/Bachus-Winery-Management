@@ -14,17 +14,12 @@ import './App.css';
 import NoMatch from './components/common/NoMatch';
 import Redirect from 'react-router-dom/es/Redirect';
 import axios from 'axios';
+import Authorization from './components/Authentication/Authentication';
+import Loading from './components/Loading/Loading';
 
 const user = {
   //TODO testuser should be in variables.
 };
-
-const hasRole = (user, roles) =>
-  roles.some(role => {
-    if (user.roles !== undefined) {
-      return user.roles.includes(role);
-    } else return false;
-  });
 
 const hasRoleGet = (usrRole, roles) =>
   roles.some(role => {
@@ -38,11 +33,10 @@ const currentTheme = createMuiTheme(standard);
 class App extends Component {
   state = {
     role: '',
-    error: false
+    error: false,
+    routeArr: null
   };
-
-  constructor(props){
-    super(props);
+  componentDidMount() {
     axios({
       method: 'get',
       url: 'http://localhost:8080/usrrole',
@@ -51,16 +45,30 @@ class App extends Component {
       console.log('41, response Mateusz: ', response);
       if (response.data) {
         console.log('43, "Success" Mateusz: ', 'Success');
-        this.state.role = response.data.role;
-        this.setState({ error: false });
+        this.setState({ role: response.data.role, error: false });
       } else {
         console.log('45, "Error" Mateusz: ', 'Error');
-        this.state.error = true;
+        this.setState({ error: false });
       }
     });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.role !== prevState.role) {
+      this.setState({
+        routeArr: indexRoutes.filter(prop => {
+          if (prop.role !== undefined) {
+            console.log('74,  Mateusz: ',this.state.role );
+            console.log('75,  Mateusz: ',prop.role );
+            return hasRoleGet(this.state.role, prop.role);
+          } else return true;
+        })
+      });
+    }
+  }
+
   render() {
+    console.log('72, this.state.routeArr Mateusz: ', this.state.routeArr);
     return (
       <BrowserRouter>
         <React.Fragment>
@@ -71,16 +79,23 @@ class App extends Component {
           </Helmet>
           <MuiThemeProvider theme={currentTheme}>
             <Switch>
-              {indexRoutes.map((prop, key) => {
-                if (prop.role !== undefined) {
-                  if (hasRoleGet(this.state.role, prop.role)) {
-                    return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />; //TODO Write PrivateRoute component. Use this to hide routes from drawer.
-                  }
-                } else return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
-              })}
-              <Redirect to={'/'}/>
+              {this.state.routeArr !== null ? (
+                this.state.routeArr.map((prop, key) => {
+                  return (
+                    <Route
+                      path={prop.path}
+                      component={prop.component}
+                      key={key}
+                      exact={prop.exact}
+                    />
+                  ); //TODO Write PrivateRoute component. Use this to hide routes from drawer.
+                })
+              ) : (
+                <Loading />
+              )}
+              {this.state.role !== undefined && <Redirect from="/" to={'/admindashboard'}/>}
+              <Route component={NoMatch} />
             </Switch>
-            {user.roles !== undefined && <Redirect from="/" to={'/admindashboard/'} />}
           </MuiThemeProvider>
         </React.Fragment>
       </BrowserRouter>
