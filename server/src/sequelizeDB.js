@@ -908,7 +908,7 @@ const LISTPRZEWOZOWYHASKONTRAHENCI = sequelize.define('ListPrzewozowyHasKontrahe
   idListPrzewozowyHasKontrahenci: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   listPrzewozowyIdListPrzewozowy: { type: Sequelize.INTEGER, allowNull: false },
   kontrahenciIdKontrahenci: { type: Sequelize.INTEGER, allowNull: false },
-  typ: { type: Sequelize.ENUM('Odbiorca', 'Przewoznik'), allowNull: false }
+  typ: { type: Sequelize.ENUM('Odbiorca', 'Przewoznik', 'Nadawca'), allowNull: false }
 });
 const OPERACJEHASPARTIE = sequelize.define('OperacjeHasPartie', {
   idOperacjeHasPartie: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },

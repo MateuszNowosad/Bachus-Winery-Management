@@ -489,7 +489,14 @@ export default {
         );
         await Promise.all(promises);
       }
-      return _.flatten(list2);
+      const resolvedQuery = _.flatten(list2);
+      resolvedQuery.forEach(queryElement => {
+        const queryResult = list.find(
+          listElement => listElement.kontrahenciIdKontrahenci.toString() === queryElement.idKontrahenci.toString()
+        );
+        queryElement.typ = queryResult.typ;
+      });
+      return resolvedQuery;
     },
     adres: async root => {
       const list = await sequelize.getListPrzewozowyHasAdres({
