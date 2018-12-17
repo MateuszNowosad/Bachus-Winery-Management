@@ -210,6 +210,7 @@ export class FormWaybill extends React.Component {
     if (initState) {
       let data = initState.ListPrzewozowy[0];
       this.setState({
+        waybillId: data.idListPrzewozowy,
         driverName: data.imieKierowcy,
         driverSurname: data.nazwiskoKierowcy,
         comments: data.uwagiPrzewoznika ? data.uwagiPrzewoznika : '',

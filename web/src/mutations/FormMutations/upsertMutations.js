@@ -380,7 +380,6 @@ export const userAddress = gql`
   }
 `;
 
-//TODO dodawanie adresu
 export const upsertUser = gql`
   mutation upsertUser(
     $userId: ID
