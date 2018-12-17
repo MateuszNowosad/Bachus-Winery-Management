@@ -9,8 +9,13 @@ import AdminDashboardRoutes from '../routes/AdminDashboardRoutes';
 import List from '@material-ui/core/List/List';
 import ListItemLink from '../components/Drawer/ListItemLink';
 import ExpandableListItem from '../components/Drawer/ExpandableListItem';
+import axios from "axios";
+import indexRoutes from "../routes";
+import PropTypes from "prop-types";
+import { FormProductionPlan } from "../views/common/forms/FormProductionPlan";
 
 //to prevent unexpected unmounting
+
 
 const switchRoutes = (
   <Switch>
@@ -55,7 +60,8 @@ class AdminDashboardLayout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      drawerOpen: true
+      drawerOpen: true,
+      role: props.role
     };
   }
 
@@ -82,5 +88,9 @@ class AdminDashboardLayout extends React.Component {
     );
   }
 }
+
+AdminDashboardLayout.propTypes = {
+  role: PropTypes.number.isRequired
+};
 
 export default withStyles(AdminDashboardLayoutStyle)(AdminDashboardLayout);
