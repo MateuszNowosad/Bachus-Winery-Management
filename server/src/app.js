@@ -76,7 +76,6 @@ export const createApp = async () => {
   app.get('/usrrole', (req, res) => {
     console.log('user rolelookup');
     console.log(req.body);
-
     res.send({ role: req.session.role });
     res.end()
   });
