@@ -10,6 +10,7 @@ import { usersValidationKeys } from './UniversalValidationHandler/validationKeys
 import LinearProgress from '@material-ui/core/LinearProgress/LinearProgress';
 import getDictUserRole from '../../../queries/DictionaryQueries/getDictUserRole';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import currentDate from './CurrentDate';
 
 const errorMap = {
   firstName: false,
@@ -83,6 +84,12 @@ export class FormUsers extends React.Component {
     });
   };
 
+  handleSelect = (name, data) => event => {
+    this.setState({
+      [name]: data.find(record => record.nazwa === event.target.value)
+    });
+  };
+
   handleAddressChange = (name, address) => {
     this.setState({
       [name]: address
@@ -94,9 +101,8 @@ export class FormUsers extends React.Component {
   }
 
   handleSubmit = () => {
-    const { firstName, lastName, login, password, PESEL, eMail, phoneNumber, address, userRole, photo } = this.state;
-
-    let dataObject = {
+    const {
+      userId,
       firstName,
       lastName,
       login,
@@ -104,15 +110,38 @@ export class FormUsers extends React.Component {
       PESEL,
       eMail,
       phoneNumber,
-      address,
       userRole,
-      photo
+      isActive,
+      photoURL,
+      address: { addressId, street, buildingNumber, apartmentNumber, postalCode, city, country }
+    } = this.state;
+
+    let dataObject = {
+      userId,
+      firstName,
+      lastName,
+      login,
+      password,
+      PESEL,
+      eMail,
+      phoneNumber,
+      userRoleId: userRole.idRolaUzytkownikow,
+      lastLoginDate: currentDate('dateTime'),
+      isActive: isActive ? isActive : '1',
+      photoURL: 'https://s3.amazonaws.com/uifaces/faces/twitter/silvanmuhlemann/128.jpg',
+      addressId,
+      street,
+      buildingNumber,
+      apartmentNumber,
+      postalCode,
+      city,
+      country
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, usersValidationKeys);
     !this.subFormValidation() && arrayOfErrors.push('address');
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -151,6 +180,7 @@ export class FormUsers extends React.Component {
     if (initState) {
       let data = initState.Uzytkownicy[0];
       this.setState({
+        userId: data.idUzytkownika,
         firstName: data.imie,
         lastName: data.nazwisko,
         login: data.login,
@@ -158,7 +188,8 @@ export class FormUsers extends React.Component {
         PESEL: data.PESEL,
         eMail: data.eMail,
         phoneNumber: data.nrTelefonu,
-        userRole: data.rola.nazwa,
+        userRole: data.rola ? data.rola : '',
+        isActive: data.czyAktywne,
         photoURL: data.zdjecie ? data.zdjecie : ''
       });
     }
@@ -330,9 +361,6 @@ export class FormUsers extends React.Component {
                 placeholder="Numer telefonu"
                 value={phoneNumber}
                 margin="dense"
-                inputProps={{
-                  maxLength: '11'
-                }}
                 onChange={this.handleChange('phoneNumber')}
                 variant={'outlined'}
               />
@@ -352,8 +380,8 @@ export class FormUsers extends React.Component {
                       select
                       label="Rola użytkownika"
                       placeholder="Rola użytkownika"
-                      value={userRole}
-                      onChange={this.handleChange('userRole')}
+                      value={userRole ? userRole.nazwa : ''}
+                      onChange={this.handleSelect('userRole', data.DictRolaUzytkownikow)}
                       margin="dense"
                       variant={'outlined'}
                     >

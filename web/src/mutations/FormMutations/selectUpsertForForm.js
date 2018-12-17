@@ -18,6 +18,7 @@ import {
   upsertWarehouse,
   upsertWaybill,
   upsertWineInformation,
+  userAddress,
   warehouseAddress,
   wineInformationBatch
 } from './upsertMutations';
@@ -26,8 +27,9 @@ export const selectUpsertForForm = formName => {
   switch (formName) {
     case 'FormUsers':
       return {
-        query: upsertUser
-        // simple: 0
+        query: upsertUser,
+        simple: 0,
+        fkQuery: userAddress
       };
     case 'FormBatches':
       return {

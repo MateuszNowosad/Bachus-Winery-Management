@@ -372,6 +372,14 @@ export const upsertItemInStock = gql`
   }
 `;
 
+export const userAddress = gql`
+  mutation userAddress($idUzytkownika: ID!, $idAdres: String!) {
+    upsertUzytkownicy(idUzytkownika: $idUzytkownika, adresIdAdres: $idAdres) {
+      idUzytkownika
+    }
+  }
+`;
+
 //TODO dodawanie adresu
 export const upsertUser = gql`
   mutation upsertUser(
@@ -383,10 +391,18 @@ export const upsertUser = gql`
     $PESEL: String!
     $eMail: String!
     $phoneNumber: String!
-    $lastLoginDate: String!
     $photoURL: String
     $isActive: String!
     $userRoleId: String!
+    $lastLoginDate: String!
+    $addressIdFK: String = "1"
+    $addressId: ID
+    $street: String
+    $buildingNumber: String
+    $apartmentNumber: String
+    $postalCode: String
+    $city: String
+    $country: String
   ) {
     upsertUzytkownicy(
       idUzytkownika: $userId
@@ -397,12 +413,24 @@ export const upsertUser = gql`
       PESEL: $PESEL
       eMail: $eMail
       nrTelefonu: $phoneNumber
-      dataOstatniegoLogowania: $lastLoginDate
       zdjecie: $photoURL
       czyAktywne: $isActive
-      rola: $userRoleId
+      dictRolaUzytkownikowIdRolaUzytkownikow: $userRoleId
+      dataOstatniegoLogowania: $lastLoginDate
+      adresIdAdres: $addressIdFK
     ) {
       idUzytkownika
+    }
+    upsertAdres(
+      idAdres: $addressId
+      miasto: $city
+      kodPocztowy: $postalCode
+      ulica: $street
+      nrLokalu: $apartmentNumber
+      nrPosesji: $buildingNumber
+      kraj: $country
+    ) {
+      idAdres
     }
   }
 `;
