@@ -50,17 +50,6 @@ export const upsertBatch = gql`
 //   }
 // `;
 
-//TODO dodawanie pzocycji w magazynie
-const parcel = data => `
- {
- ${data.idParcel ? 'idPrzesylka: ' + data.idParcel + ',' : ''}
-  nazwaPrzesylki: ${data.packageName},
-  ciezarLadunku: ${data.weight},
-  data: ${data.date},
-  pozycjaWMagazynie: 
- }
-`;
-
 export const contractorAddress = gql`
   mutation contractorAddress($idKontrahenci: ID!, $idAdres: String!) {
     upsertKontrahenci(idKontrahenci: $idKontrahenci, adresIdAdres: $idAdres) {
@@ -254,7 +243,7 @@ export const waybillFK = gql`
   }
 `;
 
-//TODO dodawanie przesyłki, kontrahentów i adresów
+//TODO przesyłka has pozycja w magazynie
 export const upsertWaybill = gql`
   mutation upsertWaybill(
     $waybillId: ID

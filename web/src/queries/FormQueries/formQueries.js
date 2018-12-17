@@ -209,6 +209,7 @@ export const getOperationForForm = gql`
         idPozycja
         nazwa
         ilosc
+        iloscFromJoinTable
       }
     }
   }

@@ -12,6 +12,7 @@ import {
   upsertGrapeHarvest,
   upsertItemInStock,
   upsertOperations,
+  upsertProductionPlan,
   upsertUser,
   upsertVineyard,
   upsertVineyardOperation,
@@ -120,6 +121,11 @@ export const selectUpsertForForm = formName => {
         query: upsertWineInformation,
         simple: 0,
         fkQuery: wineInformationBatch
+      };
+    case 'FormProductionPlan':
+      return {
+        query: upsertProductionPlan,
+        simple: 1
       };
   }
 };

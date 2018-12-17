@@ -71,6 +71,12 @@ export class FormOperations extends React.Component {
     });
   };
 
+  handleSelect = (name, data) => event => {
+    this.setState({
+      [name]: data.find(record => record.nazwa === event.target.value)
+    });
+  };
+
   handleAddContent = data => {
     this.setState(prevState => ({
       content: [...prevState.content, data]
@@ -88,6 +94,7 @@ export class FormOperations extends React.Component {
 
   handleSubmit = () => {
     const {
+      operationId,
       beginAmount,
       endAmount,
       beginDate,
@@ -101,6 +108,7 @@ export class FormOperations extends React.Component {
       process
     } = this.state;
     let dataObject = {
+      operationId,
       beginAmount,
       endAmount,
       beginDate,
@@ -111,7 +119,7 @@ export class FormOperations extends React.Component {
       acidity,
       temperature,
       desc,
-      process
+      processId: process.idDictProcesy
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, operationsValidationKeys);
@@ -138,6 +146,7 @@ export class FormOperations extends React.Component {
     if (initState) {
       let data = initState.Operacje[0];
       this.setState({
+        operationId: data.idOperacja,
         beginAmount: data.iloscPrzed,
         endAmount: data.iloscPo ? data.iloscPo : '',
         beginDate: convertDatetimeForm(data.dataPoczatku),
@@ -148,13 +157,12 @@ export class FormOperations extends React.Component {
         acidity: data.kwasowosc ? data.kwasowosc : '',
         temperature: data.temperatura ? data.temperatura : '',
         desc: data.opis ? data.opis : '',
-        process: data.dictProcesy ? data.dictProcesy.nazwa : '',
+        process: data.dictProcesy ? data.dictProcesy : '',
         content: data.pozycjaWMagazynie
           ? data.pozycjaWMagazynie.map(curr => ({
               key: curr.idPozycja,
               selectedItem: curr,
-              //TODO Change to amount from connecting table
-              amount: curr.ilosc
+              amount: curr.iloscFromJoinTable
             }))
           : ''
       });
@@ -197,8 +205,8 @@ export class FormOperations extends React.Component {
                     select
                     label="Rodzaj operacji"
                     placeholder="Rodzaj operacji"
-                    value={process}
-                    onChange={this.handleChange('process')}
+                    value={process ? process.nazwa : ''}
+                    onChange={this.handleSelect('process', data.DictProcesy)}
                     margin="dense"
                     variant={'outlined'}
                   >
