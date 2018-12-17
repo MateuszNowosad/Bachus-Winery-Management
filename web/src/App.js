@@ -16,6 +16,7 @@ import Redirect from 'react-router-dom/es/Redirect';
 import axios from 'axios';
 import Authorization from './components/Authentication/Authentication';
 import Loading from './components/Loading/Loading';
+import LoginPage from './views/LoginPage';
 
 const user = {
   //TODO testuser should be in variables.
@@ -33,7 +34,7 @@ const currentTheme = createMuiTheme(standard);
 class App extends Component {
   state = {
     role: '',
-    error: false,
+    error: true,
     routeArr: null
   };
   componentDidMount() {
@@ -48,22 +49,28 @@ class App extends Component {
         this.setState({ role: response.data.role, error: false });
       } else {
         console.log('45, "Error" Mateusz: ', 'Error');
-        this.setState({ error: false });
+        this.setState({ error: true });
       }
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.role !== prevState.role) {
-      this.setState({
-        routeArr: indexRoutes.filter(prop => {
-          if (prop.role !== undefined) {
-            console.log('74,  Mateusz: ',this.state.role );
-            console.log('75,  Mateusz: ',prop.role );
-            return hasRoleGet(this.state.role, prop.role);
-          } else return true;
-        })
+      let routingTable = indexRoutes.filter(prop => {
+        if (prop.role !== undefined) {
+          return hasRoleGet(this.state.role, prop.role);
+        } else return true;
       });
+      if (routingTable.length) {
+        this.setState({
+          routeArr: routingTable,
+          error: false
+        });
+      } else {
+        this.setState({
+          error: true
+        });
+      }
     }
   }
 
@@ -79,21 +86,16 @@ class App extends Component {
           </Helmet>
           <MuiThemeProvider theme={currentTheme}>
             <Switch>
-              {this.state.routeArr !== null ? (
+              {this.state.routeArr !== null &&
                 this.state.routeArr.map((prop, key) => {
-                  return (
-                    <Route
-                      path={prop.path}
-                      component={prop.component}
-                      key={key}
-                      exact={prop.exact}
-                    />
-                  ); //TODO Write PrivateRoute component. Use this to hide routes from drawer.
-                })
+                  return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />; //TODO Write PrivateRoute component. Use this to hide routes from drawer.
+                })}
+              {this.state.routeArr !== null ? (
+                <Redirect from="/" to={'/admindashboard'} />
               ) : (
-                <Loading />
+                <Route path={'/'} component={LoginPage} exact={true} />
               )}
-              {this.state.role !== undefined && <Redirect from="/" to={'/admindashboard'}/>}
+              {!this.state.error && <Route component={Loading} />}
               <Route component={NoMatch} />
             </Switch>
           </MuiThemeProvider>
