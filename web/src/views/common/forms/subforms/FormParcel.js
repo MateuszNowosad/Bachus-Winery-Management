@@ -55,17 +55,22 @@ export class FormParcel extends React.Component {
     this.setState({ open: false });
   };
   handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-    const { packageName, weight, date, content } = this.state;
-    const { varName } = this.props;
-    this.props.onChange(varName, {
-      packageName,
-      weight,
-      date,
-      content
-    });
+    this.setState(
+      {
+        [name]: event.target.value
+      },
+      () => {
+        const { parcelId, packageName, weight, date, content } = this.state;
+        const { varName } = this.props;
+        this.props.onChange(varName, {
+          parcelId,
+          packageName,
+          weight,
+          date,
+          content
+        });
+      }
+    );
   };
 
   handleAddContent = data => {
@@ -74,9 +79,10 @@ export class FormParcel extends React.Component {
         content: [...prevState.content, data]
       }),
       () => {
-        const { packageName, weight, date, content } = this.state;
+        const { parcelId, packageName, weight, date, content } = this.state;
         const { varName } = this.props;
         this.props.onChange(varName, {
+          parcelId,
           packageName,
           weight,
           date,
@@ -99,14 +105,14 @@ export class FormParcel extends React.Component {
     const { initState } = this.props;
     if (initState) {
       this.setState({
+        parcelId: initState.idPrzesylka,
         packageName: initState.nazwaPrzesylki,
         weight: initState.ciezarLadunku,
         date: convertDatetimeForm(initState.data),
         content: initState.pozycjaWMagazynie.map(curr => ({
           key: curr.idPozycja,
           selectedItem: curr,
-          //TODO Change to amount from connecting table
-          amount: curr.ilosc
+          amount: curr.iloscFromJoinTable
         }))
       });
     }

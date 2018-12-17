@@ -295,6 +295,7 @@ export const getWaybillForForm = gql`
         data
         pozycjaWMagazynie {
           idPozycja
+          iloscFromJoinTable
           nazwa
           ilosc
         }

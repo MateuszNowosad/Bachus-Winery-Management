@@ -44,12 +44,12 @@ export class FormWaybill extends React.Component {
       comments: '',
       reservations: '',
       fileURL: '',
-      sender: {},
-      recipent: {},
-      carrier: {},
-      pickupAddress: {},
-      mailingAddress: {},
-      parcel: {},
+      sender: '',
+      recipent: '',
+      carrier: '',
+      pickupAddress: '',
+      mailingAddress: '',
+      parcel: '',
       openSender: false,
       openRecipent: false,
       openCarrier: false,
@@ -114,6 +114,7 @@ export class FormWaybill extends React.Component {
 
   handleSubmit = () => {
     const {
+      waybillId,
       driverName,
       driverSurname,
       comments,
@@ -122,29 +123,61 @@ export class FormWaybill extends React.Component {
       sender,
       recipent,
       carrier,
-      pickupAddress,
-      mailingAddress,
-      parcel
+      pickupAddress: {
+        addressId: addressIdMailing,
+        street: streetMailing,
+        buildingNumber: buildingNumberMailing,
+        apartmentNumber: apartmentNumberMailing,
+        postalCode: postalCodeMailing,
+        city: cityMailing,
+        country: countryMailing
+      },
+      mailingAddress: {
+        addressId: addressIdPickup,
+        street: streetPickup,
+        buildingNumber: buildingNumberPickup,
+        apartmentNumber: apartmentNumberPickup,
+        postalCode: postalCodePickup,
+        city: cityPickup,
+        country: countryPickup
+      },
+      parcel: { parcelId, packageName, weight, date }
     } = this.state;
 
     let dataObject = {
+      waybillId,
       driverName,
       driverSurname,
       comments,
       reservations,
       fileURL,
-      sender,
-      recipent,
-      carrier,
-      pickupAddress,
-      mailingAddress,
-      parcel
+      senderId: sender.idKontrahenci,
+      recipentId: recipent.idKontrahenci,
+      carrierId: carrier.idKontrahenci,
+      addressIdMailing,
+      streetMailing,
+      buildingNumberMailing,
+      apartmentNumberMailing,
+      postalCodeMailing,
+      cityMailing,
+      countryMailing,
+      addressIdPickup,
+      streetPickup,
+      buildingNumberPickup,
+      apartmentNumberPickup,
+      postalCodePickup,
+      cityPickup,
+      countryPickup,
+      parcelId,
+      packageName,
+      weight,
+      date
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, waybillValidationKeys);
     !this.subFormValidation() && arrayOfErrors.push('subforms');
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -176,7 +209,6 @@ export class FormWaybill extends React.Component {
   };
 
   handleObjectChange = (name, object) => {
-    console.log('178, object jakub: ', object);
     this.setState({
       [name]: object
     });
@@ -216,9 +248,9 @@ export class FormWaybill extends React.Component {
         comments: data.uwagiPrzewoznika ? data.uwagiPrzewoznika : '',
         reservations: data.zastrzezeniaOdbiorcy ? data.zastrzezeniaOdbiorcy : '',
         fileURL: data.eDokument,
-        sender: data.kontrahent[0],
-        recipent: data.kontrahent[0],
-        carrier: data.kontrahent[0]
+        sender: data.kontrahent ? this.initContractor(data.kontrahent, 'Nadawca') : '',
+        recipent: data.kontrahent ? this.initContractor(data.kontrahent, 'Odbiorca') : '',
+        carrier: data.kontrahent ? this.initContractor(data.kontrahent, 'Przewoźnik') : ''
       });
     }
   }

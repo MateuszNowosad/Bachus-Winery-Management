@@ -20,6 +20,7 @@ import {
   upsertWineInformation,
   userAddress,
   warehouseAddress,
+  waybillFK,
   wineInformationBatch
 } from './upsertMutations';
 
@@ -110,8 +111,9 @@ export const selectUpsertForForm = formName => {
       };
     case 'FormWaybill':
       return {
-        query: upsertWaybill
-        // simple: 0
+        query: upsertWaybill,
+        simple: 0,
+        fkQuery: waybillFK
       };
     case 'FormWineInformation':
       return {

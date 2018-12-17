@@ -207,6 +207,53 @@ export const upsertWineInformation = gql`
   }
 `;
 
+export const waybillFK = gql`
+  mutation waybillFK(
+    $idListPrzewozowy: String!
+    $idOdbiorca: String!
+    $idNadawca: String!
+    $idPrzewoznik: String!
+    $idAdresNadania: String!
+    $idAdresOdbioru: String!
+  ) {
+    odbiorca: upsertListPrzewozowyHasKontrahenci(
+      listPrzewozowyIdListPrzewozowy: $idListPrzewozowy
+      kontrahenciIdKontrahenci: $idOdbiorca
+      typ: "Odbiorca"
+    ) {
+      idListPrzewozowyHasKontrahenci
+    }
+    nadawca: upsertListPrzewozowyHasKontrahenci(
+      listPrzewozowyIdListPrzewozowy: $idListPrzewozowy
+      kontrahenciIdKontrahenci: $idNadawca
+      typ: "Nadawca"
+    ) {
+      idListPrzewozowyHasKontrahenci
+    }
+    przewoznik: upsertListPrzewozowyHasKontrahenci(
+      listPrzewozowyIdListPrzewozowy: $idListPrzewozowy
+      kontrahenciIdKontrahenci: $idPrzewoznik
+      typ: "Przewoznik"
+    ) {
+      idListPrzewozowyHasKontrahenci
+    }
+    adresNadania: upsertListPrzewozowyHasAdres(
+      adresIdAdres: $idAdresNadania
+      listPrzewozowyIdListPrzewozowy: $idListPrzewozowy
+      miejsce: "Nadania"
+    ) {
+      idListPrzewozowyHasAdres
+    }
+    adresOdbioru: upsertListPrzewozowyHasAdres(
+      adresIdAdres: $idAdresOdbioru
+      listPrzewozowyIdListPrzewozowy: $idListPrzewozowy
+      miejsce: "Odbioru"
+    ) {
+      idListPrzewozowyHasAdres
+    }
+  }
+`;
+
 //TODO dodawanie przesyłki, kontrahentów i adresów
 export const upsertWaybill = gql`
   mutation upsertWaybill(
@@ -216,7 +263,28 @@ export const upsertWaybill = gql`
     $comments: String
     $reservations: String
     $fileURL: String
-    $parcelID: String
+    $parcelId: String = "1"
+    $senderId: ID!
+    $recipentId: ID!
+    $carrierId: ID!
+    $addressIdMailing: ID
+    $streetMailing: String
+    $buildingNumberMailing: String
+    $apartmentNumberMailing: String
+    $postalCodeMailing: String
+    $cityMailing: String
+    $countryMailing: String
+    $addressIdPickup: ID
+    $streetPickup: String
+    $buildingNumberPickup: String
+    $apartmentNumberPickup: String
+    $postalCodePickup: String
+    $cityPickup: String
+    $countryPickup: String
+    $parcelId: ID!
+    $packageName: String!
+    $weight: Float!
+    $date: String!
   ) {
     upsertListPrzewozowy(
       idListPrzewozowy: $waybillId
@@ -225,9 +293,43 @@ export const upsertWaybill = gql`
       uwagiPrzewoznika: $comments
       zastrzezeniaOdbiorcy: $reservations
       eDokument: $fileURL
-      przesylkaIdPrzesylka: $parcelID
+      przesylkaIdPrzesylka: $parcelId
     ) {
       idListPrzewozowy
+    }
+    upsertNadawca: upsertKontrahenci(idKontrahenci: $senderId) {
+      idNadawca: idKontrahenci
+    }
+    upsertOdbiorca: upsertKontrahenci(idKontrahenci: $recipentId) {
+      idOdbiorca: idKontrahenci
+    }
+    upsertPrzewoznik: upsertKontrahenci(idKontrahenci: $carrierId) {
+      idPrzewoznik: idKontrahenci
+    }
+    upsertAdresNadania: upsertAdres(
+      idAdres: $addressIdMailing
+      miasto: $cityMailing
+      kodPocztowy: $postalCodeMailing
+      ulica: $streetMailing
+      nrLokalu: $apartmentNumberMailing
+      nrPosesji: $buildingNumberMailing
+      kraj: $countryMailing
+    ) {
+      idAdresNadania: idAdres
+    }
+    upsertAdresOdbioru: upsertAdres(
+      idAdres: $addressIdPickup
+      miasto: $cityPickup
+      kodPocztowy: $postalCodePickup
+      ulica: $streetPickup
+      nrLokalu: $apartmentNumberPickup
+      nrPosesji: $buildingNumberPickup
+      kraj: $countryPickup
+    ) {
+      idAdresOdbioru: idAdres
+    }
+    upsertPrzesylka(idPrzesylka: $parcelId, nazwaPrzesylki: $packageName, ciezarLadunku: $weight, data: $date) {
+      idPrzesylka
     }
   }
 `;
