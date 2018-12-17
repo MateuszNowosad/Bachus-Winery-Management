@@ -28,6 +28,10 @@ import ProductionPlanDetails from '../views/AdminDashboard/Subpages/ProductionPl
 import DatabaseReports from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseReports';
 import Warehouse from '../views/AdminDashboard/Warehouse';
 
+//ADMIN = 1
+//PRODUCTION = 2
+//WAREHOUSE = 3
+//ACCOUNTING = 4
 const AdminDashboardRoutes = [
   {
     path: '/admindashboard',
@@ -36,7 +40,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <DashboardIcon />,
     component: AdminDashboard,
     exact: true,
-    role: ['admin','userproduction', 'userwarehouse', 'useraccounting']
+    role: [1,2, 3, 4]
   },
   {
     path: '/admindashboard/database',
@@ -45,7 +49,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <DnsIcon />,
     component: Database,
     exact: true,
-    role: ['admin','userproduction', 'userwarehouse', 'useraccounting'],
+    role: [1,2, 3, 4],
     childRoutes: [
       {
         path: '/admindashboard/database/winnice',
@@ -54,7 +58,7 @@ const AdminDashboardRoutes = [
         drawerIcon: <Flower />,
         component: DatabaseVineyard,
         exact: false,
-        role: ['admin','userproduction']
+        role: [1,2]
       },
       {
         path: '/admindashboard/database/produkcja',
@@ -63,7 +67,7 @@ const AdminDashboardRoutes = [
         drawerIcon: <Bar />,
         component: DatabaseProduction,
         exact: false,
-        role: ['admin','userproduction']
+        role: [1,2]
       },
       {
         path: '/admindashboard/database/personalia',
@@ -72,7 +76,7 @@ const AdminDashboardRoutes = [
         drawerIcon: <PeopleIcon />,
         component: DatabaseContactsAndUsers,
         exact: false,
-        role: ['admin','useraccounting']
+        role: [1,4]
       },
       {
         path: '/admindashboard/database/logistyka',
@@ -81,7 +85,7 @@ const AdminDashboardRoutes = [
         drawerIcon: <LocalShipping />,
         component: DatabaseLogistics,
         exact: false,
-        role: ['admin','useraccounting', 'userwarehouse']
+        role: [1,4, 3]
       },
       {
         path: '/admindashboard/database/raporty',
@@ -90,7 +94,7 @@ const AdminDashboardRoutes = [
         drawerIcon: <Description />,
         component: DatabaseReports,
         exact: false,
-        role: ['admin','useraccounting', 'userwarehouse', 'userproduction'] //TODO special verification logic in component
+        role: [1,4, 3, 2] //TODO special verification logic in component
       }
     ]
   },
@@ -101,7 +105,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <StorageIcon />,
     component: Warehouse,
     exact: false,
-    role: ['admin','useraccounting', 'userwarehouse', 'userproduction']
+    role: [1,4, 3, 2]
   },
   {
     path: '/admindashboard/profile',
@@ -110,7 +114,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <FaceIcon />,
     component: UserInfo,
     exact: false,
-    role: ['admin','useraccounting', 'userwarehouse', 'userproduction']
+    role: [1,4, 3, 2]
   },
   {
     path: '/admindashboard/diagnostics',
@@ -119,7 +123,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <BarChartIcon />,
     component: Diagnostics,
     exact: false,
-    role: ['admin']
+    role: [1]
   },
   {
     path: '/admindashboard/news',
@@ -128,7 +132,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <LayersIcon />,
     component: News,
     exact: false,
-    role: ['admin','useraccounting', 'userwarehouse', 'userproduction'] //TODO special verification logic in component
+    role: [1,4, 3, 2] //TODO special verification logic in component
   },
   {
     path: '/admindashboard/backup',
@@ -137,7 +141,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <SaveIcon />,
     component: Backup,
     exact: false,
-    role: ['admin']
+    role: [1]
   },
   {
     path: '/admindashboard/productionplans',
@@ -146,14 +150,14 @@ const AdminDashboardRoutes = [
     drawerIcon: <TodayIcon />,
     component: ProductionPlans,
     exact: true,
-    role: ['admin','useraccounting', 'userproduction']
+    role: [1,4, 2]
   },
   {
     path: '/admindashboard/productionplans/:id',
     component: ProductionPlanDetails,
     hidden: true,
     exact: true,
-    role: ['admin','useraccounting', 'userproduction']
+    role: [1,4, 2]
   }
 
   // {redirect: true, path: "/", to: "/login", navbarName: "Redirect"}

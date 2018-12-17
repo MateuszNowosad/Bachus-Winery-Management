@@ -90,7 +90,7 @@ class App extends Component {
 
   render() {
     let renderMatchWithProps = MatchedComponent  =>
-      matchProps => <MatchedComponent  role={this.state.role} {...matchProps}/>;
+      matchProps => <MatchedComponent  role={this.state.role} error={this.state.error} {...matchProps}/>;
     return (
       <BrowserRouter>
         <React.Fragment>
