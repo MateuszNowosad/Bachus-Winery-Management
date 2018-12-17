@@ -72,11 +72,13 @@ class ScrollableDialogForm extends React.Component {
                   <Mutation
                     mutation={selectUpsertForForm(children.type.name).query}
                     onCompleted={result => {
+                      console.log('75, result jakub: ', result);
                       let variables = {};
                       Object.values(result).forEach(value => {
                         const key = Object.keys(value)[0];
                         variables[key] = value[key];
                       });
+                      console.log('80, variables jakub: ', variables);
                       mutate({ variables: variables });
                     }}
                   >

@@ -82,8 +82,8 @@ export const selectUpsertForForm = formName => {
       };
     case 'FormItemInStock':
       return {
-        query: upsertItemInStock
-        // simple: 0: 0
+        query: upsertItemInStock,
+        simple: 1
       };
     case 'FormOperations':
       return {

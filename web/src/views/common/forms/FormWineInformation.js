@@ -25,6 +25,7 @@ export class FormWineInformation extends React.Component {
       allergens: '',
       energyValue: 0,
       wineCategory: {},
+      batchId: '2',
       errors: errorMap
     };
   }
