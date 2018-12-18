@@ -135,6 +135,46 @@ type Query {
     iloscZebranychWinogron: Float
     winnicaIdWinnica: String
   ): [Winobranie]
+  ListPrzewozowyHasAdres(
+    idListPrzewozowyHasAdres: ID
+    adresIdAdres: String
+    miejsce: String
+    listPrzewozowyIdListPrzewozowy: String
+  ): [ListPrzewozowyHasAdres]
+  ListPrzewozowyHasKontrahenci(
+    idListPrzewozowyHasKontrahenci: ID
+    listPrzewozowyIdListPrzewozowy: String
+    kontrahenciIdKontrahenci: String
+    typ: String
+  ): [ListPrzewozowyHasKontrahenci]
+  OperacjeHasPartie(
+    idOperacjeHasPartie: ID
+    operacjeIdOperacja: String
+    partieIdPartie: String
+    ilosc: String
+  ): [OperacjeHasPartie]
+  OperacjeHasPozycjaWMagazynie(
+    idOperacjeHasPozycjaWMagazynie: ID
+    operacjeIdOperacja: String
+    pozycjaWMagazynieIdPozycja: String
+    ilosc: String
+  ): [OperacjeHasPozycjaWMagazynie]
+  PlanyProdukcyjneHasPozycjaWMagazynie(
+    idPlanyProdukcyjneHasPozycjaWMagazynie: ID
+    planyProdukcyjneIdPlanyProdukcyjne: String
+    pozycjaWMagazynieIdPozycja: String
+  ): [PlanyProdukcyjneHasPozycjaWMagazynie]
+  PrzesylkaHasPozycjaWMagazynie(
+    idPrzesylkaHasPozycjaWMagazynie: ID
+    przesylkaIdPrzesylka: String
+    pozycjaWMagazynieIdPozycja: String
+    ilosc: String
+  ): [PrzesylkaHasPozycjaWMagazynie]
+  RaportyHasUzytkownicy(
+    idRaportyHasUzytkownicy: ID
+    raportyIdRaport: String
+    uzytkownicyIdUzytkownika: String
+  ): [RaportyHasUzytkownicy]
 }
 
 type Mutation {
