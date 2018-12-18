@@ -15,7 +15,7 @@ import NoMatch from './components/common/NoMatch';
 import Redirect from 'react-router-dom/es/Redirect';
 import axios from 'axios';
 import Authorization from './components/Authentication/Authentication';
-import Loading from './components/Loading/Loading';
+import Loading from './components/common/Loading';
 import LoginPage from './views/LoginPage';
 import AdminDashboardLayout from './layout/AdminDashboardLayout';
 
@@ -33,10 +33,9 @@ const hasRoleGet = (usrRole, roles) =>
 const currentTheme = createMuiTheme(standard);
 
 class App extends Component {
-
   state = {
     role: '',
-    error: true,
+    waitingForServer: true,
     routeArr: null
   };
   componentDidMount() {
@@ -48,10 +47,10 @@ class App extends Component {
       console.log('41, response Mateusz: ', response);
       if (response.data) {
         console.log('43, "Success" Mateusz: ', 'Success');
-        this.setState({ role: response.data.role, error: false });
+        this.setState({ role: response.data.role, waitingForServer: false });
       } else {
         console.log('45, "Error" Mateusz: ', 'Error');
-        this.setState({ error: true });
+        this.setState({ waitingForServer: true });
       }
     });
   }
@@ -75,22 +74,22 @@ class App extends Component {
     //   }
     // }
     if (this.state.role !== prevState.role) {
-      if (hasRoleGet(this.state.role, ['admin', 'useraccounting', 'userwarehouse', 'userproduction', 1])) {
+      if (hasRoleGet(this.state.role, [1, 2, 3, 4])) {
         this.setState({
-          routeArr: [],
-          error: false
-        });
-      } else {
-        this.setState({
-          error: true
+          routeArr: []
         });
       }
+      this.setState({
+        waitingForServer: false
+      });
     }
   }
 
   render() {
-    let renderMatchWithProps = MatchedComponent  =>
-      matchProps => <MatchedComponent  role={this.state.role} error={this.state.error} {...matchProps}/>;
+    const { role, waitingForServer, routeArr } = this.state;
+    let renderMatchWithProps = MatchedComponent => matchProps => (
+      <MatchedComponent role={role} waitingForServer={waitingForServer} {...matchProps} />
+    );
     return (
       <BrowserRouter>
         <React.Fragment>
@@ -101,15 +100,16 @@ class App extends Component {
           </Helmet>
           <MuiThemeProvider theme={currentTheme}>
             <Switch>
-              {this.state.routeArr !== null && <Route path={'/admindashboard'} component={renderMatchWithProps(AdminDashboardLayout)} />}
+              {routeArr !== null && (
+                <Route path={'/admindashboard'} component={renderMatchWithProps(AdminDashboardLayout)} />
+              )}
               {/*TODO Write PrivateRoute component. Use this to hide routes from drawer.*/}
-              {this.state.routeArr !== null ? (
+              {routeArr !== null ? (
                 <Redirect from="/" to={'/admindashboard'} />
               ) : (
                 <Route path={'/'} component={LoginPage} exact={true} />
               )}
-              {!this.state.error && <Route component={Loading} />}
-              <Route component={NoMatch} />
+              {waitingForServer ? <Route component={Loading} /> : <Route component={NoMatch} />}
             </Switch>
           </MuiThemeProvider>
         </React.Fragment>
