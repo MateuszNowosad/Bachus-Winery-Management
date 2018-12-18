@@ -1,7 +1,6 @@
 import React from 'react';
 import AdminDashboard from '../views/AdminDashboard/AdminDashboard';
 import Database from '../views/AdminDashboard/Database';
-import Diagnostics from '../views/AdminDashboard/Diagnostics';
 import News from '../views/AdminDashboard/News';
 import Backup from '../views/AdminDashboard/Backup';
 
@@ -115,15 +114,6 @@ const AdminDashboardRoutes = [
     component: UserInfo,
     exact: false,
     role: [1, 4, 3, 2]
-  },
-  {
-    path: '/admindashboard/diagnostics',
-    drawerName: 'Dane Diagnostyczne',
-    navbarName: 'Dane Diagnostyczne',
-    drawerIcon: <BarChartIcon />,
-    component: Diagnostics,
-    exact: false,
-    role: [1]
   },
   {
     path: '/admindashboard/news',
