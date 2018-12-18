@@ -18,14 +18,21 @@ const insert = {
   InformacjeOWinie: sequelize.insertInformacjeOWinie,
   Kontrahenci: sequelize.insertKontrahenci,
   ListPrzewozowy: sequelize.insertListPrzewozowy,
+  ListPrzewozowyHasAdres: sequelize.insertListPrzewozowyHasAdres,
+  ListPrzewozowyHasKontrahenci: sequelize.insertListPrzewozowyHasKontrahenci,
   Magazyn: sequelize.insertMagazyn,
   Operacje: sequelize.insertOperacje,
+  OperacjeHasPartie: sequelize.insertOperacjeHasPartie,
+  OperacjeHasPozycjaWMagazynie: sequelize.insertOperacjeHasPozycjaWMagazynie,
   OperacjeNaWinnicy: sequelize.insertOperacjeNaWinnicy,
   Partie: sequelize.insertPartie,
   PlanyProdukcyjne: sequelize.insertPlanyProdukcyjne,
+  PlanyProdukcyjneHasPozycjaWMagazynie: sequelize.insertPlanyProdukcyjneHasPozycjaWMagazynie,
   PozycjaWMagazynie: sequelize.insertPozycjaWMagazynie,
   Przesylka: sequelize.insertPrzesylka,
+  PrzesylkaHasPozycjaWMagazynie: sequelize.insertPrzesylkaHasPozycjaWMagazynie,
   Raporty: sequelize.insertRaporty,
+  RaportyHasUzytkownicy: sequelize.insertRaportyHasUzytkownicy,
   Uzytkownicy: sequelize.insertUzytkownicy,
   Winnica: sequelize.insertWinnica,
   Winobranie: sequelize.insertWinobranie
@@ -302,6 +309,75 @@ export default {
     },
     Winobranie: async (_, { idWinobranie, dataWinobrania, iloscZebranychWinogron, winnicaIdWinnica }) => {
       return await sequelize.getWinobranie({ idWinobranie, dataWinobrania, iloscZebranychWinogron, winnicaIdWinnica });
+    },
+    ListPrzewozowyHasAdres: async (
+      _,
+      { idListPrzewozowyHasAdres, adresIdAdres, miejsce, listPrzewozowyIdListPrzewozowy }
+    ) => {
+      return await sequelize.getListPrzewozowyHasAdres({
+        idListPrzewozowyHasAdres,
+        adresIdAdres,
+        miejsce,
+        listPrzewozowyIdListPrzewozowy
+      });
+    },
+    ListPrzewozowyHasKontrahenci: async (
+      _,
+      { idListPrzewozowyHasKontrahenci, listPrzewozowyIdListPrzewozowy, kontrahenciIdKontrahenci, typ }
+    ) => {
+      return await sequelize.getListPrzewozowyHasKontrahenci({
+        idListPrzewozowyHasKontrahenci,
+        listPrzewozowyIdListPrzewozowy,
+        kontrahenciIdKontrahenci,
+        typ
+      });
+    },
+    OperacjeHasPartie: async (_, { idOperacjeHasPartie, operacjeIdOperacja, partieIdPartie, ilosc }) => {
+      return await sequelize.getOperacjeHasPartie({
+        idOperacjeHasPartie,
+        operacjeIdOperacja,
+        partieIdPartie,
+        ilosc
+      });
+    },
+    OperacjeHasPozycjaWMagazynie: async (
+      _,
+      { idOperacjeHasPozycjaWMagazynie, operacjeIdOperacja, pozycjaWMagazynieIdPozycja, ilosc }
+    ) => {
+      return await sequelize.getOperacjeHasPozycjaWMagazynie({
+        idOperacjeHasPozycjaWMagazynie,
+        operacjeIdOperacja,
+        pozycjaWMagazynieIdPozycja,
+        ilosc
+      });
+    },
+    PlanyProdukcyjneHasPozycjaWMagazynie: async (
+      _,
+      { idPlanyProdukcyjneHasPozycjaWMagazynie, planyProdukcyjneIdPlanyProdukcyjne, pozycjaWMagazynieIdPozycja }
+    ) => {
+      return await sequelize.getPlanyProdukcyjneHasPozycjaWMagazynie({
+        idPlanyProdukcyjneHasPozycjaWMagazynie,
+        planyProdukcyjneIdPlanyProdukcyjne,
+        pozycjaWMagazynieIdPozycja
+      });
+    },
+    PrzesylkaHasPozycjaWMagazynie: async (
+      _,
+      { idPrzesylkaHasPozycjaWMagazynie, przesylkaIdPrzesylka, pozycjaWMagazynieIdPozycja, ilosc }
+    ) => {
+      return await sequelize.getPrzesylkaHasPozycjaWMagazynie({
+        idPrzesylkaHasPozycjaWMagazynie,
+        przesylkaIdPrzesylka,
+        pozycjaWMagazynieIdPozycja,
+        ilosc
+      });
+    },
+    RaportyHasUzytkownicy: async (_, { idRaportyHasUzytkownicy, raportyIdRaport, uzytkownicyIdUzytkownika }) => {
+      return await sequelize.getRaportyHasUzytkownicy({
+        idRaportyHasUzytkownicy,
+        raportyIdRaport,
+        uzytkownicyIdUzytkownika
+      });
     }
   },
   Adres: {
@@ -484,7 +560,14 @@ export default {
         );
         await Promise.all(promises);
       }
-      return _.flatten(list2);
+      const resolvedQuery = _.flatten(list2);
+      resolvedQuery.forEach(queryElement => {
+        const queryResult = list.find(
+          listElement => listElement.kontrahenciIdKontrahenci.toString() === queryElement.idKontrahenci.toString()
+        );
+        queryElement.typ = queryResult.typ;
+      });
+      return resolvedQuery;
     },
     adres: async root => {
       const list = await sequelize.getListPrzewozowyHasAdres({
@@ -1046,7 +1129,7 @@ export default {
         token = hashPassword(faker.random.word());
       } else {
         console.log('1048,  User password match ERROR');
-        token = "error"
+        token = 'error';
       }
       return { login: input.login, password: input.password, token };
     }
