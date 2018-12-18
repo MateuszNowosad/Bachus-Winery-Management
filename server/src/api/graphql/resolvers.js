@@ -18,14 +18,21 @@ const insert = {
   InformacjeOWinie: sequelize.insertInformacjeOWinie,
   Kontrahenci: sequelize.insertKontrahenci,
   ListPrzewozowy: sequelize.insertListPrzewozowy,
+  ListPrzewozowyHasAdres: sequelize.insertListPrzewozowyHasAdres,
+  ListPrzewozowyHasKontrahenci: sequelize.insertListPrzewozowyHasKontrahenci,
   Magazyn: sequelize.insertMagazyn,
   Operacje: sequelize.insertOperacje,
+  OperacjeHasPartie: sequelize.insertOperacjeHasPartie,
+  OperacjeHasPozycjaWMagazynie: sequelize.insertOperacjeHasPozycjaWMagazynie,
   OperacjeNaWinnicy: sequelize.insertOperacjeNaWinnicy,
   Partie: sequelize.insertPartie,
   PlanyProdukcyjne: sequelize.insertPlanyProdukcyjne,
+  PlanyProdukcyjneHasPozycjaWMagazynie: sequelize.insertPlanyProdukcyjneHasPozycjaWMagazynie,
   PozycjaWMagazynie: sequelize.insertPozycjaWMagazynie,
   Przesylka: sequelize.insertPrzesylka,
+  PrzesylkaHasPozycjaWMagazynie: sequelize.insertPrzesylkaHasPozycjaWMagazynie,
   Raporty: sequelize.insertRaporty,
+  RaportyHasUzytkownicy: sequelize.insertRaportyHasUzytkownicy,
   Uzytkownicy: sequelize.insertUzytkownicy,
   Winnica: sequelize.insertWinnica,
   Winobranie: sequelize.insertWinobranie
@@ -484,7 +491,14 @@ export default {
         );
         await Promise.all(promises);
       }
-      return _.flatten(list2);
+      const resolvedQuery = _.flatten(list2);
+      resolvedQuery.forEach(queryElement => {
+        const queryResult = list.find(
+          listElement => listElement.kontrahenciIdKontrahenci.toString() === queryElement.idKontrahenci.toString()
+        );
+        queryElement.typ = queryResult.typ;
+      });
+      return resolvedQuery;
     },
     adres: async root => {
       const list = await sequelize.getListPrzewozowyHasAdres({
