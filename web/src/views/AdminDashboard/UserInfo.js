@@ -14,6 +14,7 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 import Loading from '../../components/common/Loading';
 import NoMatch from '../../components/common/NoMatch';
 import axios from 'axios';
+import { Avatar } from '@material-ui/core';
 
 class Users extends React.Component {
   state = {
@@ -38,7 +39,7 @@ class Users extends React.Component {
   }
 
   render() {
-    const { id, error } = this.state;
+    const { id, error, photoURL } = this.state;
     const { classes } = this.props;
     return (
       <div>
@@ -121,7 +122,15 @@ class Users extends React.Component {
                       Zdjecie
                     </Typography>
                     <Typography variant="subtitle1" gutterBottom component="div">
-                      <img src={example} height={200} width={200} />
+                      <Avatar
+                        alt="Zdjęcie użytkownika"
+                        src={user.zdjecie}
+                        style={{
+                          width: 250,
+                          height: 250,
+                          margin: 10
+                        }}
+                      />
                     </Typography>
                   </Grid>
                 </Grid>
