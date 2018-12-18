@@ -1,7 +1,9 @@
 import * as sequelize from '../../sequelizeDB';
+import { tableIdName } from '../../sequelizeDB';
 // import * as testData from '../../../.variables/graphGLStaticData';
 import _ from 'underscore';
-import { tableIdName } from '../../sequelizeDB';
+import bcrypt from 'bcrypt';
+import faker from 'faker';
 // import insert from '../common/insertModels';
 
 const insert = {
@@ -307,6 +309,75 @@ export default {
     },
     Winobranie: async (_, { idWinobranie, dataWinobrania, iloscZebranychWinogron, winnicaIdWinnica }) => {
       return await sequelize.getWinobranie({ idWinobranie, dataWinobrania, iloscZebranychWinogron, winnicaIdWinnica });
+    },
+    ListPrzewozowyHasAdres: async (
+      _,
+      { idListPrzewozowyHasAdres, adresIdAdres, miejsce, listPrzewozowyIdListPrzewozowy }
+    ) => {
+      return await sequelize.getListPrzewozowyHasAdres({
+        idListPrzewozowyHasAdres,
+        adresIdAdres,
+        miejsce,
+        listPrzewozowyIdListPrzewozowy
+      });
+    },
+    ListPrzewozowyHasKontrahenci: async (
+      _,
+      { idListPrzewozowyHasKontrahenci, listPrzewozowyIdListPrzewozowy, kontrahenciIdKontrahenci, typ }
+    ) => {
+      return await sequelize.getListPrzewozowyHasKontrahenci({
+        idListPrzewozowyHasKontrahenci,
+        listPrzewozowyIdListPrzewozowy,
+        kontrahenciIdKontrahenci,
+        typ
+      });
+    },
+    OperacjeHasPartie: async (_, { idOperacjeHasPartie, operacjeIdOperacja, partieIdPartie, ilosc }) => {
+      return await sequelize.getOperacjeHasPartie({
+        idOperacjeHasPartie,
+        operacjeIdOperacja,
+        partieIdPartie,
+        ilosc
+      });
+    },
+    OperacjeHasPozycjaWMagazynie: async (
+      _,
+      { idOperacjeHasPozycjaWMagazynie, operacjeIdOperacja, pozycjaWMagazynieIdPozycja, ilosc }
+    ) => {
+      return await sequelize.getOperacjeHasPozycjaWMagazynie({
+        idOperacjeHasPozycjaWMagazynie,
+        operacjeIdOperacja,
+        pozycjaWMagazynieIdPozycja,
+        ilosc
+      });
+    },
+    PlanyProdukcyjneHasPozycjaWMagazynie: async (
+      _,
+      { idPlanyProdukcyjneHasPozycjaWMagazynie, planyProdukcyjneIdPlanyProdukcyjne, pozycjaWMagazynieIdPozycja }
+    ) => {
+      return await sequelize.getPlanyProdukcyjneHasPozycjaWMagazynie({
+        idPlanyProdukcyjneHasPozycjaWMagazynie,
+        planyProdukcyjneIdPlanyProdukcyjne,
+        pozycjaWMagazynieIdPozycja
+      });
+    },
+    PrzesylkaHasPozycjaWMagazynie: async (
+      _,
+      { idPrzesylkaHasPozycjaWMagazynie, przesylkaIdPrzesylka, pozycjaWMagazynieIdPozycja, ilosc }
+    ) => {
+      return await sequelize.getPrzesylkaHasPozycjaWMagazynie({
+        idPrzesylkaHasPozycjaWMagazynie,
+        przesylkaIdPrzesylka,
+        pozycjaWMagazynieIdPozycja,
+        ilosc
+      });
+    },
+    RaportyHasUzytkownicy: async (_, { idRaportyHasUzytkownicy, raportyIdRaport, uzytkownicyIdUzytkownika }) => {
+      return await sequelize.getRaportyHasUzytkownicy({
+        idRaportyHasUzytkownicy,
+        raportyIdRaport,
+        uzytkownicyIdUzytkownika
+      });
     }
   },
   Adres: {
@@ -933,6 +1004,7 @@ export default {
       return await genericUpsertMutation(input, 'Raporty');
     },
     upsertUzytkownicy: async (root, input) => {
+      input.haslo = await hashPassword(input.haslo);
       return await genericUpsertMutation(input, 'Uzytkownicy');
     },
     upsertWinnica: async (root, input) => {
@@ -1049,8 +1121,24 @@ export default {
     },
     deleteWinobranie: async (root, input) => {
       return await sequelize.deleteWinobranie(input);
+    },
+    userLogin: async (root, input) => {
+      const user = await sequelize.getUzytkownicy({ login: input.login });
+      let token;
+      if (await bcrypt.compare(input.password, user[0].haslo.toString())) {
+        token = hashPassword(faker.random.word());
+      } else {
+        console.log('1048,  User password match ERROR');
+        token = 'error';
+      }
+      return { login: input.login, password: input.password, token };
     }
   }
+};
+
+const hashPassword = async password => {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
 };
 
 const genericUpsertMutation = async (input, tableName) => {

@@ -264,7 +264,7 @@ CREATE TABLE `ListPrzewozowyHasKontrahenci` (
   `idListPrzewozowyHasKontrahenci` int(11) NOT NULL AUTO_INCREMENT,
   `listPrzewozowyIdListPrzewozowy` int(11) NOT NULL,
   `kontrahenciIdKontrahenci` int(11) NOT NULL,
-   `typ` enum('Odbiorca','Przewoznik', 'Nadawca') NOT NULL,
+  `typ` enum('Odbiorca','Przewoznik', 'Nadawca') NOT NULL,
   PRIMARY KEY (`idListPrzewozowyHasKontrahenci`),
   UNIQUE KEY `idListPrzewozowyHasKontrahenci_UNIQUE` (`idListPrzewozowyHasKontrahenci`),
   KEY `fk_list_przewozowy_has_kontrahenci_kontrahenci1_idx` (`kontrahenciIdKontrahenci`),

@@ -21,6 +21,13 @@ type Query {
   Uzytkownicy(idUzytkownika: ID, imie: String, nazwisko: String, login: String, haslo: String, PESEL: String, eMail: String, nrTelefonu: String, dataOstatniegoLogowania: String, zdjecie: String, czyAktywne: String, adresIdAdres: String, dictRolaUzytkownikowIdRolaUzytkownikow: String): [Uzytkownicy]
   Winnica(idWinnica: ID, nazwa: String, powierzchnia: Float, stan: String, terroir: String, dataOstatniegoZbioru: String, dataZasadzenia: String, ewidencyjnyIdDzialki: String, odmianiaWinogronIdOdmianaWinogron: String): [Winnica]
   Winobranie(idWinobranie: ID, dataWinobrania: String, iloscZebranychWinogron: Float, winnicaIdWinnica: String): [Winobranie]
+  ListPrzewozowyHasAdres(idListPrzewozowyHasAdres: ID, adresIdAdres: String, miejsce: String, listPrzewozowyIdListPrzewozowy: String): [ListPrzewozowyHasAdres]
+  ListPrzewozowyHasKontrahenci(idListPrzewozowyHasKontrahenci: ID, listPrzewozowyIdListPrzewozowy: String, kontrahenciIdKontrahenci: String, typ: String): [ListPrzewozowyHasKontrahenci]
+  OperacjeHasPartie(idOperacjeHasPartie: ID, operacjeIdOperacja: String, partieIdPartie: String, ilosc: String): [OperacjeHasPartie]
+  OperacjeHasPozycjaWMagazynie(idOperacjeHasPozycjaWMagazynie: ID, operacjeIdOperacja: String, pozycjaWMagazynieIdPozycja: String, ilosc: String): [OperacjeHasPozycjaWMagazynie]
+  PlanyProdukcyjneHasPozycjaWMagazynie(idPlanyProdukcyjneHasPozycjaWMagazynie: ID, planyProdukcyjneIdPlanyProdukcyjne: String, pozycjaWMagazynieIdPozycja: String): [PlanyProdukcyjneHasPozycjaWMagazynie]
+  PrzesylkaHasPozycjaWMagazynie(idPrzesylkaHasPozycjaWMagazynie: ID, przesylkaIdPrzesylka: String, pozycjaWMagazynieIdPozycja: String, ilosc: String): [PrzesylkaHasPozycjaWMagazynie]
+  RaportyHasUzytkownicy(idRaportyHasUzytkownicy: ID, raportyIdRaport: String, uzytkownicyIdUzytkownika: String): [RaportyHasUzytkownicy]
 }
 
 type Mutation {
@@ -82,6 +89,7 @@ type Mutation {
   deleteUzytkownicy(idUzytkownika: ID): Uzytkownicy
   deleteWinnica(idWinnica: ID): Winnica
   deleteWinobranie(idWinobranie: ID): Winobranie
+  userLogin(login: String!, password: String): Login
 }
 
 type Adres {
@@ -374,5 +382,11 @@ type RaportyHasUzytkownicy {
   idRaportyHasUzytkownicy: ID
   raportyIdRaport: String
   uzytkownicyIdUzytkownika: String
+}
+
+type Login {
+  login: String!
+  password: String
+  token: String
 }
 
