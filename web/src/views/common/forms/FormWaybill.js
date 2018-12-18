@@ -102,7 +102,7 @@ export class FormWaybill extends React.Component {
     let arrayOfErrors = UniversalValidationHandler(dataObject, waybillValidationKeys);
     !this.subFormValidation() && arrayOfErrors.push('subforms');
     if (arrayOfErrors.length === 0) {
-      PDFShow(PDFWaybill(dataObject));
+      console.log('105,  jakub: ', PDFShow(PDFWaybill(dataObject)));
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
