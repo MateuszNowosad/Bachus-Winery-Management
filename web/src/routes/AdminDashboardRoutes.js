@@ -28,6 +28,10 @@ import ProductionPlanDetails from '../views/AdminDashboard/Subpages/ProductionPl
 import DatabaseReports from '../views/AdminDashboard/DatabaseSubdirectories/DatabaseReports';
 import Warehouse from '../views/AdminDashboard/Warehouse';
 
+//ADMIN = 1
+//PRODUCTION = 2
+//WAREHOUSE = 3
+//ACCOUNTING = 4
 const AdminDashboardRoutes = [
   {
     path: '/admindashboard',
@@ -35,7 +39,8 @@ const AdminDashboardRoutes = [
     navbarName: 'Panel administratora',
     drawerIcon: <DashboardIcon />,
     component: AdminDashboard,
-    exact: true
+    exact: true,
+    role: [1, 2, 3, 4]
   },
   {
     path: '/admindashboard/database',
@@ -44,6 +49,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <DnsIcon />,
     component: Database,
     exact: true,
+    role: [1, 2, 3, 4],
     childRoutes: [
       {
         path: '/admindashboard/database/winnice',
@@ -51,7 +57,8 @@ const AdminDashboardRoutes = [
         navbarName: 'Winnice',
         drawerIcon: <Flower />,
         component: DatabaseVineyard,
-        exact: false
+        exact: false,
+        role: [1, 2]
       },
       {
         path: '/admindashboard/database/produkcja',
@@ -59,7 +66,8 @@ const AdminDashboardRoutes = [
         navbarName: 'Produkcja',
         drawerIcon: <Bar />,
         component: DatabaseProduction,
-        exact: false
+        exact: false,
+        role: [1, 2]
       },
       {
         path: '/admindashboard/database/personalia',
@@ -67,7 +75,8 @@ const AdminDashboardRoutes = [
         navbarName: 'Personalia',
         drawerIcon: <PeopleIcon />,
         component: DatabaseContactsAndUsers,
-        exact: false
+        exact: false,
+        role: [1, 4]
       },
       {
         path: '/admindashboard/database/logistyka',
@@ -75,7 +84,8 @@ const AdminDashboardRoutes = [
         navbarName: 'Logistyka',
         drawerIcon: <LocalShipping />,
         component: DatabaseLogistics,
-        exact: false
+        exact: false,
+        role: [1, 4, 3]
       },
       {
         path: '/admindashboard/database/raporty',
@@ -83,7 +93,8 @@ const AdminDashboardRoutes = [
         navbarName: 'Raporty',
         drawerIcon: <Description />,
         component: DatabaseReports,
-        exact: false
+        exact: false,
+        role: [1, 4, 3, 2] //TODO special verification logic in component
       }
     ]
   },
@@ -93,7 +104,8 @@ const AdminDashboardRoutes = [
     navbarName: 'Magazyn',
     drawerIcon: <StorageIcon />,
     component: Warehouse,
-    exact: false
+    exact: false,
+    role: [1, 4, 3, 2]
   },
   {
     path: '/admindashboard/profile',
@@ -101,7 +113,8 @@ const AdminDashboardRoutes = [
     navbarName: 'Twój profil',
     drawerIcon: <FaceIcon />,
     component: UserInfo,
-    exact: false
+    exact: false,
+    role: [1, 4, 3, 2]
   },
   {
     path: '/admindashboard/diagnostics',
@@ -109,7 +122,8 @@ const AdminDashboardRoutes = [
     navbarName: 'Dane Diagnostyczne',
     drawerIcon: <BarChartIcon />,
     component: Diagnostics,
-    exact: false
+    exact: false,
+    role: [1]
   },
   {
     path: '/admindashboard/news',
@@ -117,7 +131,8 @@ const AdminDashboardRoutes = [
     navbarName: 'Najnowsze zdarzenia',
     drawerIcon: <LayersIcon />,
     component: News,
-    exact: false
+    exact: false,
+    role: [1, 4, 3, 2] //TODO special verification logic in component
   },
   {
     path: '/admindashboard/backup',
@@ -125,7 +140,8 @@ const AdminDashboardRoutes = [
     navbarName: 'Kopie zapasowe',
     drawerIcon: <SaveIcon />,
     component: Backup,
-    exact: false
+    exact: false,
+    role: [1]
   },
   {
     path: '/admindashboard/productionplans',
@@ -133,13 +149,15 @@ const AdminDashboardRoutes = [
     navbarName: 'Plany produkcyjne',
     drawerIcon: <TodayIcon />,
     component: ProductionPlans,
-    exact: true
+    exact: true,
+    role: [1, 4, 2]
   },
   {
     path: '/admindashboard/productionplans/:id',
     component: ProductionPlanDetails,
     hidden: true,
-    exact: true
+    exact: true,
+    role: [1, 4, 2]
   }
 
   // {redirect: true, path: "/", to: "/login", navbarName: "Redirect"}
