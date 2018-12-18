@@ -34,8 +34,6 @@ class AdminDashboardLayout extends React.Component {
       } else return false;
     });
 
-  filteredChildRoutes = [];
-
   filteredRoutes = AdminDashboardRoutes.filter(prop => {
     //Should be recurrent function, no time
     if (prop.hasOwnProperty('role')) {
