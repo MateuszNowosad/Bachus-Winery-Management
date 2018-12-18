@@ -8,13 +8,10 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline/CssBaseline';
 //OC
 import { standard } from './assets/jss/themes/standard';
-
-import indexRoutes from './routes/index';
 import './App.css';
 import NoMatch from './components/common/NoMatch';
 import Redirect from 'react-router-dom/es/Redirect';
 import axios from 'axios';
-import Authorization from './components/Authentication/Authentication';
 import Loading from './components/common/Loading';
 import LoginPage from './views/LoginPage';
 import AdminDashboardLayout from './layout/AdminDashboardLayout';
@@ -38,7 +35,12 @@ class App extends Component {
     waitingForServer: true,
     routeArr: null
   };
+
   componentDidMount() {
+    this.isAuthenticated();
+  }
+
+  isAuthenticated = () => {
     axios({
       method: 'get',
       url: 'http://localhost:8080/usrrole',
@@ -53,7 +55,7 @@ class App extends Component {
         this.setState({ waitingForServer: true });
       }
     });
-  }
+  };
 
   componentDidUpdate(prevProps, prevState) {
     // if (this.state.role !== prevState.role) {
@@ -87,9 +89,7 @@ class App extends Component {
 
   render() {
     const { role, waitingForServer, routeArr } = this.state;
-    let renderMatchWithProps = MatchedComponent => matchProps => (
-      <MatchedComponent role={role} waitingForServer={waitingForServer} {...matchProps} />
-    );
+    let renderMatchWithProps = MatchedComponent => matchProps => <MatchedComponent {...matchProps} />;
     return (
       <BrowserRouter>
         <React.Fragment>
@@ -100,14 +100,22 @@ class App extends Component {
           </Helmet>
           <MuiThemeProvider theme={currentTheme}>
             <Switch>
+              {console.log('101,  Mateusz: ', routeArr)}
               {routeArr !== null && (
-                <Route path={'/admindashboard'} component={renderMatchWithProps(AdminDashboardLayout)} />
+                <Route
+                  path={'/admindashboard'}
+                  render={props => <AdminDashboardLayout {...props} role={role} waitingForServer={waitingForServer} />}
+                />
               )}
               {/*TODO Write PrivateRoute component. Use this to hide routes from drawer.*/}
               {routeArr !== null ? (
                 <Redirect from="/" to={'/admindashboard'} />
               ) : (
-                <Route path={'/'} component={LoginPage} exact={true} />
+                <Route
+                  path={'/'}
+                  render={props => <LoginPage {...props} isAuthenticated={this.isAuthenticated} />}
+                  exact={true}
+                />
               )}
               {waitingForServer ? <Route component={Loading} /> : <Route component={NoMatch} />}
             </Switch>
