@@ -8,42 +8,88 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline/CssBaseline';
 //OC
 import { standard } from './assets/jss/themes/standard';
-
-import indexRoutes from './routes/index';
 import './App.css';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import NoMatch from './components/common/NoMatch';
+import Redirect from 'react-router-dom/es/Redirect';
+import axios from 'axios';
+import Loading from './components/common/Loading';
+import LoginPage from './views/LoginPage';
+import AdminDashboardLayout from './layout/AdminDashboardLayout';
+
+const user = {
+  //TODO testuser should be in variables.
+};
+
+const hasRoleGet = (usrRole, roles) =>
+  roles.some(role => {
+    if (usrRole !== undefined) {
+      return usrRole === role;
+    } else return false;
+  });
 
 const currentTheme = createMuiTheme(standard);
 
-// const adresyQuery = () => (
-//   <Query
-//     query={gql`
-//       {
-//         Adresy {
-//           idAdres
-//           miasto
-//           kodPocztowy
-//           kraj
-//         }
-//       }
-//     `}
-//   >
-//     {({ loading, error, data }) => {
-//       if (loading) return <CircularProgress />;
-//       if (error) return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
-//
-//       return data.Adresy.map(args => (
-//         <div key={args.idAdres}>
-//           <p>{`${args.idAdres}. ${args.miasto} ${args.kodPocztowy}`}</p>
-//         </div>
-//       ));
-//     }}
-//   </Query>
-// );
-
 class App extends Component {
+  state = {
+    role: '',
+    waitingForServer: true,
+    routeArr: null
+  };
+
+  componentDidMount() {
+    this.isAuthenticated();
+  }
+
+  isAuthenticated = () => {
+    axios({
+      method: 'get',
+      url: 'http://localhost:8080/usrrole',
+      withCredentials: true
+    }).then(response => {
+      console.log('41, response Mateusz: ', response);
+      if (response.data) {
+        console.log('43, "Success" Mateusz: ', 'Success');
+        this.setState({ role: response.data.role, waitingForServer: false });
+      } else {
+        console.log('45, "Error" Mateusz: ', 'Error');
+        this.setState({ waitingForServer: true });
+      }
+    });
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    // if (this.state.role !== prevState.role) {
+    //   let routingTable = indexRoutes.filter(prop => {
+    //     if (prop.role !== undefined) {
+    //       return hasRoleGet(this.state.role, prop.role);
+    //     } else return true;
+    //   });
+    //   if (routingTable.length) {
+    //     this.setState({
+    //       routeArr: routingTable,
+    //       error: false
+    //     });
+    //   } else {
+    //     this.setState({
+    //       error: true
+    //     });
+    //   }
+    // }
+    if (this.state.role !== prevState.role) {
+      if (hasRoleGet(this.state.role, [1, 2, 3, 4])) {
+        this.setState({
+          routeArr: []
+        });
+      }
+      this.setState({
+        waitingForServer: false
+      });
+    }
+  }
+
   render() {
+    const { role, waitingForServer, routeArr } = this.state;
+    let renderMatchWithProps = MatchedComponent => matchProps => <MatchedComponent {...matchProps} />;
     return (
       <BrowserRouter>
         <React.Fragment>
@@ -54,9 +100,24 @@ class App extends Component {
           </Helmet>
           <MuiThemeProvider theme={currentTheme}>
             <Switch>
-              {indexRoutes.map((prop, key) => {
-                return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
-              })}
+              {console.log('101,  Mateusz: ', routeArr)}
+              {routeArr !== null && (
+                <Route
+                  path={'/admindashboard'}
+                  render={props => <AdminDashboardLayout {...props} role={role} waitingForServer={waitingForServer} />}
+                />
+              )}
+              {/*TODO Write PrivateRoute component. Use this to hide routes from drawer.*/}
+              {routeArr !== null ? (
+                <Redirect from="/" to={'/admindashboard'} />
+              ) : (
+                <Route
+                  path={'/'}
+                  render={props => <LoginPage {...props} isAuthenticated={this.isAuthenticated} />}
+                  exact={true}
+                />
+              )}
+              {waitingForServer ? <Route component={Loading} /> : <Route component={NoMatch} />}
             </Switch>
           </MuiThemeProvider>
         </React.Fragment>
