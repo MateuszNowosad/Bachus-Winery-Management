@@ -23,7 +23,7 @@ class AdminDashboardLayout extends React.Component {
     super(props);
     this.state = {
       drawerOpen: true,
-      role: props.role
+      role: this.props.role
     };
   }
 
@@ -34,8 +34,11 @@ class AdminDashboardLayout extends React.Component {
       } else return false;
     });
 
+  filteredChildRoutes = [];
+
   filteredRoutes = AdminDashboardRoutes.filter(prop => {
-    if (prop.role !== undefined) {
+    //Should be recurrent function, no time
+    if (prop.hasOwnProperty('role')) {
       return this.hasRoleGet(this.props.role, prop.role);
     } else return true;
   });
@@ -44,15 +47,21 @@ class AdminDashboardLayout extends React.Component {
     <Switch>
       {this.filteredRoutes.map((prop, key) => {
         if (prop.redirect) return <Redirect from={prop.path} to={prop.to} key={key} />;
-        if (prop.hidden !== undefined)
+        if (prop.hasOwnProperty('hidden'))
           return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />;
         let result = [<Route path={prop.path} component={prop.component} key={key} exact={prop.exact} />];
-        if (prop.childRoutes !== undefined) {
-          prop.childRoutes.map((propChild, propKey) => {
-            result.push(
-              <Route path={propChild.path} component={propChild.component} key={propKey} exact={propChild.exact} />
-            );
-          });
+        if (prop.hasOwnProperty('childRoutes')) {
+          prop.childRoutes
+            .filter(propChild => {
+              if (propChild.hasOwnProperty('role')) {
+                return this.hasRoleGet(this.props.role, propChild.role);
+              } else return true;
+            })
+            .map((propChild, propKey) => {
+              result.push(
+                <Route path={propChild.path} component={propChild.component} key={propKey} exact={propChild.exact} />
+              );
+            });
         }
         return result;
       })}
@@ -65,14 +74,18 @@ class AdminDashboardLayout extends React.Component {
       {this.filteredRoutes.map((prop, key) => {
         // if (prop.redirect)
         //     return <Redirect from={prop.path} to={prop.to} key={key}/>;
-        if (prop.hidden !== undefined) return;
-        if (prop.childRoutes !== undefined) {
+        if (prop.hasOwnProperty('hidden')) return;
+        if (prop.hasOwnProperty('childRoutes')) {
           return (
             <ExpandableListItem
               primary={prop.drawerName}
               icon={prop.drawerIcon}
               key={key}
-              childRoutes={prop.childRoutes}
+              childRoutes={prop.childRoutes.filter(propChild => {
+                if (propChild.hasOwnProperty('role')) {
+                  return this.hasRoleGet(this.props.role, propChild.role);
+                } else return true;
+              })}
             />
           );
         } else return <ListItemLink to={prop.path} primary={prop.drawerName} icon={prop.drawerIcon} key={key} />;
