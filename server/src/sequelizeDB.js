@@ -887,30 +887,6 @@ const WINOBRANIE = sequelize.define('Winobranie', {
   winnicaIdWinnica: { type: Sequelize.INTEGER, allowNull: false }
 });
 
-const models = {
-  Adres: ADRES,
-  DictKategoriaWina: DICTKATEGORIAWINA,
-  DictKategorie: DICTKATEGORIE,
-  DictOdmianaWinogron: DICTODMIANAWINOGRON,
-  DictOperacjeNaWinnicy: DICTOPERACJENAWINNICY,
-  DictProcesy: DICTPROCESY,
-  DictRolaUzytkownikow: DICTROLAUZYTKOWNIKOW,
-  DictTypPartii: DICTTYPPARTII,
-  InformacjeOWinie: INFORMACJEOWINIE,
-  Kontrahenci: KONTRAHENCI,
-  ListPrzewozowy: LISTPRZEWOZOWY,
-  Magazyn: MAGAZYN,
-  Operacje: OPERACJE,
-  OperacjeNaWinnicy: OPERACJENAWINNICY,
-  Partie: PARTIE,
-  PlanyProdukcyjne: PLANYPRODUKCYJNE,
-  PozycjaWMagazynie: POZYCJAWMAGAZYNIE,
-  Przesylka: PRZESYLKA,
-  Raporty: RAPORTY,
-  Uzytkownicy: UZYTKOWNICY,
-  Winnica: WINNICA,
-  Winobranie: WINOBRANIE
-};
 
 // TABELE LACZACE
 
@@ -954,6 +930,38 @@ const RAPORTYHASUZYTKOWNICY = sequelize.define('RaportyHasUzytkownicy', {
   raportyIdRaport: { type: Sequelize.INTEGER, allowNull: false },
   uzytkownicyIdUzytkownika: { type: Sequelize.INTEGER, allowNull: false }
 });
+
+const models = {
+  Adres: ADRES,
+  DictKategoriaWina: DICTKATEGORIAWINA,
+  DictKategorie: DICTKATEGORIE,
+  DictOdmianaWinogron: DICTODMIANAWINOGRON,
+  DictOperacjeNaWinnicy: DICTOPERACJENAWINNICY,
+  DictProcesy: DICTPROCESY,
+  DictRolaUzytkownikow: DICTROLAUZYTKOWNIKOW,
+  DictTypPartii: DICTTYPPARTII,
+  InformacjeOWinie: INFORMACJEOWINIE,
+  Kontrahenci: KONTRAHENCI,
+  ListPrzewozowy: LISTPRZEWOZOWY,
+  ListPrzewozowyHasAdres: LISTPRZEWOZOWYHASADRES,
+  ListPrzewozowyHasKontrahenci: LISTPRZEWOZOWYHASKONTRAHENCI,
+  Magazyn: MAGAZYN,
+  Operacje: OPERACJE,
+  OperacjeHasPartie: OPERACJEHASPARTIE,
+  OperacjeHasPozycjaWMagazynie: OPERACJEHASPOZYCJAWMAGAZYNIE,
+  OperacjeNaWinnicy: OPERACJENAWINNICY,
+  Partie: PARTIE,
+  PlanyProdukcyjne: PLANYPRODUKCYJNE,
+  PlanyProdukcyjneHasPozycjaWMagazynie: PLANYPRODUKCYJNEHASPOZYCJAWMAGAZYNIE,
+  PozycjaWMagazynie: POZYCJAWMAGAZYNIE,
+  Przesylka: PRZESYLKA,
+  PrzesylkaHasPozycjaWMagazynie: PRZESYLKAHASPOZYCJAWMAGAZYNIE,
+  Raporty: RAPORTY,
+  RaportyHasUzytkownicy: RAPORTYHASUZYTKOWNICY,
+  Uzytkownicy: UZYTKOWNICY,
+  Winnica: WINNICA,
+  Winobranie: WINOBRANIE,
+};
 
 async function generateRows() {
   for (let i = 0; i < recordsToGenerate; i += 1) {
@@ -1135,10 +1143,10 @@ export async function insertListPrzewozowy(query) {
   return await upsertRow('ListPrzewozowy', query);
 }
 export async function insertListPrzewozowyHasAdres(query) {
-  return await upsertRow(tableName, query);
+  return await upsertRow('ListPrzewozowyHasAdres', query);
 }
 export async function insertListPrzewozowyHasKontrahenci(query) {
-  return await upsertRow(tableName, query);
+  return await upsertRow('ListPrzewozowyHasKontrahenci', query);
 }
 export async function insertMagazyn(query) {
   return await upsertRow('Magazyn', query);
@@ -1147,10 +1155,10 @@ export async function insertOperacje(query) {
   return await upsertRow('Operacje', query);
 }
 export async function insertOperacjeHasPartie(query) {
-  return await upsertRow(tableName, query);
+  return await upsertRow('OperacjeHasPartie', query);
 }
 export async function insertOperacjeHasPozycjaWMagazynie(query) {
-  return await upsertRow(tableName, query);
+  return await upsertRow('OperacjeHasPozycjaWMagazynie', query);
 }
 export async function insertOperacjeNaWinnicy(query) {
   return await upsertRow('OperacjeNaWinnicy', query);
@@ -1162,7 +1170,7 @@ export async function insertPlanyProdukcyjne(query) {
   return await upsertRow('PlanyProdukcyjne', query);
 }
 export async function insertPlanyProdukcyjneHasPozycjaWMagazynie(query) {
-  return await upsertRow(tableName, query);
+  return await upsertRow('PlanyProdukcyjneHasPozycjaWMagazynie', query);
 }
 export async function insertPozycjaWMagazynie(query) {
   return await upsertRow('PozycjaWMagazynie', query);
@@ -1171,13 +1179,13 @@ export async function insertPrzesylka(query) {
   return await upsertRow('Przesylka', query);
 }
 export async function insertPrzesylkaHasPozycjaWMagazynie(query) {
-  return await upsertRow(tableName, query);
+  return await upsertRow('PrzesylkaHasPozycjaWMagazynie', query);
 }
 export async function insertRaporty(query) {
   return await upsertRow('Raporty', query);
 }
 export async function insertRaportyHasUzytkownicy(query) {
-  return await upsertRow(tableName, query);
+  return await upsertRow('RaportyHasUzytkownicy', query);
 }
 export async function insertUzytkownicy(query) {
   return await upsertRow('Uzytkownicy', query);
