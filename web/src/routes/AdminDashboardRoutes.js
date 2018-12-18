@@ -40,7 +40,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <DashboardIcon />,
     component: AdminDashboard,
     exact: true,
-    role: [1,2, 3, 4]
+    role: [1, 2, 3, 4]
   },
   {
     path: '/admindashboard/database',
@@ -49,7 +49,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <DnsIcon />,
     component: Database,
     exact: true,
-    role: [1,2, 3, 4],
+    role: [1, 2, 3, 4],
     childRoutes: [
       {
         path: '/admindashboard/database/winnice',
@@ -58,7 +58,7 @@ const AdminDashboardRoutes = [
         drawerIcon: <Flower />,
         component: DatabaseVineyard,
         exact: false,
-        role: [1,2]
+        role: [1, 2]
       },
       {
         path: '/admindashboard/database/produkcja',
@@ -67,7 +67,7 @@ const AdminDashboardRoutes = [
         drawerIcon: <Bar />,
         component: DatabaseProduction,
         exact: false,
-        role: [1,2]
+        role: [1, 2]
       },
       {
         path: '/admindashboard/database/personalia',
@@ -76,7 +76,7 @@ const AdminDashboardRoutes = [
         drawerIcon: <PeopleIcon />,
         component: DatabaseContactsAndUsers,
         exact: false,
-        role: [1,4]
+        role: [1, 4]
       },
       {
         path: '/admindashboard/database/logistyka',
@@ -85,7 +85,7 @@ const AdminDashboardRoutes = [
         drawerIcon: <LocalShipping />,
         component: DatabaseLogistics,
         exact: false,
-        role: [1,4, 3]
+        role: [1, 4, 3]
       },
       {
         path: '/admindashboard/database/raporty',
@@ -94,7 +94,7 @@ const AdminDashboardRoutes = [
         drawerIcon: <Description />,
         component: DatabaseReports,
         exact: false,
-        role: [1,4, 3, 2] //TODO special verification logic in component
+        role: [1, 4, 3, 2] //TODO special verification logic in component
       }
     ]
   },
@@ -105,7 +105,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <StorageIcon />,
     component: Warehouse,
     exact: false,
-    role: [1,4, 3, 2]
+    role: [1, 4, 3, 2]
   },
   {
     path: '/admindashboard/profile',
@@ -114,7 +114,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <FaceIcon />,
     component: UserInfo,
     exact: false,
-    role: [1,4, 3, 2]
+    role: [1, 4, 3, 2]
   },
   {
     path: '/admindashboard/diagnostics',
@@ -132,7 +132,7 @@ const AdminDashboardRoutes = [
     drawerIcon: <LayersIcon />,
     component: News,
     exact: false,
-    role: [1,4, 3, 2] //TODO special verification logic in component
+    role: [1, 4, 3, 2] //TODO special verification logic in component
   },
   {
     path: '/admindashboard/backup',
@@ -150,14 +150,14 @@ const AdminDashboardRoutes = [
     drawerIcon: <TodayIcon />,
     component: ProductionPlans,
     exact: true,
-    role: [1,4, 2]
+    role: [1, 4, 2]
   },
   {
     path: '/admindashboard/productionplans/:id',
     component: ProductionPlanDetails,
     hidden: true,
     exact: true,
-    role: [1,4, 2]
+    role: [1, 4, 2]
   }
 
   // {redirect: true, path: "/", to: "/login", navbarName: "Redirect"}
