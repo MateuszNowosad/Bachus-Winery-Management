@@ -104,8 +104,10 @@ export class FormParcel extends React.Component {
   componentDidMount() {
     const { initState } = this.props;
     if (initState) {
-      let data = initState.przesylka;
-      let parcelJT = initState.PrzesylkaHasPozycjaWMagazynie;
+      let data = initState.ListPrzewozowy[0].przesylka;
+      let parcelJT = initState.PrzesylkaHasPozycjaWMagazynie.filter(
+        currElement => currElement.przesylkaIdPrzesylka !== data.idPrzesylka
+      );
       this.setState(
         {
           parcelId: data.idPrzesylka,
@@ -135,7 +137,7 @@ export class FormParcel extends React.Component {
   }
 
   initParcelJTId = (data, searchedId) => {
-    return data.find(JT => JT.przesylkaIdPrzesylka === searchedId).idPrzesylkaHasPozycjaWMagazynie;
+    return data.find(JT => JT.pozycjaWMagazynieIdPozycja === searchedId).idPrzesylkaHasPozycjaWMagazynie;
   };
 
   render() {

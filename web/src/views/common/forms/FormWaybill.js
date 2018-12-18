@@ -121,7 +121,7 @@ export class FormWaybill extends React.Component {
       reservations,
       fileURL,
       sender,
-      senderJT,
+      senderJTId,
       recipent,
       recipentJTId,
       carrier,
@@ -149,7 +149,7 @@ export class FormWaybill extends React.Component {
       parcel: { parcelId, packageName, weight, date, content }
     } = this.state;
 
-    let jtId = { senderJT, recipentJTId, carrierJTId, mailingAddressJTId, pickupAddressJTId };
+    let jtId = { senderJTId, recipentJTId, carrierJTId, mailingAddressJTId, pickupAddressJTId };
 
     let dataObject = {
       waybillId,
@@ -538,7 +538,7 @@ export class FormWaybill extends React.Component {
                   varName="parcel"
                   onChange={this.handleObjectChange}
                   ref={this.subFormParcel}
-                  initState={initState ? initState.ListPrzewozowy[0] : null}
+                  initState={initState ? initState : null}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>

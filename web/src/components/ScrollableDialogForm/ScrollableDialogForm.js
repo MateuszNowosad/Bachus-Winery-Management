@@ -46,7 +46,7 @@ class ScrollableDialogForm extends React.Component {
     this.props.closeForm();
   };
 
-  handleMutationDynamiData = (data, type) => {
+  handleMutationDynamiData = data => {
     this.setState({
       dynamicVariables: data
     });
@@ -90,13 +90,14 @@ class ScrollableDialogForm extends React.Component {
                       });
                       const { dynamicVariables } = this.state;
                       for (let i = 0; i < dynamicVariables.content.length; i++) {
-                        variables[`parcelJTid${i}`] = `${dynamicVariables[i].content.parcelJTId}`;
-                        variables[`idItemInStock${i}`] = `${dynamicVariables[i].content.key}`;
-                        variables[`amount${i}`] = `${dynamicVariables[i].content.amount}`;
+                        variables[`parcelJTId${i}`] = `${dynamicVariables.content[i].parcelJTId}`;
+                        variables[`idItemInStock${i}`] = `${dynamicVariables.content[i].key}`;
+                        variables[`amount${i}`] = `${dynamicVariables.content[i].amount}`;
                       }
                       for (let id in dynamicVariables.jtId) {
                         variables[id] = `${dynamicVariables.jtId[id]}`;
                       }
+                      console.log('100, variables jakub: ', variables);
                       mutate({ variables: variables });
                     }}
                   >

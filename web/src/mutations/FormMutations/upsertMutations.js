@@ -200,7 +200,7 @@ const parcelFK = countFK => {
   let upsert = ``;
   for (let i = 0; i < countFK; i++)
     upsert += `pozycja${i}: upsertPrzesylkaHasPozycjaWMagazynie(
-    idPrzesylkaHasPozycjaWMagazynie: $parcelJTid${i}
+    idPrzesylkaHasPozycjaWMagazynie: $parcelJTId${i}
     przesylkaIdPrzesylka: $idPrzesylka
     pozycjaWMagazynieIdPozycja: $idItemInStock${i}
     ilosc: $amount${i}
@@ -215,7 +215,7 @@ const parcelFK = countFK => {
 const parcelVariables = countFK => {
   let variables = ``;
   for (let i = 0; i < countFK; i++)
-    variables += `$parcelJTid${i}: ID!
+    variables += `$parcelJTId${i}: ID!
     $idItemInStock${i}: String!
     $amount${i}: String!
     `;
