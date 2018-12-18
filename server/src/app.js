@@ -23,8 +23,8 @@ export const createApp = async () => {
   // };
 
   const corsOptions = {
+    origin: "http://localhost:3000",
     credentials: true,
-    origin: "http://localhost:3000"
   };
 
   app.use(cors(corsOptions));
