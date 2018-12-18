@@ -196,54 +196,96 @@ export const upsertWineInformation = gql`
   }
 `;
 
-export const waybillFK = gql`
+const parcelFK = countFK => {
+  let upsert = ``;
+  for (let i = 0; i < countFK; i++)
+    upsert += `pozycja${i}: upsertPrzesylkaHasPozycjaWMagazynie(
+    idPrzesylkaHasPozycjaWMagazynie: $parcelJTid${i}
+    przesylkaIdPrzesylka: $idPrzesylka
+    pozycjaWMagazynieIdPozycja: $idItemInStock${i}
+    ilosc: $amount${i}
+  ){
+    przesylkaIdPrzesylka
+    pozycjaWMagazynieIdPozycja
+    ilosc
+  }`;
+  return upsert;
+};
+
+const parcelVariables = countFK => {
+  let variables = ``;
+  for (let i = 0; i < countFK; i++)
+    variables += `$parcelJTid${i}: ID!
+    $idItemInStock${i}: String!
+    $amount${i}: String!
+    `;
+  return variables;
+};
+
+export const waybillFK = countFK => gql`
   mutation waybillFK(
-    $idListPrzewozowy: String!
+    $idListPrzewozowy: ID!
+    $idListPrzewozowyFK: String!
     $idOdbiorca: String!
     $idNadawca: String!
     $idPrzewoznik: String!
     $idAdresNadania: String!
     $idAdresOdbioru: String!
+    $idPrzesylka: String!
+    $senderJTId: ID!
+    $recipentJTId: ID!
+    $carrierJTId: ID!
+    $mailingAddressJTId: ID!
+    $pickupAddressJTId: ID!
+    ${parcelVariables(countFK)}
   ) {
     odbiorca: upsertListPrzewozowyHasKontrahenci(
-      listPrzewozowyIdListPrzewozowy: $idListPrzewozowy
+        idListPrzewozowyHasKontrahenci: $recipentJTId
+      listPrzewozowyIdListPrzewozowy: $idListPrzewozowyFK
       kontrahenciIdKontrahenci: $idOdbiorca
       typ: "Odbiorca"
     ) {
       idListPrzewozowyHasKontrahenci
     }
     nadawca: upsertListPrzewozowyHasKontrahenci(
-      listPrzewozowyIdListPrzewozowy: $idListPrzewozowy
+    idListPrzewozowyHasKontrahenci: $senderJTId
+      listPrzewozowyIdListPrzewozowy: $idListPrzewozowyFK
       kontrahenciIdKontrahenci: $idNadawca
       typ: "Nadawca"
     ) {
       idListPrzewozowyHasKontrahenci
     }
     przewoznik: upsertListPrzewozowyHasKontrahenci(
-      listPrzewozowyIdListPrzewozowy: $idListPrzewozowy
+        idListPrzewozowyHasKontrahenci: $carrierJTId
+      listPrzewozowyIdListPrzewozowy: $idListPrzewozowyFK
       kontrahenciIdKontrahenci: $idPrzewoznik
       typ: "Przewoznik"
     ) {
       idListPrzewozowyHasKontrahenci
     }
     adresNadania: upsertListPrzewozowyHasAdres(
+    idListPrzewozowyHasAdres: $mailingAddressJTId
       adresIdAdres: $idAdresNadania
-      listPrzewozowyIdListPrzewozowy: $idListPrzewozowy
+      listPrzewozowyIdListPrzewozowy: $idListPrzewozowyFK
       miejsce: "Nadania"
     ) {
       idListPrzewozowyHasAdres
     }
     adresOdbioru: upsertListPrzewozowyHasAdres(
+    idListPrzewozowyHasAdres: $pickupAddressJTId
       adresIdAdres: $idAdresOdbioru
-      listPrzewozowyIdListPrzewozowy: $idListPrzewozowy
+      listPrzewozowyIdListPrzewozowy: $idListPrzewozowyFK
       miejsce: "Odbioru"
     ) {
       idListPrzewozowyHasAdres
     }
+    upsertListPrzewozowy(idListPrzewozowy: $idListPrzewozowy, przesylkaIdPrzesylka: $idPrzesylka) {
+      idListPrzewozowy
+    }
+    ${parcelFK(countFK)}
   }
 `;
 
-//TODO przesyłka has pozycja w magazynie
 export const upsertWaybill = gql`
   mutation upsertWaybill(
     $waybillId: ID
@@ -252,7 +294,7 @@ export const upsertWaybill = gql`
     $comments: String
     $reservations: String
     $fileURL: String
-    $parcelId: String = "1"
+    $parcelIdFK: String = "1"
     $senderId: ID!
     $recipentId: ID!
     $carrierId: ID!
@@ -270,7 +312,7 @@ export const upsertWaybill = gql`
     $postalCodePickup: String
     $cityPickup: String
     $countryPickup: String
-    $parcelId: ID!
+    $parcelId: ID
     $packageName: String!
     $weight: Float!
     $date: String!
@@ -282,9 +324,10 @@ export const upsertWaybill = gql`
       uwagiPrzewoznika: $comments
       zastrzezeniaOdbiorcy: $reservations
       eDokument: $fileURL
-      przesylkaIdPrzesylka: $parcelId
+      przesylkaIdPrzesylka: $parcelIdFK
     ) {
       idListPrzewozowy
+      idListPrzewozowyFK: idListPrzewozowy
     }
     upsertNadawca: upsertKontrahenci(idKontrahenci: $senderId) {
       idNadawca: idKontrahenci

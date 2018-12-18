@@ -25,7 +25,7 @@ import {
   wineInformationBatch
 } from './upsertMutations';
 
-export const selectUpsertForForm = formName => {
+export const selectUpsertForForm = (formName, countFK) => {
   switch (formName) {
     case 'FormUsers':
       return {
@@ -114,7 +114,7 @@ export const selectUpsertForForm = formName => {
       return {
         query: upsertWaybill,
         simple: 0,
-        fkQuery: waybillFK
+        fkQuery: waybillFK(countFK)
       };
     case 'FormWineInformation':
       return {

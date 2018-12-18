@@ -104,19 +104,39 @@ export class FormParcel extends React.Component {
   componentDidMount() {
     const { initState } = this.props;
     if (initState) {
-      this.setState({
-        parcelId: initState.idPrzesylka,
-        packageName: initState.nazwaPrzesylki,
-        weight: initState.ciezarLadunku,
-        date: convertDatetimeForm(initState.data),
-        content: initState.pozycjaWMagazynie.map(curr => ({
-          key: curr.idPozycja,
-          selectedItem: curr,
-          amount: curr.iloscFromJoinTable
-        }))
-      });
+      let data = initState.przesylka;
+      let parcelJT = initState.PrzesylkaHasPozycjaWMagazynie;
+      this.setState(
+        {
+          parcelId: data.idPrzesylka,
+          packageName: data.nazwaPrzesylki,
+          weight: data.ciezarLadunku,
+          date: convertDatetimeForm(data.data),
+          content: data.pozycjaWMagazynie.map(curr => ({
+            parcelJTId: parcelJT ? this.initParcelJTId(parcelJT, curr.idPozycja) : '',
+            key: curr.idPozycja,
+            selectedItem: curr,
+            amount: curr.iloscFromJoinTable
+          }))
+        },
+        () => {
+          const { parcelId, packageName, weight, date, content } = this.state;
+          const { varName } = this.props;
+          this.props.onChange(varName, {
+            parcelId,
+            packageName,
+            weight,
+            date,
+            content
+          });
+        }
+      );
     }
   }
+
+  initParcelJTId = (data, searchedId) => {
+    return data.find(JT => JT.przesylkaIdPrzesylka === searchedId).idPrzesylkaHasPozycjaWMagazynie;
+  };
 
   render() {
     const { packageName, weight, date, open, errors, content } = this.state;

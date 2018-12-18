@@ -270,7 +270,7 @@ export const getWarehouseForForm = gql`
 `;
 
 export const getWaybillForForm = gql`
-  query getWaybillForForm($id: ID) {
+  query getWaybillForForm($id: ID!, $idFK: String!) {
     ListPrzewozowy(idListPrzewozowy: $id) {
       idListPrzewozowy
       imieKierowcy
@@ -288,6 +288,7 @@ export const getWaybillForForm = gql`
         KRS
         nrKonta
         fax
+        typ
       }
       przesylka {
         idPrzesylka
@@ -311,6 +312,22 @@ export const getWaybillForForm = gql`
         kraj
         miejsce
       }
+    }
+    ListPrzewozowyHasKontrahenci(listPrzewozowyIdListPrzewozowy: $idFK) {
+      idListPrzewozowyHasKontrahenci
+      kontrahenciIdKontrahenci
+      typ
+    }
+    ListPrzewozowyHasAdres(listPrzewozowyIdListPrzewozowy: $idFK) {
+      idListPrzewozowyHasAdres
+      adresIdAdres
+      miejsce
+    }
+    PrzesylkaHasPozycjaWMagazynie {
+      idPrzesylkaHasPozycjaWMagazynie
+      pozycjaWMagazynieIdPozycja
+      przesylkaIdPrzesylka
+      ilosc
     }
   }
 `;

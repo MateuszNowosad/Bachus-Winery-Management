@@ -17,7 +17,8 @@ class ScrollableDialogForm extends React.Component {
   state = {
     submit: false,
     openSnackbar: false,
-    openConfirmationPrompt: false
+    openConfirmationPrompt: false,
+    dynamicVariables: ''
   };
 
   handleStage = () => {
@@ -45,6 +46,12 @@ class ScrollableDialogForm extends React.Component {
     this.props.closeForm();
   };
 
+  handleMutationDynamiData = (data, type) => {
+    this.setState({
+      dynamicVariables: data
+    });
+  };
+
   render() {
     const { classes, children, dialogTitle, open, query } = this.props;
     const { openConfirmationPrompt, openSnackbar, submit } = this.state;
@@ -64,9 +71,10 @@ class ScrollableDialogForm extends React.Component {
             <DialogTitle>{dialogTitle}</DialogTitle>
             {selectUpsertForForm(children.type.name).simple === 0 ? (
               <Mutation
-                mutation={selectUpsertForForm(children.type.name).fkQuery}
+                mutation={selectUpsertForForm(children.type.name, this.state.dynamicVariables.length).fkQuery}
                 onCompleted={this.formSubmitted}
                 refetchQueries={[{ query: query }]}
+                onError={error => console.log('71, error jakub: ', error)}
               >
                 {mutate => (
                   <Mutation
@@ -75,10 +83,20 @@ class ScrollableDialogForm extends React.Component {
                       console.log('75, result jakub: ', result);
                       let variables = {};
                       Object.values(result).forEach(value => {
-                        const key = Object.keys(value)[0];
-                        variables[key] = value[key];
+                        for (let i = 0; i < Object.keys(value).length - 1; i++) {
+                          let key = Object.keys(value)[i];
+                          variables[key] = value[key];
+                        }
                       });
-                      console.log('80, variables jakub: ', variables);
+                      const { dynamicVariables } = this.state;
+                      for (let i = 0; i < dynamicVariables.content.length; i++) {
+                        variables[`parcelJTid${i}`] = `${dynamicVariables[i].content.parcelJTId}`;
+                        variables[`idItemInStock${i}`] = `${dynamicVariables[i].content.key}`;
+                        variables[`amount${i}`] = `${dynamicVariables[i].content.amount}`;
+                      }
+                      for (let id in dynamicVariables.jtId) {
+                        variables[id] = `${dynamicVariables.jtId[id]}`;
+                      }
                       mutate({ variables: variables });
                     }}
                   >
@@ -88,7 +106,8 @@ class ScrollableDialogForm extends React.Component {
                         onSubmit: UniversalSubmitHander,
                         //formSubmitted: this.formSubmitted,
                         submitAborted: this.submitAborted,
-                        mutation: mutation
+                        mutation: mutation,
+                        setMutationDynamicVariables: this.handleMutationDynamiData
                       });
                     }}
                   </Mutation>

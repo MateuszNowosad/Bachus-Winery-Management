@@ -121,8 +121,11 @@ export class FormWaybill extends React.Component {
       reservations,
       fileURL,
       sender,
+      senderJT,
       recipent,
+      recipentJTId,
       carrier,
+      carrierJTId,
       pickupAddress: {
         addressId: addressIdMailing,
         street: streetMailing,
@@ -132,6 +135,7 @@ export class FormWaybill extends React.Component {
         city: cityMailing,
         country: countryMailing
       },
+      pickupAddressJTId,
       mailingAddress: {
         addressId: addressIdPickup,
         street: streetPickup,
@@ -141,8 +145,11 @@ export class FormWaybill extends React.Component {
         city: cityPickup,
         country: countryPickup
       },
-      parcel: { parcelId, packageName, weight, date }
+      mailingAddressJTId,
+      parcel: { parcelId, packageName, weight, date, content }
     } = this.state;
+
+    let jtId = { senderJT, recipentJTId, carrierJTId, mailingAddressJTId, pickupAddressJTId };
 
     let dataObject = {
       waybillId,
@@ -170,13 +177,14 @@ export class FormWaybill extends React.Component {
       countryPickup,
       parcelId,
       packageName,
-      weight,
+      weight: Number(weight),
       date
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, waybillValidationKeys);
     !this.subFormValidation() && arrayOfErrors.push('subforms');
     if (arrayOfErrors.length === 0) {
+      this.props.setMutationDynamicVariables({ content, jtId });
       this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
@@ -241,6 +249,8 @@ export class FormWaybill extends React.Component {
     const { initState } = this.props;
     if (initState) {
       let data = initState.ListPrzewozowy[0];
+      let contractorsJT = initState.ListPrzewozowyHasKontrahenci;
+      let addressesJT = initState.ListPrzewozowyHasAdres;
       this.setState({
         waybillId: data.idListPrzewozowy,
         driverName: data.imieKierowcy,
@@ -249,15 +259,27 @@ export class FormWaybill extends React.Component {
         reservations: data.zastrzezeniaOdbiorcy ? data.zastrzezeniaOdbiorcy : '',
         fileURL: data.eDokument,
         sender: data.kontrahent ? this.initContractor(data.kontrahent, 'Nadawca') : '',
+        senderJTId: contractorsJT ? this.initContractorJTId(contractorsJT, 'Nadawca') : '',
         recipent: data.kontrahent ? this.initContractor(data.kontrahent, 'Odbiorca') : '',
-        carrier: data.kontrahent ? this.initContractor(data.kontrahent, 'Przewoźnik') : ''
+        recipentJTId: contractorsJT ? this.initContractorJTId(contractorsJT, 'Odbiorca') : '',
+        carrier: data.kontrahent ? this.initContractor(data.kontrahent, 'Przewoznik') : '',
+        carrierJTId: contractorsJT ? this.initContractorJTId(contractorsJT, 'Przewoznik') : '',
+        mailingAddressJTId: addressesJT ? this.initAddressJTId(addressesJT, 'Nadania') : '',
+        pickupAddressJTId: addressesJT ? this.initAddressJTId(addressesJT, 'Odbioru') : ''
       });
     }
   }
 
-  //TODO dopasować nazwę zmiennej typ do bazy
   initContractor = (data, type) => {
     return data.find(contractor => contractor.typ === type);
+  };
+
+  initContractorJTId = (data, type) => {
+    return data.find(JT => JT.typ === type).idListPrzewozowyHasKontrahenci;
+  };
+
+  initAddressJTId = (data, place) => {
+    return data.find(JT => JT.miejsce === place).idListPrzewozowyHasAdres;
   };
 
   initAddress = (data, type) => {
@@ -349,7 +371,7 @@ export class FormWaybill extends React.Component {
               fullWidth
               id="sender"
               label="Nadawca"
-              value={sender.nazwaSpolki ? sender.nazwaSpolki : 'Nie wybrano nadawcy'}
+              value={sender ? sender.nazwaSpolki : 'Nie wybrano nadawcy'}
               error={errors.sender}
               margin="dense"
               variant="outlined"
@@ -384,7 +406,7 @@ export class FormWaybill extends React.Component {
               fullWidth
               id="recipent"
               label="Odbiorca"
-              value={recipent.nazwaSpolki ? recipent.nazwaSpolki : 'Nie wybrano odbiorcy'}
+              value={recipent ? recipent.nazwaSpolki : 'Nie wybrano odbiorcy'}
               error={errors.recipent}
               margin="dense"
               variant="outlined"
@@ -419,7 +441,7 @@ export class FormWaybill extends React.Component {
               fullWidth
               id="carrier"
               label="Przewoźnik"
-              value={carrier.nazwaSpolki ? carrier.nazwaSpolki : 'Nie wybrano odbiorcy'}
+              value={carrier ? carrier.nazwaSpolki : 'Nie wybrano odbiorcy'}
               error={errors.carrier}
               margin="dense"
               variant="outlined"
@@ -516,7 +538,7 @@ export class FormWaybill extends React.Component {
                   varName="parcel"
                   onChange={this.handleObjectChange}
                   ref={this.subFormParcel}
-                  initState={initState ? initState.ListPrzewozowy[0].przesylka : null}
+                  initState={initState ? initState.ListPrzewozowy[0] : null}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>

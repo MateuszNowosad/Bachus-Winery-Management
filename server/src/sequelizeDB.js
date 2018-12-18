@@ -971,38 +971,6 @@ const models = {
   Winobranie: WINOBRANIE
 };
 
-const models = {
-  Adres: ADRES,
-  DictKategoriaWina: DICTKATEGORIAWINA,
-  DictKategorie: DICTKATEGORIE,
-  DictOdmianaWinogron: DICTODMIANAWINOGRON,
-  DictOperacjeNaWinnicy: DICTOPERACJENAWINNICY,
-  DictProcesy: DICTPROCESY,
-  DictRolaUzytkownikow: DICTROLAUZYTKOWNIKOW,
-  DictTypPartii: DICTTYPPARTII,
-  InformacjeOWinie: INFORMACJEOWINIE,
-  Kontrahenci: KONTRAHENCI,
-  ListPrzewozowy: LISTPRZEWOZOWY,
-  ListPrzewozowyHasAdres: LISTPRZEWOZOWYHASADRES,
-  ListPrzewozowyHasKontrahenci: LISTPRZEWOZOWYHASKONTRAHENCI,
-  Magazyn: MAGAZYN,
-  Operacje: OPERACJE,
-  OperacjeHasPartie: OPERACJEHASPARTIE,
-  OperacjeHasPozycjaWMagazynie: OPERACJEHASPOZYCJAWMAGAZYNIE,
-  OperacjeNaWinnicy: OPERACJENAWINNICY,
-  Partie: PARTIE,
-  PlanyProdukcyjne: PLANYPRODUKCYJNE,
-  PlanyProdukcyjneHasPozycjaWMagazynie: PLANYPRODUKCYJNEHASPOZYCJAWMAGAZYNIE,
-  PozycjaWMagazynie: POZYCJAWMAGAZYNIE,
-  Przesylka: PRZESYLKA,
-  PrzesylkaHasPozycjaWMagazynie: PRZESYLKAHASPOZYCJAWMAGAZYNIE,
-  Raporty: RAPORTY,
-  RaportyHasUzytkownicy: RAPORTYHASUZYTKOWNICY,
-  Uzytkownicy: UZYTKOWNICY,
-  Winnica: WINNICA,
-  Winobranie: WINOBRANIE
-};
-
 async function generateRows() {
   for (let i = 0; i < recordsToGenerate; i += 1) {
     fkKeyNumber = i + 1;

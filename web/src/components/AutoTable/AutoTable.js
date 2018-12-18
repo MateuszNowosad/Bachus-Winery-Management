@@ -123,7 +123,7 @@ class AutoTable extends React.Component {
           </React.Fragment>
         )}
         {editForm && (
-          <Query query={selectQueryForForm(dialogForm.type.name)} variables={{ id: editForm }}>
+          <Query query={selectQueryForForm(dialogForm.type.name)} variables={{ id: editForm, idFK: editForm }}>
             {({ loading, error, data }) => {
               if (loading) return <CircularProgress />;
               if (error)
