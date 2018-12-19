@@ -24,7 +24,8 @@ class AutoTable extends React.Component {
     openEdit: false,
     page: 0,
     rowsPerPage: 5,
-    editForm: ''
+    editForm: '',
+    queryData: this.props.queryData
   };
 
   handleChangePage = (event, page) => {
@@ -39,9 +40,25 @@ class AutoTable extends React.Component {
     this.setState({ open: true });
   };
 
+  onChangeSearch = async value => { //TODO Should be server-side Filip, make it async at least.
+    let recordTest = false;
+    this.setState({ //TODO setState asynchronously
+      queryData: this.props.queryData.filter(prop => {
+        for (let propertyOfProp in prop) {
+          if (prop.hasOwnProperty(propertyOfProp)) {
+            if(!recordTest && new RegExp(value.toString(), 'i').test(prop[propertyOfProp]))
+              return true
+          }
+        }
+        recordTest=false;
+        return false;
+      })
+    });
+  };
+
   handleEdit = recordId => {
-    console.log('38, this.props.dialogForm.type.name jakub: ', this.props.dialogForm.type.name);
-    console.log('45, recordId Mateusz: ', recordId);
+    //console.log('38, this.props.dialogForm.type.name jakub: ', this.props.dialogForm.type.name);
+    //console.log('45, recordId Mateusz: ', recordId);
     this.setState({
       openEdit: true,
       editForm: recordId
@@ -49,7 +66,7 @@ class AutoTable extends React.Component {
   };
 
   handleDeletion = recordId => {
-    console.log('45, recordId DEMateusz: ', recordId);
+    console.log('45, recordId DEMateusz: ', recordId); //TODO Usuwanie rekordów gdzie
   };
 
   render() {
@@ -68,14 +85,14 @@ class AutoTable extends React.Component {
     return (
       <div style={{ minWidth: '100%' }}>
         <div className={classes.actions}>
-          <SearchBar />
+          <SearchBar onChange={this.onChangeSearch} />
         </div>
         <Paper className={classes.root}>
           <Table className={classes.table}>
             {labels}
             <TableBody>
               <AutoContent
-                queryData={queryData}
+                queryData={this.state.queryData}
                 // querySubject={querySubject}
                 editMode={editMode}
                 handleEdit={this.handleEdit}
