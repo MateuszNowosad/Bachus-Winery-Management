@@ -215,7 +215,7 @@ const parcelFK = countFK => {
 const parcelVariables = countFK => {
   let variables = ``;
   for (let i = 0; i < countFK; i++)
-    variables += `$parcelJTId${i}: ID!
+    variables += `$parcelJTId${i}: ID
     $idItemInStock${i}: String!
     $amount${i}: String!
     `;
@@ -405,6 +405,60 @@ export const upsertWarehouse = gql`
   }
 `;
 
+const itemJT = countFK => {
+  let upsert = ``;
+  for (let i = 0; i < countFK; i++)
+    upsert += `pozycja${i}: upsertOperacjeHasPartie(
+    idOperacjeHasPartie: $itemJTId${i}
+		    operacjeIdOperacja: $idOperacjaFK
+    partieIdPartie: $idBatch${i}
+    ilosc: $amountBatch${i}
+  ){
+    idOperacjeHasPartie
+  }`;
+  return upsert;
+};
+
+const batchJT = countBatchFK => {
+  let upsert = ``;
+  for (let i = 0; i < countBatchFK; i++)
+    upsert += `partia${i}: upsertOperacjeHasPozycjaWMagazynie(
+    idOperacjeHasPozycjaWMagazynie: $batchJTId${i}
+    operacjeIdOperacja: $idOperacjaFK
+    pozycjaWMagazynieIdPozycja: $idItemInStock${i}
+    ilosc: $amountItem${i}
+  ){
+    idOperacjeHasPozycjaWMagazynie
+  }`;
+  return upsert;
+};
+
+const jtVariables = countItemFK => {
+  let variables = ``;
+  for (let i = 0; i < countItemFK; i++)
+    variables += `$itemJTId${i}: ID
+    $batchJTId${i}: ID
+    $idItemInStock${i}: String!
+    $idBatch${i}: String!
+    $amountBatch${i}: String!
+    $amountItem${i}: String!
+    `;
+  return variables;
+};
+
+export const operationsFK = countFK => gql`
+mutation operationsFK(
+    $idOperacja: ID!
+    $idOperacjaFK: String!
+    ${jtVariables(countFK)}
+    ){
+    upsertOperacje(idOperacja: $idOperacja){
+    idOperacja
+  }
+    ${itemJT(countFK)}
+    ${batchJT(countFK)}
+  }`;
+
 //TODO dodawanie partii i pozycji w magazynie
 export const upsertOperations = gql`
   mutation upsertOperations(
@@ -438,6 +492,7 @@ export const upsertOperations = gql`
       dictProcesyIdDictProcesy: $processId
     ) {
       idOperacja
+      idOperacjaFK: idOperacja
     }
   }
 `;

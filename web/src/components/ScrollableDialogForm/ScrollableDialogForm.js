@@ -89,16 +89,31 @@ class ScrollableDialogForm extends React.Component {
                         }
                       });
                       const { dynamicVariables } = this.state;
-                      for (let i = 0; i < dynamicVariables.content.length; i++) {
-                        variables[`parcelJTId${i}`] = `${dynamicVariables.content[i].parcelJTId}`;
-                        variables[`idItemInStock${i}`] = `${dynamicVariables.content[i].key}`;
-                        variables[`amount${i}`] = `${dynamicVariables.content[i].amount}`;
-                      }
-                      for (let id in dynamicVariables.jtId) {
-                        variables[id] = `${dynamicVariables.jtId[id]}`;
+                      if (dynamicVariables) {
+                        if (dynamicVariables.content)
+                          for (let i = 0; i < dynamicVariables.content.length; i++) {
+                            variables[`parcelJTId${i}`] = `${dynamicVariables.content[i].parcelJTId}`;
+                            variables[`idItemInStock${i}`] = `${dynamicVariables.content[i].key}`;
+                            variables[`amount${i}`] = `${dynamicVariables.content[i].amount}`;
+                          }
+                        if (dynamicVariables.batches)
+                          for (let i = 0; i < dynamicVariables.batches.length; i++) {
+                            variables[`batchJTId${i}`] = `${dynamicVariables.batches[i].batchJTId}`;
+                            variables[`idBatch${i}`] = `${dynamicVariables.batches[i].key}`;
+                            variables[`amountBatch${i}`] = `${dynamicVariables.batches[i].amount}`;
+                          }
+                        if (dynamicVariables.item)
+                          for (let i = 0; i < dynamicVariables.item.length; i++) {
+                            variables[`itemJTId${i}`] = `${dynamicVariables.item[i].itemJTId}`;
+                            variables[`idItemInStock${i}`] = `${dynamicVariables.item[i].key}`;
+                            variables[`amountItem${i}`] = `${dynamicVariables.item[i].amount}`;
+                          }
+                        for (let id in dynamicVariables.jtId) {
+                          variables[id] = `${dynamicVariables.jtId[id]}`;
+                        }
                       }
                       console.log('100, variables jakub: ', variables);
-                      mutate({ variables: variables });
+                      this.setState({}, () => mutate({ variables: variables }));
                     }}
                   >
                     {mutation => {

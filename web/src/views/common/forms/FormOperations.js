@@ -21,6 +21,8 @@ import DialogForForm from './DialogForForm';
 import StepperItemFromWarehouse from './StepperItemFromWarehouse';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 import convertDatetimeForm from '../../../functions/convertDatetimeForm';
+import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
+import getBatches from '../../../queries/BatchesQueries/getBatches';
 
 const errorMap = {
   beginAmount: false,
@@ -51,8 +53,10 @@ export class FormOperations extends React.Component {
       temperature: '',
       desc: '',
       process: '',
-      content: [],
+      item: '',
+      batches: '',
       open: false,
+      openBatch: false,
       errors: errorMap
     };
   }
@@ -63,6 +67,14 @@ export class FormOperations extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
+  };
+
+  handleClickOpenBatch = () => {
+    this.setState({ openBatch: true });
+  };
+
+  handleCloseBatch = () => {
+    this.setState({ openBatch: false });
   };
 
   handleChange = name => event => {
@@ -79,16 +91,27 @@ export class FormOperations extends React.Component {
 
   handleAddContent = data => {
     this.setState(prevState => ({
-      content: [...prevState.content, data]
+      item: [...prevState.item, data]
+    }));
+  };
+
+  handleAddBatch = (batch, data) => {
+    let object = {
+      key: data.idPartie,
+      selectedBatch: data,
+      amount: data.ilosc
+    };
+    this.setState(prevState => ({
+      batches: [...prevState.batches, object]
     }));
   };
 
   handleDelete = data => () => {
     this.setState(state => {
-      const content = [...state.content];
-      const contentToDelete = content.indexOf(data);
-      content.splice(contentToDelete, 1);
-      return { content };
+      const item = [...state.item];
+      const contentToDelete = item.indexOf(data);
+      item.splice(contentToDelete, 1);
+      return { item };
     });
   };
 
@@ -105,26 +128,32 @@ export class FormOperations extends React.Component {
       acidity,
       temperature,
       desc,
-      process
+      process,
+      item,
+      batches
     } = this.state;
     let dataObject = {
       operationId,
-      beginAmount,
-      endAmount,
+      beginAmount: Number(beginAmount),
+      endAmount: Number(endAmount),
       beginDate,
       endDate,
-      alcoholContent,
-      additiveAmount,
-      sugarContent,
-      acidity,
-      temperature,
+      alcoholContent: Number(alcoholContent),
+      additiveAmount: Number(additiveAmount),
+      sugarContent: Number(sugarContent),
+      acidity: Number(acidity),
+      temperature: Number(temperature),
       desc,
+      userId: '1',
       processId: process.idDictProcesy
     };
 
+    // let jtId = { senderJTId, recipentJTId, carrierJTId, mailingAddressJTId, pickupAddressJTId };
+
     let arrayOfErrors = UniversalValidationHandler(dataObject, operationsValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.setMutationDynamicVariables({ item, batches });
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -145,6 +174,8 @@ export class FormOperations extends React.Component {
     const { initState } = this.props;
     if (initState) {
       let data = initState.Operacje[0];
+      let itemJT = initState.OperacjeHasPozycjaWMagazynie;
+      let batchJT = initState.OperacjeHasPartie;
       this.setState({
         operationId: data.idOperacja,
         beginAmount: data.iloscPrzed,
@@ -158,16 +189,39 @@ export class FormOperations extends React.Component {
         temperature: data.temperatura ? data.temperatura : '',
         desc: data.opis ? data.opis : '',
         process: data.dictProcesy ? data.dictProcesy : '',
-        content: data.pozycjaWMagazynie
+        item: data.pozycjaWMagazynie
           ? data.pozycjaWMagazynie.map(curr => ({
+              itemJTId: itemJT ? this.initItemJTId(itemJT, curr.idPozycja) : '',
               key: curr.idPozycja,
               selectedItem: curr,
+              amount: curr.iloscFromJoinTable
+            }))
+          : '',
+        batches: data.partie
+          ? data.partie.map(curr => ({
+              batchJTId: batchJT ? this.initBatchJTId(batchJT, curr.idPartie) : '',
+              key: curr.idPartie,
+              selectedBatch: curr,
               amount: curr.iloscFromJoinTable
             }))
           : ''
       });
     }
   }
+
+  initItemJTId = (data, searchedId) => {
+    return data.find(JT => JT.pozycjaWMagazynieIdPozycja === searchedId).idOperacjeHasPozycjaWMagazynie;
+  };
+
+  initBatchJTId = (data, searchedId) => {
+    return data.find(JT => JT.partieIdPartie === searchedId).idOperacjeHasPartie;
+  };
+
+  filterBatches = data => {
+    const { batches } = this.state;
+    if (batches) return data.filter(item => batches.every(val => item.idPartie !== val.key));
+    return data;
+  };
 
   render() {
     const {
@@ -182,14 +236,65 @@ export class FormOperations extends React.Component {
       temperature,
       desc,
       process,
-      content,
+      item,
+      batches,
       open,
+      openBatch,
       errors
     } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
+          <Grid item md={12}>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="inherit">Partie</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Grid container spacing={8} justify={'center'}>
+                  <Grid item md={12}>
+                    {batches
+                      ? batches.map(data => {
+                          return (
+                            <Chip
+                              key={data.key}
+                              label={data.selectedBatch.idPartie + ' ' + data.amount}
+                              onDelete={this.handleDelete(data)}
+                            />
+                          );
+                        })
+                      : ''}
+                  </Grid>
+                  <Grid item md={12}>
+                    <Button variant="outlined" onClick={this.handleClickOpenBatch}>
+                      Dodaj
+                    </Button>
+                    <DialogForForm title={'Partie'} open={openBatch} onClose={() => this.handleCloseBatch('openBatch')}>
+                      <Query query={getBatches}>
+                        {({ loading, error, data }) => {
+                          if (loading) return <CircularProgress />;
+                          if (error)
+                            return (
+                              <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>
+                            );
+                          return (
+                            <SelectableAutoTable
+                              queryData={this.filterBatches(data.Partie)}
+                              querySize={data.Partie.length}
+                              funParam="batch"
+                              onSelect={this.handleAddBatch}
+                              onClose={this.handleCloseBatch}
+                            />
+                          );
+                        }}
+                      </Query>
+                    </DialogForForm>
+                  </Grid>
+                </Grid>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </Grid>
           <Grid item md={12}>
             <Query query={getDictProcesses}>
               {({ loading, error, data }) => {
@@ -370,15 +475,17 @@ export class FormOperations extends React.Component {
               <ExpansionPanelDetails>
                 <Grid container spacing={8} justify={'center'}>
                   <Grid item md={12}>
-                    {content.map(data => {
-                      return (
-                        <Chip
-                          key={data.key}
-                          label={data.selectedItem.name + ' ' + data.amount}
-                          onDelete={this.handleDelete(data)}
-                        />
-                      );
-                    })}
+                    {item
+                      ? item.map(data => {
+                          return (
+                            <Chip
+                              key={data.key}
+                              label={data.selectedItem.nazwa + ' ' + data.amount}
+                              onDelete={this.handleDelete(data)}
+                            />
+                          );
+                        })
+                      : ''}
                   </Grid>
                   <Grid item md={12}>
                     <Button variant="outlined" onClick={this.handleClickOpen}>

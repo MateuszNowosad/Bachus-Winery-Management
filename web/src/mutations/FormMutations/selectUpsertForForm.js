@@ -1,5 +1,6 @@
 import {
   contractorAddress,
+  operationsFK,
   upsertBatch,
   upsertContractors,
   upsertDictBatchType,
@@ -91,8 +92,9 @@ export const selectUpsertForForm = (formName, countFK) => {
       };
     case 'FormOperations':
       return {
-        query: upsertOperations
-        // simple: 0
+        query: upsertOperations,
+        simple: 1
+        // fkQuery: operationsFK(countFK)
       };
     case 'FormVineyard':
       return {

@@ -188,7 +188,7 @@ export const getItemInStockForForm = gql`
 `;
 
 export const getOperationForForm = gql`
-  query getOperationForForm($id: ID) {
+  query getOperationForForm($id: ID, $idFK: String!) {
     Operacje(idOperacja: $id) {
       idOperacja
       iloscPrzed
@@ -211,6 +211,20 @@ export const getOperationForForm = gql`
         ilosc
         iloscFromJoinTable
       }
+      partie {
+        idPartie
+        iloscFromJoinTable
+      }
+    }
+    OperacjeHasPozycjaWMagazynie(operacjeIdOperacja: $idFK) {
+      idOperacjeHasPozycjaWMagazynie
+      pozycjaWMagazynieIdPozycja
+      ilosc
+    }
+    OperacjeHasPartie(operacjeIdOperacja: $idFK) {
+      idOperacjeHasPartie
+      partieIdPartie
+      ilosc
     }
   }
 `;
