@@ -471,7 +471,6 @@ export const upsertProductionPlan = gql`
   }
 `;
 
-//TODO poprawić partie
 export const upsertItemInStock = gql`
   mutation upsertItemInStock(
     $itemInStockId: ID
