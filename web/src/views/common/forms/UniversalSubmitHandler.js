@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 
-function UniversalSubmitHander(dataObject) {
-  console.log('29, object Mateusz: ', dataObject);
-  return dataObject;
+function UniversalSubmitHander(mutation, dataObject) {
+  mutation({ variables: dataObject });
 }
 
 UniversalSubmitHander.propTypes = {

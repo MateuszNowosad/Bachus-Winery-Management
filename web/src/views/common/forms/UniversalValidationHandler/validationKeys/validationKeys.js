@@ -97,8 +97,8 @@ export const vineyardOperationsValidationKeys = {
 export const batchValidationKeys = {
   amount: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,4}\.[1-9])$/,
   desc: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
-  creationDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
-  batchType: new RegExp("^([\\p{L}' ()]{3,45})$", 'u')
+  creationDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/
+  // batchType: new RegExp("^([\\p{L}' ()]{3,45})$", 'u')
 };
 
 export const vineyardValidationKeys = {

@@ -18,7 +18,8 @@ const sequelize = new Sequelize({
   username: 'test',
   password: 'test',
   dialect: 'mysql',
-  host: '172.17.0.2',
+  host: 'localhost',
+  port: '3306',
   connectionTimeout: 0,
   pool: {
     min: 1,
@@ -34,7 +35,7 @@ const sequelize = new Sequelize({
 
 export default sequelize;
 
-const recordsToGenerate = 10;
+const recordsToGenerate = 50;
 let fkKeyNumber = 0;
 
 let uniqueLogins = [];
@@ -452,8 +453,8 @@ const DICTKATEGORIAWINA = sequelize.define('DictKategoriaWina', {
   nazwaKategoria: {
     type: Sequelize.STRING(45),
     allowNull: false,
-    unique: true,
-    validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
+    unique: true
+    // validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
   },
   opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } }
 });
@@ -467,8 +468,8 @@ const DICTKATEGORIE = sequelize.define('DictKategorie', {
   nazwa: {
     type: Sequelize.STRING(20),
     allowNull: false,
-    unique: true,
-    validate: { is: new RegExp("^([\\p{L}' ()]{3,20})$", 'u') }
+    unique: true
+    // validate: { is: new RegExp("^([\\p{L}' ()]{3,20})$", 'u') }
   },
   jednostka: { type: Sequelize.STRING(20), allowNull: false, validate: { is: new RegExp('^\\p{L}{2,20}$', 'u') } },
   opis: { type: Sequelize.STRING(250), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,250})$', 'u') } }
@@ -483,8 +484,8 @@ const DICTODMIANAWINOGRON = sequelize.define('DictOdmianaWinogron', {
   nazwa: {
     type: Sequelize.STRING(45),
     allowNull: false,
-    unique: true,
-    validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
+    unique: true
+    // validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
   },
   opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } }
 });
@@ -498,8 +499,8 @@ const DICTOPERACJENAWINNICY = sequelize.define('DictOperacjeNaWinnicy', {
   nazwa: {
     type: Sequelize.STRING(45),
     allowNull: false,
-    unique: true,
-    validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
+    unique: true
+    // validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
   },
   opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } }
 });
@@ -513,8 +514,8 @@ const DICTPROCESY = sequelize.define('DictProcesy', {
   nazwa: {
     type: Sequelize.STRING(40),
     allowNull: false,
-    unique: true,
-    validate: { is: new RegExp("^([\\p{L}' ()]{3,40})$", 'u') }
+    unique: true
+    // validate: { is: new RegExp("^([\\p{L}' ()]{3,40})$", 'u') }
   },
   opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } },
   dodatkowe: { type: Sequelize.STRING(80), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,80})$', 'u') } }
@@ -529,8 +530,8 @@ const DICTROLAUZYTKOWNIKOW = sequelize.define('DictRolaUzytkownikow', {
   nazwa: {
     type: Sequelize.STRING(45),
     allowNull: false,
-    unique: true,
-    validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
+    unique: true
+    // validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
   },
   opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } },
   typ: { type: Sequelize.STRING(45), allowNull: false, validate: { is: new RegExp('^[\\S]{2,45}$', 'u') } }
@@ -545,8 +546,8 @@ const DICTTYPPARTII = sequelize.define('DictTypPartii', {
   nazwa: {
     type: Sequelize.STRING(45),
     allowNull: false,
-    unique: true,
-    validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
+    unique: true
+    // validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
   },
   jednostka: { type: Sequelize.STRING(45), allowNull: true, validate: { is: new RegExp('^[\\w]{1,45}$', 'u') } }
 });
@@ -557,7 +558,11 @@ const INFORMACJEOWINIE = sequelize.define('InformacjeOWinie', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(45), allowNull: false, validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') } },
+  nazwa: {
+    type: Sequelize.STRING(45),
+    allowNull: false
+    // validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
+  },
   motto: { type: Sequelize.STRING(100), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,100})$', 'u') } },
   zawartoscPotAlergenow: {
     type: Sequelize.STRING(20),
@@ -849,7 +854,11 @@ const WINNICA = sequelize.define('Winnica', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(40), allowNull: false, validate: { is: new RegExp("^([\\p{L}' ()]{2,40})$", 'u') } },
+  nazwa: {
+    type: Sequelize.STRING(40),
+    allowNull: false
+    // validate: { is: new RegExp("^([\\p{L}' ()]{2,40})$", 'u') }
+  },
   powierzchnia: {
     type: Sequelize.DECIMAL(6, 2),
     allowNull: false,
@@ -887,7 +896,6 @@ const WINOBRANIE = sequelize.define('Winobranie', {
   winnicaIdWinnica: { type: Sequelize.INTEGER, allowNull: false }
 });
 
-
 // TABELE LACZACE
 
 const LISTPRZEWOZOWYHASADRES = sequelize.define('ListPrzewozowyHasAdres', {
@@ -900,7 +908,7 @@ const LISTPRZEWOZOWYHASKONTRAHENCI = sequelize.define('ListPrzewozowyHasKontrahe
   idListPrzewozowyHasKontrahenci: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   listPrzewozowyIdListPrzewozowy: { type: Sequelize.INTEGER, allowNull: false },
   kontrahenciIdKontrahenci: { type: Sequelize.INTEGER, allowNull: false },
-  typ: { type: Sequelize.ENUM('Odbiorca', 'Przewoznik'), allowNull: false }
+  typ: { type: Sequelize.ENUM('Odbiorca', 'Przewoznik', 'Nadawca'), allowNull: false }
 });
 const OPERACJEHASPARTIE = sequelize.define('OperacjeHasPartie', {
   idOperacjeHasPartie: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
@@ -960,7 +968,7 @@ const models = {
   RaportyHasUzytkownicy: RAPORTYHASUZYTKOWNICY,
   Uzytkownicy: UZYTKOWNICY,
   Winnica: WINNICA,
-  Winobranie: WINOBRANIE,
+  Winobranie: WINOBRANIE
 };
 
 async function generateRows() {

@@ -48,8 +48,9 @@ class AutoTable extends React.Component {
     });
   };
 
-  handleDeletion = recordId => {
+  handleDeletion = (mutation, recordId) => {
     console.log('45, recordId DEMateusz: ', recordId);
+    mutation({ variables: { id: recordId } });
   };
 
   render() {
@@ -63,7 +64,7 @@ class AutoTable extends React.Component {
         labelCount = newlabelCount;
       }
     });
-    const { classes, queryData, querySize, dialogFormTitle, dialogForm, editMode } = this.props;
+    const { classes, queryData, querySize, dialogFormTitle, dialogForm, editMode, query } = this.props;
     const { open, rowsPerPage, page, editForm, openEdit } = this.state;
     return (
       <div style={{ minWidth: '100%' }}>
@@ -75,6 +76,8 @@ class AutoTable extends React.Component {
             {labels}
             <TableBody>
               <AutoContent
+                query={editMode && query}
+                formName={editMode && dialogForm.type.name}
                 queryData={queryData}
                 // querySubject={querySubject}
                 editMode={editMode}
@@ -109,6 +112,7 @@ class AutoTable extends React.Component {
               </Button>
             </div>
             <ScrollableDialogForm
+              query={editMode && query}
               dialogTitle={dialogFormTitle}
               open={open}
               closeForm={() => this.setState({ open: false })}
@@ -119,13 +123,14 @@ class AutoTable extends React.Component {
           </React.Fragment>
         )}
         {editForm && (
-          <Query query={selectQueryForForm(dialogForm.type.name, editForm)}>
+          <Query query={selectQueryForForm(dialogForm.type.name)} variables={{ id: editForm, idFK: editForm }}>
             {({ loading, error, data }) => {
               if (loading) return <CircularProgress />;
               if (error)
                 return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
               return (
                 <ScrollableDialogForm
+                  query={editMode && query}
                   dialogTitle={dialogFormTitle}
                   open={openEdit}
                   closeForm={() => this.setState({ openEdit: false, editForm: false })}

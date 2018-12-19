@@ -24,7 +24,8 @@ export class FormWineInformation extends React.Component {
       motto: '',
       allergens: '',
       energyValue: 0,
-      wineCategory: '',
+      wineCategory: {},
+      batchId: '2',
       errors: errorMap
     };
   }
@@ -35,19 +36,27 @@ export class FormWineInformation extends React.Component {
     });
   };
 
+  handleSelect = (name, data) => event => {
+    this.setState({
+      [name]: data.find(record => record.nazwaKategoria === event.target.value)
+    });
+  };
+
   handleSubmit = () => {
-    const { name, motto, allergens, energyValue, wineCategory } = this.state;
+    const { wineInformationId, name, motto, allergens, energyValue, wineCategory, batchId } = this.state;
     let dataObject = {
+      wineInformationId,
       name,
       motto,
       allergens,
       energyValue,
-      wineCategory
+      wineCategoryId: wineCategory.idDictKategoriaWina,
+      batchId
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, wineInformationValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -69,11 +78,12 @@ export class FormWineInformation extends React.Component {
     if (initState) {
       let data = initState.InformacjeOWinie[0];
       this.setState({
+        wineInformationId: data.idInformacjeOWinie,
         name: data.nazwa,
         motto: data.motto ? data.motto : '',
         allergens: data.zawartoscPotAlergenow ? data.zawartoscPotAlergenow : '',
         energyValue: data.wartoscEnergetyczna,
-        wineCategory: data.kategoriaWina.nazwaKategoria
+        wineCategory: data.kategoriaWina ? data.kategoriaWina : null
       });
     }
   }
@@ -147,10 +157,10 @@ export class FormWineInformation extends React.Component {
                     select
                     label="Kategoria wina"
                     placeholder="Kategoria wina"
-                    value={wineCategory}
+                    value={wineCategory.nazwaKategoria ? wineCategory.nazwaKategoria : ''}
                     error={errors.wineCategory}
                     required
-                    onChange={this.handleChange('wineCategory')}
+                    onChange={this.handleSelect('wineCategory', data.DictKategoriaWina)}
                     margin="dense"
                     variant={'outlined'}
                   >

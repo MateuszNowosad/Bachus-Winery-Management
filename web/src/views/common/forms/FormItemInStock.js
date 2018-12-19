@@ -31,13 +31,13 @@ export class FormItemInStock extends React.Component {
       name: '',
       desc: '',
       amount: '',
-      barcode: '',
+      barcode: '1234567890123',
       actualState: '',
       acceptanceDate: currentDate('dateTime'),
       releaseDate: currentDate('dateTime'),
       sectorName: '',
       category: '',
-      batch: {},
+      warehouseId: '2',
       open: false,
       errors: errorMap
     };
@@ -48,6 +48,13 @@ export class FormItemInStock extends React.Component {
       [name]: event.target.value
     });
   };
+
+  handleSelect = (name, data) => event => {
+    this.setState({
+      [name]: data.find(record => record.nazwa === event.target.value)
+    });
+  };
+
   handleSelectBatch = (name, batch) => {
     this.setState({
       [name]: batch
@@ -64,6 +71,7 @@ export class FormItemInStock extends React.Component {
 
   handleSubmit = () => {
     const {
+      itemInStockId,
       name,
       desc,
       amount,
@@ -73,24 +81,28 @@ export class FormItemInStock extends React.Component {
       releaseDate,
       sectorName,
       category,
-      batch
+      warehouseId,
+      batchId
     } = this.state;
     let dataObject = {
+      itemInStockId,
       name,
       desc,
-      amount,
+      amount: Number(amount),
       barcode,
       actualState,
       acceptanceDate,
-      releaseDate,
+      releaseDate: releaseDate ? releaseDate : null,
       sectorName,
-      category,
-      batch
+      categoryId: category.idKategorie,
+      warehouseId: warehouseId ? warehouseId : null,
+      batchId: batchId ? batchId : null
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, itemInStockValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      console.log('104, działa jakub: ', 'działa');
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -112,6 +124,7 @@ export class FormItemInStock extends React.Component {
     if (initState) {
       let data = initState.PozycjaWMagazynie[0];
       this.setState({
+        itemInStockId: data.idPozycja,
         name: data.nazwa,
         desc: data.opis ? data.opis : '',
         amount: data.ilosc,
@@ -120,8 +133,9 @@ export class FormItemInStock extends React.Component {
         acceptanceDate: convertDatetimeForm(data.dataPrzyjecia),
         releaseDate: data.dataWydania ? convertDatetimeForm(data.dataWydania) : '',
         sectorName: data.nazwaSektora,
-        category: data.kategorie.nazwa,
-        batch: data.partie ? data.partie : ''
+        category: data.kategorie ? data.kategorie : '',
+        warehouseId: data.magazyn ? data.magazyn.idMagazyn : '',
+        batchId: data.partie ? data.partie.idPartie : ''
       });
     }
   }
@@ -231,9 +245,9 @@ export class FormItemInStock extends React.Component {
                     id="category"
                     label="Kategoria"
                     select
-                    value={category}
+                    value={category ? category.nazwa : ''}
                     margin="dense"
-                    onChange={this.handleChange('category')}
+                    onChange={this.handleSelect('category', data.DictKategorie)}
                     variant={'outlined'}
                   >
                     {data.DictKategorie.map(record => (
@@ -251,7 +265,7 @@ export class FormItemInStock extends React.Component {
               fullWidth
               id="batch"
               label="Partia"
-              value={batch.idPartie ? batch.idPartie : 'Nie wybrano partii'}
+              value={batch ? batch.idPartie : 'Nie wybrano partii'}
               margin="dense"
               variant="outlined"
               InputProps={{
@@ -267,13 +281,12 @@ export class FormItemInStock extends React.Component {
                     return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
                     <SelectableAutoTable
-                      queryData={data}
-                      querySubject="Partie"
+                      queryData={data.Partie}
                       querySize={data.Partie.length}
                       funParam="batch"
                       onSelect={this.handleSelectBatch}
                       onClose={() => this.handleClose('open')}
-                      id={batch.idPartie}
+                      id={batch ? batch.idPartie : ''}
                     />
                   );
                 }}

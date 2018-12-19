@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button/Button';
 import DatetimeFields from '../../variables/DateFields/DatetimeFields';
 import convertDatetime from '../../functions/convertDatetime';
 import flattenObject from '../../functions/flattenObject';
+import { Mutation } from 'react-apollo';
+import { selectDeleteForForm } from '../../mutations/FormMutations/selectDeleteForForm';
 
 //values changed to entries
 //value changed to entrie
@@ -40,14 +42,22 @@ const AutoContent = props => {
               >
                 Edytuj
               </Button>
-              <Button
-                mini
-                onClick={() => {
-                  props.handleDeletion(entries[0][1]);
-                }}
+              <Mutation
+                key={props.formName}
+                mutation={selectDeleteForForm(props.formName)}
+                refetchQueries={[{ query: props.query }]}
               >
-                USUŃ
-              </Button>
+                {mutation => (
+                  <Button
+                    mini
+                    onClick={() => {
+                      props.handleDeletion(mutation, entries[0][1]);
+                    }}
+                  >
+                    USUŃ
+                  </Button>
+                )}
+              </Mutation>
             </TableCell>
           )}
         </TableRow>
