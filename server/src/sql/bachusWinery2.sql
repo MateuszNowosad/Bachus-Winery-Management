@@ -223,7 +223,7 @@ CREATE TABLE `ListPrzewozowy` (
   `nazwiskoKierowcy` varchar(60) NOT NULL,
   `uwagiPrzewoznika` varchar(255) DEFAULT NULL,
   `zastrzezeniaOdbiorcy` varchar(255) DEFAULT NULL,
-  `eDokument` varchar(255) NOT NULL COMMENT 'urle do podpisow/pieczatek',
+  `eDokument` MEDIUMBLOB NOT NULL COMMENT 'urle do podpisow/pieczatek',
   `przesylkaIdPrzesylka` int(11) NOT NULL,
   PRIMARY KEY (`idListPrzewozowy`),
   UNIQUE KEY `idListPrzewozowy_UNIQUE` (`idListPrzewozowy`),
@@ -430,7 +430,7 @@ CREATE TABLE `PlanyProdukcyjne` (
   `idPlanyProdukcyjne` int(11) NOT NULL AUTO_INCREMENT,
   `nazwa` varchar(45) NOT NULL,
   `opis` varchar(255) DEFAULT NULL,
-  `eDokument` varchar(255) NOT NULL,
+  `eDokument` MEDIUMBLOB NOT NULL,
   PRIMARY KEY (`idPlanyProdukcyjne`),
   UNIQUE KEY `idPlanyProdukcyjne_UNIQUE` (`idPlanyProdukcyjne`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
@@ -535,7 +535,7 @@ DROP TABLE IF EXISTS `Raporty`;
 CREATE TABLE `Raporty` (
   `idRaport` int(11) NOT NULL AUTO_INCREMENT,
   `nazwa` varchar(45) NOT NULL,
-  `eDokument` varchar(255) NOT NULL,
+  `eDokument` MEDIUMBLOB NOT NULL,
   `dataUtworzenia` datetime NOT NULL,
   PRIMARY KEY (`idRaport`),
   UNIQUE KEY `idRaport_UNIQUE` (`idRaport`)
@@ -579,7 +579,7 @@ CREATE TABLE `Uzytkownicy` (
   `dataOstatniegoLogowania` datetime NOT NULL,
   `adresIdAdres` int(11) NOT NULL,
   `dictRolaUzytkownikowIdRolaUzytkownikow` int(11) NOT NULL,
-  `zdjecie` varchar(100) DEFAULT NULL,
+  `zdjecie` MEDIUMBLOB DEFAULT NULL,
   `czyAktywne` tinyint(1) NOT NULL,
   PRIMARY KEY (`idUzytkownika`),
   UNIQUE KEY `nrTelefonu_UNIQUE` (`nrTelefonu`),

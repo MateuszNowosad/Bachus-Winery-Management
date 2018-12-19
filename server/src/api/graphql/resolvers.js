@@ -1,10 +1,8 @@
 import * as sequelize from '../../sequelizeDB';
 import { tableIdName } from '../../sequelizeDB';
-// import * as testData from '../../../.variables/graphGLStaticData';
 import _ from 'underscore';
 import bcrypt from 'bcrypt';
 import faker from 'faker';
-// import insert from '../common/insertModels';
 
 const insert = {
   Adres: sequelize.insertAdres,
