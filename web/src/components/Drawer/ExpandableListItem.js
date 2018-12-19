@@ -12,7 +12,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 class ExpandableListItem extends React.Component {
   state = {
-    open: false
+    open: true
   };
 
   componentDidMount() {

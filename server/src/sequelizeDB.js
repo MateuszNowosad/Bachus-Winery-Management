@@ -896,6 +896,31 @@ const WINOBRANIE = sequelize.define('Winobranie', {
   winnicaIdWinnica: { type: Sequelize.INTEGER, allowNull: false }
 });
 
+const models = {
+  Adres: ADRES,
+  DictKategoriaWina: DICTKATEGORIAWINA,
+  DictKategorie: DICTKATEGORIE,
+  DictOdmianaWinogron: DICTODMIANAWINOGRON,
+  DictOperacjeNaWinnicy: DICTOPERACJENAWINNICY,
+  DictProcesy: DICTPROCESY,
+  DictRolaUzytkownikow: DICTROLAUZYTKOWNIKOW,
+  DictTypPartii: DICTTYPPARTII,
+  InformacjeOWinie: INFORMACJEOWINIE,
+  Kontrahenci: KONTRAHENCI,
+  ListPrzewozowy: LISTPRZEWOZOWY,
+  Magazyn: MAGAZYN,
+  Operacje: OPERACJE,
+  OperacjeNaWinnicy: OPERACJENAWINNICY,
+  Partie: PARTIE,
+  PlanyProdukcyjne: PLANYPRODUKCYJNE,
+  PozycjaWMagazynie: POZYCJAWMAGAZYNIE,
+  Przesylka: PRZESYLKA,
+  Raporty: RAPORTY,
+  Uzytkownicy: UZYTKOWNICY,
+  Winnica: WINNICA,
+  Winobranie: WINOBRANIE
+};
+
 // TABELE LACZACE
 
 const LISTPRZEWOZOWYHASADRES = sequelize.define('ListPrzewozowyHasAdres', {
@@ -938,38 +963,6 @@ const RAPORTYHASUZYTKOWNICY = sequelize.define('RaportyHasUzytkownicy', {
   raportyIdRaport: { type: Sequelize.INTEGER, allowNull: false },
   uzytkownicyIdUzytkownika: { type: Sequelize.INTEGER, allowNull: false }
 });
-
-const models = {
-  Adres: ADRES,
-  DictKategoriaWina: DICTKATEGORIAWINA,
-  DictKategorie: DICTKATEGORIE,
-  DictOdmianaWinogron: DICTODMIANAWINOGRON,
-  DictOperacjeNaWinnicy: DICTOPERACJENAWINNICY,
-  DictProcesy: DICTPROCESY,
-  DictRolaUzytkownikow: DICTROLAUZYTKOWNIKOW,
-  DictTypPartii: DICTTYPPARTII,
-  InformacjeOWinie: INFORMACJEOWINIE,
-  Kontrahenci: KONTRAHENCI,
-  ListPrzewozowy: LISTPRZEWOZOWY,
-  ListPrzewozowyHasAdres: LISTPRZEWOZOWYHASADRES,
-  ListPrzewozowyHasKontrahenci: LISTPRZEWOZOWYHASKONTRAHENCI,
-  Magazyn: MAGAZYN,
-  Operacje: OPERACJE,
-  OperacjeHasPartie: OPERACJEHASPARTIE,
-  OperacjeHasPozycjaWMagazynie: OPERACJEHASPOZYCJAWMAGAZYNIE,
-  OperacjeNaWinnicy: OPERACJENAWINNICY,
-  Partie: PARTIE,
-  PlanyProdukcyjne: PLANYPRODUKCYJNE,
-  PlanyProdukcyjneHasPozycjaWMagazynie: PLANYPRODUKCYJNEHASPOZYCJAWMAGAZYNIE,
-  PozycjaWMagazynie: POZYCJAWMAGAZYNIE,
-  Przesylka: PRZESYLKA,
-  PrzesylkaHasPozycjaWMagazynie: PRZESYLKAHASPOZYCJAWMAGAZYNIE,
-  Raporty: RAPORTY,
-  RaportyHasUzytkownicy: RAPORTYHASUZYTKOWNICY,
-  Uzytkownicy: UZYTKOWNICY,
-  Winnica: WINNICA,
-  Winobranie: WINOBRANIE
-};
 
 async function generateRows() {
   for (let i = 0; i < recordsToGenerate; i += 1) {
