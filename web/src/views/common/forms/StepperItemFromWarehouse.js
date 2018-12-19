@@ -54,7 +54,8 @@ class StepperItemFromWarehouse extends React.Component {
 
   filterItems = data => {
     const { content } = this.props;
-    return data.pozycjaWMagazynie.filter(item => content.every(val => item.idPozycja !== val.key));
+    if (content) return data.pozycjaWMagazynie.filter(item => content.every(val => item.idPozycja !== val.key));
+    return data.pozycjaWMagazynie;
   };
 
   getStepContent = step => {

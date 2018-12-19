@@ -21,7 +21,8 @@ export class FormVineyardOperation extends React.Component {
     this.state = {
       dateOfOperation: currentDate('dateTime'),
       desc: '',
-      dictOperation: '',
+      dictOperation: {},
+      vineyardId: '2',
       errors: errorMap
     };
   }
@@ -32,18 +33,26 @@ export class FormVineyardOperation extends React.Component {
     });
   };
 
+  handleSelect = (name, data) => event => {
+    this.setState({
+      [name]: data.find(record => record.nazwa === event.target.value)
+    });
+  };
+
   handleSubmit = () => {
-    const { dateOfOperation, desc, dictOperation } = this.state;
+    const { vineyardOperationId, dateOfOperation, desc, dictOperation, vineyardId } = this.state;
 
     let dataObject = {
+      vineyardOperationId,
       dateOfOperation,
       desc,
-      dictOperation
+      dictOperationId: dictOperation.idDictOperacjeNaWinnicy,
+      vineyardId
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, vineyardOperationsValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -65,9 +74,11 @@ export class FormVineyardOperation extends React.Component {
     if (initState) {
       let data = initState.OperacjeNaWinnicy[0];
       this.setState({
+        vineyardOperationId: data.idOperacja,
         dateOfOperation: convertDatetimeForm(data.data),
         desc: data.opis ? data.opis : '',
-        dictOperation: data.dictOperacjeNaWinnicy.nazwa
+        dictOperation: data.dictOperacjeNaWinnicy,
+        vineyardId: data.winnica ? data.winnica.idWinnica : '1'
       });
     }
   }
@@ -127,8 +138,8 @@ export class FormVineyardOperation extends React.Component {
                     select
                     label="Operacja"
                     placeholder="Operacja"
-                    value={dictOperation}
-                    onChange={this.handleChange('dictOperation')}
+                    value={dictOperation.nazwa ? dictOperation.nazwa : ''}
+                    onChange={this.handleSelect('dictOperation', data.DictOperacjeNaWinnicy)}
                     margin="dense"
                     variant={'outlined'}
                   >

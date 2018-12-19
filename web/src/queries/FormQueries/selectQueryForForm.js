@@ -19,43 +19,43 @@ import {
   getWineInformationForForm
 } from './formQueries';
 
-export const selectQueryForForm = (formName, id) => {
+export const selectQueryForForm = formName => {
   switch (formName) {
     case 'FormUsers':
-      return getUserForForm(id);
+      return getUserForForm;
     case 'FormBatches':
-      return getBatchForForm(id);
+      return getBatchForForm;
     case 'FormContractors':
-      return getContractorForForm(id);
+      return getContractorForForm;
     case 'FormDictUserRole':
-      return getDictUserRoleForForm(id);
+      return getDictUserRoleForForm;
     case 'FormDictBatchType':
-      return getDictBatchTypeForForm(id);
+      return getDictBatchTypeForForm;
     case 'FormDictCategories':
-      return getDictCategoryForForm(id);
+      return getDictCategoryForForm;
     case 'FormDictGrapeType':
-      return getDictGrapeTypeForForm(id);
+      return getDictGrapeTypeForForm;
     case 'FormDictProcesses':
-      return getDictProcesForForm(id);
+      return getDictProcesForForm;
     case 'FormDictVineyardOperations':
-      return getDictVineyardOperationForForm(id);
+      return getDictVineyardOperationForForm;
     case 'FormDictWineCategory':
-      return getDictWineCategoryForForm(id);
+      return getDictWineCategoryForForm;
     case 'FormGrapeHarvest':
-      return getGrapeHarvestForForm(id);
+      return getGrapeHarvestForForm;
     case 'FormItemInStock':
-      return getItemInStockForForm(id);
+      return getItemInStockForForm;
     case 'FormOperations':
-      return getOperationForForm(id);
+      return getOperationForForm;
     case 'FormVineyard':
-      return getVineyardForForm(id);
+      return getVineyardForForm;
     case 'FormVineyardOperation':
-      return getVineyardOperationForForm(id);
+      return getVineyardOperationForForm;
     case 'FormWarehouse':
-      return getWarehouseForForm(id);
+      return getWarehouseForForm;
     case 'FormWaybill':
-      return getWaybillForForm(id);
+      return getWaybillForForm;
     case 'FormWineInformation':
-      return getWineInformationForForm(id);
+      return getWineInformationForForm;
   }
 };

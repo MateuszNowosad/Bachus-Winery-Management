@@ -24,7 +24,8 @@ export class FormBatches extends React.Component {
       amount: 0,
       desc: '',
       creationDate: currentDate('dateTime'),
-      batchType: '',
+      batchType: {},
+      grapeHarvestId: '1',
       errors: errorMap
     };
   }
@@ -35,13 +36,28 @@ export class FormBatches extends React.Component {
     });
   };
 
+  handleSelect = (name, data) => event => {
+    this.setState({
+      [name]: data.find(record => record.nazwa === event.target.value)
+    });
+  };
+
   handleSubmit = () => {
-    const { amount, desc, creationDate, batchType } = this.state;
-    let dataObject = { amount, desc, creationDate, batchType };
+    const { batchId, amount, desc, creationDate, batchType, isRecipe, grapeHarvestId, parentBatchId } = this.state;
+    let dataObject = {
+      batchId,
+      amount: Number(amount),
+      desc,
+      creationDate,
+      batchTypeId: batchType.idTypPartii,
+      isRecipe,
+      grapeHarvestId,
+      parentBatchId
+    };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, batchValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -63,10 +79,14 @@ export class FormBatches extends React.Component {
     if (initState) {
       let data = initState.Partie[0];
       this.setState({
+        batchId: data.idPartie,
         amount: data.ilosc,
         desc: data.opis ? data.opis : '',
         creationDate: convertDatetimeForm(data.dataUtworzenia),
-        batchType: data.typPartii.nazwa
+        isRecipe: data.czyPrzepis ? data.czyPrzepis : '0',
+        batchType: data.typPartii,
+        grapeHarvestId: data.winobranie ? data.winobranie.idWinobranie : null,
+        parentBatchId: data.partie[0] ? data.partie[0].idPartie : null
       });
     }
   }
@@ -134,8 +154,8 @@ export class FormBatches extends React.Component {
                     select
                     label="Typ partii"
                     placeholder="Typ partii"
-                    value={batchType}
-                    onChange={this.handleChange('batchType')}
+                    value={batchType.nazwa ? batchType.nazwa : ''}
+                    onChange={this.handleSelect('batchType', data.DictTypPartii)}
                     margin="dense"
                     variant={'outlined'}
                   >

@@ -29,8 +29,9 @@ export class FormDictUserRole extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, desc, type } = this.state;
+    const { name, desc, type, dictUserRoleId } = this.state;
     let dataObject = {
+      dictUserRoleId,
       name,
       desc,
       type
@@ -38,7 +39,7 @@ export class FormDictUserRole extends React.Component {
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, userRoleDictValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -60,6 +61,7 @@ export class FormDictUserRole extends React.Component {
     if (initState) {
       let data = initState.DictRolaUzytkownikow[0];
       this.setState({
+        dictUserRoleId: data.idRolaUzytkownikow,
         name: data.nazwa,
         desc: data.opis ? data.opis : '',
         type: data.typ

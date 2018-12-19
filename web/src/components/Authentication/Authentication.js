@@ -2,8 +2,7 @@ import axios from 'axios';
 import React from 'react';
 
 // Authorization HOC
-const Authorization = (allowedRoles) =>
-   (WrappedComponent) =>{
+const Authorization = allowedRoles => WrappedComponent => {
   return class WithAuthorization extends React.Component {
     constructor(props) {
       super(props);
@@ -36,7 +35,7 @@ const Authorization = (allowedRoles) =>
       if (allowedRoles.includes(role)) {
         return <WrappedComponent {...this.props} />;
       } else {
-          return <h1>No page for you!</h1>;
+        return <h1>No page for you!</h1>;
       }
     }
   };
