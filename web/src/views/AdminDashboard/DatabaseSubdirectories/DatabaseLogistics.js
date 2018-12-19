@@ -41,6 +41,7 @@ class DatabaseProduction extends React.Component {
                 let items = data.PozycjaWMagazynie;
                 return (
                   <AutoTable
+                    query={getItemsInStock}
                     queryData={items}
                     querySize={items.length}
                     dialogForm={<FormItemInStock />}
@@ -77,6 +78,7 @@ class DatabaseProduction extends React.Component {
                 let waybill = data.ListPrzewozowy;
                 return (
                   <AutoTable
+                    query={getWaybills}
                     queryData={waybill}
                     querySize={waybill.length}
                     dialogForm={<FormWaybill />}
@@ -99,6 +101,7 @@ class DatabaseProduction extends React.Component {
                 let warehouses = data.Magazyn;
                 return (
                   <AutoTable
+                    query={getWarehouses}
                     queryData={warehouses}
                     querySize={warehouses.length}
                     dialogForm={<FormWarehouse />}
@@ -124,6 +127,7 @@ class DatabaseProduction extends React.Component {
                 let categories = data.DictKategorie;
                 return (
                   <AutoTable
+                    query={getDictCategories}
                     queryData={categories}
                     querySize={categories.length}
                     dialogForm={<FormDictCategories />}

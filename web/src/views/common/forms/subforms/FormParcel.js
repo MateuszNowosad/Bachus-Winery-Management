@@ -55,17 +55,22 @@ export class FormParcel extends React.Component {
     this.setState({ open: false });
   };
   handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-    const { packageName, weight, date, content } = this.state;
-    const { varName } = this.props;
-    this.props.onChange(varName, {
-      packageName,
-      weight,
-      date,
-      content
-    });
+    this.setState(
+      {
+        [name]: event.target.value
+      },
+      () => {
+        const { parcelId, packageName, weight, date, content } = this.state;
+        const { varName } = this.props;
+        this.props.onChange(varName, {
+          parcelId,
+          packageName,
+          weight,
+          date,
+          content
+        });
+      }
+    );
   };
 
   handleAddContent = data => {
@@ -74,9 +79,10 @@ export class FormParcel extends React.Component {
         content: [...prevState.content, data]
       }),
       () => {
-        const { packageName, weight, date, content } = this.state;
+        const { parcelId, packageName, weight, date, content } = this.state;
         const { varName } = this.props;
         this.props.onChange(varName, {
+          parcelId,
           packageName,
           weight,
           date,
@@ -98,19 +104,41 @@ export class FormParcel extends React.Component {
   componentDidMount() {
     const { initState } = this.props;
     if (initState) {
-      this.setState({
-        packageName: initState.nazwaPrzesylki,
-        weight: initState.ciezarLadunku,
-        date: convertDatetimeForm(initState.data),
-        content: initState.pozycjaWMagazynie.map(curr => ({
-          key: curr.idPozycja,
-          selectedItem: curr,
-          //TODO Change to amount from connecting table
-          amount: curr.ilosc
-        }))
-      });
+      let data = initState.ListPrzewozowy[0].przesylka;
+      let parcelJT = initState.PrzesylkaHasPozycjaWMagazynie.filter(
+        currElement => currElement.przesylkaIdPrzesylka !== data.idPrzesylka
+      );
+      this.setState(
+        {
+          parcelId: data.idPrzesylka,
+          packageName: data.nazwaPrzesylki,
+          weight: data.ciezarLadunku,
+          date: convertDatetimeForm(data.data),
+          content: data.pozycjaWMagazynie.map(curr => ({
+            parcelJTId: parcelJT ? this.initParcelJTId(parcelJT, curr.idPozycja) : '',
+            key: curr.idPozycja,
+            selectedItem: curr,
+            amount: curr.iloscFromJoinTable
+          }))
+        },
+        () => {
+          const { parcelId, packageName, weight, date, content } = this.state;
+          const { varName } = this.props;
+          this.props.onChange(varName, {
+            parcelId,
+            packageName,
+            weight,
+            date,
+            content
+          });
+        }
+      );
     }
   }
+
+  initParcelJTId = (data, searchedId) => {
+    return data.find(JT => JT.pozycjaWMagazynieIdPozycja === searchedId).idPrzesylkaHasPozycjaWMagazynie;
+  };
 
   render() {
     const { packageName, weight, date, open, errors, content } = this.state;

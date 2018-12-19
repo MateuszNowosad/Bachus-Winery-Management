@@ -27,15 +27,16 @@ export class FormDictWineCategory extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, desc } = this.state;
+    const { name, desc, dictWineCategoryId } = this.state;
     let dataObject = {
+      dictWineCategoryId,
       name,
       desc
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, wineCategoriesDictValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -57,6 +58,7 @@ export class FormDictWineCategory extends React.Component {
     if (initState) {
       let data = initState.DictKategoriaWina[0];
       this.setState({
+        dictWineCategoryId: data.idDictKategoriaWina,
         name: data.nazwaKategoria,
         desc: data.opis ? data.opis : ''
       });

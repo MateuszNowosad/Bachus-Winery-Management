@@ -44,6 +44,7 @@ class DatabaseProduction extends React.Component {
                 let batches = data.Partie;
                 return (
                   <AutoTable
+                    query={getBatches}
                     queryData={batches}
                     querySize={batches.length}
                     dialogForm={<FormBatches />}
@@ -66,6 +67,7 @@ class DatabaseProduction extends React.Component {
                 let wineInfo = data.InformacjeOWinie;
                 return (
                   <AutoTable
+                    query={getWineInformations}
                     queryData={wineInfo}
                     querySize={wineInfo.length}
                     dialogForm={<FormWineInformation />}
@@ -88,6 +90,7 @@ class DatabaseProduction extends React.Component {
                 let operations = data.Operacje;
                 return (
                   <AutoTable
+                    query={getOperations}
                     queryData={operations}
                     querySize={operations.length}
                     dialogForm={<FormOperations />}
@@ -113,6 +116,7 @@ class DatabaseProduction extends React.Component {
                 let batchTypes = data.DictTypPartii;
                 return (
                   <AutoTable
+                    query={getDictBatchType}
                     queryData={batchTypes}
                     querySize={batchTypes.length}
                     dialogForm={<FormDictBatchType />}
@@ -133,6 +137,7 @@ class DatabaseProduction extends React.Component {
                 let wineCategories = data.DictKategoriaWina;
                 return (
                   <AutoTable
+                    query={getDictWineCategory}
                     queryData={wineCategories}
                     querySize={wineCategories.length}
                     dialogForm={<FormDictWineCategory />}
@@ -153,6 +158,7 @@ class DatabaseProduction extends React.Component {
                 let processes = data.DictProcesy;
                 return (
                   <AutoTable
+                    query={getDictProcesses}
                     queryData={processes}
                     querySize={processes.length}
                     dialogForm={<FormDictProcesses />}

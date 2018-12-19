@@ -1120,16 +1120,35 @@ export default {
     deleteWinobranie: async (root, input) => {
       return await sequelize.deleteWinobranie(input);
     },
-    userLogin: async (root, input) => {
+    userLogin: async (root, input, { req }) => {
       const user = await sequelize.getUzytkownicy({ login: input.login });
       let token;
       if (await bcrypt.compare(input.password, user[0].haslo.toString())) {
-        token = hashPassword(faker.random.word());
+        token = hashPassword(faker.random.word()); //Not needed for now. Left it anyway to leave query untouched.
+
+        req.session.userId = user[0].idUzytkownika; //we should have access to session, if we don't something went wrong within our app.
+        req.session.role = user[0].rola;
+        //TODO Can be improved with just passing around session instead of whole request object. Requires changes in ResolverMaps.
+        console.log('1050, req.session Mateusz: ', req.session);
       } else {
         console.log('1048,  User password match ERROR');
         token = 'error';
       }
       return { login: input.login, password: input.password, token };
+    },
+    loggedUser: async (root, input, { req }) => {
+      //TODO Should look something like this, you can improve it if you want.
+      let loggedIn;
+      const user = await sequelize.getUzytkownicy({ login: input.login });
+      if (req.session.userId === user[0].idUzytkownika) {
+        console.log('1050, req.session Mateusz: ', req.session);
+        loggedIn = true;
+      } //TODO Can be improved with just passing around session instead of whole request object. Requires changes in ResolverMaps.
+      else {
+        loggedIn = false;
+        console.log('1048,  User not logged in or cookie missing');
+      }
+      return { login: input.login, loggedIn: loggedIn }; //TODO Return value could be boolean. I don't know if it fits your convention.
     }
   }
 };

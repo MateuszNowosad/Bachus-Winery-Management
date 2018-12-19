@@ -17,6 +17,7 @@ export class FormGrapeHarvest extends React.Component {
     this.state = {
       dateOfHarvest: currentDate('date'),
       amount: 0,
+      vineyardId: '1',
       errors: errorMap
     };
   }
@@ -28,14 +29,17 @@ export class FormGrapeHarvest extends React.Component {
   };
 
   handleSubmit = () => {
-    const { dateOfHarvest, amount } = this.state;
+    const { grapeHarvestId, dateOfHarvest, amount, vineyardId } = this.state;
     let dataObject = {
+      grapeHarvestId,
       dateOfHarvest,
-      amount
+      amount: Number(amount),
+      vineyardId,
+      vineyardIdFK: vineyardId
     };
     let arrayOfErrors = UniversalValidationHandler(dataObject, harvestValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -57,8 +61,10 @@ export class FormGrapeHarvest extends React.Component {
     if (initState) {
       let data = initState.Winobranie[0];
       this.setState({
+        grapeHarvestId: data.idWinobranie,
         dateOfHarvest: data.dataWinobrania,
-        amount: data.iloscZebranychWinogron
+        amount: data.iloscZebranychWinogron,
+        vineyardId: data.winnica ? data.winnica.idWinnica : '1'
       });
     }
   }

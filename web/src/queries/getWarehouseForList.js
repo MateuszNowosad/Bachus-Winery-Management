@@ -4,7 +4,7 @@ const getWarehouseForList = gql`
   {
     Magazyn {
       idMagazyn
-      adres {
+      adres: adresIdAdres {
         miasto
         ulica
         nrPosesji

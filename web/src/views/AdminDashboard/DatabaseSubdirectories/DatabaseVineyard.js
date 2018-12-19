@@ -42,6 +42,7 @@ class DatabaseVineyard extends React.Component {
                 let vineyards = data.Winnica;
                 return (
                   <AutoTable
+                    query={getVineyards}
                     queryData={vineyards}
                     querySize={vineyards.length}
                     dialogForm={<FormVineyard />}
@@ -64,6 +65,7 @@ class DatabaseVineyard extends React.Component {
                 let grapeHarvests = data.Winobranie;
                 return (
                   <AutoTable
+                    query={getGrapeHarvests}
                     queryData={grapeHarvests}
                     querySize={grapeHarvests.length}
                     dialogForm={<FormGrapeHarvest />}
@@ -86,6 +88,7 @@ class DatabaseVineyard extends React.Component {
                 let vineyardOperations = data.OperacjeNaWinnicy;
                 return (
                   <AutoTable
+                    query={getVineyardOperations}
                     queryData={vineyardOperations}
                     querySize={vineyardOperations.length}
                     dialogForm={<FormVineyardOperation />}
@@ -108,6 +111,7 @@ class DatabaseVineyard extends React.Component {
                 let dictVineyardOperations = data.DictOperacjeNaWinnicy;
                 return (
                   <AutoTable
+                    query={getDictVineyardOperations}
                     queryData={dictVineyardOperations}
                     querySize={dictVineyardOperations.length}
                     dialogForm={<FormDictVineyardOperations />}
@@ -128,6 +132,7 @@ class DatabaseVineyard extends React.Component {
                 let grapeTypes = data.DictOdmianaWinogron;
                 return (
                   <AutoTable
+                    query={getDictGrapeType}
                     queryData={grapeTypes}
                     querySize={grapeTypes.length}
                     dialogForm={<FormDictGrapeType />}
