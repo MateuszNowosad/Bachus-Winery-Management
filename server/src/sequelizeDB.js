@@ -713,7 +713,7 @@ const LISTPRZEWOZOWY = sequelize.define('ListPrzewozowy', {
     allowNull: true,
     validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') }
   },
-  eDokument: { type: Sequelize.STRING(255), allowNull: false },
+  eDokument: { type: Sequelize.TEXT, allowNull: false },
   przesylkaIdPrzesylka: Sequelize.INTEGER
 });
 
@@ -815,7 +815,7 @@ const PLANYPRODUKCYJNE = sequelize.define('PlanyProdukcyjne', {
   dictRodzajWinogronIdOdmianaWinogron: Sequelize.INTEGER,
   dictTypPartiiIdTypPartii: Sequelize.INTEGER,
   dictKategorieIdKategorie: Sequelize.INTEGER,
-  eDokument: { type: Sequelize.STRING(255), allowNull: false }
+  eDokument: { type: Sequelize.TEXT, allowNull: false }
 });
 
 const POZYCJAWMAGAZYNIE = sequelize.define('PozycjaWMagazynie', {
@@ -870,7 +870,7 @@ const RAPORTY = sequelize.define('Raporty', {
     autoIncrement: true
   },
   nazwa: { type: Sequelize.STRING(45), allowNull: false },
-  eDokument: { type: Sequelize.STRING(255), allowNull: false },
+  eDokument: { type: Sequelize.TEXT, allowNull: false },
   dataUtworzenia: { type: Sequelize.DATE, allowNull: false }
 });
 
@@ -916,7 +916,7 @@ const UZYTKOWNICY = sequelize.define('Uzytkownicy', {
   dataOstatniegoLogowania: { type: Sequelize.DATE, allowNull: false },
   adresIdAdres: { type: Sequelize.INTEGER, allowNull: false },
   dictRolaUzytkownikowIdRolaUzytkownikow: { type: Sequelize.INTEGER, allowNull: false },
-  zdjecie: { type: Sequelize.STRING(100), allowNull: true, validate: { is: /^.{5,100}$/ } },
+  zdjecie: { type: Sequelize.TEXT, allowNull: true },
   czyAktywne: { type: Sequelize.BOOLEAN, allowNull: false }
 });
 
