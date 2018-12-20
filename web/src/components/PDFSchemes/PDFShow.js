@@ -7,11 +7,9 @@ function PDFShow(pdfScheme) {
   let data = null;
   let document = pdfMake.createPdf(pdfScheme);
   document.getBase64(function(encodedString) {
-    console.log('10, encodedString jakub: ', encodedString);
     data = encodedString;
   });
 
-  console.log('12, data jakub: ', data);
   document.open();
   return data;
 }

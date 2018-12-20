@@ -18,7 +18,8 @@ class ScrollableDialogForm extends React.Component {
     submit: false,
     openSnackbar: false,
     openConfirmationPrompt: false,
-    dynamicVariables: ''
+    dynamicVariables: '',
+    dynamicVariablesCount: ''
   };
 
   handleStage = () => {
@@ -47,8 +48,13 @@ class ScrollableDialogForm extends React.Component {
   };
 
   handleMutationDynamiData = data => {
+    let count = {};
+    for (let property in data) {
+      count[property] = data[property].length;
+    }
     this.setState({
-      dynamicVariables: data
+      dynamicVariables: data,
+      dynamicVariablesCount: count
     });
   };
 
@@ -71,7 +77,7 @@ class ScrollableDialogForm extends React.Component {
             <DialogTitle>{dialogTitle}</DialogTitle>
             {selectUpsertForForm(children.type.name).simple === 0 ? (
               <Mutation
-                mutation={selectUpsertForForm(children.type.name, this.state.dynamicVariables.length).fkQuery}
+                mutation={selectUpsertForForm(children.type.name, this.state.dynamicVariablesCount).fkQuery}
                 onCompleted={this.formSubmitted}
                 refetchQueries={[{ query: query }]}
                 onError={error => console.log('71, error jakub: ', error)}
@@ -89,31 +95,45 @@ class ScrollableDialogForm extends React.Component {
                         }
                       });
                       const { dynamicVariables } = this.state;
+                      //let done = true;
                       if (dynamicVariables) {
-                        if (dynamicVariables.content)
+                        // done = false;
+                        let count = {};
+                        if (dynamicVariables.content) {
+                          // count.content = dynamicVariables.content.length;
                           for (let i = 0; i < dynamicVariables.content.length; i++) {
-                            variables[`parcelJTId${i}`] = `${dynamicVariables.content[i].parcelJTId}`;
+                            variables[`parcelJTId${i}`] = dynamicVariables.content[i].parcelJTId;
                             variables[`idItemInStock${i}`] = `${dynamicVariables.content[i].key}`;
                             variables[`amount${i}`] = `${dynamicVariables.content[i].amount}`;
                           }
-                        if (dynamicVariables.batches)
+                        }
+                        if (dynamicVariables.batches) {
+                          //count.batches = dynamicVariables.batches.length;
                           for (let i = 0; i < dynamicVariables.batches.length; i++) {
-                            variables[`batchJTId${i}`] = `${dynamicVariables.batches[i].batchJTId}`;
+                            variables[`batchJTId${i}`] = dynamicVariables.batches[i].batchJTId;
                             variables[`idBatch${i}`] = `${dynamicVariables.batches[i].key}`;
                             variables[`amountBatch${i}`] = `${dynamicVariables.batches[i].amount}`;
                           }
-                        if (dynamicVariables.item)
+                        }
+                        if (dynamicVariables.item) {
+                          // count.item = dynamicVariables.item.length;
                           for (let i = 0; i < dynamicVariables.item.length; i++) {
-                            variables[`itemJTId${i}`] = `${dynamicVariables.item[i].itemJTId}`;
+                            variables[`itemJTId${i}`] = dynamicVariables.item[i].itemJTId;
                             variables[`idItemInStock${i}`] = `${dynamicVariables.item[i].key}`;
                             variables[`amountItem${i}`] = `${dynamicVariables.item[i].amount}`;
                           }
-                        for (let id in dynamicVariables.jtId) {
-                          variables[id] = `${dynamicVariables.jtId[id]}`;
                         }
+                        if (dynamicVariables.jtId)
+                          for (let id in dynamicVariables.jtId) {
+                            variables[id] = `${dynamicVariables.jtId[id]}`;
+                          }
+                        console.log('100, variables jakub: ', variables);
+                        console.log('124, count jakub: ', this.state.dynamicVariablesCount);
+                        //this.setState({ dynamicVariablesCount: count }, () => (done = true));
                       }
-                      console.log('100, variables jakub: ', variables);
-                      this.setState({}, () => mutate({ variables: variables }));
+                      //if (done)
+                      mutate({ variables: variables });
+                      // else console.log('130, done jakub: ', done);
                     }}
                   >
                     {mutation => {

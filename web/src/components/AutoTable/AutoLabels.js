@@ -7,7 +7,6 @@ import flattenObject from '../../functions/flattenObject';
 
 const AutoLabels = props => {
   let labels = [];
-  console.log('9, props.queryData jakub: ', props.queryData);
   let labelCount;
   if (props.labelsArr === undefined) {
     //previous

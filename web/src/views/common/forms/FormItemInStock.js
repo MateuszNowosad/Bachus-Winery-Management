@@ -101,7 +101,6 @@ export class FormItemInStock extends React.Component {
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, itemInStockValidationKeys);
     if (arrayOfErrors.length === 0) {
-      console.log('104, działa jakub: ', 'działa');
       this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);

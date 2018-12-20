@@ -93,8 +93,8 @@ export const selectUpsertForForm = (formName, countFK) => {
     case 'FormOperations':
       return {
         query: upsertOperations,
-        simple: 1
-        // fkQuery: operationsFK(countFK)
+        simple: 0,
+        fkQuery: operationsFK(countFK)
       };
     case 'FormVineyard':
       return {

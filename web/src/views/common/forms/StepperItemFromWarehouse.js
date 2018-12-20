@@ -162,7 +162,6 @@ class StepperItemFromWarehouse extends React.Component {
       selectedItem: selectedItem,
       amount: fullItem ? selectedItem.ilosc : value
     };
-    console.log('161, object jakub: ', object);
     this.props.onSubmit(object);
     this.props.onClose();
   };

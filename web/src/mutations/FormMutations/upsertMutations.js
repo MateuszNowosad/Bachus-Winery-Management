@@ -237,7 +237,7 @@ export const waybillFK = countFK => gql`
     $carrierJTId: ID!
     $mailingAddressJTId: ID!
     $pickupAddressJTId: ID!
-    ${parcelVariables(countFK)}
+    ${parcelVariables(countFK ? countFK.content : 0)}
   ) {
     odbiorca: upsertListPrzewozowyHasKontrahenci(
         idListPrzewozowyHasKontrahenci: $recipentJTId
@@ -282,7 +282,7 @@ export const waybillFK = countFK => gql`
     upsertListPrzewozowy(idListPrzewozowy: $idListPrzewozowy, przesylkaIdPrzesylka: $idPrzesylka) {
       idListPrzewozowy
     }
-    ${parcelFK(countFK)}
+    ${parcelFK(countFK ? countFK.content : 0)}
   }
 `;
 
@@ -405,27 +405,13 @@ export const upsertWarehouse = gql`
   }
 `;
 
-const itemJT = countFK => {
+const itemJT = countItemFK => {
   let upsert = ``;
-  for (let i = 0; i < countFK; i++)
-    upsert += `pozycja${i}: upsertOperacjeHasPartie(
-    idOperacjeHasPartie: $itemJTId${i}
+  for (let i = 0; i < countItemFK; i++)
+    upsert += `pozycja${i}: upsertOperacjeHasPozycjaWMagazynie(
+    idOperacjeHasPozycjaWMagazynie: $itemJTId${i}
 		    operacjeIdOperacja: $idOperacjaFK
-    partieIdPartie: $idBatch${i}
-    ilosc: $amountBatch${i}
-  ){
-    idOperacjeHasPartie
-  }`;
-  return upsert;
-};
-
-const batchJT = countBatchFK => {
-  let upsert = ``;
-  for (let i = 0; i < countBatchFK; i++)
-    upsert += `partia${i}: upsertOperacjeHasPozycjaWMagazynie(
-    idOperacjeHasPozycjaWMagazynie: $batchJTId${i}
-    operacjeIdOperacja: $idOperacjaFK
-    pozycjaWMagazynieIdPozycja: $idItemInStock${i}
+		        pozycjaWMagazynieIdPozycja: $idItemInStock${i}
     ilosc: $amountItem${i}
   ){
     idOperacjeHasPozycjaWMagazynie
@@ -433,14 +419,35 @@ const batchJT = countBatchFK => {
   return upsert;
 };
 
-const jtVariables = countItemFK => {
+const batchJT = countBatchFK => {
+  let upsert = ``;
+  for (let i = 0; i < countBatchFK; i++)
+    upsert += `partia${i}: upsertOperacjeHasPartie(
+    idOperacjeHasPartie: $batchJTId${i}
+    operacjeIdOperacja: $idOperacjaFK
+     partieIdPartie: $idBatch${i}
+    ilosc: $amountBatch${i}
+  ){
+  idOperacjeHasPartie   
+  }`;
+  return upsert;
+};
+
+const jtBatchVariables = countBatchFK => {
+  let variables = ``;
+  for (let i = 0; i < countBatchFK; i++)
+    variables += `$batchJTId${i}: ID
+    $idBatch${i}: String!
+    $amountBatch${i}: String!
+    `;
+  return variables;
+};
+
+const jtItemVariables = countItemFK => {
   let variables = ``;
   for (let i = 0; i < countItemFK; i++)
     variables += `$itemJTId${i}: ID
-    $batchJTId${i}: ID
     $idItemInStock${i}: String!
-    $idBatch${i}: String!
-    $amountBatch${i}: String!
     $amountItem${i}: String!
     `;
   return variables;
@@ -450,13 +457,14 @@ export const operationsFK = countFK => gql`
 mutation operationsFK(
     $idOperacja: ID!
     $idOperacjaFK: String!
-    ${jtVariables(countFK)}
+    ${jtItemVariables(countFK ? countFK.item : 0)}
+    ${jtBatchVariables(countFK ? countFK.batches : 0)}
     ){
     upsertOperacje(idOperacja: $idOperacja){
     idOperacja
   }
-    ${itemJT(countFK)}
-    ${batchJT(countFK)}
+    ${itemJT(countFK ? countFK.item : 0)}
+    ${batchJT(countFK ? countFK.batches : 0)}
   }`;
 
 //TODO dodawanie partii i pozycji w magazynie
