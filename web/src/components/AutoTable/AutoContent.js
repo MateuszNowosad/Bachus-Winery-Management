@@ -14,6 +14,7 @@ import { selectDeleteForForm } from '../../mutations/FormMutations/selectDeleteF
 
 const AutoContent = props => {
   let row = [];
+  const { editMode } = props;
   //previous
   // props.queryData['data'][props.querySubject]
   props.queryData
@@ -30,37 +31,50 @@ const AutoContent = props => {
         cells.push(<TableCell key={uniqueCellID}> {value} </TableCell>);
       }
       row.push(
-        <TableRow key={entries[0][1]}>
-          {cells}
-          {props.editMode && (
-            <TableCell numeric>
-              <Button
-                mini
-                onClick={() => {
-                  props.handleEdit(entries[0][1]);
-                }}
-              >
-                Edytuj
-              </Button>
-              <Mutation
-                key={props.formName}
-                mutation={selectDeleteForForm(props.formName)}
-                refetchQueries={[{ query: props.query }]}
-              >
-                {mutation => (
-                  <Button
-                    mini
-                    onClick={() => {
-                      props.handleDeletion(mutation, entries[0][1]);
-                    }}
-                  >
-                    USUŃ
-                  </Button>
-                )}
-              </Mutation>
-            </TableCell>
-          )}
-        </TableRow>
+        editMode ?
+          <TableRow
+            hover
+            key={entries[0][1]}
+            onClick={(event) => props.onClick(event, currElement)}
+            selected={props.selected === entries[0][1]}
+          >
+            {cells}
+            {/*{props.editMode && (*/}
+            {/*<TableCell numeric>*/}
+            {/*<Button*/}
+            {/*mini*/}
+            {/*onClick={() => {*/}
+            {/*props.handleEdit(entries[0][1]);*/}
+            {/*}}*/}
+            {/*>*/}
+            {/*Edytuj*/}
+            {/*</Button>*/}
+            {/*<Mutation*/}
+            {/*key={props.formName}*/}
+            {/*mutation={selectDeleteForForm(props.formName)}*/}
+            {/*refetchQueries={[{ query: props.query }]}*/}
+            {/*>*/}
+            {/*{mutation => (*/}
+            {/*<Button*/}
+            {/*mini*/}
+            {/*onClick={() => {*/}
+            {/*props.handleDeletion(mutation, entries[0][1]);*/}
+            {/*}}*/}
+            {/*>*/}
+            {/*USUŃ*/}
+            {/*</Button>*/}
+            {/*)}*/}
+            {/*</Mutation>*/}
+            {/*</TableCell>*/}
+            {/*)}*/}
+          </TableRow>
+          :
+          <TableRow
+            hover
+            key={entries[0][1]}
+          >
+            {cells}
+          </TableRow>
       );
     });
   return row;

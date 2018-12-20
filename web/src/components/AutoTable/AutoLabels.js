@@ -22,14 +22,14 @@ const AutoLabels = props => {
       labels.push(<TableCell key={currLabel}>{props.labelsArr[currLabel]}</TableCell>);
 
   labelCount = labels.length;
-  props.editMode && labelCount++;
+  //props.editMode && labelCount++;
   props.labelCountChange(labelCount);
 
   return (
     <TableHead>
       <TableRow>
         {labels}
-        {props.editMode && <TableCell />}
+        {/*{props.editMode && <TableCell />}*/}
       </TableRow>
     </TableHead>
   );
@@ -40,7 +40,7 @@ AutoLabels.propTypes = {
   // queryData: PropTypes.object,
   queryData: PropTypes.array,
   // querySubject: PropTypes.string,
-  editMode: PropTypes.bool.isRequired,
+  // editMode: PropTypes.bool.isRequired,
   labelArr: PropTypes.array,
   labelCountChange: PropTypes.func
 };
