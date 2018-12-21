@@ -218,6 +218,9 @@ export const getOperationForForm = gql`
         idPartie
         iloscFromJoinTable
       }
+      uzytkownicy {
+      idUzytkownika
+    }
     }
     OperacjeHasPozycjaWMagazynie(operacjeIdOperacja: $idFK) {
       idOperacjeHasPozycjaWMagazynie

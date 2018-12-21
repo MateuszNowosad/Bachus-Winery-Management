@@ -204,7 +204,7 @@ export class FormOperations extends React.Component {
               selectedBatch: curr,
               amount: curr.iloscFromJoinTable
             }))
-          : ''
+          : '',
       });
     }
   }
