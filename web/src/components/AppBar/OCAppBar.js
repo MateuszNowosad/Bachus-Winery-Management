@@ -28,7 +28,7 @@ class OCAppBar extends React.Component {
   logout = () =>{
     axios({
       method: 'post',
-      url: 'http://localhost:8080/usrlogout',
+      url: 'http://192.168.0.12:8080/usrlogout',//Change on host should be env variable.
       data: {
       },
       withCredentials: true
@@ -41,10 +41,10 @@ class OCAppBar extends React.Component {
         console.log('45, "Error" Mateusz: ', 'Error');
       }
     });
-  }
+  };
 
   render() {
-    const profileLink = props => <Link to="/admindashboard/profile" {...props} />
+    const profileLink = props => <Link to="/admindashboard/profile" {...props} />;
     const { classes, drawerOpen } = this.props;
     return (
       <React.Fragment>

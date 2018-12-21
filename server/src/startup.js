@@ -9,12 +9,8 @@ const { ApolloServer } = require('apollo-server-express');
 const serverListen = async function serverListen() {
   const { app } = await createApp();
   const typeDefs = importSchema(`${__dirname}/api/graphql/schema.graphql`);
-  const corsOptions = {
-    credentials: 'same-origin', //Not sure
-    methods: ['GET', 'PUT', 'POST', 'OPTIONS']
-  };
   const server = new ApolloServer({ typeDefs, resolvers, context: ({ req, res }) => ({ req: req }), playground: true }); //TODO here you can do ({session: req.session}), given you update this in resolvers. I will do it tomorrow.
-  server.applyMiddleware({ app, cors: corsOptions });
+  server.applyMiddleware({ app });
   const port = process.env.PORT || 8080;
 
   app.listen(port, undefined, undefined, () =>

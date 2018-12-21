@@ -24,7 +24,7 @@ class Users extends React.Component {
   componentDidMount() {
     axios({
       method: 'get',
-      url: 'http://localhost:8080/usrrole',
+      url: 'http://192.168.0.12:8080/usrrole',//Change on host should be env variable.
       withCredentials: true
     }).then(response => {
       console.log('41, response Mateusz: ', response);

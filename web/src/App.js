@@ -8,7 +8,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline/CssBaseline';
 //OC
 import { standard } from './assets/jss/themes/standard';
-import './App.css';
+//import './App.css';
 import NoMatch from './components/common/NoMatch';
 import Redirect from 'react-router-dom/es/Redirect';
 import axios from 'axios';
@@ -43,7 +43,7 @@ class App extends Component {
   isAuthenticated = () => {
       axios({
         method: 'get',
-        url: 'http://localhost:8080/usrrole',
+        url: 'http://192.168.0.12:8080/usrrole', //Change on host should be env variable.
         withCredentials: true
       }).then(response => {
         console.log('41, response Mateusz: ', response);
