@@ -128,7 +128,7 @@ export class FormUsers extends React.Component {
       userRoleId: userRole.idRolaUzytkownikow,
       lastLoginDate: currentDate('dateTime'),
       isActive: isActive ? isActive : '1',
-      photoURL: 'https://s3.amazonaws.com/uifaces/faces/twitter/silvanmuhlemann/128.jpg',
+      photoURL: String(photoURL),
       addressId,
       street,
       buildingNumber,

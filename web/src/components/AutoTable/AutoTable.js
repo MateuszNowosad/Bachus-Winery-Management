@@ -120,7 +120,7 @@ class AutoTable extends React.Component {
                     refetchQueries={[{ query: query }]}
                   >
                     {mutation => (
-                      <MenuItem onClick={() => this.handleDeletion(mutation)}>Usuń</MenuItem>
+                      <MenuItem onClick={() => this.handleDeletion(mutation,clickedRow)}>Usuń</MenuItem>
                     )}
                   </Mutation>
                 </Menu>
