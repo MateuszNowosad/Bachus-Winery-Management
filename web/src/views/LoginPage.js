@@ -36,7 +36,7 @@ class SignIn extends React.Component {
   handleSubmit = () => {
     axios({
       method: 'post',
-      url: 'http://192.168.0.12:8080/usrauthorization',//Change on host should be env variable.
+      url: '/usrauthorization',
       data: {
         login: this.state.login,
         password: this.state.password

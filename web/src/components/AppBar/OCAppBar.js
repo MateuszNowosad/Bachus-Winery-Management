@@ -28,7 +28,7 @@ class OCAppBar extends React.Component {
   logout = () =>{
     axios({
       method: 'post',
-      url: 'http://192.168.0.12:8080/usrlogout',//Change on host should be env variable.
+      url: '/usrlogout',
       data: {
       },
       withCredentials: true

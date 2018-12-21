@@ -20,6 +20,8 @@ const user = {
   //TODO testuser should be in variables.
 };
 
+
+
 const hasRoleGet = (usrRole, roles) =>
   roles.some(role => {
     if (usrRole !== undefined) {
@@ -43,7 +45,7 @@ class App extends Component {
   isAuthenticated = () => {
       axios({
         method: 'get',
-        url: 'http://192.168.0.12:8080/usrrole', //Change on host should be env variable.
+        url: '/usrrole',
         withCredentials: true
       }).then(response => {
         console.log('41, response Mateusz: ', response);
