@@ -60,7 +60,7 @@ class ProductionPlans extends React.Component {
               if (error)
                 return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
               let productionPlans = data.PlanyProdukcyjne;
-              return productionPlans.map(currElement => (
+              return productionPlans.slice(0,5).map(currElement => (
                 <MediaCard
                   key={currElement.idPlanyProdukcyjne}
                   heading={currElement.nazwa}
