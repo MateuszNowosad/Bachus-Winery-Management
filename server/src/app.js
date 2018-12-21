@@ -62,7 +62,6 @@ export const createApp = async () => {
     if (user[0].czyAktywne !== 1) {
       res.end();
     }
-
     req.session.login = req.body.login;
     req.session.idUzytkownika = user[0].idUzytkownika;
     req.session.role = user[0].dictRolaUzytkownikowIdRolaUzytkownikow;
@@ -80,7 +79,9 @@ export const createApp = async () => {
   app.post('/usrlogout', async (req, res) => {
     console.log('user logout');
     console.log(req.body);
+    req.session.destroy();
     res.clearCookie('loginID');
+    res.send({succes: true});
     res.end();
   });
 

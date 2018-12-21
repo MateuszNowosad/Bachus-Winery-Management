@@ -101,7 +101,7 @@ class AdminDashboardLayout extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.root}>
-          <OCAppBar onToggleDrawer={this.onDrawerToggle} drawerOpen={this.state.drawerOpen} />
+          <OCAppBar onToggleDrawer={this.onDrawerToggle} drawerOpen={this.state.drawerOpen} isAuthenticated={this.props.isAuthenticated} />
           <OCDrawer onToggleDrawer={this.onDrawerToggle} drawerOpen={this.state.drawerOpen}>
             {this.drawerList}
           </OCDrawer>
@@ -117,7 +117,8 @@ class AdminDashboardLayout extends React.Component {
 
 AdminDashboardLayout.propTypes = {
   role: PropTypes.number.isRequired,
-  waitingForServer: PropTypes.bool.isRequired
+  waitingForServer: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.func.isRequired
 };
 
 export default withStyles(AdminDashboardLayoutStyle)(AdminDashboardLayout);

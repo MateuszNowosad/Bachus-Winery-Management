@@ -41,20 +41,20 @@ class App extends Component {
   }
 
   isAuthenticated = () => {
-    axios({
-      method: 'get',
-      url: 'http://localhost:8080/usrrole',
-      withCredentials: true
-    }).then(response => {
-      console.log('41, response Mateusz: ', response);
-      if (response.data) {
-        console.log('43, "Success" Mateusz: ', 'Success');
-        this.setState({ role: response.data.role, waitingForServer: false });
-      } else {
-        console.log('45, "Error" Mateusz: ', 'Error');
-        this.setState({ waitingForServer: true });
-      }
-    });
+      axios({
+        method: 'get',
+        url: 'http://localhost:8080/usrrole',
+        withCredentials: true
+      }).then(response => {
+        console.log('41, response Mateusz: ', response);
+        if (response.data) {
+          console.log('43, "Success" Mateusz: ', 'Success');
+          this.setState({ role: response.data.role, waitingForServer: false, routeArr: null });
+        } else {
+          console.log('45, "Error" Mateusz: ', 'Error');
+          this.setState({ waitingForServer: true, role: '', routeArr: null });
+        }
+      });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -104,10 +104,9 @@ class App extends Component {
               {routeArr !== null && (
                 <Route
                   path={'/admindashboard'}
-                  render={props => <AdminDashboardLayout {...props} role={role} waitingForServer={waitingForServer} />}
+                  render={props => <AdminDashboardLayout {...props} role={role} waitingForServer={waitingForServer} isAuthenticated={this.isAuthenticated}/>}
                 />
               )}
-              {/*TODO Write PrivateRoute component. Use this to hide routes from drawer.*/}
               {routeArr !== null ? (
                 <Redirect from="/" to={'/admindashboard'} />
               ) : (
