@@ -183,6 +183,9 @@ export const getItemInStockForForm = gql`
         opis
         dataUtworzenia
       }
+      magazyn {
+      idMagazyn
+    }
     }
   }
 `;

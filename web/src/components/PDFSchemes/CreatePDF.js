@@ -1,17 +1,17 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import vfsFonts from 'pdfmake/build/vfs_fonts';
 
-function PDFShow(pdfScheme) {
+function CreatePDF(pdfScheme) {
   const { vfs } = vfsFonts.pdfMake;
   pdfMake.vfs = vfs;
-  let data = null;
+  let data;
   let document = pdfMake.createPdf(pdfScheme);
-  document.getBase64((encodedString) => {
-    data = encodedString;
+  return new Promise(function(resolve, reject) {
+    document.getBase64(function (pdfBase64) {
+      resolve(pdfBase64);
+    });
   });
 
-  document.open();
-  return data;
 }
 
-export default PDFShow;
+export default CreatePDF;

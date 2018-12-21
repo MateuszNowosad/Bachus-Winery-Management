@@ -106,7 +106,7 @@ export class FormParcel extends React.Component {
     if (initState) {
       let data = initState.ListPrzewozowy[0].przesylka;
       let parcelJT = initState.PrzesylkaHasPozycjaWMagazynie.filter(
-        currElement => currElement.przesylkaIdPrzesylka !== data.idPrzesylka
+        currElement => currElement.przesylkaIdPrzesylka === data.idPrzesylka
       );
       this.setState(
         {

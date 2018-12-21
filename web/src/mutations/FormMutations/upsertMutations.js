@@ -467,7 +467,6 @@ mutation operationsFK(
     ${batchJT(countFK ? countFK.batches : 0)}
   }`;
 
-//TODO dodawanie partii i pozycji w magazynie
 export const upsertOperations = gql`
   mutation upsertOperations(
     $operationId: ID
