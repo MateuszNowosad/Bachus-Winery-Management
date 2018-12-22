@@ -7,7 +7,7 @@ import apolloClient from './apolloClient';
 import App from './App';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://192.168.0.12:8080'; //Change on host should be env variable.
+axios.defaults.baseURL = 'https://192.168.0.12:8080'; //Change on host should be env variable.
 
 ReactDOM.render(
   <ApolloProvider client={apolloClient}>
