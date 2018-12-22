@@ -10,8 +10,8 @@
     "initDb": "docker exec -i bachus-winery57 mysql -utest -ptest  <<< 'drop database if exists bachusWinery;create database bachusWinery' && docker exec -i bachus-winery57 mysql -utest -ptest bachusWinery < ./src/sql/bachusWinery2.sql",
     "initDb-win": "bash -c \"docker.exe exec -i bachus-winery57 mysql -utest -ptest  <<< 'drop database if exists bachusWinery;create database bachusWinery' && docker.exe exec -i bachus-winery57 mysql -utest -ptest bachusWinery < ./src/sql/bachusWinery2.sql\"",
     "initDb-toolbox": "docker exec -i bachus-winery57 mysql -utest -ptest -e \"drop database if exists bachusWinery;CREATE DATABASE bachusWinery\" bachusWinery && docker exec -i bachus-winery57 mysql -utest -ptest bachusWinery < \".\\src\\sql\\bachusWinery2.sql\"",
-    "backupDb": "docker exec bachus-winery57 /usr/bin/mysqldump -utest -ptest bachusWinery > backup.sql",
-    "restoreDb": "docker exec -i bachus-winery57 mysql -utest -ptest bachusWinery < backup.sql"
+    "backupDb": "docker exec bachus-winery57 /usr/bin/mysqldump -utest -ptest bachusWinery > backup2.sql",
+    "restoreDb": "docker exec -i bachus-winery57 mysql -utest -ptest bachusWinery < backup2.sql"
   },
   "author": "",
   "license": "ISC",

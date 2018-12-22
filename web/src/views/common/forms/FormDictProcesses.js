@@ -29,8 +29,9 @@ export class FormDictProcesses extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, desc, additional } = this.state;
+    const { name, desc, additional, dictProcessId } = this.state;
     let dataObject = {
+      dictProcessId,
       name,
       desc,
       additional
@@ -38,7 +39,7 @@ export class FormDictProcesses extends React.Component {
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, processesDictValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
@@ -58,6 +59,7 @@ export class FormDictProcesses extends React.Component {
     if (initState) {
       let data = initState.DictProcesy[0];
       this.setState({
+        dictProcessId: data.idDictProcesy,
         name: data.nazwa,
         desc: data.opis ? data.opis : '',
         additional: data.dodatkowe ? data.dodatkowe : ''

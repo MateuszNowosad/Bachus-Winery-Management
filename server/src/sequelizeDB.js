@@ -34,15 +34,26 @@ const sequelize = new Sequelize({
 
 export default sequelize;
 
-const recordsToGenerate = 10;
+const recordsToGenerate = 300;
 let fkKeyNumber = 0;
+let generateDictTables = 1;
+let generateDictNumber = 0;
+let generateDictRola = 0;
 
 let uniqueLogins = [];
+let uniqueWinery = [];
 while (uniqueLogins.length < recordsToGenerate + 20) {
   if (uniqueLogins < recordsToGenerate + 20) {
     uniqueLogins = _.uniq(uniqueLogins);
   }
   uniqueLogins.push(faker.internet.userName().substr(0, 20));
+}
+
+while (uniqueWinery.length < recordsToGenerate + 20) {
+  if (uniqueWinery < recordsToGenerate + 20) {
+    uniqueWinery = _.uniq(uniqueWinery);
+  }
+  uniqueWinery.push(faker.random.word().substr(0, 20));
 }
 
 sequelize
@@ -64,72 +75,147 @@ async function createAdres() {
   );
 }
 
-async function createDictKategoriaWina() {
+async function createDictKategoriaWina(iterator) {
+  const cat = [
+    'KAT 1: Wina musujące',
+    'KAT 2: Wina białe lekkie i świeże',
+    'KAT 3: Wina białe klasyczne i wytrawne',
+    'KAT 4: Wina białe bogate o mocnej budowie',
+    'KAT 5: Wina różowe pikantne i owocowe',
+    'KAT 6: Wina czerwone klasyczne i owocowe',
+    'KAT 7: Wina czerwone ciężkie i skoncentrowane',
+    'KAT 8: Wina białe o owocowej słodyczy',
+    'KAT 9: Szlachetne słodkie wina'
+  ];
   await sequelize.sync().then(() =>
     DICTKATEGORIAWINA.create({
-      nazwaKategoria: faker.lorem.word(faker.random.number(10)),
-      opis: faker.lorem.words(8)
+      nazwaKategoria: cat[iterator],
+      opis: faker.lorem.words(5)
     })
   );
 }
 
 let word = 0;
 
-async function createDictKategorie() {
+async function createDictKategorie(iterator) {
+  const cat = ['Butelki', 'Korki'];
   await sequelize.sync().then(() =>
     DICTKATEGORIE.create({
-      nazwa: faker.lorem.word((word += 1)),
-      jednostka: faker.random.arrayElement(['sztuki', 'kilogramy', 'gramy', 'tony', 'mililitry', 'litry']),
-      opis: faker.lorem.words(8)
+      nazwa: cat[iterator],
+      jednostka: 'sztuki',
+      opis: faker.lorem.words(5)
     })
   );
 }
 
-async function createDictOdmianaWinogron() {
+async function createDictOdmianaWinogron(iterator) {
+  const name = [
+    'Agat Donski',
+    'Ajwaz',
+    'Alden',
+    'Arkadia',
+    'Arocznyj',
+    'Einset Seedless',
+    'Festivee',
+    'Frumoasa Albae',
+    'Kodrianka',
+    'Kryzownikowyj'
+  ];
+  const desc = [
+    'pora dojrzewania owoców wczesna, plenność wysoka. Grona duże, stożkowate, średnio zwarte, ładne. ',
+    'owoce dojrzewają wcześnie, plenność krzewów wysoka. Grona duże, stożkowate, średnio zwarte.',
+    'odmiana o średnio późnej porze dojrzewania owoców, dlatego powinna być uprawiana pod ciepłymi ścianami i murami, szczególnie w chłodniejszych rejonach Polski.',
+    'wysokiej jakości odmiana deserowa o wczesnej porze dojrzewania owoców. Plenność krzewów bardzo wysoka. Grona duże, do bardzo dużych, średnio zwarte.',
+    'nowa, interesująca odmiana rosyjska. Owoce dojrzewają wcześnie. Grona duże, średnio zwarte.',
+    'beznasienna odmiana amerykańska, pora dojrzewania owoców wczesna, plenność średnia.',
+    'pora dojrzewania owoców średnio późna (przełom września i października).',
+    'odmiana pochodzi z Mołdowy. Owoce dojrzewają dość późno zazwyczaj na przełomie września i października.',
+    'odmiana mołdawska. Pora dojrzewania owoców wczesna, wzrost krzewów silny, plenność dobra.',
+    'owoce dojrzewają średnio wcześnie - w uprawie w drugiej połowie września. '
+  ];
   await sequelize.sync().then(() =>
     DICTODMIANAWINOGRON.create({
-      nazwa: faker.lorem.word((word += 1)),
-      opis: faker.lorem.words(9)
+      nazwa: name[iterator],
+      opis: desc[iterator]
     })
   );
 }
 
-async function createDictOperacjeNaWinnicy() {
+async function createDictOperacjeNaWinnicy(iterator) {
+  const proces = ['Podcinanie', 'Podlewanie', 'Sadzenie', 'Zbiory winogron'];
   await sequelize.sync().then(() =>
     DICTOPERACJENAWINNICY.create({
-      nazwa: faker.lorem.word(faker.random.number(100)),
+      nazwa: proces[iterator],
       opis: faker.lorem.words(10),
-      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: fkKeyNumber,
-      winnicaIdWinnica: fkKeyNumber
+      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: iterator,
+      winnicaIdWinnica: iterator
     })
   );
 }
 
-async function createDictProcesy() {
+async function createDictProcesy(arrayIterator) {
+  const proces = [
+    'Winobranie',
+    'Ewidencja dostaw winogron',
+    'Oddzielenie szypulek',
+    'Miazdzenie',
+    'Maceracja',
+    'Sprawdzenie skladu',
+    'Tloczenie',
+    'Fermentacja',
+    'Obciąg wina',
+    'Klarowanie i stabilizacja wina',
+    'Dojrzewanie',
+    'Kupazowanie',
+    'Rozlew',
+    'Obrobka moszczu przed fermentacja'
+  ];
+  const innerProces = [
+    'dodatek SO2',
+    'szaptalizacja',
+    'zakwaszanie',
+    'odkwaszanie',
+    'dodatek pozywki dla drozdzy',
+    'dodatek drozdzy'
+  ];
   await sequelize.sync().then(() =>
     DICTPROCESY.create({
-      nazwa: faker.lorem.word(faker.random.number(100)),
-      opis: faker.lorem.words(10),
+      nazwa: proces[arrayIterator],
+      opis: faker.lorem.words(5),
       dodatkowe: faker.lorem.word(faker.random.number(100))
     })
   );
+  if (arrayIterator === 11) {
+    for (let i = 0; i < 6; i += 1) {
+      await sequelize.sync().then(() =>
+        DICTPROCESY.create({
+          nazwa: proces[13],
+          opis: faker.lorem.words(5),
+          dodatkowe: innerProces[i]
+        })
+      );
+    }
+  }
 }
 
-async function createDictRolaUzytkownikow() {
+async function createDictRolaUzytkownikow(orderNumber) {
+  const name = ['ADMIN', 'PRODUCTION', 'WAREHOUSE', 'ACCOUNTING'];
   await sequelize.sync().then(() =>
     DICTROLAUZYTKOWNIKOW.create({
-      nazwa: faker.lorem.word((word += 1)),
+      nazwa: name[orderNumber],
       opis: faker.lorem.words(10),
-      typ: faker.random.arrayElement(['administrator', 'pracownik', 'pracownik', 'pracownik', 'pracownik'])
+      typ: orderNumber === 1 ? 'administrator' : 'pracownik'
     })
   );
 }
 
-async function createDictTypPartii() {
+async function createDictTypPartii(iterator) {
+  const name = ['Moszczu', 'Butelek wina', 'Winogron', 'Wina'];
+  const type = ['kilogramy', 'sztuki', 'tony', 'litry'];
   await sequelize.sync().then(() =>
     DICTTYPPARTII.create({
-      nazwa: faker.lorem.word((word += 1)),
-      jednostka: faker.random.arrayElement(['sztuki', 'kilogramy', 'gramy', 'tony', 'mililitry', 'litry'])
+      nazwa: name[iterator],
+      jednostka: type[iterator]
     })
   );
 }
@@ -141,7 +227,7 @@ async function createInformacjeOWinie() {
       motto: faker.lorem.words(10),
       zawartoscPotAlergenow: faker.random.word(2),
       wartoscEnergetyczna: faker.random.number(999),
-      dictKategoriaWinaIdDictKategoriaWina: fkKeyNumber
+      dictKategoriaWinaIdDictKategoriaWina: faker.random.number({ min: 1, max: 9 })
     })
   );
 }
@@ -199,7 +285,7 @@ async function createOperacje() {
       temperatura: faker.random.number(9) + '.' + faker.random.number(9),
       opis: faker.random.words(5),
       uzytkownicyIdUzytkownicy: fkKeyNumber,
-      dictProcesyIdDictProcesy: fkKeyNumber
+      dictProcesyIdDictProcesy: faker.random.number({ min: 1, max: 11 })
     })
   );
 }
@@ -209,7 +295,7 @@ async function createOperacjeNaWinnicy() {
     OPERACJENAWINNICY.create({
       data: faker.date.recent(),
       opis: faker.random.words(5),
-      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: fkKeyNumber,
+      dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy: faker.random.number({ min: 1, max: 4 }),
       winnicaIdWinnica: fkKeyNumber
     })
   );
@@ -223,7 +309,7 @@ async function createPartie() {
       dataUtworzenia: faker.date.recent(),
       winobranieIdWinobranie: fkKeyNumber,
       partieIdPartie: fkKeyNumber,
-      typPartiiIdTypPartii: fkKeyNumber,
+      typPartiiIdTypPartii: faker.random.number({ min: 1, max: 4 }),
       informacjeOWinieIdInformacjeOWinie: fkKeyNumber,
       planyProdukcyjneIdPlanyProdukcyjne: fkKeyNumber,
       czyPrzepis: faker.random.arrayElement(['0', '0', '0', '0', '1'])
@@ -252,7 +338,7 @@ async function createPozycjaWMagazynie() {
       dataPrzyjecia: faker.date.past(),
       dataWydania: faker.date.recent(),
       nazwaSektora: faker.random.arrayElement(['SektorA', 'SektorB', 'SektorC', 'SektorD', 'SektorE', 'SektorF']),
-      kategorieIdKategorie: fkKeyNumber,
+      kategorieIdKategorie: faker.random.number({ min: 1, max: 2 }),
       magazynIdMagazyn: fkKeyNumber,
       partieIdPartie: fkKeyNumber
     })
@@ -295,7 +381,7 @@ async function createUzytkownicy() {
       nrTelefonu: faker.random.number(999) + '-' + faker.random.number(999) + '-' + faker.random.number(999),
       dataOstatniegoLogowania: faker.date.recent(),
       adresIdAdres: fkKeyNumber,
-      dictRolaUzytkownikowIdRolaUzytkownikow: faker.random.number({ min: 1, max: 10 }),
+      dictRolaUzytkownikowIdRolaUzytkownikow: faker.random.number({ min: 1, max: 4 }),
       zdjecie: faker.internet.avatar(),
       czyAktywne: faker.random.boolean()
     })
@@ -305,21 +391,14 @@ async function createUzytkownicy() {
 async function createWinnica() {
   await sequelize.sync().then(() =>
     WINNICA.create({
-      nazwa: faker.random.word(1),
+      nazwa: `${uniqueWinery[fkKeyNumber]}${fkKeyNumber}`,
       powierzchnia: faker.random.number(9999) + '.' + faker.random.number(99),
       stan: faker.random.arrayElement(['Aktywna', 'Aktywna', 'Aktywna', 'Aktywna', 'Aktywna', 'Nieczynna']),
       terroir: faker.random.words(10),
       dataOstatniegoZbioru: faker.date.recent(),
       dataZasadzenia: faker.date.past(),
-      ewidencyjnyIdDzialki:
-        faker.random.number(999999) +
-        '_' +
-        faker.random.number(9) +
-        '.' +
-        faker.random.number(9999) +
-        '.' +
-        faker.random.number(999),
-      odmianiaWinogronIdOdmianaWinogron: fkKeyNumber
+      ewidencyjnyIdDzialki: fkKeyNumber,
+      odmianiaWinogronIdOdmianaWinogron: faker.random.number({ min: 1, max: 10 })
     })
   );
 }
@@ -335,20 +414,22 @@ async function createWinobranie() {
 }
 
 async function createListPrzewozowyHasAdres() {
+  // faker.random.arrayElement(['Nadania', 'Odbioru']),
   await sequelize.sync().then(() => {
     LISTPRZEWOZOWYHASADRES.create({
       adresIdAdres: fkKeyNumber,
-      miejsce: faker.random.arrayElement(['Nadania', 'Odbioru']),
+      miejsce: 'Odbioru',
       listPrzewozowyIdListPrzewozowy: fkKeyNumber
     });
   });
 }
 async function createListPrzewozowyHasKontrahenci() {
+  // faker.random.arrayElement(['Odbiorca', 'Przewoznik', 'Nadawca'])
   await sequelize.sync().then(() => {
     LISTPRZEWOZOWYHASKONTRAHENCI.create({
       listPrzewozowyIdListPrzewozowy: fkKeyNumber,
       kontrahenciIdKontrahenci: fkKeyNumber,
-      typ: faker.random.arrayElement(['Odbiorca', 'Przewoznik'])
+      typ: 'Nadawca'
     });
   });
 }
@@ -438,7 +519,7 @@ const ADRES = sequelize.define('Adres', {
     type: Sequelize.STRING(60),
     allowNull: false,
     validate: {
-      is: /^([\p{L}' ()]{2,60})$/u
+      // is: /^([\p{L}' ()]{2,80})$/u
     }
   }
 });
@@ -452,8 +533,7 @@ const DICTKATEGORIAWINA = sequelize.define('DictKategoriaWina', {
   nazwaKategoria: {
     type: Sequelize.STRING(45),
     allowNull: false,
-    unique: true,
-    validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') }
+    unique: true
   },
   opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } }
 });
@@ -557,17 +637,15 @@ const INFORMACJEOWINIE = sequelize.define('InformacjeOWinie', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(45), allowNull: false, validate: { is: new RegExp("^([\\p{L}' ()]{3,45})$", 'u') } },
+  nazwa: { type: Sequelize.STRING(45), allowNull: false },
   motto: { type: Sequelize.STRING(100), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,100})$', 'u') } },
   zawartoscPotAlergenow: {
     type: Sequelize.STRING(20),
-    allowNull: true,
-    validate: { is: new RegExp('^(|[\\s\\S]{2,20})$', 'u') }
+    allowNull: true
   },
   wartoscEnergetyczna: {
     type: Sequelize.INTEGER(3),
-    allowNull: false,
-    validate: { is: /^((?=.{1,3}$)\d*[1-9]+\d*)$/ }
+    allowNull: false
   },
   dictKategoriaWinaIdDictKategoriaWina: Sequelize.INTEGER
 });
@@ -618,13 +696,11 @@ const LISTPRZEWOZOWY = sequelize.define('ListPrzewozowy', {
   },
   imieKierowcy: {
     type: Sequelize.STRING(45),
-    allowNull: false,
-    validate: { is: new RegExp("^([\\p{L}' ]{3,45})$", 'u') }
+    allowNull: false
   },
   nazwiskoKierowcy: {
     type: Sequelize.STRING(60),
-    allowNull: false,
-    validate: { is: new RegExp("^([\\p{L}' ]{3,45})$", 'u') }
+    allowNull: false
   },
   uwagiPrzewoznika: {
     type: Sequelize.STRING(255),
@@ -849,25 +925,21 @@ const WINNICA = sequelize.define('Winnica', {
     primaryKey: true,
     autoIncrement: true
   },
-  nazwa: { type: Sequelize.STRING(40), allowNull: false, validate: { is: new RegExp("^([\\p{L}' ()]{2,40})$", 'u') } },
+  nazwa: { type: Sequelize.STRING(40), allowNull: false },
   powierzchnia: {
     type: Sequelize.DECIMAL(6, 2),
-    allowNull: false,
-    validate: { is: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1,2}|0{1,6}\.\d[1-9])$/ }
+    allowNull: false
   },
   stan: {
     type: Sequelize.ENUM('Aktywna', 'Nieczynna'),
-    allowNull: false,
-    validate: { is: new RegExp("^([\\p{L}' ()]{2,40})$", 'u') }
+    allowNull: false
   },
-  terroir: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^([\\s\\S]{2,255})$', 'u') } },
+  terroir: { type: Sequelize.STRING(255), allowNull: true },
   dataOstatniegoZbioru: { type: Sequelize.DATE, allowNull: true },
   dataZasadzenia: { type: Sequelize.DATE, allowNull: false },
   ewidencyjnyIdDzialki: {
     type: Sequelize.STRING(45),
-    allowNull: false,
-    unique: true,
-    validate: { is: new RegExp('^(|[\\s\\S]{2,45})$', 'u') }
+    allowNull: false
   },
   odmianiaWinogronIdOdmianaWinogron: { type: Sequelize.INTEGER, allowNull: false }
 });
@@ -968,13 +1040,6 @@ async function generateRows() {
     // TODO set in docker container after inserting
     // TODO SET FOREIGN_KEY_CHECKS=1; and SET GLOBAL FOREIGN_KEY_CHECKS=1;
     // await createAdres();
-    // await createDictKategoriaWina();
-    // await createDictKategorie();
-    // await createDictOdmianaWinogron();
-    // await createDictOperacjeNaWinnicy();
-    // await createDictProcesy();
-    // await createDictRolaUzytkownikow();
-    // await createDictTypPartii();
     // await createInformacjeOWinie();
     // await createKontrahenci();
     // await createListPrzewozowy();
@@ -996,6 +1061,29 @@ async function generateRows() {
     // await createUzytkownicy();
     // await createWinnica();
     // await createWinobranie();
+  }
+  if (generateDictTables === 1) {
+    // for (let i = 0; i < 4; i += 1) {
+    //   await createDictRolaUzytkownikow(i);
+    // }
+    // for (let i = 0; i < 12; i += 1) {
+    //   await createDictProcesy(i);
+    // }
+    // for (let i = 0; i < 9; i += 1) {
+    //   await createDictKategoriaWina(i);
+    // }
+    // for (let i = 0; i < 2; i += 1) {
+    //   await createDictKategorie(i);
+    // }
+    // for (let i = 0; i < 10; i += 1) {
+    //   await createDictOdmianaWinogron(i);
+    // }
+    // for (let i = 0; i < 4; i += 1) {
+    //   await createDictOperacjeNaWinnicy(i);
+    // }
+    // for (let i = 0; i < 4; i += 1) {
+    //   await createDictTypPartii(i);
+    // }
   }
 }
 generateRows();

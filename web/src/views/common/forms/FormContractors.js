@@ -59,9 +59,8 @@ export class FormContractors extends React.Component {
   }
 
   handleSubmit = () => {
-    const { NIP, companyName, phoneNumber, eMail, wwwSite, KRS, accountNumber, fax, address } = this.state;
-
-    let dataObject = {
+    const {
+      contractorId,
       NIP,
       companyName,
       phoneNumber,
@@ -70,13 +69,32 @@ export class FormContractors extends React.Component {
       KRS,
       accountNumber,
       fax,
-      address
+      address: { addressId, street, buildingNumber, apartmentNumber, postalCode, city, country }
+    } = this.state;
+
+    let dataObject = {
+      contractorId,
+      NIP,
+      companyName,
+      phoneNumber,
+      eMail,
+      wwwSite,
+      KRS,
+      accountNumber,
+      fax,
+      addressId,
+      street,
+      buildingNumber,
+      apartmentNumber,
+      postalCode,
+      city,
+      country
     };
     let arrayOfErrors = UniversalValidationHandler(dataObject, contractorsValidationKeys);
     !this.subFormValidation() && arrayOfErrors.push('address');
-    this.validateKRSNIP() && arrayOfErrors.push(['NIP', 'KRS']);
+    // this.validateKRSNIP() && arrayOfErrors.push(['NIP', 'KRS']);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
@@ -96,6 +114,7 @@ export class FormContractors extends React.Component {
     if (initState) {
       let data = initState.Kontrahenci[0];
       this.setState({
+        contractorId: data.idKontrahenci,
         NIP: data.NIP ? data.NIP : '',
         companyName: data.nazwaSpolki,
         phoneNumber: data.telefon,
@@ -208,7 +227,7 @@ export class FormContractors extends React.Component {
               value={phoneNumber}
               margin="dense"
               inputProps={{
-                maxLength: '11'
+                maxLength: '14'
               }}
               onChange={this.handleChange('phoneNumber')}
               variant={'outlined'}

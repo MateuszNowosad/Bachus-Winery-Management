@@ -27,16 +27,17 @@ export class FormDictGrapeType extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, desc } = this.state;
+    const { name, desc, dictGrapeTypeId } = this.state;
 
     let dataObject = {
+      dictGrapeTypeId,
       name,
       desc
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, grapeTypeDictValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
@@ -56,6 +57,7 @@ export class FormDictGrapeType extends React.Component {
     if (initState) {
       let data = initState.DictOdmianaWinogron[0];
       this.setState({
+        dictGrapeTypeId: data.idOdmianaWinogron,
         name: data.nazwa,
         desc: data.opis ? data.opis : ''
       });

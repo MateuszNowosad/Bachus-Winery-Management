@@ -10,12 +10,15 @@ import Button from '@material-ui/core/Button/Button';
 import UniversalSubmitHander from '../../views/common/forms/UniversalSubmitHandler';
 import OCSnackbar from '../../views/common/prompts/OCSnackbar';
 import ConfirmationSlide from './ConfirmationSlide';
+import { Mutation } from 'react-apollo';
+import { selectUpsertForForm } from '../../mutations/FormMutations/selectUpsertForForm';
 
 class ScrollableDialogForm extends React.Component {
   state = {
     submit: false,
     openSnackbar: false,
-    openConfirmationPrompt: false
+    openConfirmationPrompt: false,
+    dynamicVariables: ''
   };
 
   handleStage = () => {
@@ -43,8 +46,14 @@ class ScrollableDialogForm extends React.Component {
     this.props.closeForm();
   };
 
+  handleMutationDynamiData = data => {
+    this.setState({
+      dynamicVariables: data
+    });
+  };
+
   render() {
-    const { classes, children, dialogTitle, open } = this.props;
+    const { classes, children, dialogTitle, open, query } = this.props;
     const { openConfirmationPrompt, openSnackbar, submit } = this.state;
     return (
       <div>
@@ -60,12 +69,83 @@ class ScrollableDialogForm extends React.Component {
         >
           <DialogContent>
             <DialogTitle>{dialogTitle}</DialogTitle>
-            {React.cloneElement(children, {
-              submitFromOutside: submit,
-              onSubmit: UniversalSubmitHander,
-              formSubmitted: this.formSubmitted,
-              submitAborted: this.submitAborted
-            })}
+            {selectUpsertForForm(children.type.name).simple === 0 ? (
+              <Mutation
+                mutation={selectUpsertForForm(children.type.name, this.state.dynamicVariables.length).fkQuery}
+                onCompleted={this.formSubmitted}
+                refetchQueries={[{ query: query }]}
+                onError={error => console.log('71, error jakub: ', error)}
+              >
+                {mutate => (
+                  <Mutation
+                    mutation={selectUpsertForForm(children.type.name).query}
+                    onCompleted={result => {
+                      console.log('75, result jakub: ', result);
+                      let variables = {};
+                      Object.values(result).forEach(value => {
+                        for (let i = 0; i < Object.keys(value).length - 1; i++) {
+                          let key = Object.keys(value)[i];
+                          variables[key] = value[key];
+                        }
+                      });
+                      const { dynamicVariables } = this.state;
+                      if (dynamicVariables) {
+                        if (dynamicVariables.content)
+                          for (let i = 0; i < dynamicVariables.content.length; i++) {
+                            variables[`parcelJTId${i}`] = `${dynamicVariables.content[i].parcelJTId}`;
+                            variables[`idItemInStock${i}`] = `${dynamicVariables.content[i].key}`;
+                            variables[`amount${i}`] = `${dynamicVariables.content[i].amount}`;
+                          }
+                        if (dynamicVariables.batches)
+                          for (let i = 0; i < dynamicVariables.batches.length; i++) {
+                            variables[`batchJTId${i}`] = `${dynamicVariables.batches[i].batchJTId}`;
+                            variables[`idBatch${i}`] = `${dynamicVariables.batches[i].key}`;
+                            variables[`amountBatch${i}`] = `${dynamicVariables.batches[i].amount}`;
+                          }
+                        if (dynamicVariables.item)
+                          for (let i = 0; i < dynamicVariables.item.length; i++) {
+                            variables[`itemJTId${i}`] = `${dynamicVariables.item[i].itemJTId}`;
+                            variables[`idItemInStock${i}`] = `${dynamicVariables.item[i].key}`;
+                            variables[`amountItem${i}`] = `${dynamicVariables.item[i].amount}`;
+                          }
+                        for (let id in dynamicVariables.jtId) {
+                          variables[id] = `${dynamicVariables.jtId[id]}`;
+                        }
+                      }
+                      console.log('100, variables jakub: ', variables);
+                      this.setState({}, () => mutate({ variables: variables }));
+                    }}
+                  >
+                    {mutation => {
+                      return React.cloneElement(children, {
+                        submitFromOutside: submit,
+                        onSubmit: UniversalSubmitHander,
+                        //formSubmitted: this.formSubmitted,
+                        submitAborted: this.submitAborted,
+                        mutation: mutation,
+                        setMutationDynamicVariables: this.handleMutationDynamiData
+                      });
+                    }}
+                  </Mutation>
+                )}
+              </Mutation>
+            ) : (
+              <Mutation
+                mutation={selectUpsertForForm(children.type.name).query}
+                onCompleted={this.formSubmitted}
+                refetchQueries={[{ query: query }]}
+              >
+                {mutation => {
+                  return React.cloneElement(children, {
+                    submitFromOutside: submit,
+                    onSubmit: UniversalSubmitHander,
+                    //formSubmitted: this.formSubmitted,
+                    submitAborted: this.submitAborted,
+                    mutation: mutation
+                  });
+                }}
+              </Mutation>
+            )}
           </DialogContent>
           <DialogActions classes={{ root: classes.root }}>
             {openConfirmationPrompt ? (

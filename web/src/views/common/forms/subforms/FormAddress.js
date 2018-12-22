@@ -53,19 +53,24 @@ export class FormAddress extends React.Component {
   }
 
   handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-    const { street, buildingNumber, apartmentNumber, postalCode, city, country } = this.state;
-    const { varName } = this.props;
-    this.props.onChange(varName, {
-      street,
-      buildingNumber,
-      apartmentNumber,
-      postalCode,
-      city,
-      country
-    });
+    this.setState(
+      {
+        [name]: event.target.value
+      },
+      () => {
+        const { addressId, street, buildingNumber, apartmentNumber, postalCode, city, country } = this.state;
+        const { varName } = this.props;
+        this.props.onChange(varName, {
+          addressId,
+          street,
+          buildingNumber,
+          apartmentNumber,
+          postalCode,
+          city,
+          country
+        });
+      }
+    );
   };
 
   componentDidMount() {
@@ -73,6 +78,7 @@ export class FormAddress extends React.Component {
     if (initState) {
       this.setState(
         {
+          addressId: initState.idAdres,
           street: initState.ulica,
           buildingNumber: initState.nrPosesji,
           apartmentNumber: initState.nrLokalu ? initState.nrLokalu : '',
@@ -81,8 +87,9 @@ export class FormAddress extends React.Component {
           country: initState.kraj
         },
         () => {
-          const { street, buildingNumber, apartmentNumber, postalCode, city, country } = this.state;
+          const { addressId, street, buildingNumber, apartmentNumber, postalCode, city, country } = this.state;
           this.props.onChange(varName, {
+            addressId,
             street,
             buildingNumber,
             apartmentNumber,

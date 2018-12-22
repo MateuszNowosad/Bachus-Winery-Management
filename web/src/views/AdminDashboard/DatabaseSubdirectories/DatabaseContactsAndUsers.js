@@ -39,6 +39,7 @@ class DatabaseContactsAndUsers extends React.Component {
                 let users = data.Uzytkownicy;
                 return (
                   <AutoTable
+                    query={getUsers}
                     queryData={users}
                     // querySubject="hero"
                     querySize={users.length}
@@ -62,6 +63,7 @@ class DatabaseContactsAndUsers extends React.Component {
                 let contractors = data.Kontrahenci;
                 return (
                   <AutoTable
+                    query={getContractors}
                     queryData={contractors}
                     querySize={contractors.length}
                     dialogForm={<FormContractors />}
@@ -101,6 +103,7 @@ class DatabaseContactsAndUsers extends React.Component {
                 let userRoles = data.DictRolaUzytkownikow;
                 return (
                   <AutoTable
+                    query={getDictUserRole}
                     queryData={userRoles}
                     querySize={userRoles.length}
                     dialogForm={<FormDictUserRole />}

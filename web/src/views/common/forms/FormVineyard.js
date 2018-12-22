@@ -8,7 +8,7 @@ import UniversalValidationHandler from './UniversalValidationHandler/UniversalVa
 import getDictGrapeType from '../../../queries/DictionaryQueries/getDictGrapeType';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
-const stany = ['czynna', 'rośnie'];
+const stany = ['Aktywna', 'Nieczynna'];
 
 const errorMap = {
   name: false,
@@ -25,15 +25,21 @@ export class FormVineyard extends React.Component {
     super(props);
     this.state = {
       name: '',
-      area: null,
+      area: '',
       terroir: '',
       dateOfPlanting: currentDate('date'),
       registrationPlotId: '',
-      grapeType: '',
+      grapeType: {},
       state: '',
       errors: errorMap
     };
   }
+
+  handleSelect = (name, data) => event => {
+    this.setState({
+      [name]: data.find(record => record.nazwa === event.target.value)
+    });
+  };
 
   handleChange = name => event => {
     this.setState({
@@ -42,20 +48,21 @@ export class FormVineyard extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, area, terroir, dateOfPlanting, registrationPlotId, grapeType, state } = this.state;
+    const { vineyardId, name, area, terroir, dateOfPlanting, registrationPlotId, grapeType, state } = this.state;
     let dataObject = {
+      vineyardId,
       name,
-      area,
+      area: Number(area),
+      state,
       terroir,
       dateOfPlanting,
       registrationPlotId,
-      grapeType,
-      state
+      grapeTypeId: grapeType.idOdmianaWinogron
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, vineyardValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
@@ -75,12 +82,13 @@ export class FormVineyard extends React.Component {
     if (initState) {
       let data = initState.Winnica[0];
       this.setState({
+        vineyardId: data.idWinnica,
         name: data.nazwa,
         area: data.powierzchnia,
         terroir: data.terroir ? data.terroir : '',
         dateOfPlanting: data.dataZasadzenia,
         registrationPlotId: data.ewidencyjnyIdDzialki,
-        grapeType: data.dictOdmianaWinogron.nazwa,
+        grapeType: data.dictOdmianaWinogron,
         state: data.stan
       });
     }
@@ -213,8 +221,8 @@ export class FormVineyard extends React.Component {
                     select
                     label="Odmiana winogron"
                     placeholder="Odmiana winogron"
-                    value={grapeType}
-                    onChange={this.handleChange('grapeType')}
+                    value={grapeType.nazwa ? grapeType.nazwa : ''}
+                    onChange={this.handleSelect('grapeType', data.DictOdmianaWinogron)}
                     margin="dense"
                     variant={'outlined'}
                   >

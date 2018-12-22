@@ -27,15 +27,16 @@ export class FormDictVineyardOperations extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, desc } = this.state;
+    const { name, desc, dictVineyardOperationId } = this.state;
     let dataObject = {
+      dictVineyardOperationId,
       name,
       desc
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, vineyardOperationsDictValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
@@ -55,6 +56,7 @@ export class FormDictVineyardOperations extends React.Component {
     if (initState) {
       let data = initState.DictOperacjeNaWinnicy[0];
       this.setState({
+        dictVineyardOperationId: data.idDictOperacjeNaWinnicy,
         name: data.nazwa,
         desc: data.opis ? data.opis : ''
       });

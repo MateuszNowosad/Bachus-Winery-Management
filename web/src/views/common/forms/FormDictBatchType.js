@@ -27,15 +27,16 @@ export class FormDictBatchType extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, unit } = this.state;
+    const { name, unit, dictBatchTypeId } = this.state;
     let dataObject = {
+      dictBatchTypeId,
       name,
       unit
     };
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, batchTypeDictValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
@@ -55,6 +56,7 @@ export class FormDictBatchType extends React.Component {
     if (initState) {
       let data = initState.DictTypPartii[0];
       this.setState({
+        dictBatchTypeId: data.idTypPartii,
         name: data.nazwa,
         unit: data.jednostka
       });

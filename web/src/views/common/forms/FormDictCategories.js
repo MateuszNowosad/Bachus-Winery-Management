@@ -29,8 +29,9 @@ export class FormDictCategories extends React.Component {
   };
 
   handleSubmit = () => {
-    const { name, unit, desc } = this.state;
+    const { name, unit, desc, dictCategoryId } = this.state;
     let dataObject = {
+      dictCategoryId,
       name,
       unit,
       desc
@@ -38,7 +39,7 @@ export class FormDictCategories extends React.Component {
 
     let arrayOfErrors = UniversalValidationHandler(dataObject, categoriesDictValidationKeys);
     if (arrayOfErrors.length === 0) {
-      if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
+      this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
       for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
@@ -58,6 +59,7 @@ export class FormDictCategories extends React.Component {
     if (initState) {
       let data = initState.DictKategorie[0];
       this.setState({
+        dictCategoryId: data.idKategorie,
         name: data.nazwa,
         unit: data.jednostka,
         desc: data.opis ? data.opis : ''
