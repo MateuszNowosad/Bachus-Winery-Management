@@ -15,7 +15,7 @@ export const createApp = async () => {
   console.log('23, __dirname filip: ', __dirname);
 
   const corsOptions = {
-    origin: 'http://192.168.0.12:3000', //Change on host should be env variable.
+    origin: 'https://192.168.0.12:3000', //Change on host should be env variable.
     credentials: true
   };
 

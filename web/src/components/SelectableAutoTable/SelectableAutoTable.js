@@ -48,7 +48,9 @@ class SelectableAutoTable extends React.Component {
       selected: row[Object.keys(row)[0]]
     });
     this.props.onSelect(param, row);
-    this.props.onClose ? this.props.onClose() : null;
+    if (this.props.onClose) {
+      this.props.onClose();
+    } else return null;
   };
 
   render() {
