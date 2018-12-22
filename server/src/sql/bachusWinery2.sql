@@ -175,7 +175,7 @@ CREATE TABLE `InformacjeOWinie` (
   PRIMARY KEY (`idInformacjeOWinie`),
   UNIQUE KEY `idInformacjeOWinie_UNIQUE` (`idInformacjeOWinie`),
   KEY `fk_informacje_o_winie_dict_kategoria_wina1_idx` (`dictKategoriaWinaIdDictKategoriaWina`),
-  CONSTRAINT `fk_informacje_o_winie_dict_kategoria_wina1` FOREIGN KEY (`dictKategoriaWinaIdDictKategoriaWina`) REFERENCES `DictKategoriaWina` (`idDictKategoriaWina`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_informacje_o_winie_dict_kategoria_wina1` FOREIGN KEY (`dictKategoriaWinaIdDictKategoriaWina`) REFERENCES `DictKategoriaWina` (`idDictKategoriaWina`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -206,7 +206,7 @@ CREATE TABLE `Kontrahenci` (
   UNIQUE KEY `NIP_UNIQUE` (`NIP`),
   UNIQUE KEY `KRS_UNIQUE` (`KRS`),
   KEY `fk_kontrahenci_adres1_idx` (`adresIdAdres`),
-  CONSTRAINT `fk_kontrahenci_adres1` FOREIGN KEY (`adresIdAdres`) REFERENCES `Adres` (`idAdres`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_kontrahenci_adres1` FOREIGN KEY (`adresIdAdres`) REFERENCES `Adres` (`idAdres`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -228,7 +228,7 @@ CREATE TABLE `ListPrzewozowy` (
   PRIMARY KEY (`idListPrzewozowy`),
   UNIQUE KEY `idListPrzewozowy_UNIQUE` (`idListPrzewozowy`),
   KEY `fk_list_przewozowy_przesylka1_idx` (`przesylkaIdPrzesylka`),
-  CONSTRAINT `fk_list_przewozowy_przesylka1` FOREIGN KEY (`przesylkaIdPrzesylka`) REFERENCES `Przesylka` (`idPrzesylka`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_list_przewozowy_przesylka1` FOREIGN KEY (`przesylkaIdPrzesylka`) REFERENCES `Przesylka` (`idPrzesylka`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -248,8 +248,8 @@ CREATE TABLE `ListPrzewozowyHasAdres` (
   UNIQUE KEY `idListPrzewozowyHasAdres_UNIQUE` (`idListPrzewozowyHasAdres`),
   KEY `fk_przesylka_has_adres_adres1_idx` (`adresIdAdres`),
   KEY `fk_przesylka_has_adres_list_przewozowy1_idx` (`listPrzewozowyIdListPrzewozowy`),
-  CONSTRAINT `fk_przesylka_has_adres_adres1` FOREIGN KEY (`adresIdAdres`) REFERENCES `Adres` (`idAdres`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_przesylka_has_adres_list_przewozowy1` FOREIGN KEY (`listPrzewozowyIdListPrzewozowy`) REFERENCES `ListPrzewozowy` (`idListPrzewozowy`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_przesylka_has_adres_adres1` FOREIGN KEY (`adresIdAdres`) REFERENCES `Adres` (`idAdres`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_przesylka_has_adres_list_przewozowy1` FOREIGN KEY (`listPrzewozowyIdListPrzewozowy`) REFERENCES `ListPrzewozowy` (`idListPrzewozowy`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -269,8 +269,8 @@ CREATE TABLE `ListPrzewozowyHasKontrahenci` (
   UNIQUE KEY `idListPrzewozowyHasKontrahenci_UNIQUE` (`idListPrzewozowyHasKontrahenci`),
   KEY `fk_list_przewozowy_has_kontrahenci_kontrahenci1_idx` (`kontrahenciIdKontrahenci`),
   KEY `fk_list_przewozowy_has_kontrahenci_list_przewozowy1_idx` (`listPrzewozowyIdListPrzewozowy`),
-  CONSTRAINT `fk_list_przewozowy_has_kontrahenci_kontrahenci1` FOREIGN KEY (`kontrahenciIdKontrahenci`) REFERENCES `Kontrahenci` (`idKontrahenci`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_list_przewozowy_has_kontrahenci_list_przewozowy1` FOREIGN KEY (`listPrzewozowyIdListPrzewozowy`) REFERENCES `ListPrzewozowy` (`idListPrzewozowy`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_list_przewozowy_has_kontrahenci_kontrahenci1` FOREIGN KEY (`kontrahenciIdKontrahenci`) REFERENCES `Kontrahenci` (`idKontrahenci`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_list_przewozowy_has_kontrahenci_list_przewozowy1` FOREIGN KEY (`listPrzewozowyIdListPrzewozowy`) REFERENCES `ListPrzewozowy` (`idListPrzewozowy`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -289,7 +289,7 @@ CREATE TABLE `Magazyn` (
   PRIMARY KEY (`idMagazyn`),
   UNIQUE KEY `idMagazyn_UNIQUE` (`idMagazyn`),
   KEY `fk_magazyn_adres1_idx` (`adresIdAdres`),
-  CONSTRAINT `fk_magazyn_adres1` FOREIGN KEY (`adresIdAdres`) REFERENCES `Adres` (`idAdres`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_magazyn_adres1` FOREIGN KEY (`adresIdAdres`) REFERENCES `Adres` (`idAdres`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -318,8 +318,8 @@ CREATE TABLE `Operacje` (
   UNIQUE KEY `idOperacja_UNIQUE` (`idOperacja`),
   KEY `fk_operacyjna_uzytkownicy1_idx` (`uzytkownicyIdUzytkownicy`),
   KEY `fk_operacyjna_dict_procesy1_idx` (`dictProcesyIdDictProcesy`),
-  CONSTRAINT `fk_operacyjna_dict_procesy1` FOREIGN KEY (`dictProcesyIdDictProcesy`) REFERENCES `DictProcesy` (`idDictProcesy`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_operacyjna_uzytkownicy1` FOREIGN KEY (`uzytkownicyIdUzytkownicy`) REFERENCES `Uzytkownicy` (`idUzytkownika`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_operacyjna_dict_procesy1` FOREIGN KEY (`dictProcesyIdDictProcesy`) REFERENCES `DictProcesy` (`idDictProcesy`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_operacyjna_uzytkownicy1` FOREIGN KEY (`uzytkownicyIdUzytkownicy`) REFERENCES `Uzytkownicy` (`idUzytkownika`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -339,8 +339,8 @@ CREATE TABLE `OperacjeHasPartie` (
   UNIQUE KEY `operacje_has_partiecol_UNIQUE` (`idOperacjeHasPartie`),
   KEY `fk_operacyjna_has_partie_partie1_idx` (`partieIdPartie`),
   KEY `fk_operacyjna_has_partie_operacyjna1_idx` (`operacjeIdOperacja`),
-  CONSTRAINT `fk_operacyjna_has_partie_operacyjna1` FOREIGN KEY (`operacjeIdOperacja`) REFERENCES `Operacje` (`idOperacja`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_operacyjna_has_partie_partie1` FOREIGN KEY (`partieIdPartie`) REFERENCES `Partie` (`idPartie`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_operacyjna_has_partie_operacyjna1` FOREIGN KEY (`operacjeIdOperacja`) REFERENCES `Operacje` (`idOperacja`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_operacyjna_has_partie_partie1` FOREIGN KEY (`partieIdPartie`) REFERENCES `Partie` (`idPartie`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -360,8 +360,8 @@ CREATE TABLE `OperacjeHasPozycjaWMagazynie` (
   UNIQUE KEY `idOperacjeHasPozycjaWMagazynie_UNIQUE` (`idOperacjeHasPozycjaWMagazynie`),
   KEY `fk_operacyjna_has_pozycja_w_magazynie_materialow_pozycja_w__idx` (`pozycjaWMagazynieIdPozycja`),
   KEY `fk_operacyjna_has_pozycja_w_magazynie_materialow_operacyjna_idx` (`operacjeIdOperacja`),
-  CONSTRAINT `fk_operacyjna_has_pozycja_w_magazynie_materialow_operacyjna1` FOREIGN KEY (`operacjeIdOperacja`) REFERENCES `Operacje` (`idOperacja`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_operacyjna_has_pozycja_w_magazynie_materialow_pozycja_w_ma1` FOREIGN KEY (`pozycjaWMagazynieIdPozycja`) REFERENCES `PozycjaWMagazynie` (`idPozycja`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_operacyjna_has_pozycja_w_magazynie_materialow_operacyjna1` FOREIGN KEY (`operacjeIdOperacja`) REFERENCES `Operacje` (`idOperacja`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_operacyjna_has_pozycja_w_magazynie_materialow_pozycja_w_ma1` FOREIGN KEY (`pozycjaWMagazynieIdPozycja`) REFERENCES `PozycjaWMagazynie` (`idPozycja`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -382,8 +382,8 @@ CREATE TABLE `OperacjeNaWinnicy` (
   UNIQUE KEY `idoperacje_na_winnicy_UNIQUE` (`idOperacja`),
   KEY `fk_operacje_na_winnicy_dict_operacje_na_winnicy1_idx` (`dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy`),
   KEY `fk_operacje_na_winnicy_winnica1_idx` (`winnicaIdWinnica`),
-  CONSTRAINT `fk_operacje_na_winnicy_dict_operacje_na_winnicy1` FOREIGN KEY (`dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy`) REFERENCES `DictOperacjeNaWinnicy` (`idDictOperacjeNaWinnicy`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_operacje_na_winnicy_winnica1` FOREIGN KEY (`winnicaIdWinnica`) REFERENCES `Winnica` (`idWinnica`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_operacje_na_winnicy_dict_operacje_na_winnicy1` FOREIGN KEY (`dictOperacjeNaWinnicyIdDictOperacjeNaWinnicy`) REFERENCES `DictOperacjeNaWinnicy` (`idDictOperacjeNaWinnicy`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_operacje_na_winnicy_winnica1` FOREIGN KEY (`winnicaIdWinnica`) REFERENCES `Winnica` (`idWinnica`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -412,10 +412,10 @@ CREATE TABLE `Partie` (
   KEY `fk_partie_typ_partii1_idx` (`typPartiiIdTypPartii`),
   KEY `fk_partie_informacje_o_winie1_idx` (`informacjeOWinieIdInformacjeOWinie`),
   KEY `fk_partie_plany_produkcyjne1_idx` (`planyProdukcyjneIdPlanyProdukcyjne`),
-  CONSTRAINT `fk_partie_informacje_o_winie1` FOREIGN KEY (`informacjeOWinieIdInformacjeOWinie`) REFERENCES `InformacjeOWinie` (`idInformacjeOWinie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_partie_partie1` FOREIGN KEY (`partieIdPartie`) REFERENCES `Partie` (`idPartie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_partie_typ_partii1` FOREIGN KEY (`typPartiiIdTypPartii`) REFERENCES `DictTypPartii` (`idTypPartii`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_partie_plany_produkcyjne1` FOREIGN KEY (`planyProdukcyjneIdPlanyProdukcyjne`) REFERENCES `PlanyProdukcyjne` (`idPlanyProdukcyjne`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_partie_informacje_o_winie1` FOREIGN KEY (`informacjeOWinieIdInformacjeOWinie`) REFERENCES `InformacjeOWinie` (`idInformacjeOWinie`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_partie_partie1` FOREIGN KEY (`partieIdPartie`) REFERENCES `Partie` (`idPartie`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_partie_typ_partii1` FOREIGN KEY (`typPartiiIdTypPartii`) REFERENCES `DictTypPartii` (`idTypPartii`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_partie_plany_produkcyjne1` FOREIGN KEY (`planyProdukcyjneIdPlanyProdukcyjne`) REFERENCES `PlanyProdukcyjne` (`idPlanyProdukcyjne`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -451,8 +451,8 @@ CREATE TABLE `PlanyProdukcyjneHasPozycjaWMagazynie` (
   UNIQUE KEY `idPlanyProdukcyjneHasPozycjaWMagazynie_UNIQUE` (`idPlanyProdukcyjneHasPozycjaWMagazynie`),
   KEY `fk_plany_produkcyjne_has_pozycja__w_magazynie1_idx` (`pozycjaWMagazynieIdPozycja`),
   KEY `fk_plany_produkcyjne_has_dict_procesy_plany_produkcyjne2_idx` (`planyProdukcyjneIdPlanyProdukcyjne`),
-  CONSTRAINT `fk_plany_produkcyjne_has_pozycja__w_magazynie1` FOREIGN KEY (`pozycjaWMagazynieIdPozycja`) REFERENCES `PozycjaWMagazynie` (`idPozycja`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_plany_produkcyjne_has_dict_procesy_plany_produkcyjne2` FOREIGN KEY (`planyProdukcyjneIdPlanyProdukcyjne`) REFERENCES `PlanyProdukcyjne` (`idPlanyProdukcyjne`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_plany_produkcyjne_has_pozycja__w_magazynie1` FOREIGN KEY (`pozycjaWMagazynieIdPozycja`) REFERENCES `PozycjaWMagazynie` (`idPozycja`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_plany_produkcyjne_has_dict_procesy_plany_produkcyjne2` FOREIGN KEY (`planyProdukcyjneIdPlanyProdukcyjne`) REFERENCES `PlanyProdukcyjne` (`idPlanyProdukcyjne`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -481,9 +481,9 @@ CREATE TABLE `PozycjaWMagazynie` (
   KEY `fk_magazyn_materialow_kategorie1_idx` (`kategorieIdKategorie`),
   KEY `fk_pozycja_w_magazynie_materialow_magazyn1_idx` (`magazynIdMagazyn`),
   KEY `fk_pozycja_w_magazynie_materialow_partie1_idx` (`partieIdPartie`),
-  CONSTRAINT `fk_magazyn_materialow_kategorie1` FOREIGN KEY (`kategorieIdKategorie`) REFERENCES `DictKategorie` (`idKategorie`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_pozycja_w_magazynie_materialow_magazyn1` FOREIGN KEY (`magazynIdMagazyn`) REFERENCES `Magazyn` (`idMagazyn`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_pozycja_w_magazynie_materialow_partie1` FOREIGN KEY (`partieIdPartie`) REFERENCES `Partie` (`idPartie`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_magazyn_materialow_kategorie1` FOREIGN KEY (`kategorieIdKategorie`) REFERENCES `DictKategorie` (`idKategorie`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_pozycja_w_magazynie_materialow_magazyn1` FOREIGN KEY (`magazynIdMagazyn`) REFERENCES `Magazyn` (`idMagazyn`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_pozycja_w_magazynie_materialow_partie1` FOREIGN KEY (`partieIdPartie`) REFERENCES `Partie` (`idPartie`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -520,8 +520,8 @@ CREATE TABLE `PrzesylkaHasPozycjaWMagazynie` (
   UNIQUE KEY `idPrzesylkaHasPozycjaWMagazynie_UNIQUE` (`idPrzesylkaHasPozycjaWMagazynie`),
   KEY `fk_przesylka_has_pozycja_w_magazynie_materialow_pozycja_w_m_idx` (`pozycjaWMagazynieIdPozycja`),
   KEY `fk_przesylka_has_pozycja_w_magazynie_materialow_przesylka1_idx` (`przesylkaIdPrzesylka`),
-  CONSTRAINT `fk_przesylka_has_pozycja_w_magazynie_materialow_pozycja_w_mag1` FOREIGN KEY (`pozycjaWMagazynieIdPozycja`) REFERENCES `PozycjaWMagazynie` (`idPozycja`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_przesylka_has_pozycja_w_magazynie_materialow_przesylka1` FOREIGN KEY (`przesylkaIdPrzesylka`) REFERENCES `Przesylka` (`idPrzesylka`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_przesylka_has_pozycja_w_magazynie_materialow_pozycja_w_mag1` FOREIGN KEY (`pozycjaWMagazynieIdPozycja`) REFERENCES `PozycjaWMagazynie` (`idPozycja`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_przesylka_has_pozycja_w_magazynie_materialow_przesylka1` FOREIGN KEY (`przesylkaIdPrzesylka`) REFERENCES `Przesylka` (`idPrzesylka`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -556,8 +556,8 @@ CREATE TABLE `RaportyHasUzytkownicy` (
   UNIQUE KEY `idRaportyHasUzytkownicy_UNIQUE` (`idRaportyHasUzytkownicy`),
   KEY `fk_raporty_has_uzytkownicy_uzytkownicy1_idx` (`uzytkownicyIdUzytkownika`),
   KEY `fk_raporty_has_uzytkownicy_raporty1_idx` (`raportyIdRaport`),
-  CONSTRAINT `fk_raporty_has_uzytkownicy_raporty1` FOREIGN KEY (`raportyIdRaport`) REFERENCES `Raporty` (`idRaport`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_raporty_has_uzytkownicy_uzytkownicy1` FOREIGN KEY (`uzytkownicyIdUzytkownika`) REFERENCES `Uzytkownicy` (`idUzytkownika`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_raporty_has_uzytkownicy_raporty1` FOREIGN KEY (`raportyIdRaport`) REFERENCES `Raporty` (`idRaport`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_raporty_has_uzytkownicy_uzytkownicy1` FOREIGN KEY (`uzytkownicyIdUzytkownika`) REFERENCES `Uzytkownicy` (`idUzytkownika`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 --
@@ -589,8 +589,8 @@ CREATE TABLE `Uzytkownicy` (
   UNIQUE KEY `idUzytkownika_UNIQUE` (`idUzytkownika`),
   KEY `fk_uzytkownicy_adres1_idx` (`adresIdAdres`),
   KEY `fk_uzytkownicy_dict_rola_uzytkownikow1_idx` (`dictRolaUzytkownikowIdRolaUzytkownikow`),
-  CONSTRAINT `fk_uzytkownicy_adres1` FOREIGN KEY (`adresIdAdres`) REFERENCES `Adres` (`idAdres`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_uzytkownicy_dict_rola_uzytkownikow1` FOREIGN KEY (`dictRolaUzytkownikowIdRolaUzytkownikow`) REFERENCES `DictRolaUzytkownikow` (`idRolaUzytkownikow`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_uzytkownicy_adres1` FOREIGN KEY (`adresIdAdres`) REFERENCES `Adres` (`idAdres`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_uzytkownicy_dict_rola_uzytkownikow1` FOREIGN KEY (`dictRolaUzytkownikowIdRolaUzytkownikow`) REFERENCES `DictRolaUzytkownikow` (`idRolaUzytkownikow`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 UNLOCK TABLES;
@@ -617,7 +617,7 @@ CREATE TABLE `Winnica` (
   UNIQUE KEY `nazwa_UNIQUE` (`nazwa`),
   UNIQUE KEY `ewidencyjnyIdDzialki_UNIQUE` (`ewidencyjnyIdDzialki`),
   KEY `fk_winnica_rodzaj_winogron1_idx` (`odmianiaWinogronIdOdmianaWinogron`),
-  CONSTRAINT `fk_winnica_rodzaj_winogron1` FOREIGN KEY (`odmianiaWinogronIdOdmianaWinogron`) REFERENCES `DictOdmianaWinogron` (`idOdmianaWinogron`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_winnica_rodzaj_winogron1` FOREIGN KEY (`odmianiaWinogronIdOdmianaWinogron`) REFERENCES `DictOdmianaWinogron` (`idOdmianaWinogron`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -636,7 +636,7 @@ CREATE TABLE `Winobranie` (
   PRIMARY KEY (`idWinobranie`),
   UNIQUE KEY `idWinobranie_UNIQUE` (`idWinobranie`),
   KEY `fk_winobranie_winnica1_idx` (`winnicaIdWinnica`),
-  CONSTRAINT `fk_winobranie_winnica1` FOREIGN KEY (`winnicaIdWinnica`) REFERENCES `Winnica` (`idWinnica`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_winobranie_winnica1` FOREIGN KEY (`winnicaIdWinnica`) REFERENCES `Winnica` (`idWinnica`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
