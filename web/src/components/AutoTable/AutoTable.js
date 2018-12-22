@@ -40,21 +40,27 @@ class AutoTable extends React.Component {
     this.setState({ open: true });
   };
 
+  timeout = false;
+
   onChangeSearch = async value => {
-    //TODO Should be server-side Filip, make it async at least.
     let recordTest = false;
-    this.setState({
-      //TODO setState asynchronously
-      queryData: this.props.queryData.filter(prop => {
-        for (let propertyOfProp in prop) {
-          if (prop.hasOwnProperty(propertyOfProp)) {
-            if (!recordTest && new RegExp(value.toString(), 'i').test(prop[propertyOfProp])) return true;
-          }
-        }
-        recordTest = false;
-        return false;
-      })
-    });
+    if (!this.timeout) {
+      this.timeout = true;
+      setTimeout(() => {
+        this.timeout = false;
+        this.setState({
+          queryData: this.props.queryData.filter(prop => {
+            for (let propertyOfProp in prop) {
+              if (prop.hasOwnProperty(propertyOfProp)) {
+                if (!recordTest && new RegExp(value.toString(), 'i').test(prop[propertyOfProp])) return true;
+              }
+            }
+            recordTest = false;
+            return false;
+          })
+        });
+      }, 200);
+    }
   };
 
   handleEdit = recordId => {
