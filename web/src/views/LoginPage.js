@@ -69,11 +69,11 @@ class SignIn extends React.Component {
             </Typography>
             <form className={classes.form}>
               <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="email">Email</InputLabel>
+                <InputLabel htmlFor="email">Login</InputLabel>
                 <Input
                   id="email"
-                  name="email"
-                  autoComplete="email"
+                  name="login"
+                  autoComplete="login"
                   autoFocus
                   onChange={this.handleChange('login')}
                   error={this.state.error}
@@ -90,13 +90,11 @@ class SignIn extends React.Component {
                   error={this.state.error}
                 />
               </FormControl>
-              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Zapamiętaj mnie" />
               <Button
                 fullWidth
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                //component={dashboard} //Deprecated
                 onClick={this.handleSubmit}
               >
                 Zaloguj się
