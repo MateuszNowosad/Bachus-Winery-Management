@@ -5,13 +5,11 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import SearchBarStyle from '../../assets/jss/common/components/SearchBarStyle';
 
-
-
 class SearchBar extends React.Component {
   handleChange = event => {
     this.props.onChange(event.target.value);
   };
-  render(){
+  render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>

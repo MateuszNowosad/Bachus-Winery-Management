@@ -105,9 +105,7 @@ export class FormWaybill extends React.Component {
       PDFShow(PDFWaybill(dataObject));
     } else {
       let error = Object.assign({}, errorMap);
-      for (let errorField in arrayOfErrors) {
-        error[arrayOfErrors[errorField]] = true;
-      }
+      for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
       this.setState({ errors: error });
     }
   };
@@ -147,9 +145,7 @@ export class FormWaybill extends React.Component {
       if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
     } else {
       let error = Object.assign({}, errorMap);
-      for (let errorField in arrayOfErrors) {
-        error[arrayOfErrors[errorField]] = true;
-      }
+      for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
       this.setState({ errors: error });
       this.props.submitAborted();
     }
@@ -189,15 +185,13 @@ export class FormWaybill extends React.Component {
     reader.readAsDataURL(file);
 
     reader.onload = () => {
-      this.setState(
-        {
-          fileURL: reader.result,
-          errors: {
-            ...this.state.errors,
-            fileURL: false
-          }
-        },
-      );
+      this.setState({
+        fileURL: reader.result,
+        errors: {
+          ...this.state.errors,
+          fileURL: false
+        }
+      });
     };
   };
 

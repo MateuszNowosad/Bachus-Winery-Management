@@ -9,8 +9,6 @@ import AutoTable from '../../components/AutoTable/AutoTable';
 import data from '../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../components/Tab/OCBigTab.js';
 import TabContainer from '../../components/Tab/TabContainer';
-import getUsers from '../../queries/UsersQueries/getUsers';
-import { FormUsers } from '../common/forms/FormUsers';
 import getProductionPlans from '../../queries/ProductionPlansQueries/getProductionPlans';
 import { Query } from 'react-apollo';
 import getOperations from '../../queries/OperationQueries/getOperations';

@@ -46,9 +46,7 @@ export class FormAddress extends React.Component {
       return true;
     } else {
       let error = Object.assign({}, errorMap);
-      for (let errorField in arrayOfErrors) {
-        error[arrayOfErrors[errorField]] = true;
-      }
+      for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
       this.setState({ errors: error });
       return false;
     }

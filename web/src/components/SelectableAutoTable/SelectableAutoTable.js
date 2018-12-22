@@ -96,14 +96,14 @@ class SelectableAutoTable extends React.Component {
               />
               {emptyRows > 0 && (
                 <TableRow style={{ height: 48 * emptyRows }}>
-                  <TableCell colSpan={this.state.labelCount} />
+                  <TableCell colSpan={labelCount} />
                 </TableRow>
               )}
             </TableBody>
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  colSpan={this.state.labelCount}
+                  colSpan={labelCount}
                   count={querySize}
                   rowsPerPage={rowsPerPage}
                   page={page}

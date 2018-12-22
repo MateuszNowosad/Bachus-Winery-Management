@@ -40,17 +40,18 @@ class AutoTable extends React.Component {
     this.setState({ open: true });
   };
 
-  onChangeSearch = async value => { //TODO Should be server-side Filip, make it async at least.
+  onChangeSearch = async value => {
+    //TODO Should be server-side Filip, make it async at least.
     let recordTest = false;
-    this.setState({ //TODO setState asynchronously
+    this.setState({
+      //TODO setState asynchronously
       queryData: this.props.queryData.filter(prop => {
         for (let propertyOfProp in prop) {
           if (prop.hasOwnProperty(propertyOfProp)) {
-            if(!recordTest && new RegExp(value.toString(), 'i').test(prop[propertyOfProp]))
-              return true
+            if (!recordTest && new RegExp(value.toString(), 'i').test(prop[propertyOfProp])) return true;
           }
         }
-        recordTest=false;
+        recordTest = false;
         return false;
       })
     });
@@ -104,7 +105,7 @@ class AutoTable extends React.Component {
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  colSpan={this.state.labelCount}
+                  colSpan={labelCount}
                   count={querySize}
                   rowsPerPage={rowsPerPage}
                   page={page}

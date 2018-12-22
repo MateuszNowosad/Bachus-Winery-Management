@@ -5,19 +5,15 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 //Style
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import OCAppBarStyle from '../../assets/jss/common/components/OCAppBarStyle.js';
-import Link from "react-router-dom/es/Link";
-import Arrow from "@material-ui/icons/ArrowBack"
-import axios from "axios";
-import Redirect from "react-router-dom/es/Redirect";
+import Link from 'react-router-dom/es/Link';
+import Arrow from '@material-ui/icons/ArrowBack';
+import axios from 'axios';
 
 class OCAppBar extends React.Component {
   handleClick = () => {
@@ -25,12 +21,11 @@ class OCAppBar extends React.Component {
     onToggleDrawer();
   };
 
-  logout = () =>{
+  logout = () => {
     axios({
       method: 'post',
       url: '/usrlogout',
-      data: {
-      },
+      data: {},
       withCredentials: true
     }).then(response => {
       console.log('41, response Mateusz: ', response);

@@ -15,6 +15,7 @@ import UniversalValidationHandler from '../../views/common/forms/UniversalValida
 import { dataToPDFValidationKeys } from '../../views/common/forms/UniversalValidationHandler/validationKeys/validationKeys';
 import classNames from 'classnames';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import TableCell from '@material-ui/core/TableCell';
 
 const errorMap = {
   title: false,
@@ -106,9 +107,7 @@ class DataToPDF extends React.Component {
         PDFDownload(PDFFromDataSet(data[tableName], labels, pageSize, pageOrientation, fontSize, title), 'raport');
     } else {
       let error = Object.assign({}, errorMap);
-      for (let errorField in arrayOfErrors) {
-        error[arrayOfErrors[errorField]] = true;
-      }
+      for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
       this.setState({ errors: error });
     }
   };

@@ -14,7 +14,6 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import LoginPageStyle from '../assets/jss/common/views/LoginPageStyle.js';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 //const dashboard = props => <Link to="/admindashboard" {...props} />; //temporary placeholder

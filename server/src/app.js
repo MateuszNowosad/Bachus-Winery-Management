@@ -74,7 +74,7 @@ export const createApp = async () => {
     console.log(req.body);
     req.session.destroy();
     res.clearCookie('loginID');
-    res.send({succes: true});
+    res.send({ succes: true });
     res.end();
   });
   return { app };

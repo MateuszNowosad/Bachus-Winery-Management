@@ -653,7 +653,7 @@ const MAGAZYN = sequelize.define('Magazyn', {
   pojemnosc: {
     type: Sequelize.DECIMAL(6, 1),
     allowNull: false,
-    validate: { is: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,6}\.[1-9])$/ }
+    validate: { is: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d|0{1,6}\.[1-9])$/ }
   },
   adresIdAdres: Sequelize.INTEGER
 });
@@ -679,16 +679,16 @@ const OPERACJE = sequelize.define('Operacje', {
   zawartoscAlkoholu: {
     type: Sequelize.DECIMAL(2, 1),
     allowNull: true,
-    validate: { is: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/ }
+    validate: { is: /^($|\d{1,2}|\d{1,2}\.\d?)$/ }
   },
-  iloscDodatku: { type: Sequelize.DECIMAL(3, 1), allowNull: true, validate: { is: /^($|\d{1,3}|\d{1,3}\.\d{0,1})$/ } },
+  iloscDodatku: { type: Sequelize.DECIMAL(3, 1), allowNull: true, validate: { is: /^($|\d{1,3}|\d{1,3}\.\d?)$/ } },
   zawartoscCukru: {
     type: Sequelize.DECIMAL(2, 1),
     allowNull: true,
-    validate: { is: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/ }
+    validate: { is: /^($|\d{1,2}|\d{1,2}\.\d?)$/ }
   },
-  kwasowosc: { type: Sequelize.DECIMAL(2, 1), allowNull: true, validate: { is: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/ } },
-  temperatura: { type: Sequelize.DECIMAL(2, 1), allowNull: true, validate: { is: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/ } },
+  kwasowosc: { type: Sequelize.DECIMAL(2, 1), allowNull: true, validate: { is: /^($|\d{1,2}|\d{1,2}\.\d?)$/ } },
+  temperatura: { type: Sequelize.DECIMAL(2, 1), allowNull: true, validate: { is: /^($|\d{1,2}|\d{1,2}\.\d?)$/ } },
   opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } },
   uzytkownicyIdUzytkownicy: Sequelize.INTEGER,
   dictProcesyIdDictProcesy: Sequelize.INTEGER
@@ -715,7 +715,7 @@ const PARTIE = sequelize.define('Partie', {
   ilosc: {
     type: Sequelize.DECIMAL(4, 1),
     allowNull: false,
-    validate: { is: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,4}\.[1-9])$/ }
+    validate: { is: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d|0{1,4}\.[1-9])$/ }
   },
   opis: { type: Sequelize.STRING(255), allowNull: true, validate: { is: new RegExp('^(|[\\s\\S]{2,255})$', 'u') } },
   dataUtworzenia: { type: Sequelize.DATE, allowNull: false },
@@ -882,11 +882,10 @@ const WINOBRANIE = sequelize.define('Winobranie', {
   iloscZebranychWinogron: {
     type: Sequelize.DECIMAL(4, 1),
     allowNull: false,
-    validate: { is: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,4}\.[1-9])$/ }
+    validate: { is: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d|0{1,4}\.[1-9])$/ }
   },
   winnicaIdWinnica: { type: Sequelize.INTEGER, allowNull: false }
 });
-
 
 // TABELE LACZACE
 
@@ -960,7 +959,7 @@ const models = {
   RaportyHasUzytkownicy: RAPORTYHASUZYTKOWNICY,
   Uzytkownicy: UZYTKOWNICY,
   Winnica: WINNICA,
-  Winobranie: WINOBRANIE,
+  Winobranie: WINOBRANIE
 };
 
 async function generateRows() {

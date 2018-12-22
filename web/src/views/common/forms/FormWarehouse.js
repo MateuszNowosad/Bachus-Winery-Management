@@ -54,9 +54,7 @@ export class FormWarehouse extends React.Component {
       if (this.props.onSubmit(dataObject)) this.props.formSubmitted();
     } else {
       let error = Object.assign({}, errorMap);
-      for (let errorField in arrayOfErrors) {
-        error[arrayOfErrors[errorField]] = true;
-      }
+      for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
       this.setState({ errors: error });
       this.props.submitAborted();
     }
@@ -82,7 +80,7 @@ export class FormWarehouse extends React.Component {
 
   render() {
     const { type, capacity, errors } = this.state;
-    const {initState} = this.props;
+    const { initState } = this.props;
 
     return (
       <form style={{ margin: '0% 25%' }}>

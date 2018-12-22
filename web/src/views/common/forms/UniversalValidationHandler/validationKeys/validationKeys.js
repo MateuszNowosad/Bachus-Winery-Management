@@ -73,7 +73,7 @@ export const contractorsValidationKeys = {
   wwwSite: /^(?=.{4,255}$)(|(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)$/,
   KRS: /^($|\d{10})$/,
   accountNumber: /^\d{26}$/,
-  fax: /^(?=.{4,45}$)(\+?\d{1,}(\s?|-?)\d*(\s?|-?)\(?\d{2,}\)?(\s?|-?)\d{3,}\s?\d{3,})$/
+  fax: /^(?=.{4,45}$)(\+?\d+(\s?|-?)\d*(\s?|-?)\(?\d{2,}\)?(\s?|-?)\d{3,}\s?\d{3,})$/
 };
 
 export const waybillValidationKeys = {
@@ -86,7 +86,7 @@ export const waybillValidationKeys = {
 
 export const warehouseValidationKeys = {
   type: new RegExp("^([\\p{L}' ()]{2,40})$", 'u'),
-  capacity: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,6}\.[1-9])$/
+  capacity: /^((?=.{1,6}\.)(\d*[1-9]+\d*)\.\d|0{1,6}\.[1-9])$/
 };
 
 export const vineyardOperationsValidationKeys = {
@@ -95,7 +95,7 @@ export const vineyardOperationsValidationKeys = {
 };
 
 export const batchValidationKeys = {
-  amount: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,4}\.[1-9])$/,
+  amount: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d|0{1,4}\.[1-9])$/,
   desc: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
   creationDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
   batchType: new RegExp("^([\\p{L}' ()]{3,45})$", 'u')
@@ -116,11 +116,11 @@ export const operationsValidationKeys = {
   endAmount: /^($|(?=.{1,6}\.)(\d*[1-9]+\d*)\.\d{1,2}|0{1,6}\.\d[1-9])$/,
   beginDate: /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
   endDate: /^($|\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
-  alcoholContent: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/,
-  additiveAmount: /^($|\d{1,3}|\d{1,3}\.\d{0,1})$/,
-  sugarContent: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/,
-  acidity: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/,
-  temperature: /^($|\d{1,2}|\d{1,2}\.\d{0,1})$/,
+  alcoholContent: /^($|\d{1,2}|\d{1,2}\.\d?)$/,
+  additiveAmount: /^($|\d{1,3}|\d{1,3}\.\d?)$/,
+  sugarContent: /^($|\d{1,2}|\d{1,2}\.\d?)$/,
+  acidity: /^($|\d{1,2}|\d{1,2}\.\d?)$/,
+  temperature: /^($|\d{1,2}|\d{1,2}\.\d?)$/,
   desc: new RegExp('^(|[\\s\\S]{2,255})$', 'u'),
   process: new RegExp('^\\p{L}{3,40}$', 'u')
 };
@@ -145,7 +145,7 @@ export const parcelValidationKeys = {
 
 export const harvestValidationKeys = {
   dateOfHarvest: /^(\d{4}-\d{2}-\d{2})$/,
-  amount: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d{1}|0{1,4}\.[1-9])$/
+  amount: /^((?=.{1,4}\.)(\d*[1-9]+\d*)\.\d|0{1,4}\.[1-9])$/
 };
 
 export const productionPlansValidationKeys = {

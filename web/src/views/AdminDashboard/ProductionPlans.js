@@ -16,7 +16,6 @@ import testDataProductionPlan from '../../variables/AdminDashboard/testDataProdu
 import ScrollableDialogForm from '../../components/ScrollableDialogForm/ScrollableDialogForm';
 import { FormProductionPlan } from '../common/forms/FormProductionPlan';
 import getProductionPlans from '../../queries/ProductionPlansQueries/getProductionPlans';
-import TabContainer from '../../components/Tab/TabContainer';
 import { Query } from 'react-apollo';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 

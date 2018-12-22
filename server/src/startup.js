@@ -1,4 +1,3 @@
-import { createServer } from 'http';
 import { createApp } from './app';
 import { importSchema } from 'graphql-import';
 import resolvers from './api/graphql/resolvers';
