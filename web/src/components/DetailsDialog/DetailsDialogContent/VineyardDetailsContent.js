@@ -1,11 +1,8 @@
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/es/Typography';
-import convertDatetime from '../../../functions/convertDatetime';
-import { Avatar, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from '@material-ui/core';
 import React from 'react';
-import AddressDetailsContent from './AddressDetailsContent';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { FormParcel } from '../../../views/common/forms/subforms/FormParcel';
 import AutoTable from '../../AutoTable/AutoTable';
 
 const VineyardDetailsContent = props => {

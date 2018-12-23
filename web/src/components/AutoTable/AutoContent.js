@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell/TableCell';
 import TableRow from '@material-ui/core/TableRow/TableRow';
-import Button from '@material-ui/core/Button/Button';
 import DatetimeFields from '../../variables/DateFields/DatetimeFields';
 import convertDatetime from '../../functions/convertDatetime';
 import flattenObject from '../../functions/flattenObject';
-import { Mutation } from 'react-apollo';
-import { selectDeleteForForm } from '../../mutations/FormMutations/selectDeleteForForm';
 
 //values changed to entries
 //value changed to entrie

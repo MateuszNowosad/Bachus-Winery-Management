@@ -19,7 +19,6 @@ import UniversalValidationHandler from './UniversalValidationHandler/UniversalVa
 import { waybillValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import red from '@material-ui/core/colors/red';
 import getContractors from '../../../queries/ContractorsQueries/getContractors';
-import PDFShow from '../../../components/PDFSchemes/PDFShow';
 import PDFWaybill from '../../../components/PDFSchemes/PDFWaybill';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 import CreatePDF from '../../../components/PDFSchemes/CreatePDF';

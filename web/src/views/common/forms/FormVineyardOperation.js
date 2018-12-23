@@ -8,7 +8,6 @@ import { Query } from 'react-apollo';
 import getDictVineyardOperations from '../../../queries/DictionaryQueries/getDictVineyardOperations';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 import convertDatetimeForm from '../../../functions/convertDatetimeForm';
-import getWarehouses from '../../../queries/WarehouseQueries/getWarehouses';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 import DialogForForm from './DialogForForm';
 import getVineyards from '../../../queries/VineyardQueries/getVineyards';

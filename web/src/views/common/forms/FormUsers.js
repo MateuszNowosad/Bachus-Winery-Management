@@ -52,7 +52,7 @@ export class FormUsers extends React.Component {
 
     // award every unique letter until 5 repetitions
     let letters = {};
-    for (var i = 0; i < pass.length; i++) {
+    for (let i = 0; i < pass.length; i++) {
       letters[pass[i]] = (letters[pass[i]] || 0) + 1;
       score += 5.0 / letters[pass[i]];
     }

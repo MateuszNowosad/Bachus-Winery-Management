@@ -7,7 +7,6 @@ import { wineInformationValidationKeys } from './UniversalValidationHandler/vali
 import getDictWineCategory from '../../../queries/DictionaryQueries/getDictWineCategory';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 import DialogForForm from './DialogForForm';
-import getVineyards from '../../../queries/VineyardQueries/getVineyards';
 import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 import getBatches from '../../../queries/BatchesQueries/getBatches';
 

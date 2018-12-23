@@ -17,7 +17,6 @@ import SearchBar from '../common/SearchBar';
 import { Mutation, Query } from 'react-apollo';
 import CircularProgress from '@material-ui/core/es/CircularProgress';
 import { selectQueryForForm } from '../../queries/FormQueries/selectQueryForForm';
-import SelectableAutoContent from '../SelectableAutoTable/SelectableAutoContent';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { selectDeleteForForm } from '../../mutations/FormMutations/selectDeleteForForm';

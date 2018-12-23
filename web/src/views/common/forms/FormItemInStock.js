@@ -11,7 +11,6 @@ import getDictCategories from '../../../queries/DictionaryQueries/getDictCategor
 import getBatches from '../../../queries/BatchesQueries/getBatches';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 import convertDatetimeForm from '../../../functions/convertDatetimeForm';
-import getContractors from '../../../queries/ContractorsQueries/getContractors';
 import getWarehouses from '../../../queries/WarehouseQueries/getWarehouses';
 
 const errorMap = {
