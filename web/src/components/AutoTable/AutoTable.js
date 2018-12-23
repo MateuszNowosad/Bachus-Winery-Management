@@ -96,7 +96,7 @@ class AutoTable extends React.Component {
         labelCount = newlabelCount;
       }
     });
-    const { classes, queryData, querySize, dialogFormTitle, dialogForm, editMode, query } = this.props;
+    const { classes, queryData, querySize, dialogFormTitle, dialogForm, editMode,showDetails, query } = this.props;
     const { open, rowsPerPage, page, clickedRowId, openEdit, anchorEl, openDetails } = this.state;
     return (
       <div style={{ minWidth: '100%' }}>
@@ -120,7 +120,7 @@ class AutoTable extends React.Component {
               />
               {editMode && (
                 <Menu id="row_menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleMenuClose}>
-                  <MenuItem onClick={() => this.handleDetails(clickedRowId)}>Szczegóły</MenuItem>
+                  {showDetails && (<MenuItem onClick={() => this.handleDetails(clickedRowId)}>Szczegóły</MenuItem>)}
                   <MenuItem onClick={() => this.handleEdit(clickedRowId)}>Edytuj</MenuItem>
                   <Mutation
                     key={dialogForm.type.name}

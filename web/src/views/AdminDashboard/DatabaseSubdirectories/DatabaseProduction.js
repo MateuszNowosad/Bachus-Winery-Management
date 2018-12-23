@@ -50,6 +50,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormBatches />}
                     dialogFormTitle={'Partia'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
@@ -73,6 +74,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormWineInformation />}
                     dialogFormTitle={'Informacja o winie'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
@@ -96,6 +98,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormOperations />}
                     dialogFormTitle={'Operacja'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
@@ -122,6 +125,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormDictBatchType />}
                     dialogFormTitle={'Typ partii'}
                     editMode={true}
+                    showDetails={false}
                   />
                 );
               }}
@@ -143,6 +147,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormDictWineCategory />}
                     dialogFormTitle={'Kategoria wina'}
                     editMode={true}
+                    showDetails={false}
                   />
                 );
               }}
@@ -164,6 +169,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormDictProcesses />}
                     dialogFormTitle={'Proces'}
                     editMode={true}
+                    showDetails={false}
                   />
                 );
               }}

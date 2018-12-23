@@ -25,6 +25,7 @@ class News extends React.Component {
   sortVineyardOperations = data => {
     return data.sort((a, b) => Number(b.data) - Number(a.data));
   };
+
   render() {
     return (
       <React.Fragment>
@@ -44,7 +45,7 @@ class News extends React.Component {
           <TabContainer>
             <Query query={getOperations}>
               {({ loading, error, data }) => {
-                if (loading) return <CircularProgress />;
+                if (loading) return <CircularProgress/>;
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let operations = [].concat(data.Operacje);
@@ -54,9 +55,10 @@ class News extends React.Component {
                     queryData={operations}
                     // querySubject="hero"
                     querySize={operations.length}
-                    dialogForm={<FormOperations />}
+                    dialogForm={<FormOperations/>}
                     dialogFormTitle={'Operacja na partii'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
@@ -65,7 +67,7 @@ class News extends React.Component {
           <TabContainer>
             <Query query={getVineyardOperations}>
               {({ loading, error, data }) => {
-                if (loading) return <CircularProgress />;
+                if (loading) return <CircularProgress/>;
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let vineyardOperations = [].concat(data.OperacjeNaWinnicy);
@@ -75,9 +77,10 @@ class News extends React.Component {
                     queryData={vineyardOperations}
                     // querySubject="hero"
                     querySize={vineyardOperations.length}
-                    dialogForm={<FormVineyardOperation />}
+                    dialogForm={<FormVineyardOperation/>}
                     dialogFormTitle={'Operacja na winnicy'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
