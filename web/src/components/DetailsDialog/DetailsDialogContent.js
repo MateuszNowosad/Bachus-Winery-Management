@@ -33,16 +33,12 @@ class DetailsDialogContent extends  React.Component{
         return <GrapeHarvestDetailsContent queryData={queryData}/>;
       case 'FormItemInStock':
         return getItemInStockForForm;
-      case 'FormOperations':
-        return getOperationForForm;
       case 'FormVineyard':
         return <VineyardDetailsContent queryData={queryData}/>;
       case 'FormWarehouse':
         return <WarehouseDetailsContent queryData={queryData}/>;
       case 'FormWaybill':
         return <WaybillDetailsContent queryData={queryData}/>;
-      case 'FormWineInformation':
-        return getWineInformationForForm;
     }
   };
 

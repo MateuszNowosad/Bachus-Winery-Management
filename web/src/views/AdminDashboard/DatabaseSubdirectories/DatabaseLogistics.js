@@ -47,7 +47,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormItemInStock />}
                     dialogFormTitle={'Pozycja w magazynie'}
                     editMode={true}
-                    showDetails={true}
+                    showDetails={false}
                   />
                 );
               }}

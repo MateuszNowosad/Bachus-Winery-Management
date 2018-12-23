@@ -74,7 +74,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormWineInformation />}
                     dialogFormTitle={'Informacja o winie'}
                     editMode={true}
-                    showDetails={true}
+                    showDetails={false}
                   />
                 );
               }}
@@ -98,7 +98,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormOperations />}
                     dialogFormTitle={'Operacja'}
                     editMode={true}
-                    showDetails={true}
+                    showDetails={false}
                   />
                 );
               }}

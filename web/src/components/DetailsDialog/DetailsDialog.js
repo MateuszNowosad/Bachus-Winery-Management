@@ -20,7 +20,7 @@ class DetailsDialog extends React.Component {
 
 
   render() {
-    const { classes, dialogTitle,open,queryData, dataType } = this.props;
+    const { classes,open,queryData, dataType } = this.props;
   return (
       <Dialog
         aria-labelledby="modal-form-popup"
@@ -32,7 +32,6 @@ class DetailsDialog extends React.Component {
         fullWidth={true}
         maxWidth={'lg'}>
         <DialogContent>
-          {/*<DialogTitle>{dialogTitle}</DialogTitle>*/}
           <DetailsDialogContent
             queryData={queryData}
             dataType={dataType}
