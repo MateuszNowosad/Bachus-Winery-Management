@@ -1,6 +1,6 @@
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/es/Typography';
-import {  ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from '@material-ui/core';
 import React from 'react';
 import AddressDetailsContent from './AddressDetailsContent';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
