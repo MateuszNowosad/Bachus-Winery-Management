@@ -154,11 +154,18 @@ export const getGrapeHarvestDetails = gql`
   query getGrapeHarvestDetails($id: ID) {
     Winobranie(idWinobranie: $id) {
       idWinobranie
-      dataWinobrania
-      iloscZebranychWinogron
-      winnica {
-        idWinnica
+    dataWinobrania
+    iloscZebranychWinogron
+    winnica{
+      nazwa
+      dictOdmianaWinogron{
+        nazwa
       }
+    }
+    partie{
+      idPartie 
+      dataUtworzenia      
+    }
     }
   }
 `;
@@ -266,22 +273,6 @@ export const getVineyardDetails = gql`
   }
 `;
 
-export const getVineyardOperationDetails = gql`
-  query getVineyardOperationDetails($id: ID) {
-    OperacjeNaWinnicy(idOperacja: $id) {
-      idOperacja
-      data
-      opis
-      dictOperacjeNaWinnicy {
-        idDictOperacjeNaWinnicy
-        nazwa
-      }
-      winnica {
-        idWinnica
-      }
-    }
-  }
-`;
 
 export const getWarehouseDetails = gql`
   query getWarehouseDetails($id: ID) {

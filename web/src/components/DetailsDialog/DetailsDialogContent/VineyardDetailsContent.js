@@ -97,6 +97,7 @@ const VineyardDetailsContent = (props) => {
               <AutoTable
                 queryData={grapeHarvest}
                 querySize={grapeHarvest.length}
+                editMode={false}
               />
             </ExpansionPanelDetails>
           </ExpansionPanel>

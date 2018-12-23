@@ -1,18 +1,8 @@
 import React from 'react'
 import {
   getBatchForForm,
-  getDictBatchTypeForForm,
-  getDictCategoryForForm,
-  getDictGrapeTypeForForm,
-  getDictProcesForForm,
-  getDictUserRoleForForm,
-  getDictVineyardOperationForForm,
-  getDictWineCategoryForForm,
-  getGrapeHarvestForForm,
   getItemInStockForForm,
   getOperationForForm,
-  getVineyardForForm,
-  getVineyardOperationForForm,
   getWarehouseForForm,
   getWaybillForForm,
   getWineInformationForForm
@@ -20,6 +10,7 @@ import {
 import UserDetailsContent from './DetailsDialogContent/UserDetailsContent';
 import ContractorDetailsContent from './DetailsDialogContent/ContractorDetailsContent';
 import VineyardDetailsContent from './DetailsDialogContent/VineyardDetailsContent';
+import GrapeHarvestDetailsContent from './DetailsDialogContent/GrapeHarvestDetails';
 
 class DetailsDialogContent extends  React.Component{
   constructor(props) {
@@ -35,30 +26,14 @@ class DetailsDialogContent extends  React.Component{
         return getBatchForForm;
       case 'FormContractors':
         return <ContractorDetailsContent queryData={queryData}/>;
-      case 'FormDictUserRole':
-        return getDictUserRoleForForm;
-      case 'FormDictBatchType':
-        return getDictBatchTypeForForm;
-      case 'FormDictCategories':
-        return getDictCategoryForForm;
-      case 'FormDictGrapeType':
-        return getDictGrapeTypeForForm;
-      case 'FormDictProcesses':
-        return getDictProcesForForm;
-      case 'FormDictVineyardOperations':
-        return getDictVineyardOperationForForm;
-      case 'FormDictWineCategory':
-        return getDictWineCategoryForForm;
       case 'FormGrapeHarvest':
-        return getGrapeHarvestForForm;
+        return <GrapeHarvestDetailsContent queryData={queryData}/>;
       case 'FormItemInStock':
         return getItemInStockForForm;
       case 'FormOperations':
         return getOperationForForm;
       case 'FormVineyard':
         return <VineyardDetailsContent queryData={queryData}/>;
-      case 'FormVineyardOperation':
-        return getVineyardOperationForForm;
       case 'FormWarehouse':
         return getWarehouseForForm;
       case 'FormWaybill':

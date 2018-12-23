@@ -96,7 +96,7 @@ class DatabaseVineyard extends React.Component {
                     dialogForm={<FormVineyardOperation />}
                     dialogFormTitle={'Operacja na winnicy'}
                     editMode={true}
-                    showDetails={true}
+                    showDetails={false}
                   />
                 );
               }}
