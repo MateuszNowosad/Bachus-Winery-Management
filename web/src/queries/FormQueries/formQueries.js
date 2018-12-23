@@ -156,6 +156,7 @@ export const getGrapeHarvestForForm = gql`
       iloscZebranychWinogron
       winnica {
         idWinnica
+        nazwa
       }
     }
   }
