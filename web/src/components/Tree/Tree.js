@@ -6,18 +6,20 @@ import Chip from '@material-ui/core/Chip/Chip';
 import ChipExpansionPanel from './ChipExpansionPanel';
 import LocalisationHelper from '../../localisation/LocalisationHelper';
 import Typography from '@material-ui/core/Typography/Typography';
+import flattenObject from '../../functions/flattenObject';
 
 class Tree extends React.Component {
   parseJSONintoTree(jsonObject, levelCounter) {
     const { labels, hardBreak } = this.props;
     let result = [];
     let partia = false;
+    // flattenObject()
     for (let key in jsonObject) {
-      if (jsonObject.hasOwnProperty(key)) {
+      if (jsonObject.hasOwnProperty(key) && key !== '_typename') {
         if (Array.isArray(jsonObject[key])) {
           if (jsonObject[key].length !== 0) {
             for (let index in jsonObject[key])
-              result.push(this.parseJSONintoTree(jsonObject[key][index], levelCounter + 1));
+              if (index !== '_typename') result.push(this.parseJSONintoTree(jsonObject[key][index], levelCounter + 1));
           }
         } else {
           if (key === hardBreak) {

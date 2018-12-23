@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, MenuItem, TextField, Button, List, withStyles } from '@material-ui/core';
 import getAllTablesNames from '../../queries/SchemaQueries/getAllTablesNames';
-import { Query, ApolloConsumer } from 'react-apollo';
+import { Query, ApolloConsumer, Mutation } from 'react-apollo';
 import getAllTablesFieldNames from '../../queries/SchemaQueries/getAllTablesFieldsNames';
 import PDFShow from '../PDFSchemes/PDFShow';
 import PDFFromDataSet from '../PDFSchemes/PDFFromDataSet';
@@ -15,6 +15,9 @@ import UniversalValidationHandler from '../../views/common/forms/UniversalValida
 import { dataToPDFValidationKeys } from '../../views/common/forms/UniversalValidationHandler/validationKeys/validationKeys';
 import classNames from 'classnames';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import CreatePDF from '../PDFSchemes/CreatePDF';
+import { reportFK, upsertReport } from '../../mutations/FormMutations/upsertMutations';
+import currentDate from '../../views/common/forms/CurrentDate';
 
 const errorMap = {
   title: false,
@@ -103,7 +106,12 @@ class DataToPDF extends React.Component {
       if (action === 'show')
         PDFShow(PDFFromDataSet(data[tableName], labels, pageSize, pageOrientation, fontSize, title));
       if (action === 'download')
-        PDFDownload(PDFFromDataSet(data[tableName], labels, pageSize, pageOrientation, fontSize, title), 'raport');
+        CreatePDF(PDFFromDataSet(data[tableName], labels, pageSize, pageOrientation, fontSize, title), 'raport').then(
+          results =>
+            this.setState({
+              fileURL: results
+            })
+        );
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -114,7 +122,7 @@ class DataToPDF extends React.Component {
   };
 
   render() {
-    const { tableName, fieldNames, pageSize, pageOrientation, fontSize, title, errors } = this.state;
+    const { tableName, fieldNames, pageSize, pageOrientation, fontSize, title, errors, fileURL } = this.state;
     const { classes } = this.props;
     return (
       <form className={classes.form}>
@@ -266,6 +274,34 @@ class DataToPDF extends React.Component {
                 </Button>
               )}
             </ApolloConsumer>
+            <Mutation mutation={reportFK}>
+              {mutate => (
+                <Mutation
+                  mutation={upsertReport}
+                  onCompleted={result => {
+                    console.log('282, result jakub: ', result);
+                    mutate({ variables: { reportId: result.upsertRaporty.idRaport, userId: '1' } });
+                  }}
+                >
+                  {mutation => (
+                    <Button
+                      variant={'outlined'}
+                      onClick={() =>
+                        mutation({
+                          variables: {
+                            name: title,
+                            file: fileURL,
+                            creationDate: currentDate('dateTime')
+                          }
+                        })
+                      }
+                    >
+                      Zapisz
+                    </Button>
+                  )}
+                </Mutation>
+              )}
+            </Mutation>
           </Grid>
         </Grid>
       </form>

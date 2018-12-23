@@ -10,6 +10,7 @@ const getSpecificUser = userID => gql`
       PESEL
       eMail
       nrTelefonu
+      zdjecie
       dataOstatniegoLogowania
       rola {
         nazwa

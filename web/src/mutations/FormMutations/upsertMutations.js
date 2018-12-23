@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import currentDate from '../../views/common/forms/CurrentDate';
 
 export const upsertBatch = gql`
   mutation upsertBatch(
@@ -199,16 +200,44 @@ export const upsertWineInformation = gql`
 const parcelFK = countFK => {
   let upsert = ``;
   for (let i = 0; i < countFK; i++)
-    upsert += `pozycja${i}: upsertPrzesylkaHasPozycjaWMagazynie(
+    upsert += `pozycjaJT${i}: upsertPrzesylkaHasPozycjaWMagazynie(
     idPrzesylkaHasPozycjaWMagazynie: $parcelJTId${i}
     przesylkaIdPrzesylka: $idPrzesylka
-    pozycjaWMagazynieIdPozycja: $idItemInStock${i}
+    pozycjaWMagazynieIdPozycja: $idItemInStock${i}FK
     ilosc: $amount${i}
   ){
     przesylkaIdPrzesylka
     pozycjaWMagazynieIdPozycja
     ilosc
-  }`;
+  }
+  pozycja${i}: upsertPozycjaWMagazynie(
+  idPozycja: $idItemInStock${i}
+  ilosc: $newAmount${i}
+    dataWydania: "${currentDate('dateTime')}"
+  ){
+    idPozycja
+  }
+  
+  `;
+  return upsert;
+};
+
+const parcelDeleteJT = countFK => {
+  let upsert = ``;
+  for (let i = 0; i < countFK; i++)
+    upsert += `delete${i}: deletePrzesylkaHasPozycjaWMagazynie(
+    idPrzesylkaHasPozycjaWMagazynie: $parcelJTDeleteId${i}
+  ){
+  idPrzesylkaHasPozycjaWMagazynie
+  }
+  pozycjaInit${i}: upsertPozycjaWMagazynie(
+  idPozycja: $idRestoreItemInStock${i}
+  ilosc: $initAmount${i}
+  ){
+    idPozycja
+  }
+  
+  `;
   return upsert;
 };
 
@@ -216,8 +245,20 @@ const parcelVariables = countFK => {
   let variables = ``;
   for (let i = 0; i < countFK; i++)
     variables += `$parcelJTId${i}: ID
-    $idItemInStock${i}: String!
+    $idItemInStock${i}FK: String!
+    $idItemInStock${i}: ID!
     $amount${i}: String!
+    $newAmount${i}: Float!
+    `;
+  return variables;
+};
+
+const parcelDeleteVariables = countFK => {
+  let variables = ``;
+  for (let i = 0; i < countFK; i++)
+    variables += `$parcelJTDeleteId${i}: ID!
+    $idRestoreItemInStock${i}: ID!
+    $initAmount${i}: Float!
     `;
   return variables;
 };
@@ -237,7 +278,8 @@ export const waybillFK = countFK => gql`
     $carrierJTId: ID!
     $mailingAddressJTId: ID!
     $pickupAddressJTId: ID!
-    ${parcelVariables(countFK)}
+    ${parcelVariables(countFK ? countFK.content : 0)}
+    ${parcelDeleteVariables(countFK ? countFK.contentToDelete : 0)}
   ) {
     odbiorca: upsertListPrzewozowyHasKontrahenci(
         idListPrzewozowyHasKontrahenci: $recipentJTId
@@ -282,7 +324,8 @@ export const waybillFK = countFK => gql`
     upsertListPrzewozowy(idListPrzewozowy: $idListPrzewozowy, przesylkaIdPrzesylka: $idPrzesylka) {
       idListPrzewozowy
     }
-    ${parcelFK(countFK)}
+    ${parcelFK(countFK ? countFK.content : 0)}
+    ${parcelDeleteJT(countFK ? countFK.contentToDelete : 0)}
   }
 `;
 
@@ -405,27 +448,13 @@ export const upsertWarehouse = gql`
   }
 `;
 
-const itemJT = countFK => {
+const itemJT = countItemFK => {
   let upsert = ``;
-  for (let i = 0; i < countFK; i++)
-    upsert += `pozycja${i}: upsertOperacjeHasPartie(
-    idOperacjeHasPartie: $itemJTId${i}
+  for (let i = 0; i < countItemFK; i++)
+    upsert += `pozycja${i}: upsertOperacjeHasPozycjaWMagazynie(
+    idOperacjeHasPozycjaWMagazynie: $itemJTId${i}
 		    operacjeIdOperacja: $idOperacjaFK
-    partieIdPartie: $idBatch${i}
-    ilosc: $amountBatch${i}
-  ){
-    idOperacjeHasPartie
-  }`;
-  return upsert;
-};
-
-const batchJT = countBatchFK => {
-  let upsert = ``;
-  for (let i = 0; i < countBatchFK; i++)
-    upsert += `partia${i}: upsertOperacjeHasPozycjaWMagazynie(
-    idOperacjeHasPozycjaWMagazynie: $batchJTId${i}
-    operacjeIdOperacja: $idOperacjaFK
-    pozycjaWMagazynieIdPozycja: $idItemInStock${i}
+		        pozycjaWMagazynieIdPozycja: $idItemInStock${i}
     ilosc: $amountItem${i}
   ){
     idOperacjeHasPozycjaWMagazynie
@@ -433,14 +462,35 @@ const batchJT = countBatchFK => {
   return upsert;
 };
 
-const jtVariables = countItemFK => {
+const batchJT = countBatchFK => {
+  let upsert = ``;
+  for (let i = 0; i < countBatchFK; i++)
+    upsert += `partia${i}: upsertOperacjeHasPartie(
+    idOperacjeHasPartie: $batchJTId${i}
+    operacjeIdOperacja: $idOperacjaFK
+     partieIdPartie: $idBatch${i}
+    ilosc: $amountBatch${i}
+  ){
+  idOperacjeHasPartie   
+  }`;
+  return upsert;
+};
+
+const jtBatchVariables = countBatchFK => {
+  let variables = ``;
+  for (let i = 0; i < countBatchFK; i++)
+    variables += `$batchJTId${i}: ID
+    $idBatch${i}: String!
+    $amountBatch${i}: String!
+    `;
+  return variables;
+};
+
+const jtItemVariables = countItemFK => {
   let variables = ``;
   for (let i = 0; i < countItemFK; i++)
     variables += `$itemJTId${i}: ID
-    $batchJTId${i}: ID
     $idItemInStock${i}: String!
-    $idBatch${i}: String!
-    $amountBatch${i}: String!
     $amountItem${i}: String!
     `;
   return variables;
@@ -450,16 +500,16 @@ export const operationsFK = countFK => gql`
 mutation operationsFK(
     $idOperacja: ID!
     $idOperacjaFK: String!
-    ${jtVariables(countFK)}
+    ${jtItemVariables(countFK ? countFK.item : 0)}
+    ${jtBatchVariables(countFK ? countFK.batches : 0)}
     ){
     upsertOperacje(idOperacja: $idOperacja){
     idOperacja
   }
-    ${itemJT(countFK)}
-    ${batchJT(countFK)}
+    ${itemJT(countFK ? countFK.item : 0)}
+    ${batchJT(countFK ? countFK.batches : 0)}
   }`;
 
-//TODO dodawanie partii i pozycji w magazynie
 export const upsertOperations = gql`
   mutation upsertOperations(
     $operationId: ID
@@ -666,6 +716,25 @@ export const upsertGrapeHarvest = gql`
     }
     upsertWinnica(idWinnica: $vineyardId, dataOstatniegoZbioru: $dateOfHarvest) {
       idWinnica
+    }
+  }
+`;
+
+export const reportFK = gql`
+  mutation reportFK($reportJTId: ID, $reportId: String!, $userId: String!) {
+    upsertRaportyHasUzytkownicy(
+      idRaportyHasUzytkownicy: $reportJTId
+      raportyIdRaport: $reportId
+      uzytkownicyIdUzytkownika: $userId
+    ) {
+      idRaportyHasUzytkownicy
+    }
+  }
+`;
+export const upsertReport = gql`
+  mutation upsertReport($reportId: ID, $name: String!, $file: String!, $creationDate: String!) {
+    upsertRaporty(idRaport: $reportId, nazwa: $name, eDokument: $file, dataUtworzenia: $creationDate) {
+      idRaport
     }
   }
 `;
