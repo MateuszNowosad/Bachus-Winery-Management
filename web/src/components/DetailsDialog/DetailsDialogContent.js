@@ -19,6 +19,7 @@ import {
 } from '../../queries/FormQueries/formQueries';
 import UserDetailsContent from './DetailsDialogContent/UserDetailsContent';
 import ContractorDetailsContent from './DetailsDialogContent/ContractorDetailsContent';
+import VineyardDetailsContent from './DetailsDialogContent/VineyardDetailsContent';
 
 class DetailsDialogContent extends  React.Component{
   constructor(props) {
@@ -55,7 +56,7 @@ class DetailsDialogContent extends  React.Component{
       case 'FormOperations':
         return getOperationForForm;
       case 'FormVineyard':
-        return getVineyardForForm;
+        return <VineyardDetailsContent queryData={queryData}/>;
       case 'FormVineyardOperation':
         return getVineyardOperationForForm;
       case 'FormWarehouse':

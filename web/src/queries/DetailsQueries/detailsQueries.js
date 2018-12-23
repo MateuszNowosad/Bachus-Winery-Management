@@ -238,20 +238,31 @@ export const getOperationDetails = gql`
 `;
 
 export const getVineyardDetails = gql`
-  query getVineyardDetails($id: ID) {
+  query getVineyardDetails($id: ID!, $idFK: String!) {
     Winnica(idWinnica: $id) {
-      idWinnica
       nazwa
       powierzchnia
       terroir
+    stan
+    dataOstatniegoZbioru
       dataZasadzenia
       ewidencyjnyIdDzialki
       dictOdmianaWinogron {
-        idOdmianaWinogron
+        opis
         nazwa
       }
-      stan
+     }
+     Winobranie(winnicaIdWinnica: $idFK){
+    idWinobranie
+    dataWinobrania
+    iloscZebranychWinogron
+  }
+  OperacjeNaWinnicy(winnicaIdWinnica: $idFK){
+    data
+    dictOperacjeNaWinnicy{
+      nazwa
     }
+  }
   }
 `;
 
