@@ -239,6 +239,15 @@ export const getWarehouseDetails = gql`
         nrPosesji
         kraj
       }
+    pozycjaWMagazynie{
+      idPozycja
+      nazwa
+      ilosc
+      stanAktualny
+      kategorie{
+        nazwa
+      }
+    }
     }
   }
 `;
