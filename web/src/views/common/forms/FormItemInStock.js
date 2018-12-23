@@ -58,7 +58,6 @@ export class FormItemInStock extends React.Component {
     });
   };
 
-
   handleSelectWarehouse = (name, warehouse) => {
     this.setState({
       [name]: warehouse.idMagazyn
@@ -149,7 +148,20 @@ export class FormItemInStock extends React.Component {
     }
   }
   render() {
-    const { warehouseId,name, desc, amount, acceptanceDate, releaseDate, sectorName, category, batch, open,openWarehouse, errors } = this.state;
+    const {
+      warehouseId,
+      name,
+      desc,
+      amount,
+      acceptanceDate,
+      releaseDate,
+      sectorName,
+      category,
+      batch,
+      open,
+      openWarehouse,
+      errors
+    } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
@@ -171,7 +183,7 @@ export class FormItemInStock extends React.Component {
             <DialogForForm title={'Magazyny'} open={openWarehouse} onClose={() => this.handleClose('openWarehouse')}>
               <Query query={getWarehouses}>
                 {({ loading, error, data }) => {
-                  if (loading) return <CircularProgress/>;
+                  if (loading) return <CircularProgress />;
                   if (error)
                     return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (

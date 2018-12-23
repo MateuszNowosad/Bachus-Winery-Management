@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/es/Typography';
 import React from 'react';
 import AddressDetailsContent from './AddressDetailsContent';
 
-const ContractorDetailsContent = (props) => {
+const ContractorDetailsContent = props => {
   let contractor = props.queryData.Kontrahenci[0];
   return (
     <Grid container direction={'column'}>
@@ -43,8 +43,8 @@ const ContractorDetailsContent = (props) => {
               <Typography variant="subtitle1" gutterBottom component="div">
                 {contractor.NIP}
               </Typography>
-            </React.Fragment>)
-          }
+            </React.Fragment>
+          )}
           {contractor.KRS && (
             <React.Fragment>
               <Typography variant="h5" gutterBottom component="h1">
@@ -53,8 +53,8 @@ const ContractorDetailsContent = (props) => {
               <Typography variant="subtitle1" gutterBottom component="div">
                 {contractor.KRS}
               </Typography>
-            </React.Fragment>)
-          }
+            </React.Fragment>
+          )}
           <Typography variant="h5" gutterBottom component="h1">
             Nr. konta
           </Typography>
@@ -74,7 +74,7 @@ const ContractorDetailsContent = (props) => {
           Adres
         </Typography>
       </Grid>
-      <AddressDetailsContent address={contractor.adres}/>
+      <AddressDetailsContent address={contractor.adres} />
     </Grid>
   );
 };

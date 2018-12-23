@@ -49,10 +49,13 @@ class AutoTable extends React.Component {
 
   handleDetails = recordId => {
     this.handleMenuClose();
-    this.setState({
-      openDetails: true,
-      clickedRowId: recordId
-    },() => console.log('54,  jakub: setState'));
+    this.setState(
+      {
+        openDetails: true,
+        clickedRowId: recordId
+      },
+      () => console.log('54,  jakub: setState')
+    );
   };
 
   handleEdit = recordId => {
@@ -96,12 +99,12 @@ class AutoTable extends React.Component {
         labelCount = newlabelCount;
       }
     });
-    const { classes, queryData, querySize, dialogFormTitle, dialogForm, editMode,showDetails, query } = this.props;
+    const { classes, queryData, querySize, dialogFormTitle, dialogForm, editMode, showDetails, query } = this.props;
     const { open, rowsPerPage, page, clickedRowId, openEdit, anchorEl, openDetails } = this.state;
     return (
       <div style={{ minWidth: '100%' }}>
         <div className={classes.actions}>
-          <SearchBar/>
+          <SearchBar />
         </div>
         <Paper className={classes.root}>
           <Table className={classes.table}>
@@ -120,16 +123,14 @@ class AutoTable extends React.Component {
               />
               {editMode && (
                 <Menu id="row_menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleMenuClose}>
-                  {showDetails && (<MenuItem onClick={() => this.handleDetails(clickedRowId)}>Szczegóły</MenuItem>)}
+                  {showDetails && <MenuItem onClick={() => this.handleDetails(clickedRowId)}>Szczegóły</MenuItem>}
                   <MenuItem onClick={() => this.handleEdit(clickedRowId)}>Edytuj</MenuItem>
                   <Mutation
                     key={dialogForm.type.name}
                     mutation={selectDeleteForForm(dialogForm.type.name)}
                     refetchQueries={[{ query: query }]}
                   >
-                    {mutation => (
-                      <MenuItem onClick={() => this.handleDeletion(mutation,clickedRowId)}>Usuń</MenuItem>
-                    )}
+                    {mutation => <MenuItem onClick={() => this.handleDeletion(mutation, clickedRowId)}>Usuń</MenuItem>}
                   </Mutation>
                 </Menu>
               )}
@@ -172,7 +173,7 @@ class AutoTable extends React.Component {
         {openEdit && (
           <Query query={selectQueryForForm(dialogForm.type.name)} variables={{ id: clickedRowId, idFK: clickedRowId }}>
             {({ loading, error, data }) => {
-              if (loading) return <CircularProgress/>;
+              if (loading) return <CircularProgress />;
               if (error)
                 return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
               return (
@@ -190,9 +191,12 @@ class AutoTable extends React.Component {
           </Query>
         )}
         {openDetails && (
-          <Query query={selectQueryForDetails(dialogForm.type.name)} variables={{ id: clickedRowId, idFK: clickedRowId }}>
+          <Query
+            query={selectQueryForDetails(dialogForm.type.name)}
+            variables={{ id: clickedRowId, idFK: clickedRowId }}
+          >
             {({ loading, error, data }) => {
-              if (loading) return <CircularProgress/>;
+              if (loading) return <CircularProgress />;
               if (error)
                 return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
               return (
@@ -200,13 +204,13 @@ class AutoTable extends React.Component {
                   dialogTitle={'Szczegóły'}
                   queryData={data}
                   dataType={dialogForm.type.name}
-                  onClose = {() => this.setState({ openDetails: false, clickedRowId: false })}
-                  open={openDetails}/>
+                  onClose={() => this.setState({ openDetails: false, clickedRowId: false })}
+                  open={openDetails}
+                />
               );
             }}
           </Query>
-        )
-        }
+        )}
       </div>
     );
   }

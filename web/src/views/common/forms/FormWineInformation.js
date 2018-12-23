@@ -109,7 +109,7 @@ export class FormWineInformation extends React.Component {
   }
 
   render() {
-    const { name, motto, allergens, energyValue, wineCategory,batchId,open, errors } = this.state;
+    const { name, motto, allergens, energyValue, wineCategory, batchId, open, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
@@ -130,7 +130,7 @@ export class FormWineInformation extends React.Component {
             <DialogForForm title={'Winnice'} open={open} onClose={() => this.handleClose('open')}>
               <Query query={getBatches}>
                 {({ loading, error, data }) => {
-                  if (loading) return <CircularProgress/>;
+                  if (loading) return <CircularProgress />;
                   if (error)
                     return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (

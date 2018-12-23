@@ -58,7 +58,6 @@ export class FormVineyardOperation extends React.Component {
     });
   };
 
-
   handleSubmit = () => {
     const { vineyardOperationId, dateOfOperation, desc, dictOperation, vineyard } = this.state;
 
@@ -126,7 +125,7 @@ export class FormVineyardOperation extends React.Component {
             <DialogForForm title={'Winnice'} open={open} onClose={() => this.handleClose('open')}>
               <Query query={getVineyards}>
                 {({ loading, error, data }) => {
-                  if (loading) return <CircularProgress/>;
+                  if (loading) return <CircularProgress />;
                   if (error)
                     return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
@@ -181,7 +180,7 @@ export class FormVineyardOperation extends React.Component {
           <Grid item md={12}>
             <Query query={getDictVineyardOperations}>
               {({ loading, error, data }) => {
-                if (loading) return <CircularProgress/>;
+                if (loading) return <CircularProgress />;
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 return (

@@ -5,7 +5,7 @@ import { Avatar } from '@material-ui/core';
 import React from 'react';
 import AddressDetailsContent from './AddressDetailsContent';
 
-const UserDetailsContent = (props) => {
+const UserDetailsContent = props => {
   let user = props.queryData.Uzytkownicy[0];
   return (
     <Grid container direction={'column'}>
@@ -78,7 +78,7 @@ const UserDetailsContent = (props) => {
           Adres
         </Typography>
       </Grid>
-      <AddressDetailsContent address={user.adres}/>
+      <AddressDetailsContent address={user.adres} />
     </Grid>
   );
 };

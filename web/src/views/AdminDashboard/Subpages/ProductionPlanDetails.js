@@ -73,23 +73,20 @@ class ProductionPlanDetails extends React.Component {
             <TwoLevelPieChart />
           </Grid>
         </Grid>
-        <Query
-          query={getProductionPlanDetails}
-          variables={{id: this.props.match.params.id}}
-        >
-           {({ loading, error, data }) => {
+        <Query query={getProductionPlanDetails} variables={{ id: this.props.match.params.id }}>
+          {({ loading, error, data }) => {
             if (loading) return <CircularProgress />;
             if (error)
-            return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+              return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
             return (
-        <Tree
-          // queryData={JSON.parse(partie)['data']['Partie'][0]}
-          queryData={data.Partie[0]}
-         labels={[batchDatabaseLabels, operationsDatabaseLabels]}
-          hardBreak={'idPartie'}
-        />
-            )}
-           }
+              <Tree
+                // queryData={JSON.parse(partie)['data']['Partie'][0]}
+                queryData={data.Partie[0]}
+                labels={[batchDatabaseLabels, operationsDatabaseLabels]}
+                hardBreak={'idPartie'}
+              />
+            );
+          }}
         </Query>
       </React.Fragment>
     );

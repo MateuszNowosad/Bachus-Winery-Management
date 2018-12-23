@@ -14,14 +14,11 @@ import DialogActions from '@material-ui/core/es/DialogActions/DialogActions';
 class DetailsDialog extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
-
-
   render() {
-    const { classes,open,queryData, dataType } = this.props;
-  return (
+    const { classes, open, queryData, dataType } = this.props;
+    return (
       <Dialog
         aria-labelledby="modal-form-popup"
         aria-describedby="modal-form-popup"
@@ -30,24 +27,17 @@ class DetailsDialog extends React.Component {
         className={classes.dialog}
         scroll="body"
         fullWidth={true}
-        maxWidth={'lg'}>
+        maxWidth={'lg'}
+      >
         <DialogContent>
-          <DetailsDialogContent
-            queryData={queryData}
-            dataType={dataType}
-          />
+          <DetailsDialogContent queryData={queryData} dataType={dataType} />
         </DialogContent>
         <DialogActions>
-          <Button
-          onClick = {this.props.onClose}
-          >
-            Zamknij
-          </Button>
+          <Button onClick={this.props.onClose}>Zamknij</Button>
         </DialogActions>
       </Dialog>
     );
   }
 }
-
 
 export default withStyles(ScrollableDialogFormStyle)(DetailsDialog);

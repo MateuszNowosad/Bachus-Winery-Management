@@ -185,8 +185,8 @@ export const getItemInStockForForm = gql`
         dataUtworzenia
       }
       magazyn {
-      idMagazyn
-    }
+        idMagazyn
+      }
     }
   }
 `;
@@ -220,8 +220,8 @@ export const getOperationForForm = gql`
         iloscFromJoinTable
       }
       uzytkownicy {
-      idUzytkownika
-    }
+        idUzytkownika
+      }
     }
     OperacjeHasPozycjaWMagazynie(operacjeIdOperacja: $idFK) {
       idOperacjeHasPozycjaWMagazynie
@@ -367,8 +367,8 @@ export const getWineInformationForForm = gql`
         nazwaKategoria
       }
       partie {
-    idPartie
-  }
+        idPartie
+      }
     }
   }
 `;

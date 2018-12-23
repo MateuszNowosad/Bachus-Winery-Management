@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/es/Typography';
 import React from 'react';
 
 const AddressDetailsContent = props => {
-  let {address} = props;
+  let { address } = props;
   return (
     <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
       <Grid item xs>
@@ -47,11 +47,11 @@ const AddressDetailsContent = props => {
             <Typography variant="subtitle1" gutterBottom component="div">
               {address.nrLokalu}
             </Typography>
-          </React.Fragment>)
-        }
+          </React.Fragment>
+        )}
       </Grid>
     </Grid>
-  )
+  );
 };
 
 export default AddressDetailsContent;

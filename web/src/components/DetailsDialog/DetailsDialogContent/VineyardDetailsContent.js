@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { FormParcel } from '../../../views/common/forms/subforms/FormParcel';
 import AutoTable from '../../AutoTable/AutoTable';
 
-const VineyardDetailsContent = (props) => {
+const VineyardDetailsContent = props => {
   let vineyard = props.queryData.Winnica[0];
   let grapeHarvest = props.queryData.Winobranie;
   let vineyardOperations = props.queryData.OperacjeNaWinnicy;
@@ -56,15 +56,14 @@ const VineyardDetailsContent = (props) => {
           </Typography>
           {vineyard.dataOstatniegoZbioru && (
             <React.Fragment>
-          <Typography variant="h5" gutterBottom component="h1">
-            Data ostatniego zbioru
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom component="div">
-            {vineyard.dataOstatniegoZbioru}
-          </Typography>
+              <Typography variant="h5" gutterBottom component="h1">
+                Data ostatniego zbioru
+              </Typography>
+              <Typography variant="subtitle1" gutterBottom component="div">
+                {vineyard.dataOstatniegoZbioru}
+              </Typography>
             </React.Fragment>
-            )
-        }
+          )}
           <Typography variant="h5" gutterBottom component="h1">
             Odmiana winogron
           </Typography>
@@ -75,35 +74,27 @@ const VineyardDetailsContent = (props) => {
       </Grid>
       <Grid container direction="row" justify="flex-end" alignItems="stretch">
         <Grid item xs>
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-            <Typography variant="inherit">Wykonane operacje na winnicy</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <AutoTable
-              queryData={vineyardOperations}
-              querySize={vineyardOperations.length}
-              editMode={false}
-            />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+          <ExpansionPanel>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="inherit">Wykonane operacje na winnicy</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <AutoTable queryData={vineyardOperations} querySize={vineyardOperations.length} editMode={false} />
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
         </Grid>
         <Grid item xs>
           <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="inherit">Winobrania</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <AutoTable
-                queryData={grapeHarvest}
-                querySize={grapeHarvest.length}
-                editMode={false}
-              />
+              <AutoTable queryData={grapeHarvest} querySize={grapeHarvest.length} editMode={false} />
             </ExpansionPanelDetails>
           </ExpansionPanel>
         </Grid>
       </Grid>
-      </Grid>
+    </Grid>
   );
 };
 

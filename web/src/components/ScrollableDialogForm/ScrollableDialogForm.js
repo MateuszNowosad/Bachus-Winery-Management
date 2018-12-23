@@ -75,109 +75,116 @@ class ScrollableDialogForm extends React.Component {
         >
           <DialogContent>
             <DialogTitle>{dialogTitle}</DialogTitle>
-            {open && (
-            selectUpsertForForm(children.type.name).simple === 0 ? (
-              <Mutation
-                mutation={selectUpsertForForm(children.type.name, this.state.dynamicVariablesCount).fkQuery}
-                onCompleted={this.formSubmitted}
-                refetchQueries={[{ query: query }]}
-                onError={error => console.log('71, error jakub: ', error)}
-              >
-                {mutate => (
-                  <Mutation
-                    mutation={selectUpsertForForm(children.type.name).query}
-                    onCompleted={result => {
-                      console.log('75, result jakub: ', result);
-                      let variables = {};
-                      Object.values(result).forEach(value => {
-                        for (let i = 0; i < Object.keys(value).length - 1; i++) {
-                          let key = Object.keys(value)[i];
-                          variables[key] = value[key];
+            {open &&
+              (selectUpsertForForm(children.type.name).simple === 0 ? (
+                <Mutation
+                  mutation={selectUpsertForForm(children.type.name, this.state.dynamicVariablesCount).fkQuery}
+                  onCompleted={this.formSubmitted}
+                  refetchQueries={[{ query: query }]}
+                  onError={error => console.log('71, error jakub: ', error)}
+                >
+                  {mutate => (
+                    <Mutation
+                      mutation={selectUpsertForForm(children.type.name).query}
+                      onCompleted={result => {
+                        console.log('75, result jakub: ', result);
+                        let variables = {};
+                        Object.values(result).forEach(value => {
+                          for (let i = 0; i < Object.keys(value).length - 1; i++) {
+                            let key = Object.keys(value)[i];
+                            variables[key] = value[key];
+                          }
+                        });
+                        const { dynamicVariables } = this.state;
+                        //let done = true;
+                        if (dynamicVariables) {
+                          // done = false;
+                          let count = {};
+                          if (dynamicVariables.content) {
+                            // count.content = dynamicVariables.content.length;
+                            for (let i = 0; i < dynamicVariables.content.length; i++) {
+                              variables[`parcelJTId${i}`] = dynamicVariables.content[i].parcelJTId;
+                              variables[`idItemInStock${i}`] = `${dynamicVariables.content[i].key}`;
+                              variables[`idItemInStock${i}FK`] = `${dynamicVariables.content[i].key}`;
+                              variables[`amount${i}`] = `${dynamicVariables.content[i].amount}`;
+                              variables[`newAmount${i}`] = Number(
+                                (
+                                  dynamicVariables.content[i].previousAmount -
+                                  dynamicVariables.content[i].amount +
+                                  0.1
+                                ).toFixed(1)
+                              );
+                            }
+                          }
+                          if (dynamicVariables.contentToDelete) {
+                            // count.content = dynamicVariables.content.length;
+                            for (let i = 0; i < dynamicVariables.contentToDelete.length; i++) {
+                              variables[`parcelJTDeleteId${i}`] = dynamicVariables.contentToDelete[i].parcelJTId;
+                              variables[`idRestoreItemInStock${i}`] = `${dynamicVariables.contentToDelete[i].key}`;
+                              variables[`initAmount${i}`] = Number(
+                                (dynamicVariables.contentToDelete[i].previousAmount + 0.1).toFixed(1)
+                              );
+                            }
+                          }
+                          if (dynamicVariables.batches) {
+                            //count.batches = dynamicVariables.batches.length;
+                            for (let i = 0; i < dynamicVariables.batches.length; i++) {
+                              variables[`batchJTId${i}`] = dynamicVariables.batches[i].batchJTId;
+                              variables[`idBatch${i}`] = `${dynamicVariables.batches[i].key}`;
+                              variables[`amountBatch${i}`] = `${dynamicVariables.batches[i].amount}`;
+                            }
+                          }
+                          if (dynamicVariables.item) {
+                            // count.item = dynamicVariables.item.length;
+                            for (let i = 0; i < dynamicVariables.item.length; i++) {
+                              variables[`itemJTId${i}`] = dynamicVariables.item[i].itemJTId;
+                              variables[`idItemInStock${i}`] = `${dynamicVariables.item[i].key}`;
+                              variables[`amountItem${i}`] = `${dynamicVariables.item[i].amount}`;
+                            }
+                          }
+                          if (dynamicVariables.jtId)
+                            for (let id in dynamicVariables.jtId) {
+                              variables[id] = `${dynamicVariables.jtId[id]}`;
+                            }
+                          console.log('100, variables jakub: ', variables);
+                          console.log('124, count jakub: ', this.state.dynamicVariablesCount);
+                          //this.setState({ dynamicVariablesCount: count }, () => (done = true));
                         }
-                      });
-                      const { dynamicVariables } = this.state;
-                      //let done = true;
-                      if (dynamicVariables) {
-                        // done = false;
-                        let count = {};
-                        if (dynamicVariables.content) {
-                          // count.content = dynamicVariables.content.length;
-                          for (let i = 0; i < dynamicVariables.content.length; i++) {
-                            variables[`parcelJTId${i}`] = dynamicVariables.content[i].parcelJTId;
-                            variables[`idItemInStock${i}`] = `${dynamicVariables.content[i].key}`;
-                            variables[`idItemInStock${i}FK`] = `${dynamicVariables.content[i].key}`;
-                            variables[`amount${i}`] = `${dynamicVariables.content[i].amount}`;
-                            variables[`newAmount${i}`] = Number((dynamicVariables.content[i].previousAmount - dynamicVariables.content[i].amount+0.1).toFixed(1));
-                          }
-                        }
-                        if (dynamicVariables.contentToDelete) {
-                          // count.content = dynamicVariables.content.length;
-                          for (let i = 0; i < dynamicVariables.contentToDelete.length; i++) {
-                            variables[`parcelJTDeleteId${i}`] = dynamicVariables.contentToDelete[i].parcelJTId;
-                            variables[`idRestoreItemInStock${i}`] = `${dynamicVariables.contentToDelete[i].key}`;
-                            variables[`initAmount${i}`] = Number((dynamicVariables.contentToDelete[i].previousAmount+0.1).toFixed(1))
-                          }
-                          }
-                        if (dynamicVariables.batches) {
-                          //count.batches = dynamicVariables.batches.length;
-                          for (let i = 0; i < dynamicVariables.batches.length; i++) {
-                            variables[`batchJTId${i}`] = dynamicVariables.batches[i].batchJTId;
-                            variables[`idBatch${i}`] = `${dynamicVariables.batches[i].key}`;
-                            variables[`amountBatch${i}`] = `${dynamicVariables.batches[i].amount}`;
-                          }
-                        }
-                        if (dynamicVariables.item) {
-                          // count.item = dynamicVariables.item.length;
-                          for (let i = 0; i < dynamicVariables.item.length; i++) {
-                            variables[`itemJTId${i}`] = dynamicVariables.item[i].itemJTId;
-                            variables[`idItemInStock${i}`] = `${dynamicVariables.item[i].key}`;
-                            variables[`amountItem${i}`] = `${dynamicVariables.item[i].amount}`;
-                          }
-                        }
-                        if (dynamicVariables.jtId)
-                          for (let id in dynamicVariables.jtId) {
-                            variables[id] = `${dynamicVariables.jtId[id]}`;
-                          }
-                        console.log('100, variables jakub: ', variables);
-                        console.log('124, count jakub: ', this.state.dynamicVariablesCount);
-                        //this.setState({ dynamicVariablesCount: count }, () => (done = true));
-                      }
-                      //if (done)
-                      mutate({ variables: variables });
-                      // else console.log('130, done jakub: ', done);
-                    }}
-                  >
-                    {mutation => {
-                      return React.cloneElement(children, {
-                        submitFromOutside: submit,
-                        onSubmit: UniversalSubmitHander,
-                        //formSubmitted: this.formSubmitted,
-                        submitAborted: this.submitAborted,
-                        mutation: mutation,
-                        setMutationDynamicVariables: this.handleMutationDynamiData
-                      });
-                    }}
-                  </Mutation>
-                )}
-              </Mutation>
-            ) : (
-              <Mutation
-                mutation={selectUpsertForForm(children.type.name).query}
-                onCompleted={this.formSubmitted}
-                refetchQueries={[{ query: query }]}
-              >
-                {mutation => {
-                  return React.cloneElement(children, {
-                    submitFromOutside: submit,
-                    onSubmit: UniversalSubmitHander,
-                    //formSubmitted: this.formSubmitted,
-                    submitAborted: this.submitAborted,
-                    mutation: mutation
-                  });
-                }}
-              </Mutation>
-            )
-            )}
+                        //if (done)
+                        mutate({ variables: variables });
+                        // else console.log('130, done jakub: ', done);
+                      }}
+                    >
+                      {mutation => {
+                        return React.cloneElement(children, {
+                          submitFromOutside: submit,
+                          onSubmit: UniversalSubmitHander,
+                          //formSubmitted: this.formSubmitted,
+                          submitAborted: this.submitAborted,
+                          mutation: mutation,
+                          setMutationDynamicVariables: this.handleMutationDynamiData
+                        });
+                      }}
+                    </Mutation>
+                  )}
+                </Mutation>
+              ) : (
+                <Mutation
+                  mutation={selectUpsertForForm(children.type.name).query}
+                  onCompleted={this.formSubmitted}
+                  refetchQueries={[{ query: query }]}
+                >
+                  {mutation => {
+                    return React.cloneElement(children, {
+                      submitFromOutside: submit,
+                      onSubmit: UniversalSubmitHander,
+                      //formSubmitted: this.formSubmitted,
+                      submitAborted: this.submitAborted,
+                      mutation: mutation
+                    });
+                  }}
+                </Mutation>
+              ))}
           </DialogContent>
           <DialogActions classes={{ root: classes.root }}>
             {openConfirmationPrompt ? (

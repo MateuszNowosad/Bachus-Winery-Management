@@ -31,22 +31,20 @@ const AutoContent = props => {
         cells.push(<TableCell key={uniqueCellID}> {value} </TableCell>);
       }
       row.push(
-        editMode ?
+        editMode ? (
           <TableRow
             hover
             key={entries[0][1]}
-            onClick={(event) => props.onClick(event, currElement)}
+            onClick={event => props.onClick(event, currElement)}
             selected={props.selected === entries[0][1]}
           >
             {cells}
           </TableRow>
-          :
-          <TableRow
-            hover
-            key={entries[0][1]}
-          >
+        ) : (
+          <TableRow hover key={entries[0][1]}>
             {cells}
           </TableRow>
+        )
       );
     });
   return row;

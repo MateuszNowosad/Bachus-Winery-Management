@@ -19,8 +19,7 @@ class Tree extends React.Component {
         if (Array.isArray(jsonObject[key])) {
           if (jsonObject[key].length !== 0) {
             for (let index in jsonObject[key])
-              if(index !== '_typename')
-              result.push(this.parseJSONintoTree(jsonObject[key][index], levelCounter + 1));
+              if (index !== '_typename') result.push(this.parseJSONintoTree(jsonObject[key][index], levelCounter + 1));
           }
         } else {
           if (key === hardBreak) {

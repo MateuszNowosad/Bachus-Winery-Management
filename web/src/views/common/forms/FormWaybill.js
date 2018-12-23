@@ -120,9 +120,10 @@ export class FormWaybill extends React.Component {
   showFile = () => {
     let pdfWindow = window.open('');
     pdfWindow.document.write(
-      '<iframe width=\'100%\' height=\'100%\' src=\'data:application/pdf;base64, ' +
-      encodeURI(this.state.fileURL)
-      + '\'></iframe>');
+      "<iframe width='100%' height='100%' src='data:application/pdf;base64, " +
+        encodeURI(this.state.fileURL) +
+        "'></iframe>"
+    );
   };
 
   handleSubmit = () => {
@@ -164,13 +165,11 @@ export class FormWaybill extends React.Component {
 
     let jtId = { senderJTId, recipentJTId, carrierJTId, mailingAddressJTId, pickupAddressJTId };
 
-    let contentToDelete =initContent ? initContent
-      .filter(initElement =>
-        !content
-          .find(
-            contentElement => contentElement.parcelJTId === initElement.parcelJTId
-          )
-      ) : undefined;
+    let contentToDelete = initContent
+      ? initContent.filter(
+          initElement => !content.find(contentElement => contentElement.parcelJTId === initElement.parcelJTId)
+        )
+      : undefined;
 
     let dataObject = {
       waybillId,
@@ -202,11 +201,10 @@ export class FormWaybill extends React.Component {
       date
     };
 
-
     let arrayOfErrors = UniversalValidationHandler(dataObject, waybillValidationKeys);
     !this.subFormValidation() && arrayOfErrors.push('subforms');
     if (arrayOfErrors.length === 0) {
-      this.props.setMutationDynamicVariables({ content, jtId,contentToDelete });
+      this.props.setMutationDynamicVariables({ content, jtId, contentToDelete });
       this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
@@ -251,7 +249,6 @@ export class FormWaybill extends React.Component {
     reader.readAsDataURL(file);
 
     reader.onload = () => {
-
       this.setState({
         fileURL: String(reader.result).replace('data:application/pdf;base64,', ''),
         errors: {
@@ -408,7 +405,7 @@ export class FormWaybill extends React.Component {
             <DialogForForm title={'Kontrahenci'} open={openSender} onClose={() => this.handleClose('openSender')}>
               <Query query={getContractors}>
                 {({ loading, error, data }) => {
-                  if (loading) return <CircularProgress/>;
+                  if (loading) return <CircularProgress />;
                   if (error)
                     return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
@@ -443,7 +440,7 @@ export class FormWaybill extends React.Component {
             <DialogForForm title={'Kontrahenci'} open={openRecipent} onClose={() => this.handleClose('openRecipent')}>
               <Query query={getContractors}>
                 {({ loading, error, data }) => {
-                  if (loading) return <CircularProgress/>;
+                  if (loading) return <CircularProgress />;
                   if (error)
                     return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
@@ -478,7 +475,7 @@ export class FormWaybill extends React.Component {
             <DialogForForm title={'Kontrahenci'} open={openCarrier} onClose={() => this.handleClose('openCarrier')}>
               <Query query={getContractors}>
                 {({ loading, error, data }) => {
-                  if (loading) return <CircularProgress/>;
+                  if (loading) return <CircularProgress />;
                   if (error)
                     return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
@@ -498,7 +495,7 @@ export class FormWaybill extends React.Component {
           </Grid>
           <Grid item md={12}>
             <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="inherit">Adres odbiorcy</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
@@ -513,7 +510,7 @@ export class FormWaybill extends React.Component {
           </Grid>
           <Grid item md={12}>
             <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="inherit">Adres nadawcy</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
@@ -528,7 +525,7 @@ export class FormWaybill extends React.Component {
           </Grid>
           <Grid item md={12}>
             <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="inherit">Przesyłka</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
@@ -542,7 +539,7 @@ export class FormWaybill extends React.Component {
             </ExpansionPanel>
           </Grid>
           <Grid item md={12}>
-            <input hidden accept=".pdf" id="addFile" type="file" onChange={this.handleFileChange}/>
+            <input hidden accept=".pdf" id="addFile" type="file" onChange={this.handleFileChange} />
             <label htmlFor="addFile">
               <Button
                 variant="contained"
@@ -550,12 +547,12 @@ export class FormWaybill extends React.Component {
                 style={
                   errors.fileURL
                     ? {
-                      color: red[300],
-                      backgroundColor: red[700],
-                      '&:hover': {
-                        backgroundColor: red[700]
+                        color: red[300],
+                        backgroundColor: red[700],
+                        '&:hover': {
+                          backgroundColor: red[700]
+                        }
                       }
-                    }
                     : {}
                 }
               >

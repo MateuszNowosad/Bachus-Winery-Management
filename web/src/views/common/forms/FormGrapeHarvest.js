@@ -23,7 +23,7 @@ export class FormGrapeHarvest extends React.Component {
       dateOfHarvest: currentDate('date'),
       amount: 0,
       vineyard: '',
-      open:false,
+      open: false,
       errors: errorMap
     };
   }
@@ -90,7 +90,7 @@ export class FormGrapeHarvest extends React.Component {
   }
 
   render() {
-    const { dateOfHarvest, amount,vineyard, open,errors } = this.state;
+    const { dateOfHarvest, amount, vineyard, open, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
@@ -111,7 +111,7 @@ export class FormGrapeHarvest extends React.Component {
             <DialogForForm title={'Winnice'} open={open} onClose={() => this.handleClose('open')}>
               <Query query={getVineyards}>
                 {({ loading, error, data }) => {
-                  if (loading) return <CircularProgress/>;
+                  if (loading) return <CircularProgress />;
                   if (error)
                     return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (

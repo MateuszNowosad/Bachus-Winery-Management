@@ -6,7 +6,7 @@ function PDFShow(pdfScheme) {
   pdfMake.vfs = vfs;
   let data = null;
   let document = pdfMake.createPdf(pdfScheme);
-  document.getBase64((encodedString) => {
+  document.getBase64(encodedString => {
     data = encodedString;
   });
 

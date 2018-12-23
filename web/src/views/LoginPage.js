@@ -36,7 +36,7 @@ class SignIn extends React.Component {
     });
   };
 
-  handleSubmit = (mutate) => {
+  handleSubmit = mutate => {
     axios({
       method: 'post',
       url: 'http://localhost:8080/usrauthorization',
@@ -49,7 +49,7 @@ class SignIn extends React.Component {
       console.log('41, response Mateusz: ', response);
       if (response.data) {
         console.log('43, "Success" Mateusz: ', 'Success');
-        mutate({variables: {userId: response.data.userId}});
+        mutate({ variables: { userId: response.data.userId } });
         this.setState({ error: false, isAuthenticated: true });
         this.props.isAuthenticated();
       } else {
@@ -96,20 +96,19 @@ class SignIn extends React.Component {
                 />
               </FormControl>
               <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Zapamiętaj mnie" />
-              <Mutation
-                mutation={userLogged}
-              >
-                {mutate => <Button
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  //component={dashboard} //Deprecated
-                  onClick={() => this.handleSubmit(mutate)}
-                >
-                  Zaloguj się
-                </Button>
-                }
+              <Mutation mutation={userLogged}>
+                {mutate => (
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    //component={dashboard} //Deprecated
+                    onClick={() => this.handleSubmit(mutate)}
+                  >
+                    Zaloguj się
+                  </Button>
+                )}
               </Mutation>
             </form>
           </Paper>

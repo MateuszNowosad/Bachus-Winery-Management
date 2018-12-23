@@ -34,10 +34,7 @@ class DatabaseReports extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let reports = data.Raporty;
-                return <AutoTable
-                  queryData={reports}
-                  querySize={reports.length}
-                   />;
+                return <AutoTable queryData={reports} querySize={reports.length} />;
               }}
             </Query>
           </TabContainer>

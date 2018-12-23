@@ -7,11 +7,10 @@ function CreatePDF(pdfScheme) {
   let data;
   let document = pdfMake.createPdf(pdfScheme);
   return new Promise(function(resolve, reject) {
-    document.getBase64(function (pdfBase64) {
+    document.getBase64(function(pdfBase64) {
       resolve(pdfBase64);
     });
   });
-
 }
 
 export default CreatePDF;

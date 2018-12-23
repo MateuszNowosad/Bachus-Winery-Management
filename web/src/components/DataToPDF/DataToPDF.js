@@ -106,8 +106,8 @@ class DataToPDF extends React.Component {
       if (action === 'show')
         PDFShow(PDFFromDataSet(data[tableName], labels, pageSize, pageOrientation, fontSize, title));
       if (action === 'download')
-        CreatePDF(PDFFromDataSet(data[tableName], labels, pageSize, pageOrientation, fontSize, title), 'raport')
-          .then(results =>
+        CreatePDF(PDFFromDataSet(data[tableName], labels, pageSize, pageOrientation, fontSize, title), 'raport').then(
+          results =>
             this.setState({
               fileURL: results
             })
@@ -130,7 +130,7 @@ class DataToPDF extends React.Component {
           <Grid item md={12}>
             <Query query={getAllTablesNames}>
               {({ loading, error, data }) => {
-                if (loading) return <CircularProgress/>;
+                if (loading) return <CircularProgress />;
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
 
@@ -168,7 +168,7 @@ class DataToPDF extends React.Component {
           <Grid item md={12}>
             <Query query={getAllTablesFieldNames}>
               {({ loading, error, data }) => {
-                if (loading) return <CircularProgress/>;
+                if (loading) return <CircularProgress />;
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
 
@@ -274,33 +274,34 @@ class DataToPDF extends React.Component {
                 </Button>
               )}
             </ApolloConsumer>
-          <Mutation mutation={reportFK}>
-            {mutate => (
-              <Mutation
-                mutation={upsertReport}
-                onCompleted={result => {
-                  console.log('282, result jakub: ', result);
-                  mutate({ variables: { reportId: result.upsertRaporty.idRaport, userId: "1" } })
-                }
-                }
-              >
-                {
-                  mutation =>
-                    <Button variant={'outlined'} onClick={() => mutation({
-                      variables: {
-                        name: title,
-                        file: fileURL,
-                        creationDate: currentDate('dateTime')
+            <Mutation mutation={reportFK}>
+              {mutate => (
+                <Mutation
+                  mutation={upsertReport}
+                  onCompleted={result => {
+                    console.log('282, result jakub: ', result);
+                    mutate({ variables: { reportId: result.upsertRaporty.idRaport, userId: '1' } });
+                  }}
+                >
+                  {mutation => (
+                    <Button
+                      variant={'outlined'}
+                      onClick={() =>
+                        mutation({
+                          variables: {
+                            name: title,
+                            file: fileURL,
+                            creationDate: currentDate('dateTime')
+                          }
+                        })
                       }
-                    })}>
+                    >
                       Zapisz
                     </Button>
-
-                }
-              </Mutation>
-            )
-            }
-          </Mutation>
+                  )}
+                </Mutation>
+              )}
+            </Mutation>
           </Grid>
         </Grid>
       </form>

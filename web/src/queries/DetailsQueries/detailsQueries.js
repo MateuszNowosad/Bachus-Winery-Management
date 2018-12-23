@@ -11,8 +11,8 @@ export const getUserDetails = gql`
       eMail
       nrTelefonu
       zdjecie
-    dataOstatniegoLogowania
-    czyAktywne
+      dataOstatniegoLogowania
+      czyAktywne
       rola {
         idRolaUzytkownikow
         nazwa
@@ -34,41 +34,41 @@ export const getBatchDetails = gql`
   query getBatchDetails($id: ID) {
     Partie(idPartie: $id) {
       idPartie
-  ilosc
-  opis
-  dataUtworzenia
-  winobranie {
-    idWinobranie
-    dataWinobrania
-  }
-  typPartii {
-    nazwa
-    jednostka
-  }
-  informacjeOWinie{
-    idInformacjeOWinie
-    nazwa
-    motto
-    zawartoscPotAlergenow
-    wartoscEnergetyczna
-    kategoriaWina{
-      nazwaKategoria
-    }
-  }
-  partie {
-    idPartie   
-    dataUtworzenia
-    ilosc 
-  }
-  operacje {
-   idOperacja
-    opis
-    dataPoczatku
-    dataZakonczenia    
-    dictProcesy{
-      nazwa
-    }
-  }  
+      ilosc
+      opis
+      dataUtworzenia
+      winobranie {
+        idWinobranie
+        dataWinobrania
+      }
+      typPartii {
+        nazwa
+        jednostka
+      }
+      informacjeOWinie {
+        idInformacjeOWinie
+        nazwa
+        motto
+        zawartoscPotAlergenow
+        wartoscEnergetyczna
+        kategoriaWina {
+          nazwaKategoria
+        }
+      }
+      partie {
+        idPartie
+        dataUtworzenia
+        ilosc
+      }
+      operacje {
+        idOperacja
+        opis
+        dataPoczatku
+        dataZakonczenia
+        dictProcesy {
+          nazwa
+        }
+      }
     }
   }
 `;
@@ -98,24 +98,22 @@ export const getContractorDetails = gql`
   }
 `;
 
-
-
 export const getGrapeHarvestDetails = gql`
   query getGrapeHarvestDetails($id: ID) {
     Winobranie(idWinobranie: $id) {
       idWinobranie
-    dataWinobrania
-    iloscZebranychWinogron
-    winnica{
-      nazwa
-      dictOdmianaWinogron{
+      dataWinobrania
+      iloscZebranychWinogron
+      winnica {
         nazwa
+        dictOdmianaWinogron {
+          nazwa
+        }
       }
-    }
-    partie{
-      idPartie 
-      dataUtworzenia      
-    }
+      partie {
+        idPartie
+        dataUtworzenia
+      }
     }
   }
 `;
@@ -143,8 +141,8 @@ export const getItemInStockDetails = gql`
         dataUtworzenia
       }
       magazyn {
-      idMagazyn
-    }
+        idMagazyn
+      }
     }
   }
 `;
@@ -178,8 +176,8 @@ export const getOperationDetails = gql`
         iloscFromJoinTable
       }
       uzytkownicy {
-      idUzytkownika
-    }
+        idUzytkownika
+      }
     }
     OperacjeHasPozycjaWMagazynie(operacjeIdOperacja: $idFK) {
       idOperacjeHasPozycjaWMagazynie
@@ -200,29 +198,28 @@ export const getVineyardDetails = gql`
       nazwa
       powierzchnia
       terroir
-    stan
-    dataOstatniegoZbioru
+      stan
+      dataOstatniegoZbioru
       dataZasadzenia
       ewidencyjnyIdDzialki
       dictOdmianaWinogron {
         opis
         nazwa
       }
-     }
-     Winobranie(winnicaIdWinnica: $idFK){
-    idWinobranie
-    dataWinobrania
-    iloscZebranychWinogron
-  }
-  OperacjeNaWinnicy(winnicaIdWinnica: $idFK){
-    data
-    dictOperacjeNaWinnicy{
-      nazwa
+    }
+    Winobranie(winnicaIdWinnica: $idFK) {
+      idWinobranie
+      dataWinobrania
+      iloscZebranychWinogron
+    }
+    OperacjeNaWinnicy(winnicaIdWinnica: $idFK) {
+      data
+      dictOperacjeNaWinnicy {
+        nazwa
+      }
     }
   }
-  }
 `;
-
 
 export const getWarehouseDetails = gql`
   query getWarehouseDetails($id: ID) {
@@ -239,15 +236,15 @@ export const getWarehouseDetails = gql`
         nrPosesji
         kraj
       }
-    pozycjaWMagazynie{
-      idPozycja
-      nazwa
-      ilosc
-      stanAktualny
-      kategorie{
+      pozycjaWMagazynie {
+        idPozycja
         nazwa
+        ilosc
+        stanAktualny
+        kategorie {
+          nazwa
+        }
       }
-    }
     }
   }
 `;
@@ -256,39 +253,39 @@ export const getWaybillDetails = gql`
   query getWaybillDetails($id: ID!) {
     ListPrzewozowy(idListPrzewozowy: $id) {
       idListPrzewozowy
-  imieKierowcy
-  nazwiskoKierowcy
-  uwagiPrzewoznika
-  zastrzezeniaOdbiorcy
-  kontrahent {
-    nazwaSpolki
-    typ
-  }
-  adres {
-    miasto
-    kodPocztowy
-    ulica
-    nrLokalu
-    nrPosesji
-    kraj
-    miejsce
-  }
-  eDokument
-  przesylka {
-    nazwaPrzesylki
-    ciezarLadunku
-    data
-    pozycjaWMagazynie {
-    idPozycja
-      nazwa
-      iloscFromJoinTable
-      opis
-      kategorie{
-        jednostka
+      imieKierowcy
+      nazwiskoKierowcy
+      uwagiPrzewoznika
+      zastrzezeniaOdbiorcy
+      kontrahent {
+        nazwaSpolki
+        typ
+      }
+      adres {
+        miasto
+        kodPocztowy
+        ulica
+        nrLokalu
+        nrPosesji
+        kraj
+        miejsce
+      }
+      eDokument
+      przesylka {
+        nazwaPrzesylki
+        ciezarLadunku
+        data
+        pozycjaWMagazynie {
+          idPozycja
+          nazwa
+          iloscFromJoinTable
+          opis
+          kategorie {
+            jednostka
+          }
+        }
       }
     }
-  }
-  }
   }
 `;
 

@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 import currentDate from '../views/common/forms/CurrentDate';
 
 export const userLogged = gql`

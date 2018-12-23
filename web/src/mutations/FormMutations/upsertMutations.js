@@ -720,36 +720,21 @@ export const upsertGrapeHarvest = gql`
   }
 `;
 
-
- export  const reportFK = gql`
- mutation reportFK(
-  $reportJTId: ID
-  $reportId: String!
-  $userId: String!
- ){
-  upsertRaportyHasUzytkownicy(
-    idRaportyHasUzytkownicy: $reportJTId
-    raportyIdRaport: $reportId
-    uzytkownicyIdUzytkownika: $userId
-  ){
-    idRaportyHasUzytkownicy
+export const reportFK = gql`
+  mutation reportFK($reportJTId: ID, $reportId: String!, $userId: String!) {
+    upsertRaportyHasUzytkownicy(
+      idRaportyHasUzytkownicy: $reportJTId
+      raportyIdRaport: $reportId
+      uzytkownicyIdUzytkownika: $userId
+    ) {
+      idRaportyHasUzytkownicy
+    }
   }
-  }
- `;
+`;
 export const upsertReport = gql`
-mutation upsertReport(
-  $reportId: ID
-  $name: String!
-  $file: String!
-  $creationDate: String!
-) {
- upsertRaporty(
-  idRaport: $reportId
-  nazwa: $name
-  eDokument: $file
-  dataUtworzenia: $creationDate
-) {
-  idRaport
-}
-}
+  mutation upsertReport($reportId: ID, $name: String!, $file: String!, $creationDate: String!) {
+    upsertRaporty(idRaport: $reportId, nazwa: $name, eDokument: $file, dataUtworzenia: $creationDate) {
+      idRaport
+    }
+  }
 `;

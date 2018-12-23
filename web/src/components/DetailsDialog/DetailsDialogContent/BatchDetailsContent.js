@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { FormParcel } from '../../../views/common/forms/subforms/FormParcel';
 import AutoTable from '../../AutoTable/AutoTable';
 
-const BatchDetailsContent = (props) => {
+const BatchDetailsContent = props => {
   let batch = props.queryData.Partie[0];
   return (
     <Grid container direction={'column'}>
@@ -47,10 +47,10 @@ const BatchDetailsContent = (props) => {
             {convertDatetime(batch.dataUtworzenia)}
           </Typography>
         </Grid>
-        </Grid>
+      </Grid>
       {batch.typPartii.nazwa === ('Wina' || 'Butelek wina') && (
         <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
-          <Grid  container direction="row" justify="space-evenly" alignItems="flex-start">
+          <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
             <Typography variant="h4" gutterBottom component="h1">
               Informacje o winie
             </Typography>
@@ -90,20 +90,15 @@ const BatchDetailsContent = (props) => {
             </Typography>
           </Grid>
         </Grid>
-      )
-      }
+      )}
       <Grid container direction="row" justify="flex-end" alignItems="stretch">
         <Grid item xs>
           <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="inherit">Utworzone partie</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <AutoTable
-                queryData={batch.partie}
-                querySize={batch.partie.length}
-                editMode={false}
-              />
+              <AutoTable queryData={batch.partie} querySize={batch.partie.length} editMode={false} />
             </ExpansionPanelDetails>
           </ExpansionPanel>
         </Grid>
@@ -111,15 +106,11 @@ const BatchDetailsContent = (props) => {
       <Grid container direction="row" justify="flex-end" alignItems="stretch">
         <Grid item xs>
           <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="inherit">Wykonane operacje</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <AutoTable
-                queryData={batch.operacje}
-                querySize={batch.operacje.length}
-                editMode={false}
-              />
+              <AutoTable queryData={batch.operacje} querySize={batch.operacje.length} editMode={false} />
             </ExpansionPanelDetails>
           </ExpansionPanel>
         </Grid>

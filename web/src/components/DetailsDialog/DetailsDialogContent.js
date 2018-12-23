@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   getBatchForForm,
   getItemInStockForForm,
@@ -15,39 +15,36 @@ import BatchDetailsContent from './DetailsDialogContent/BatchDetailsContent';
 import WaybillDetailsContent from './DetailsDialogContent/WaybillDetailsContent';
 import WarehouseDetailsContent from './DetailsDialogContent/WarehouseDetailsContent';
 
-class DetailsDialogContent extends  React.Component{
+class DetailsDialogContent extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
-  selectDetails = (dataType,queryData) => {
+  selectDetails = (dataType, queryData) => {
     switch (dataType) {
       case 'FormUsers':
-        return <UserDetailsContent queryData={queryData}/>;
+        return <UserDetailsContent queryData={queryData} />;
       case 'FormBatches':
-        return <BatchDetailsContent queryData={queryData}/>;
+        return <BatchDetailsContent queryData={queryData} />;
       case 'FormContractors':
-        return <ContractorDetailsContent queryData={queryData}/>;
+        return <ContractorDetailsContent queryData={queryData} />;
       case 'FormGrapeHarvest':
-        return <GrapeHarvestDetailsContent queryData={queryData}/>;
+        return <GrapeHarvestDetailsContent queryData={queryData} />;
       case 'FormItemInStock':
         return getItemInStockForForm;
       case 'FormVineyard':
-        return <VineyardDetailsContent queryData={queryData}/>;
+        return <VineyardDetailsContent queryData={queryData} />;
       case 'FormWarehouse':
-        return <WarehouseDetailsContent queryData={queryData}/>;
+        return <WarehouseDetailsContent queryData={queryData} />;
       case 'FormWaybill':
-        return <WaybillDetailsContent queryData={queryData}/>;
+        return <WaybillDetailsContent queryData={queryData} />;
     }
   };
 
   render() {
-    const {queryData,dataType}= this.props;
-    return (
-      this.selectDetails(dataType,queryData)
-    );
+    const { queryData, dataType } = this.props;
+    return this.selectDetails(dataType, queryData);
   }
 }
 
-export default DetailsDialogContent
+export default DetailsDialogContent;

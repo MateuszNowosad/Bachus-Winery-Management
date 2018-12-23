@@ -95,23 +95,26 @@ export class FormParcel extends React.Component {
   };
 
   handleDelete = data => () => {
-    this.setState(state => {
-      const content = [...state.content];
-      const contentToDelete = content.indexOf(data);
-      content.splice(contentToDelete, 1);
-      return { content };
-    },() => {
-      const { parcelId, packageName, weight, date, content, initContent } = this.state;
-      const { varName } = this.props;
-      this.props.onChange(varName, {
-        parcelId,
-        packageName,
-        weight,
-        date,
-        content,
-        initContent
-      });
-    });
+    this.setState(
+      state => {
+        const content = [...state.content];
+        const contentToDelete = content.indexOf(data);
+        content.splice(contentToDelete, 1);
+        return { content };
+      },
+      () => {
+        const { parcelId, packageName, weight, date, content, initContent } = this.state;
+        const { varName } = this.props;
+        this.props.onChange(varName, {
+          parcelId,
+          packageName,
+          weight,
+          date,
+          content,
+          initContent
+        });
+      }
+    );
   };
 
   componentDidMount() {
@@ -132,13 +135,13 @@ export class FormParcel extends React.Component {
             key: curr.idPozycja,
             selectedItem: curr,
             amount: curr.iloscFromJoinTable,
-            previousAmount: curr.ilosc+Number(curr.iloscFromJoinTable),
+            previousAmount: curr.ilosc + Number(curr.iloscFromJoinTable)
           })),
           initContent: data.pozycjaWMagazynie.map(curr => ({
             parcelJTId: parcelJT ? this.initParcelJTId(parcelJT, curr.idPozycja) : '',
             key: curr.idPozycja,
-            previousAmount: curr.ilosc+Number(curr.iloscFromJoinTable),
-          })),
+            previousAmount: curr.ilosc + Number(curr.iloscFromJoinTable)
+          }))
         },
         () => {
           const { parcelId, packageName, weight, date, content, initContent } = this.state;
