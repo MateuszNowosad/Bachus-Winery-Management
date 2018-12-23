@@ -366,6 +366,9 @@ export const getWineInformationForForm = gql`
         idDictKategoriaWina
         nazwaKategoria
       }
+      partie {
+    idPartie
+  }
     }
   }
 `;

@@ -6,6 +6,10 @@ import UniversalValidationHandler from './UniversalValidationHandler/UniversalVa
 import { wineInformationValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import getDictWineCategory from '../../../queries/DictionaryQueries/getDictWineCategory';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import DialogForForm from './DialogForForm';
+import getVineyards from '../../../queries/VineyardQueries/getVineyards';
+import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
+import getBatches from '../../../queries/BatchesQueries/getBatches';
 
 const errorMap = {
   name: false,
@@ -25,10 +29,25 @@ export class FormWineInformation extends React.Component {
       allergens: '',
       energyValue: 0,
       wineCategory: {},
-      batchId: '2',
+      batchId: '',
+      open: false,
       errors: errorMap
     };
   }
+
+  handleClickOpen = name => {
+    this.setState({ [name]: true });
+  };
+
+  handleClose = name => {
+    this.setState({ [name]: false });
+  };
+
+  handleSelectBatch = (name, batch) => {
+    this.setState({
+      [name]: batch.idPartie
+    });
+  };
 
   handleChange = name => event => {
     this.setState({
@@ -83,16 +102,52 @@ export class FormWineInformation extends React.Component {
         motto: data.motto ? data.motto : '',
         allergens: data.zawartoscPotAlergenow ? data.zawartoscPotAlergenow : '',
         energyValue: data.wartoscEnergetyczna,
-        wineCategory: data.kategoriaWina ? data.kategoriaWina : null
+        wineCategory: data.kategoriaWina ? data.kategoriaWina : null,
+        batchId: data.partie ? data.partie[0].idPartie : ''
       });
     }
   }
 
   render() {
-    const { name, motto, allergens, energyValue, wineCategory, errors } = this.state;
+    const { name, motto, allergens, energyValue, wineCategory,batchId,open, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              id="batchId"
+              label="Partia"
+              value={batchId ? batchId : 'Nie wybrano partii'}
+              error={errors.batchId}
+              margin="dense"
+              variant="outlined"
+              InputProps={{
+                readOnly: true
+              }}
+              onClick={() => this.handleClickOpen('open')}
+            />
+            <DialogForForm title={'Winnice'} open={open} onClose={() => this.handleClose('open')}>
+              <Query query={getBatches}>
+                {({ loading, error, data }) => {
+                  if (loading) return <CircularProgress/>;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                  return (
+                    <SelectableAutoTable
+                      queryData={data.Partie}
+                      // querySubject="Kontrahenci"
+                      querySize={data.Partie.length}
+                      funParam="batchId"
+                      onSelect={this.handleSelectBatch}
+                      onClose={() => this.handleClose('open')}
+                      id={batchId ? batchId : null}
+                    />
+                  );
+                }}
+              </Query>
+            </DialogForForm>
+          </Grid>
           <Grid item md={12}>
             <TextField
               fullWidth
