@@ -12,6 +12,7 @@ import ContractorDetailsContent from './DetailsDialogContent/ContractorDetailsCo
 import VineyardDetailsContent from './DetailsDialogContent/VineyardDetailsContent';
 import GrapeHarvestDetailsContent from './DetailsDialogContent/GrapeHarvestDetails';
 import BatchDetailsContent from './DetailsDialogContent/BatchDetailsContent';
+import WaybillDetailsContent from './DetailsDialogContent/WaybillDetailsContent';
 
 class DetailsDialogContent extends  React.Component{
   constructor(props) {
@@ -38,7 +39,7 @@ class DetailsDialogContent extends  React.Component{
       case 'FormWarehouse':
         return getWarehouseForForm;
       case 'FormWaybill':
-        return getWaybillForForm;
+        return <WaybillDetailsContent queryData={queryData}/>;
       case 'FormWineInformation':
         return getWineInformationForForm;
     }

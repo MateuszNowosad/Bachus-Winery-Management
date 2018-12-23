@@ -244,65 +244,42 @@ export const getWarehouseDetails = gql`
 `;
 
 export const getWaybillDetails = gql`
-  query getWaybillDetails($id: ID!, $idFK: String!) {
+  query getWaybillDetails($id: ID!) {
     ListPrzewozowy(idListPrzewozowy: $id) {
       idListPrzewozowy
-      imieKierowcy
-      nazwiskoKierowcy
-      uwagiPrzewoznika
-      zastrzezeniaOdbiorcy
-      eDokument
-      kontrahent {
-        idKontrahenci
-        NIP
-        nazwaSpolki
-        telefon
-        eMail
-        stronaWww
-        KRS
-        nrKonta
-        fax
-        typ
-      }
-      przesylka {
-        idPrzesylka
-        nazwaPrzesylki
-        ciezarLadunku
-        data
-        pozycjaWMagazynie {
-          idPozycja
-          iloscFromJoinTable
-          nazwa
-          ilosc
-        }
-      }
-      adres {
-        idAdres
-        miasto
-        kodPocztowy
-        ulica
-        nrLokalu
-        nrPosesji
-        kraj
-        miejsce
+  imieKierowcy
+  nazwiskoKierowcy
+  uwagiPrzewoznika
+  zastrzezeniaOdbiorcy
+  kontrahent {
+    nazwaSpolki
+    typ
+  }
+  adres {
+    miasto
+    kodPocztowy
+    ulica
+    nrLokalu
+    nrPosesji
+    kraj
+    miejsce
+  }
+  eDokument
+  przesylka {
+    nazwaPrzesylki
+    ciezarLadunku
+    data
+    pozycjaWMagazynie {
+    idPozycja
+      nazwa
+      iloscFromJoinTable
+      opis
+      kategorie{
+        jednostka
       }
     }
-    ListPrzewozowyHasKontrahenci(listPrzewozowyIdListPrzewozowy: $idFK) {
-      idListPrzewozowyHasKontrahenci
-      kontrahenciIdKontrahenci
-      typ
-    }
-    ListPrzewozowyHasAdres(listPrzewozowyIdListPrzewozowy: $idFK) {
-      idListPrzewozowyHasAdres
-      adresIdAdres
-      miejsce
-    }
-    PrzesylkaHasPozycjaWMagazynie {
-      idPrzesylkaHasPozycjaWMagazynie
-      pozycjaWMagazynieIdPozycja
-      przesylkaIdPrzesylka
-      ilosc
-    }
+  }
+  }
   }
 `;
 
