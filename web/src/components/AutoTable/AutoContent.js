@@ -39,34 +39,6 @@ const AutoContent = props => {
             selected={props.selected === entries[0][1]}
           >
             {cells}
-            {/*{props.editMode && (*/}
-            {/*<TableCell numeric>*/}
-            {/*<Button*/}
-            {/*mini*/}
-            {/*onClick={() => {*/}
-            {/*props.handleEdit(entries[0][1]);*/}
-            {/*}}*/}
-            {/*>*/}
-            {/*Edytuj*/}
-            {/*</Button>*/}
-            {/*<Mutation*/}
-            {/*key={props.formName}*/}
-            {/*mutation={selectDeleteForForm(props.formName)}*/}
-            {/*refetchQueries={[{ query: props.query }]}*/}
-            {/*>*/}
-            {/*{mutation => (*/}
-            {/*<Button*/}
-            {/*mini*/}
-            {/*onClick={() => {*/}
-            {/*props.handleDeletion(mutation, entries[0][1]);*/}
-            {/*}}*/}
-            {/*>*/}
-            {/*USUŃ*/}
-            {/*</Button>*/}
-            {/*)}*/}
-            {/*</Mutation>*/}
-            {/*</TableCell>*/}
-            {/*)}*/}
           </TableRow>
           :
           <TableRow
@@ -81,13 +53,8 @@ const AutoContent = props => {
 };
 
 AutoContent.propTypes = {
-  //previous
-  // queryData: PropTypes.object.isRequired,
   queryData: PropTypes.array.isRequired,
-  //querySubject: PropTypes.string.isRequired,
   editMode: PropTypes.bool.isRequired,
-  handleEdit: PropTypes.func.isRequired,
-  handleDeletion: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired
 };
