@@ -9,6 +9,7 @@ import Button from '@material-ui/core/es/Button/Button';
 import flattenObject from '../../functions/flattenObject';
 import Grid from '@material-ui/core/Grid';
 import DetailsDialogContent from './DetailsDialogContent';
+import DialogActions from '@material-ui/core/es/DialogActions/DialogActions';
 
 class DetailsDialog extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class DetailsDialog extends React.Component {
 
 
   render() {
-    const { classes, dialogTitle,open,queryData } = this.props;
+    const { classes, dialogTitle,open,queryData, dataType } = this.props;
   return (
       <Dialog
         aria-labelledby="modal-form-popup"
@@ -31,9 +32,19 @@ class DetailsDialog extends React.Component {
         fullWidth={true}
         maxWidth={'lg'}>
         <DialogContent>
-          <DialogTitle>{dialogTitle}</DialogTitle>
-          <DetailsDialogContent queryData={queryData} />
+          {/*<DialogTitle>{dialogTitle}</DialogTitle>*/}
+          <DetailsDialogContent
+            queryData={queryData}
+            dataType={dataType}
+          />
         </DialogContent>
+        <DialogActions>
+          <Button
+          onClick = {this.props.onClose}
+          >
+            Zamknij
+          </Button>
+        </DialogActions>
       </Dialog>
     );
   }
