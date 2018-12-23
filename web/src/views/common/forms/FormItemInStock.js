@@ -11,6 +11,8 @@ import getDictCategories from '../../../queries/DictionaryQueries/getDictCategor
 import getBatches from '../../../queries/BatchesQueries/getBatches';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 import convertDatetimeForm from '../../../functions/convertDatetimeForm';
+import getContractors from '../../../queries/ContractorsQueries/getContractors';
+import getWarehouses from '../../../queries/WarehouseQueries/getWarehouses';
 
 const errorMap = {
   name: false,
@@ -37,8 +39,9 @@ export class FormItemInStock extends React.Component {
       releaseDate: currentDate('dateTime'),
       sectorName: '',
       category: '',
-      warehouseId: '2',
+      warehouseId: '',
       open: false,
+      openWarehouse: false,
       errors: errorMap
     };
   }
@@ -52,6 +55,13 @@ export class FormItemInStock extends React.Component {
   handleSelect = (name, data) => event => {
     this.setState({
       [name]: data.find(record => record.nazwa === event.target.value)
+    });
+  };
+
+
+  handleSelectWarehouse = (name, warehouse) => {
+    this.setState({
+      [name]: warehouse.idMagazyn
     });
   };
 
@@ -139,11 +149,46 @@ export class FormItemInStock extends React.Component {
     }
   }
   render() {
-    const { name, desc, amount, acceptanceDate, releaseDate, sectorName, category, batch, open, errors } = this.state;
+    const { warehouseId,name, desc, amount, acceptanceDate, releaseDate, sectorName, category, batch, open,openWarehouse, errors } = this.state;
 
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              id="warehouse"
+              label="Magazyn"
+              value={warehouseId ? warehouseId : 'Nie wybrano magazynu'}
+              error={errors.warehouseId}
+              margin="dense"
+              variant="outlined"
+              InputProps={{
+                readOnly: true
+              }}
+              onClick={() => this.handleClickOpen('openWarehouse')}
+            />
+            <DialogForForm title={'Magazyny'} open={openWarehouse} onClose={() => this.handleClose('openSender')}>
+              <Query query={getWarehouses}>
+                {({ loading, error, data }) => {
+                  if (loading) return <CircularProgress/>;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                  return (
+                    <SelectableAutoTable
+                      queryData={data.Magazyn}
+                      // querySubject="Kontrahenci"
+                      querySize={data.Magazyn.length}
+                      funParam="warehouseId"
+                      onSelect={this.handleSelectWarehouse}
+                      onClose={() => this.handleClose('openWarehouse')}
+                      id={warehouseId ? warehouseId : null}
+                    />
+                  );
+                }}
+              </Query>
+            </DialogForForm>
+          </Grid>
           <Grid item md={12}>
             <TextField
               fullWidth
