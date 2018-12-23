@@ -1002,7 +1002,7 @@ export default {
       return await genericUpsertMutation(input, 'Raporty');
     },
     upsertUzytkownicy: async (root, input) => {
-      input.haslo = await hashPassword(input.haslo);
+      input.haslo ? input.haslo = await hashPassword(input.haslo) : null;
       return await genericUpsertMutation(input, 'Uzytkownicy');
     },
     upsertWinnica: async (root, input) => {

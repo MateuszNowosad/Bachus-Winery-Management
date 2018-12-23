@@ -56,6 +56,7 @@ class AdminDashboard extends React.Component {
                     // querySubject="hero"
                     querySize={productionPlans.length}
                     editMode={false}
+                    showDetails={false}
                   />
                 );
               }}
@@ -77,6 +78,7 @@ class AdminDashboard extends React.Component {
                     dialogForm={<FormOperations />}
                     dialogFormTitle={'Operacja na partii'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
@@ -98,6 +100,7 @@ class AdminDashboard extends React.Component {
                     dialogForm={<FormVineyardOperation />}
                     dialogFormTitle={'Operacja na winnicy'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}

@@ -55,7 +55,6 @@ class Users extends React.Component {
               if (error)
                 return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
               let user = data.Uzytkownicy[0];
-              console.log('26,  jakub: ', user);
               return (
                 <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
                   <Grid item xs>

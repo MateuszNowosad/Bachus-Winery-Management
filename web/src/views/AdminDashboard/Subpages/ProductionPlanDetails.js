@@ -15,6 +15,7 @@ import { batchDatabaseLabels, operationsDatabaseLabels } from '../../../localisa
 import { Query } from 'react-apollo';
 import getSpecificProductionPlan from '../../../queries/ProductionPlansQueries/getSpecificProductionPlan';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import { getProductionPlanDetails } from '../../../queries/ProductionPlansQueries/getProductionPlanDetails';
 
 const MyLink = props => <Link to="/admindashboard/productionplans" {...props} />;
 
@@ -72,11 +73,21 @@ class ProductionPlanDetails extends React.Component {
             <TwoLevelPieChart />
           </Grid>
         </Grid>
-        <Tree
-          queryData={JSON.parse(partie)['data']['Partie'][0]}
-          labels={[batchDatabaseLabels, operationsDatabaseLabels]}
-          hardBreak={'idPartie'}
-        />
+        <Query query={getProductionPlanDetails} variables={{ id: this.props.match.params.id }}>
+          {({ loading, error, data }) => {
+            if (loading) return <CircularProgress />;
+            if (error)
+              return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+            return (
+              <Tree
+                // queryData={JSON.parse(partie)['data']['Partie'][0]}
+                queryData={data.Partie[0]}
+                labels={[batchDatabaseLabels, operationsDatabaseLabels]}
+                hardBreak={'idPartie'}
+              />
+            );
+          }}
+        </Query>
       </React.Fragment>
     );
   }

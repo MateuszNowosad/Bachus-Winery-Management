@@ -32,7 +32,6 @@ class Warehouse extends React.Component {
               {({ loading, error, data }) => {
                 if (loading) return <p>Loading...</p>;
                 if (error) return <p>Error :(</p>;
-                console.log('33,  jakub: query odpalone: ', data);
                 let warehouses = data.Magazyn;
                 return warehouses.map(text => (
                   <ListItemLink

@@ -2,18 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell/TableCell';
 import TableRow from '@material-ui/core/TableRow/TableRow';
-import Button from '@material-ui/core/Button/Button';
 import DatetimeFields from '../../variables/DateFields/DatetimeFields';
 import convertDatetime from '../../functions/convertDatetime';
 import flattenObject from '../../functions/flattenObject';
-import { Mutation } from 'react-apollo';
-import { selectDeleteForForm } from '../../mutations/FormMutations/selectDeleteForForm';
 
 //values changed to entries
 //value changed to entrie
 
 const AutoContent = props => {
   let row = [];
+  const { editMode } = props;
   //previous
   // props.queryData['data'][props.querySubject]
   props.queryData
@@ -30,50 +28,28 @@ const AutoContent = props => {
         cells.push(<TableCell key={uniqueCellID}> {value} </TableCell>);
       }
       row.push(
-        <TableRow key={entries[0][1]}>
-          {cells}
-          {props.editMode && (
-            <TableCell numeric>
-              <Button
-                mini
-                onClick={() => {
-                  props.handleEdit(entries[0][1]);
-                }}
-              >
-                Edytuj
-              </Button>
-              <Mutation
-                key={props.formName}
-                mutation={selectDeleteForForm(props.formName)}
-                refetchQueries={[{ query: props.query }]}
-              >
-                {mutation => (
-                  <Button
-                    mini
-                    onClick={() => {
-                      props.handleDeletion(mutation, entries[0][1]);
-                    }}
-                  >
-                    USUŃ
-                  </Button>
-                )}
-              </Mutation>
-            </TableCell>
-          )}
-        </TableRow>
+        editMode ? (
+          <TableRow
+            hover
+            key={entries[0][1]}
+            onClick={event => props.onClick(event, currElement)}
+            selected={props.selected === entries[0][1]}
+          >
+            {cells}
+          </TableRow>
+        ) : (
+          <TableRow hover key={entries[0][1]}>
+            {cells}
+          </TableRow>
+        )
       );
     });
   return row;
 };
 
 AutoContent.propTypes = {
-  //previous
-  // queryData: PropTypes.object.isRequired,
   queryData: PropTypes.array.isRequired,
-  //querySubject: PropTypes.string.isRequired,
   editMode: PropTypes.bool.isRequired,
-  handleEdit: PropTypes.func.isRequired,
-  handleDeletion: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired
 };

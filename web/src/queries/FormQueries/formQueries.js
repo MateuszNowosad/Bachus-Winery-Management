@@ -156,6 +156,7 @@ export const getGrapeHarvestForForm = gql`
       iloscZebranychWinogron
       winnica {
         idWinnica
+        nazwa
       }
     }
   }
@@ -182,6 +183,9 @@ export const getItemInStockForForm = gql`
         ilosc
         opis
         dataUtworzenia
+      }
+      magazyn {
+        idMagazyn
       }
     }
   }
@@ -214,6 +218,9 @@ export const getOperationForForm = gql`
       partie {
         idPartie
         iloscFromJoinTable
+      }
+      uzytkownicy {
+        idUzytkownika
       }
     }
     OperacjeHasPozycjaWMagazynie(operacjeIdOperacja: $idFK) {
@@ -259,6 +266,7 @@ export const getVineyardOperationForForm = gql`
       }
       winnica {
         idWinnica
+        nazwa
       }
     }
   }
@@ -357,6 +365,9 @@ export const getWineInformationForForm = gql`
       kategoriaWina {
         idDictKategoriaWina
         nazwaKategoria
+      }
+      partie {
+        idPartie
       }
     }
   }

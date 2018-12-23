@@ -13,7 +13,6 @@ const getItemsFromWarehouse = warehouseID => {
   }
   }`;
 
-  console.log('13, query jakub: ', query);
   return gql(query);
 };
 
