@@ -168,7 +168,7 @@ export class FormItemInStock extends React.Component {
               }}
               onClick={() => this.handleClickOpen('openWarehouse')}
             />
-            <DialogForForm title={'Magazyny'} open={openWarehouse} onClose={() => this.handleClose('openSender')}>
+            <DialogForForm title={'Magazyny'} open={openWarehouse} onClose={() => this.handleClose('openWarehouse')}>
               <Query query={getWarehouses}>
                 {({ loading, error, data }) => {
                   if (loading) return <CircularProgress/>;

@@ -265,6 +265,7 @@ export const getVineyardOperationForForm = gql`
       }
       winnica {
         idWinnica
+        nazwa
       }
     }
   }
