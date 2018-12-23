@@ -11,6 +11,7 @@ import UserDetailsContent from './DetailsDialogContent/UserDetailsContent';
 import ContractorDetailsContent from './DetailsDialogContent/ContractorDetailsContent';
 import VineyardDetailsContent from './DetailsDialogContent/VineyardDetailsContent';
 import GrapeHarvestDetailsContent from './DetailsDialogContent/GrapeHarvestDetails';
+import BatchDetailsContent from './DetailsDialogContent/BatchDetailsContent';
 
 class DetailsDialogContent extends  React.Component{
   constructor(props) {
@@ -23,7 +24,7 @@ class DetailsDialogContent extends  React.Component{
       case 'FormUsers':
         return <UserDetailsContent queryData={queryData}/>;
       case 'FormBatches':
-        return getBatchForForm;
+        return <BatchDetailsContent queryData={queryData}/>;
       case 'FormContractors':
         return <ContractorDetailsContent queryData={queryData}/>;
       case 'FormGrapeHarvest':

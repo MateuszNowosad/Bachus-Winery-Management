@@ -34,20 +34,41 @@ export const getBatchDetails = gql`
   query getBatchDetails($id: ID) {
     Partie(idPartie: $id) {
       idPartie
-      ilosc
-      opis
-      dataUtworzenia
-      czyPrzepis
-      typPartii {
-        idTypPartii
-        nazwa
-      }
-      winobranie {
-        idWinobranie
-      }
-      partie {
-        idPartie
-      }
+  ilosc
+  opis
+  dataUtworzenia
+  winobranie {
+    idWinobranie
+    dataWinobrania
+  }
+  typPartii {
+    nazwa
+    jednostka
+  }
+  informacjeOWinie{
+    idInformacjeOWinie
+    nazwa
+    motto
+    zawartoscPotAlergenow
+    wartoscEnergetyczna
+    kategoriaWina{
+      nazwaKategoria
+    }
+  }
+  partie {
+    idPartie   
+    dataUtworzenia
+    ilosc 
+  }
+  operacje {
+   idOperacja
+    opis
+    dataPoczatku
+    dataZakonczenia    
+    dictProcesy{
+      nazwa
+    }
+  }  
     }
   }
 `;
@@ -77,78 +98,7 @@ export const getContractorDetails = gql`
   }
 `;
 
-export const getDictUserRoleDetails = gql`
-  query getDictUserRoleDetails($id: ID) {
-    DictRolaUzytkownikow(idRolaUzytkownikow: $id) {
-      idRolaUzytkownikow
-      nazwa
-      opis
-      typ
-    }
-  }
-`;
 
-export const getDictBatchTypeDetails = gql`
-  query getDictBatchTypeDetails($id: ID) {
-    DictTypPartii(idTypPartii: $id) {
-      idTypPartii
-      nazwa
-      jednostka
-    }
-  }
-`;
-
-export const getDictCategoryDetails = gql`
-  query getDictCategoryDetails($id: ID) {
-    DictKategorie(idKategorie: $id) {
-      idKategorie
-      nazwa
-      jednostka
-      opis
-    }
-  }
-`;
-
-export const getDictGrapeTypeDetails = gql`
-  query getDictGrapeTypeDetails($id: ID) {
-    DictOdmianaWinogron(idOdmianaWinogron: $id) {
-      idOdmianaWinogron
-      nazwa
-      opis
-    }
-  }
-`;
-
-export const getDictProcesDetails = gql`
-  query getDictProcesDetails($id: ID) {
-    DictProcesy(idDictProcesy: $id) {
-      idDictProcesy
-      nazwa
-      opis
-      dodatkowe
-    }
-  }
-`;
-
-export const getDictVineyardOperationDetails = gql`
-  query getDictVineyardOperationDetails($id: ID) {
-    DictOperacjeNaWinnicy(idDictOperacjeNaWinnicy: $id) {
-      idDictOperacjeNaWinnicy
-      nazwa
-      opis
-    }
-  }
-`;
-
-export const getDictWineCategoryDetails = gql`
-  query getDictWineCategoryDetails($id: ID) {
-    DictKategoriaWina(idDictKategoriaWina: $id) {
-      idDictKategoriaWina
-      nazwaKategoria
-      opis
-    }
-  }
-`;
 
 export const getGrapeHarvestDetails = gql`
   query getGrapeHarvestDetails($id: ID) {
