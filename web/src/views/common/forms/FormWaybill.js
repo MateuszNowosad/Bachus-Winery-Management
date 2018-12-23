@@ -107,7 +107,7 @@ export class FormWaybill extends React.Component {
         this.setState({
           fileURL: results
         })
-    );
+      );
     } else {
       let error = Object.assign({}, errorMap);
       for (let errorField in arrayOfErrors) {
@@ -118,11 +118,11 @@ export class FormWaybill extends React.Component {
   };
 
   showFile = () => {
-    let pdfWindow = window.open("")
+    let pdfWindow = window.open('');
     pdfWindow.document.write(
-      "<iframe width='100%' height='100%' src='data:application/pdf;base64, " +
+      '<iframe width=\'100%\' height=\'100%\' src=\'data:application/pdf;base64, ' +
       encodeURI(this.state.fileURL)
-      +"'></iframe>")
+      + '\'></iframe>');
   };
 
   handleSubmit = () => {
@@ -159,10 +159,18 @@ export class FormWaybill extends React.Component {
         country: countryPickup
       },
       mailingAddressJTId,
-      parcel: { parcelId, packageName, weight, date, content }
+      parcel: { parcelId, packageName, weight, date, content, initContent }
     } = this.state;
 
     let jtId = { senderJTId, recipentJTId, carrierJTId, mailingAddressJTId, pickupAddressJTId };
+
+    let contentToDelete =initContent ? initContent
+      .filter(initElement =>
+        !content
+          .find(
+            contentElement => contentElement.parcelJTId === initElement.parcelJTId
+          )
+      ) : undefined;
 
     let dataObject = {
       waybillId,
@@ -194,10 +202,11 @@ export class FormWaybill extends React.Component {
       date
     };
 
+
     let arrayOfErrors = UniversalValidationHandler(dataObject, waybillValidationKeys);
     !this.subFormValidation() && arrayOfErrors.push('subforms');
     if (arrayOfErrors.length === 0) {
-      this.props.setMutationDynamicVariables({ content, jtId });
+      this.props.setMutationDynamicVariables({ content, jtId,contentToDelete });
       this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
@@ -244,7 +253,7 @@ export class FormWaybill extends React.Component {
     reader.onload = () => {
 
       this.setState({
-        fileURL: String(reader.result).replace('data:application/pdf;base64,',''),
+        fileURL: String(reader.result).replace('data:application/pdf;base64,', ''),
         errors: {
           ...this.state.errors,
           fileURL: false
@@ -306,7 +315,7 @@ export class FormWaybill extends React.Component {
     return data.Kontrahenci.filter(
       contractor =>
         contractor.idKontrahenci !== (sender ? sender.idKontrahenci : '') &&
-        contractor.idKontrahenci !== (recipent ? recipent.idKontrahenci : '')&&
+        contractor.idKontrahenci !== (recipent ? recipent.idKontrahenci : '') &&
         contractor.idKontrahenci !== (carrier ? carrier.idKontrahenci : '')
     );
   };
@@ -399,7 +408,7 @@ export class FormWaybill extends React.Component {
             <DialogForForm title={'Kontrahenci'} open={openSender} onClose={() => this.handleClose('openSender')}>
               <Query query={getContractors}>
                 {({ loading, error, data }) => {
-                  if (loading) return <CircularProgress />;
+                  if (loading) return <CircularProgress/>;
                   if (error)
                     return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
@@ -434,7 +443,7 @@ export class FormWaybill extends React.Component {
             <DialogForForm title={'Kontrahenci'} open={openRecipent} onClose={() => this.handleClose('openRecipent')}>
               <Query query={getContractors}>
                 {({ loading, error, data }) => {
-                  if (loading) return <CircularProgress />;
+                  if (loading) return <CircularProgress/>;
                   if (error)
                     return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
@@ -469,7 +478,7 @@ export class FormWaybill extends React.Component {
             <DialogForForm title={'Kontrahenci'} open={openCarrier} onClose={() => this.handleClose('openCarrier')}>
               <Query query={getContractors}>
                 {({ loading, error, data }) => {
-                  if (loading) return <CircularProgress />;
+                  if (loading) return <CircularProgress/>;
                   if (error)
                     return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                   return (
@@ -489,7 +498,7 @@ export class FormWaybill extends React.Component {
           </Grid>
           <Grid item md={12}>
             <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                 <Typography variant="inherit">Adres odbiorcy</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
@@ -504,7 +513,7 @@ export class FormWaybill extends React.Component {
           </Grid>
           <Grid item md={12}>
             <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                 <Typography variant="inherit">Adres nadawcy</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
@@ -519,7 +528,7 @@ export class FormWaybill extends React.Component {
           </Grid>
           <Grid item md={12}>
             <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                 <Typography variant="inherit">Przesyłka</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
@@ -533,7 +542,7 @@ export class FormWaybill extends React.Component {
             </ExpansionPanel>
           </Grid>
           <Grid item md={12}>
-            <input hidden accept=".pdf" id="addFile" type="file" onChange={this.handleFileChange} />
+            <input hidden accept=".pdf" id="addFile" type="file" onChange={this.handleFileChange}/>
             <label htmlFor="addFile">
               <Button
                 variant="contained"

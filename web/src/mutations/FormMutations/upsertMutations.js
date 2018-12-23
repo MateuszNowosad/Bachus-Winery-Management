@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import currentDate from '../../views/common/forms/CurrentDate';
 
 export const upsertBatch = gql`
   mutation upsertBatch(
@@ -199,16 +200,44 @@ export const upsertWineInformation = gql`
 const parcelFK = countFK => {
   let upsert = ``;
   for (let i = 0; i < countFK; i++)
-    upsert += `pozycja${i}: upsertPrzesylkaHasPozycjaWMagazynie(
+    upsert += `pozycjaJT${i}: upsertPrzesylkaHasPozycjaWMagazynie(
     idPrzesylkaHasPozycjaWMagazynie: $parcelJTId${i}
     przesylkaIdPrzesylka: $idPrzesylka
-    pozycjaWMagazynieIdPozycja: $idItemInStock${i}
+    pozycjaWMagazynieIdPozycja: $idItemInStock${i}FK
     ilosc: $amount${i}
   ){
     przesylkaIdPrzesylka
     pozycjaWMagazynieIdPozycja
     ilosc
-  }`;
+  }
+  pozycja${i}: upsertPozycjaWMagazynie(
+  idPozycja: $idItemInStock${i}
+  ilosc: $newAmount${i}
+    dataWydania: "${currentDate('dateTime')}"
+  ){
+    idPozycja
+  }
+  
+  `;
+  return upsert;
+};
+
+const parcelDeleteJT = countFK => {
+  let upsert = ``;
+  for (let i = 0; i < countFK; i++)
+    upsert += `delete${i}: deletePrzesylkaHasPozycjaWMagazynie(
+    idPrzesylkaHasPozycjaWMagazynie: $parcelJTDeleteId${i}
+  ){
+  idPrzesylkaHasPozycjaWMagazynie
+  }
+  pozycjaInit${i}: upsertPozycjaWMagazynie(
+  idPozycja: $idRestoreItemInStock${i}
+  ilosc: $initAmount${i}
+  ){
+    idPozycja
+  }
+  
+  `;
   return upsert;
 };
 
@@ -216,8 +245,20 @@ const parcelVariables = countFK => {
   let variables = ``;
   for (let i = 0; i < countFK; i++)
     variables += `$parcelJTId${i}: ID
-    $idItemInStock${i}: String!
+    $idItemInStock${i}FK: String!
+    $idItemInStock${i}: ID!
     $amount${i}: String!
+    $newAmount${i}: Float!
+    `;
+  return variables;
+};
+
+const parcelDeleteVariables = countFK => {
+  let variables = ``;
+  for (let i = 0; i < countFK; i++)
+    variables += `$parcelJTDeleteId${i}: ID!
+    $idRestoreItemInStock${i}: ID!
+    $initAmount${i}: Float!
     `;
   return variables;
 };
@@ -238,6 +279,7 @@ export const waybillFK = countFK => gql`
     $mailingAddressJTId: ID!
     $pickupAddressJTId: ID!
     ${parcelVariables(countFK ? countFK.content : 0)}
+    ${parcelDeleteVariables(countFK ? countFK.contentToDelete : 0)}
   ) {
     odbiorca: upsertListPrzewozowyHasKontrahenci(
         idListPrzewozowyHasKontrahenci: $recipentJTId
@@ -283,6 +325,7 @@ export const waybillFK = countFK => gql`
       idListPrzewozowy
     }
     ${parcelFK(countFK ? countFK.content : 0)}
+    ${parcelDeleteJT(countFK ? countFK.contentToDelete : 0)}
   }
 `;
 

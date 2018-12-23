@@ -48,7 +48,7 @@ class StepperItemFromWarehouse extends React.Component {
   handleValueChange = event => {
     this.setState({
       valuePercent: event.target.value,
-      value: (event.target.value / 100) * this.state.selectedItem.ilosc
+      value: ((event.target.value / 100) * this.state.selectedItem.ilosc).toFixed(1)
     });
   };
 
@@ -160,7 +160,8 @@ class StepperItemFromWarehouse extends React.Component {
     const object = {
       key: selectedItem.idPozycja,
       selectedItem: selectedItem,
-      amount: fullItem ? selectedItem.ilosc : value
+      amount: fullItem ? selectedItem.ilosc : value,
+      previousAmount: selectedItem.ilosc
     };
     this.props.onSubmit(object);
     this.props.onClose();

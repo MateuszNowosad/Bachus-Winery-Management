@@ -75,7 +75,8 @@ class ScrollableDialogForm extends React.Component {
         >
           <DialogContent>
             <DialogTitle>{dialogTitle}</DialogTitle>
-            {selectUpsertForForm(children.type.name).simple === 0 ? (
+            {open && (
+            selectUpsertForForm(children.type.name).simple === 0 ? (
               <Mutation
                 mutation={selectUpsertForForm(children.type.name, this.state.dynamicVariablesCount).fkQuery}
                 onCompleted={this.formSubmitted}
@@ -104,9 +105,19 @@ class ScrollableDialogForm extends React.Component {
                           for (let i = 0; i < dynamicVariables.content.length; i++) {
                             variables[`parcelJTId${i}`] = dynamicVariables.content[i].parcelJTId;
                             variables[`idItemInStock${i}`] = `${dynamicVariables.content[i].key}`;
+                            variables[`idItemInStock${i}FK`] = `${dynamicVariables.content[i].key}`;
                             variables[`amount${i}`] = `${dynamicVariables.content[i].amount}`;
+                            variables[`newAmount${i}`] = Number((dynamicVariables.content[i].previousAmount - dynamicVariables.content[i].amount+0.1).toFixed(1));
                           }
                         }
+                        if (dynamicVariables.contentToDelete) {
+                          // count.content = dynamicVariables.content.length;
+                          for (let i = 0; i < dynamicVariables.contentToDelete.length; i++) {
+                            variables[`parcelJTDeleteId${i}`] = dynamicVariables.contentToDelete[i].parcelJTId;
+                            variables[`idRestoreItemInStock${i}`] = `${dynamicVariables.contentToDelete[i].key}`;
+                            variables[`initAmount${i}`] = Number((dynamicVariables.contentToDelete[i].previousAmount+0.1).toFixed(1))
+                          }
+                          }
                         if (dynamicVariables.batches) {
                           //count.batches = dynamicVariables.batches.length;
                           for (let i = 0; i < dynamicVariables.batches.length; i++) {
@@ -165,6 +176,7 @@ class ScrollableDialogForm extends React.Component {
                   });
                 }}
               </Mutation>
+            )
             )}
           </DialogContent>
           <DialogActions classes={{ root: classes.root }}>

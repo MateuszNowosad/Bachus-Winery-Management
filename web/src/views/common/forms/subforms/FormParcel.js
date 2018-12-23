@@ -60,14 +60,15 @@ export class FormParcel extends React.Component {
         [name]: event.target.value
       },
       () => {
-        const { parcelId, packageName, weight, date, content } = this.state;
+        const { parcelId, packageName, weight, date, content, initContent } = this.state;
         const { varName } = this.props;
         this.props.onChange(varName, {
           parcelId,
           packageName,
           weight,
           date,
-          content
+          content,
+          initContent
         });
       }
     );
@@ -79,14 +80,15 @@ export class FormParcel extends React.Component {
         content: [...prevState.content, data]
       }),
       () => {
-        const { parcelId, packageName, weight, date, content } = this.state;
+        const { parcelId, packageName, weight, date, content, initContent } = this.state;
         const { varName } = this.props;
         this.props.onChange(varName, {
           parcelId,
           packageName,
           weight,
           date,
-          content
+          content,
+          initContent
         });
       }
     );
@@ -98,6 +100,17 @@ export class FormParcel extends React.Component {
       const contentToDelete = content.indexOf(data);
       content.splice(contentToDelete, 1);
       return { content };
+    },() => {
+      const { parcelId, packageName, weight, date, content, initContent } = this.state;
+      const { varName } = this.props;
+      this.props.onChange(varName, {
+        parcelId,
+        packageName,
+        weight,
+        date,
+        content,
+        initContent
+      });
     });
   };
 
@@ -118,18 +131,25 @@ export class FormParcel extends React.Component {
             parcelJTId: parcelJT ? this.initParcelJTId(parcelJT, curr.idPozycja) : '',
             key: curr.idPozycja,
             selectedItem: curr,
-            amount: curr.iloscFromJoinTable
-          }))
+            amount: curr.iloscFromJoinTable,
+            previousAmount: curr.ilosc+Number(curr.iloscFromJoinTable),
+          })),
+          initContent: data.pozycjaWMagazynie.map(curr => ({
+            parcelJTId: parcelJT ? this.initParcelJTId(parcelJT, curr.idPozycja) : '',
+            key: curr.idPozycja,
+            previousAmount: curr.ilosc+Number(curr.iloscFromJoinTable),
+          })),
         },
         () => {
-          const { parcelId, packageName, weight, date, content } = this.state;
+          const { parcelId, packageName, weight, date, content, initContent } = this.state;
           const { varName } = this.props;
           this.props.onChange(varName, {
             parcelId,
             packageName,
             weight,
             date,
-            content
+            content,
+            initContent
           });
         }
       );
