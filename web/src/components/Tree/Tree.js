@@ -6,9 +6,14 @@ import Chip from '@material-ui/core/Chip/Chip';
 import ChipExpansionPanel from './ChipExpansionPanel';
 import LocalisationHelper from '../../localisation/LocalisationHelper';
 import Typography from '@material-ui/core/Typography/Typography';
-import flattenObject from '../../functions/flattenObject';
+import {
+  batchDatabaseLabels, batchTypeDictDatabaseLabels,
+  operationsDatabaseLabels,
+  processesDictDatabaseLabels
+} from "../../localisation/DatabaseLabels";
 
-class Tree extends React.Component {
+class Tree extends React.Component { //to be rewritten
+
   parseJSONintoTree(jsonObject, levelCounter) {
     const { labels, hardBreak } = this.props;
     let result = [];
@@ -20,6 +25,27 @@ class Tree extends React.Component {
           if (jsonObject[key].length !== 0) {
             for (let index in jsonObject[key])
               if (index !== '_typename') result.push(this.parseJSONintoTree(jsonObject[key][index], levelCounter + 1));
+          }
+        } else if(typeof jsonObject[key] === 'object'){
+          let labelArr = [batchTypeDictDatabaseLabels];
+          if(key === "dictProcesy"){
+            labelArr = [processesDictDatabaseLabels]
+          }
+          for (let property in jsonObject[key]) {
+            if(property!=="__typename")
+            if (jsonObject[key].hasOwnProperty(property)) {
+              result.push(
+                <Typography
+                  key={jsonObject[key][property] + key}
+                  variant="subtitle1"
+                  style={{ marginLeft: levelCounter * 50 + 20 + 'px' }}
+                  gutterBottom
+                >
+                  <b>{LocalisationHelper(labelArr, property) + ': '}</b>
+                  {jsonObject[key][property]}
+                </Typography>
+              );
+            }
           }
         } else {
           if (key === hardBreak) {
@@ -33,7 +59,7 @@ class Tree extends React.Component {
                 style={{ marginLeft: levelCounter * 50 + 'px' }}
               />
             );
-          } else
+          } else if(key!=='__typename')
             result.push(
               <Typography
                 key={jsonObject[key] + key}
