@@ -94,7 +94,6 @@ class SignIn extends React.Component {
                   error={this.state.error}
                 />
               </FormControl>
-              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Zapamiętaj mnie" />
               <Mutation mutation={userLogged}>
                 {mutate => (
                   <Button
