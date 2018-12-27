@@ -15,7 +15,7 @@ import { FormVineyardOperation } from '../common/forms/FormVineyardOperation';
 import { Query } from 'react-apollo';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
 
-const labels = ['Ostatnie wydarzenia', 'Ostatnie operacje na partiach', 'Ostatnie na winnicach'];
+const labels = [ 'Ostatnie operacje na partiach', 'Ostatnie na winnicach'];
 
 class News extends React.Component {
   sortOperations = data => {
@@ -32,22 +32,13 @@ class News extends React.Component {
         </Typography>
         <OCBigTab labels={labels}>
           <TabContainer>
-            <AutoTable
-              queryData={data}
-              querySubject={'hero'}
-              querySize={2}
-              labelsArr={['ID', 'Nazwa', 'Wiek']}
-              editMode={false}
-            />
-          </TabContainer>
-          <TabContainer>
             <Query query={getOperations}>
               {({ loading, error, data }) => {
                 if (loading) return <CircularProgress />;
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let operations = [].concat(data.Operacje);
-                operations = this.sortOperations(operations).slice(0, 15);
+                operations = this.sortOperations(operations).slice(0, 50);
                 return (
                   <AutoTable
                     queryData={operations}
@@ -68,7 +59,7 @@ class News extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let vineyardOperations = [].concat(data.OperacjeNaWinnicy);
-                vineyardOperations = this.sortVineyardOperations(vineyardOperations).slice(0, 15);
+                vineyardOperations = this.sortVineyardOperations(vineyardOperations).slice(0, 50);
                 return (
                   <AutoTable
                     queryData={vineyardOperations}

@@ -18,7 +18,7 @@ const sequelize = new Sequelize({
   username: 'test',
   password: 'test',
   dialect: 'mysql',
-  host: '172.17.0.2',
+  host: '192.168.99.100', //Should be env var
   connectionTimeout: 0,
   pool: {
     min: 1,
