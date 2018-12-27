@@ -123,15 +123,15 @@ const AdminDashboardRoutes = [
     exact: false,
     role: [1, 4, 3, 2] //TODO special verification logic in component
   },
-  {
-    path: '/admindashboard/backup',
-    drawerName: 'Kopie zapasowe',
-    navbarName: 'Kopie zapasowe',
-    drawerIcon: <SaveIcon />,
-    component: Backup,
-    exact: false,
-    role: [1]
-  },
+  // {
+  //   path: '/admindashboard/backup',
+  //   drawerName: 'Kopie zapasowe',
+  //   navbarName: 'Kopie zapasowe',
+  //   drawerIcon: <SaveIcon />,
+  //   component: Backup,
+  //   exact: false,
+  //   role: [1]
+  // },
   {
     path: '/admindashboard/productionplans',
     drawerName: 'Plany produkcyjne',
