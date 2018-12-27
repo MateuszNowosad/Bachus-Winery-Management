@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 import currentDate from './CurrentDate';
 import UniversalValidationHandler from './UniversalValidationHandler/UniversalValidationHandler';
 import { harvestValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
+import DialogForForm from './DialogForForm';
+import { Query } from 'react-apollo';
+import getVineyards from '../../../queries/VineyardQueries/getVineyards';
+import CircularProgress from '@material-ui/core/es/CircularProgress';
+import SelectableAutoTable from '../../../components/SelectableAutoTable/SelectableAutoTable';
 
 const errorMap = {
   dateOfHarvest: false,
@@ -17,10 +22,19 @@ export class FormGrapeHarvest extends React.Component {
     this.state = {
       dateOfHarvest: currentDate('date'),
       amount: 0,
-      vineyardId: '1',
+      vineyard: '',
+      open: false,
       errors: errorMap
     };
   }
+
+  handleClickOpen = name => {
+    this.setState({ [name]: true });
+  };
+
+  handleClose = name => {
+    this.setState({ [name]: false });
+  };
 
   handleChange = name => event => {
     this.setState({
@@ -28,14 +42,20 @@ export class FormGrapeHarvest extends React.Component {
     });
   };
 
+  handleSelectVineyard = (name, vineyard) => {
+    this.setState({
+      [name]: vineyard
+    });
+  };
+
   handleSubmit = () => {
-    const { grapeHarvestId, dateOfHarvest, amount, vineyardId } = this.state;
+    const { grapeHarvestId, dateOfHarvest, amount, vineyard } = this.state;
     let dataObject = {
       grapeHarvestId,
       dateOfHarvest,
       amount: Number(amount),
-      vineyardId,
-      vineyardIdFK: vineyardId
+      vineyardId: vineyard.idWinnica,
+      vineyardIdFK: vineyard.idWinnica
     };
     let arrayOfErrors = UniversalValidationHandler(dataObject, harvestValidationKeys);
     if (arrayOfErrors.length === 0) {
@@ -62,16 +82,51 @@ export class FormGrapeHarvest extends React.Component {
         grapeHarvestId: data.idWinobranie,
         dateOfHarvest: data.dataWinobrania,
         amount: data.iloscZebranychWinogron,
-        vineyardId: data.winnica ? data.winnica.idWinnica : '1'
+        vineyard: data.winnica ? data.winnica : ''
       });
     }
   }
 
   render() {
-    const { dateOfHarvest, amount, errors } = this.state;
+    const { dateOfHarvest, amount, vineyard, open, errors } = this.state;
     return (
       <form style={{ margin: '0% 25%' }}>
         <Grid container spacing={8} justify={'center'}>
+          <Grid item md={12}>
+            <TextField
+              fullWidth
+              id="vineyard"
+              label="Winnica"
+              value={vineyard ? vineyard.nazwa : 'Nie wybrano winnicy'}
+              error={errors.vineyard}
+              margin="dense"
+              variant="outlined"
+              InputProps={{
+                readOnly: true
+              }}
+              onClick={() => this.handleClickOpen('open')}
+            />
+            <DialogForForm title={'Winnice'} open={open} onClose={() => this.handleClose('open')}>
+              <Query query={getVineyards}>
+                {({ loading, error, data }) => {
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                  return (
+                    <SelectableAutoTable
+                      queryData={data.Winnica}
+                      // querySubject="Kontrahenci"
+                      querySize={data.Winnica.length}
+                      funParam="vineyard"
+                      onSelect={this.handleSelectVineyard}
+                      onClose={() => this.handleClose('open')}
+                      id={vineyard ? vineyard.idWinnica : null}
+                    />
+                  );
+                }}
+              </Query>
+            </DialogForForm>
+          </Grid>
           <Grid item md={12}>
             <TextField
               fullWidth

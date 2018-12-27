@@ -24,6 +24,7 @@ class News extends React.Component {
   sortVineyardOperations = data => {
     return data.sort((a, b) => Number(b.data) - Number(a.data));
   };
+
   render() {
     return (
       <React.Fragment>
@@ -47,6 +48,7 @@ class News extends React.Component {
                     dialogForm={<FormOperations />}
                     dialogFormTitle={'Operacja na partii'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
@@ -68,6 +70,7 @@ class News extends React.Component {
                     dialogForm={<FormVineyardOperation />}
                     dialogFormTitle={'Operacja na winnicy'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}

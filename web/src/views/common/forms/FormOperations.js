@@ -106,12 +106,12 @@ export class FormOperations extends React.Component {
     }));
   };
 
-  handleDelete = data => () => {
+  handleDelete = (data, name) => () => {
     this.setState(state => {
-      const item = [...state.item];
+      const item = [...state[name]];
       const contentToDelete = item.indexOf(data);
       item.splice(contentToDelete, 1);
-      return { item };
+      return { [name]: item };
     });
   };
 
@@ -258,7 +258,7 @@ export class FormOperations extends React.Component {
                             <Chip
                               key={data.key}
                               label={data.selectedBatch.idPartie + ' ' + data.amount}
-                              onDelete={this.handleDelete(data)}
+                              onDelete={this.handleDelete(data, 'batches')}
                             />
                           );
                         })
@@ -479,7 +479,7 @@ export class FormOperations extends React.Component {
                             <Chip
                               key={data.key}
                               label={data.selectedItem.nazwa + ' ' + data.amount}
-                              onDelete={this.handleDelete(data)}
+                              onDelete={this.handleDelete(data, 'item')}
                             />
                           );
                         })

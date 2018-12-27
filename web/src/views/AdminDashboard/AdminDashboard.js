@@ -47,6 +47,7 @@ class AdminDashboard extends React.Component {
                     dialogForm={<FormOperations />}
                     dialogFormTitle={'Operacja na partii'}
                     editMode={true}
+                    showDetails={false}
                   />
                 );
               }}

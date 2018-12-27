@@ -19,9 +19,9 @@ import UniversalValidationHandler from './UniversalValidationHandler/UniversalVa
 import { waybillValidationKeys } from './UniversalValidationHandler/validationKeys/validationKeys';
 import red from '@material-ui/core/colors/red';
 import getContractors from '../../../queries/ContractorsQueries/getContractors';
-import PDFShow from '../../../components/PDFSchemes/PDFShow';
 import PDFWaybill from '../../../components/PDFSchemes/PDFWaybill';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import CreatePDF from '../../../components/PDFSchemes/CreatePDF';
 
 const errorMap = {
   driverName: false,
@@ -102,15 +102,25 @@ export class FormWaybill extends React.Component {
     let arrayOfErrors = UniversalValidationHandler(dataObject, waybillValidationKeys);
     !this.subFormValidation() && arrayOfErrors.push('subforms');
     if (arrayOfErrors.length === 0) {
-      let file = PDFShow(PDFWaybill(dataObject));
-      this.setState({
-        fileURL: file
-      });
+      CreatePDF(PDFWaybill(dataObject)).then(results =>
+        this.setState({
+          fileURL: results
+        })
+      );
     } else {
       let error = Object.assign({}, errorMap);
       for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
       this.setState({ errors: error });
     }
+  };
+
+  showFile = () => {
+    let pdfWindow = window.open('');
+    pdfWindow.document.write(
+      "<iframe width='100%' height='100%' src='data:application/pdf;base64, " +
+        encodeURI(this.state.fileURL) +
+        "'></iframe>"
+    );
   };
 
   handleSubmit = () => {
@@ -147,10 +157,16 @@ export class FormWaybill extends React.Component {
         country: countryPickup
       },
       mailingAddressJTId,
-      parcel: { parcelId, packageName, weight, date, content }
+      parcel: { parcelId, packageName, weight, date, content, initContent }
     } = this.state;
 
     let jtId = { senderJTId, recipentJTId, carrierJTId, mailingAddressJTId, pickupAddressJTId };
+
+    let contentToDelete = initContent
+      ? initContent.filter(
+          initElement => !content.find(contentElement => contentElement.parcelJTId === initElement.parcelJTId)
+        )
+      : undefined;
 
     let dataObject = {
       waybillId,
@@ -185,7 +201,7 @@ export class FormWaybill extends React.Component {
     let arrayOfErrors = UniversalValidationHandler(dataObject, waybillValidationKeys);
     !this.subFormValidation() && arrayOfErrors.push('subforms');
     if (arrayOfErrors.length === 0) {
-      this.props.setMutationDynamicVariables({ content, jtId });
+      this.props.setMutationDynamicVariables({ content, jtId, contentToDelete });
       this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
@@ -229,7 +245,7 @@ export class FormWaybill extends React.Component {
 
     reader.onload = () => {
       this.setState({
-        fileURL: reader.result,
+        fileURL: String(reader.result).replace('data:application/pdf;base64,', ''),
         errors: {
           ...this.state.errors,
           fileURL: false
@@ -287,11 +303,12 @@ export class FormWaybill extends React.Component {
 
   filterContractors = data => {
     const { sender, recipent, carrier } = this.state;
+
     return data.Kontrahenci.filter(
       contractor =>
-        contractor.idKontrahenci !== sender.idKontrahenci &&
-        contractor.idKontrahenci !== recipent.idKontrahenci &&
-        contractor.idKontrahenci !== carrier.idKontrahenci
+        contractor.idKontrahenci !== (sender ? sender.idKontrahenci : '') &&
+        contractor.idKontrahenci !== (recipent ? recipent.idKontrahenci : '') &&
+        contractor.idKontrahenci !== (carrier ? carrier.idKontrahenci : '')
     );
   };
 
@@ -307,6 +324,7 @@ export class FormWaybill extends React.Component {
       openSender,
       openRecipent,
       openCarrier,
+      fileURL,
       errors
     } = this.state;
 
@@ -393,7 +411,7 @@ export class FormWaybill extends React.Component {
                       funParam="sender"
                       onSelect={this.handleSelectContractor}
                       onClose={() => this.handleClose('openSender')}
-                      id={sender.idKontrahenci}
+                      id={sender ? sender.idKontrahenci : null}
                     />
                   );
                 }}
@@ -428,7 +446,7 @@ export class FormWaybill extends React.Component {
                       funParam="recipent"
                       onSelect={this.handleSelectContractor}
                       onClose={() => this.handleClose('openRecipent')}
-                      id={recipent.idKontrahenci}
+                      id={recipent ? recipent.idKontrahenci : null}
                     />
                   );
                 }}
@@ -463,39 +481,12 @@ export class FormWaybill extends React.Component {
                       funParam="carrier"
                       onSelect={this.handleSelectContractor}
                       onClose={() => this.handleClose('openCarrier')}
-                      id={carrier.idKontrahenci}
+                      id={carrier ? carrier.idKontrahenci : null}
                     />
                   );
                 }}
               </Query>
             </DialogForForm>
-          </Grid>
-          <Grid item md={12}>
-            <input hidden accept=".pdf" id="addFile" type="file" onChange={this.handleFileChange} />
-            <label htmlFor="addFile">
-              <Button
-                variant="contained"
-                component="span"
-                style={
-                  errors.fileURL
-                    ? {
-                        color: red[300],
-                        backgroundColor: red[700],
-                        '&:hover': {
-                          backgroundColor: red[700]
-                        }
-                      }
-                    : {}
-                }
-              >
-                Dodaj dokument
-              </Button>
-            </label>
-          </Grid>
-          <Grid item md={12}>
-            <Button variant={'contained'} onClick={this.generateWaybill}>
-              Generuj list przewozowy
-            </Button>
           </Grid>
           <Grid item md={12}>
             <ExpansionPanel>
@@ -541,6 +532,33 @@ export class FormWaybill extends React.Component {
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>
+          </Grid>
+          <Grid item md={12}>
+            <input hidden accept=".pdf" id="addFile" type="file" onChange={this.handleFileChange} />
+            <label htmlFor="addFile">
+              <Button
+                variant="contained"
+                component="span"
+                style={
+                  errors.fileURL
+                    ? {
+                        color: red[300],
+                        backgroundColor: red[700],
+                        '&:hover': {
+                          backgroundColor: red[700]
+                        }
+                      }
+                    : {}
+                }
+              >
+                Dodaj dokument
+              </Button>
+            </label>
+          </Grid>
+          <Grid item md={12}>
+            <Button variant={'contained'} onClick={fileURL === '' ? this.generateWaybill : this.showFile}>
+              {fileURL === '' ? `Generuj list przewozowy` : `Podgląd`}
+            </Button>
           </Grid>
         </Grid>
       </form>

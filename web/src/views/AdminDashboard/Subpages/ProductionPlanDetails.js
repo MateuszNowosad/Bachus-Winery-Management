@@ -3,22 +3,27 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import AdminDashboardStyle from '../../../assets/jss/common/views/AdminDashboard/AdminDashboardStyle.js';
-import Grid from '@material-ui/core/Grid/Grid';
-import SimpleRadialBarChart from '../../../variables/AdminDashboard/ExampleRadialBarChart';
-import { TwoLevelPieChart } from '../../../variables/AdminDashboard/ExampleRadarChart';
-import planyProdExample from '../../../variables/AdminDashboard/planyProdExample';
 import Tree from '../../../components/Tree/Tree';
-import partie from '../../../variables/AdminDashboard/ExampleDataJson.js';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import { batchDatabaseLabels, operationsDatabaseLabels } from '../../../localisation/DatabaseLabels';
+import {
+  batchDatabaseLabels,
+  batchTypeDictDatabaseLabels,
+  operationsDatabaseLabels
+} from "../../../localisation/DatabaseLabels";
 import { Query } from 'react-apollo';
 import getSpecificProductionPlan from '../../../queries/ProductionPlansQueries/getSpecificProductionPlan';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import { getProductionPlanDetails } from '../../../queries/ProductionPlansQueries/getProductionPlanDetails';
 
 const MyLink = props => <Link to="/admindashboard/productionplans" {...props} />;
 
 class ProductionPlanDetails extends React.Component {
+
+  treeObjectBuilder(){
+
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -64,19 +69,36 @@ class ProductionPlanDetails extends React.Component {
             );
           }}
         </Query>
-        <Grid container direction="row" justify="center" alignItems="center">
-          <Grid item xs>
-            <SimpleRadialBarChart />
-          </Grid>
-          <Grid item xs>
-            <TwoLevelPieChart />
-          </Grid>
-        </Grid>
-        <Tree
-          queryData={JSON.parse(partie)['data']['Partie'][0]}
-          labels={[batchDatabaseLabels, operationsDatabaseLabels]}
-          hardBreak={'idPartie'}
-        />
+        {/*<Grid container direction="row" justify="center" alignItems="center">*/}
+          {/*<Grid item xs>*/}
+            {/*<SimpleRadialBarChart />*/}
+          {/*</Grid>*/}
+          {/*<Grid item xs>*/}
+            {/*<TwoLevelPieChart />*/}
+          {/*</Grid>*/}
+        {/*</Grid>*/}
+        <Query query={getProductionPlanDetails} variables={{ id: this.props.match.params.id }}>
+          {({ loading, error, data }) => {
+            if (loading) return <CircularProgress />;
+            if (error)
+              return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+            return (
+              <Query query={getProductionPlanDetails} variables={{ id: this.props.match.params.id }}>
+                {({ loading, error, data }) => {
+                  if (loading) return <CircularProgress />;
+                  if (error)
+                    return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+                  return <Tree
+                    queryData={data.Partie[0]}
+                    labels={[batchDatabaseLabels, operationsDatabaseLabels, batchTypeDictDatabaseLabels]}
+                    hardBreak={'idPartie'}
+                  />;
+                }}
+              </Query>
+
+            );
+          }}
+        </Query>
       </React.Fragment>
     );
   }

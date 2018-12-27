@@ -58,7 +58,9 @@ const AdminDashboardStyle = theme => ({
     marginBottom: theme.spacing.unit * 3,
     alignItems: 'center',
     overflowX: 'auto',
-    alignContent: 'space-between'
+    alignContent: 'space-between',
+    flexWrap: 'wrap',
+    maxHeight: '470px'
   },
   combo: {
     display: 'flex',

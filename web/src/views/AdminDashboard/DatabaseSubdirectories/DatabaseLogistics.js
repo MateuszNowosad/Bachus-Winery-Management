@@ -47,6 +47,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormItemInStock />}
                     dialogFormTitle={'Pozycja w magazynie'}
                     editMode={true}
+                    showDetails={false}
                   />
                 );
               }}
@@ -84,6 +85,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormWaybill />}
                     dialogFormTitle={'List przewozowy'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
@@ -107,6 +109,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormWarehouse />}
                     dialogFormTitle={'Magazyn'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
@@ -133,6 +136,7 @@ class DatabaseProduction extends React.Component {
                     dialogForm={<FormDictCategories />}
                     dialogFormTitle={'Kategoria przedmiotu w magazynie'}
                     editMode={true}
+                    showDetails={false}
                   />
                 );
               }}

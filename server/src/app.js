@@ -58,7 +58,7 @@ export const createApp = async () => {
     req.session.login = req.body.login;
     req.session.idUzytkownika = user[0].idUzytkownika;
     req.session.role = user[0].dictRolaUzytkownikowIdRolaUzytkownikow;
-    res.send({ status: 'Success', cookie: req.session.cookie });
+    res.send({ status: 'Success', cookie: req.session.cookie, userId: req.session.idUzytkownika });
     res.end();
   });
 

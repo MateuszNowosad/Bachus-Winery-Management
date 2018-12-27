@@ -58,14 +58,15 @@ export class FormParcel extends React.Component {
         [name]: event.target.value
       },
       () => {
-        const { parcelId, packageName, weight, date, content } = this.state;
+        const { parcelId, packageName, weight, date, content, initContent } = this.state;
         const { varName } = this.props;
         this.props.onChange(varName, {
           parcelId,
           packageName,
           weight,
           date,
-          content
+          content,
+          initContent
         });
       }
     );
@@ -77,26 +78,41 @@ export class FormParcel extends React.Component {
         content: [...prevState.content, data]
       }),
       () => {
-        const { parcelId, packageName, weight, date, content } = this.state;
+        const { parcelId, packageName, weight, date, content, initContent } = this.state;
         const { varName } = this.props;
         this.props.onChange(varName, {
           parcelId,
           packageName,
           weight,
           date,
-          content
+          content,
+          initContent
         });
       }
     );
   };
 
   handleDelete = data => () => {
-    this.setState(state => {
-      const content = [...state.content];
-      const contentToDelete = content.indexOf(data);
-      content.splice(contentToDelete, 1);
-      return { content };
-    });
+    this.setState(
+      state => {
+        const content = [...state.content];
+        const contentToDelete = content.indexOf(data);
+        content.splice(contentToDelete, 1);
+        return { content };
+      },
+      () => {
+        const { parcelId, packageName, weight, date, content, initContent } = this.state;
+        const { varName } = this.props;
+        this.props.onChange(varName, {
+          parcelId,
+          packageName,
+          weight,
+          date,
+          content,
+          initContent
+        });
+      }
+    );
   };
 
   componentDidMount() {
@@ -104,7 +120,7 @@ export class FormParcel extends React.Component {
     if (initState) {
       let data = initState.ListPrzewozowy[0].przesylka;
       let parcelJT = initState.PrzesylkaHasPozycjaWMagazynie.filter(
-        currElement => currElement.przesylkaIdPrzesylka !== data.idPrzesylka
+        currElement => currElement.przesylkaIdPrzesylka === data.idPrzesylka
       );
       this.setState(
         {
@@ -116,18 +132,25 @@ export class FormParcel extends React.Component {
             parcelJTId: parcelJT ? this.initParcelJTId(parcelJT, curr.idPozycja) : '',
             key: curr.idPozycja,
             selectedItem: curr,
-            amount: curr.iloscFromJoinTable
+            amount: curr.iloscFromJoinTable,
+            previousAmount: curr.ilosc + Number(curr.iloscFromJoinTable)
+          })),
+          initContent: data.pozycjaWMagazynie.map(curr => ({
+            parcelJTId: parcelJT ? this.initParcelJTId(parcelJT, curr.idPozycja) : '',
+            key: curr.idPozycja,
+            previousAmount: curr.ilosc + Number(curr.iloscFromJoinTable)
           }))
         },
         () => {
-          const { parcelId, packageName, weight, date, content } = this.state;
+          const { parcelId, packageName, weight, date, content, initContent } = this.state;
           const { varName } = this.props;
           this.props.onChange(varName, {
             parcelId,
             packageName,
             weight,
             date,
-            content
+            content,
+            initContent
           });
         }
       );

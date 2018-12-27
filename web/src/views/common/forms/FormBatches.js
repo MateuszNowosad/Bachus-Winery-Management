@@ -26,6 +26,7 @@ export class FormBatches extends React.Component {
       creationDate: currentDate('dateTime'),
       batchType: {},
       grapeHarvestId: '1',
+      isRecipe: '0',
       errors: errorMap
     };
   }

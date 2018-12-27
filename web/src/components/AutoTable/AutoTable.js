@@ -14,17 +14,24 @@ import TableFooter from '@material-ui/core/TableFooter/TableFooter';
 import TableRow from '@material-ui/core/TableRow/TableRow';
 import TablePagination from '@material-ui/core/TablePagination/TablePagination';
 import SearchBar from '../common/SearchBar';
-import { Query } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import CircularProgress from '@material-ui/core/es/CircularProgress';
 import { selectQueryForForm } from '../../queries/FormQueries/selectQueryForForm';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { selectDeleteForForm } from '../../mutations/FormMutations/selectDeleteForForm';
+import DetailsDialog from '../DetailsDialog/DetailsDialog';
+import { selectQueryForDetails } from '../../queries/DetailsQueries/selectQueryForDetails';
 
 class AutoTable extends React.Component {
   state = {
     open: false,
     openEdit: false,
+    openDetails: false,
     page: 0,
     rowsPerPage: 5,
-    editForm: '',
+    anchorEl: null,
+    clickedRowId: null,
     queryData: this.props.queryData
   };
 
@@ -38,6 +45,17 @@ class AutoTable extends React.Component {
 
   handleOpen = () => {
     this.setState({ open: true });
+  };
+
+  handleDetails = recordId => {
+    this.handleMenuClose();
+    this.setState(
+      {
+        openDetails: true,
+        clickedRowId: recordId
+      },
+      () => console.log('54,  jakub: setState')
+    );
   };
 
   timeout = false;
@@ -66,15 +84,32 @@ class AutoTable extends React.Component {
   handleEdit = recordId => {
     //console.log('38, this.props.dialogForm.type.name jakub: ', this.props.dialogForm.type.name);
     //console.log('45, recordId Mateusz: ', recordId);
+    this.handleMenuClose();
     this.setState({
       openEdit: true,
-      editForm: recordId
+      clickedRowId: recordId
     });
   };
 
   handleDeletion = (mutation, recordId) => {
     console.log('45, recordId DEMateusz: ', recordId);
+    this.handleMenuClose();
     mutation({ variables: { id: recordId } });
+  };
+
+  handleRowClick = (event, row) => {
+    console.log('60, row jakub: ', row);
+    this.setState({
+      anchorEl: event.target,
+      clickedRowId: row[Object.keys(row)[0]]
+    });
+  };
+
+  handleMenuClose = () => {
+    this.setState({
+      anchorEl: null,
+      clickedRowId: null
+    });
   };
 
   render() {
@@ -83,13 +118,13 @@ class AutoTable extends React.Component {
       queryData: this.props.queryData,
       // querySubject: this.props.querySubject,
       labelsArr: this.props.labelsArr,
-      editMode: this.props.editMode,
+      // editMode: this.props.editMode,
       labelCountChange: newlabelCount => {
         labelCount = newlabelCount;
       }
     });
-    const { classes, queryData, querySize, dialogFormTitle, dialogForm, editMode, query } = this.props;
-    const { open, rowsPerPage, page, editForm, openEdit } = this.state;
+    const { classes, queryData, querySize, dialogFormTitle, dialogForm, editMode, showDetails, query } = this.props;
+    const { open, rowsPerPage, page, clickedRowId, openEdit, anchorEl, openDetails } = this.state;
     return (
       <div style={{ minWidth: '100%' }}>
         <div className={classes.actions}>
@@ -100,16 +135,29 @@ class AutoTable extends React.Component {
             {labels}
             <TableBody>
               <AutoContent
-                query={editMode && query}
-                formName={editMode && dialogForm.type.name}
+                // query={editMode && query}
+                // formName={editMode && dialogForm.type.name}
                 queryData={this.state.queryData}
                 // querySubject={querySubject}
                 editMode={editMode}
-                handleEdit={this.handleEdit}
-                handleDeletion={this.handleDeletion}
                 page={page}
                 rowsPerPage={rowsPerPage}
+                selected={editMode ? clickedRowId : undefined}
+                onClick={editMode ? this.handleRowClick : undefined}
               />
+              {editMode && (
+                <Menu id="row_menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleMenuClose}>
+                  {showDetails && <MenuItem onClick={() => this.handleDetails(clickedRowId)}>Szczegóły</MenuItem>}
+                  <MenuItem onClick={() => this.handleEdit(clickedRowId)}>Edytuj</MenuItem>
+                  <Mutation
+                    key={dialogForm.type.name}
+                    mutation={selectDeleteForForm(dialogForm.type.name)}
+                    refetchQueries={[{ query: query }]}
+                  >
+                    {mutation => <MenuItem onClick={() => this.handleDeletion(mutation, clickedRowId)}>Usuń</MenuItem>}
+                  </Mutation>
+                </Menu>
+              )}
             </TableBody>
             <TableFooter>
               <TableRow>
@@ -146,8 +194,8 @@ class AutoTable extends React.Component {
             </ScrollableDialogForm>
           </React.Fragment>
         )}
-        {editForm && (
-          <Query query={selectQueryForForm(dialogForm.type.name)} variables={{ id: editForm, idFK: editForm }}>
+        {openEdit && (
+          <Query query={selectQueryForForm(dialogForm.type.name)} variables={{ id: clickedRowId, idFK: clickedRowId }}>
             {({ loading, error, data }) => {
               if (loading) return <CircularProgress />;
               if (error)
@@ -157,11 +205,32 @@ class AutoTable extends React.Component {
                   query={editMode && query}
                   dialogTitle={dialogFormTitle}
                   open={openEdit}
-                  closeForm={() => this.setState({ openEdit: false, editForm: false })}
+                  closeForm={() => this.setState({ openEdit: false, clickedRowId: false })}
                   openForm={() => this.setState({ openEdit: true })}
                 >
                   {React.cloneElement(dialogForm, { initState: data })}
                 </ScrollableDialogForm>
+              );
+            }}
+          </Query>
+        )}
+        {openDetails && (
+          <Query
+            query={selectQueryForDetails(dialogForm.type.name)}
+            variables={{ id: clickedRowId, idFK: clickedRowId }}
+          >
+            {({ loading, error, data }) => {
+              if (loading) return <CircularProgress />;
+              if (error)
+                return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
+              return (
+                <DetailsDialog
+                  dialogTitle={'Szczegóły'}
+                  queryData={data}
+                  dataType={dialogForm.type.name}
+                  onClose={() => this.setState({ openDetails: false, clickedRowId: false })}
+                  open={openDetails}
+                />
               );
             }}
           </Query>

@@ -15,6 +15,9 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 import LoginPageStyle from '../assets/jss/common/views/LoginPageStyle.js';
 import axios from 'axios';
+import { selectUpsertForForm } from '../mutations/FormMutations/selectUpsertForForm';
+import { Mutation } from 'react-apollo';
+import { userLogged } from '../mutations/userLogged';
 
 //const dashboard = props => <Link to="/admindashboard" {...props} />; //temporary placeholder
 
@@ -32,7 +35,7 @@ class SignIn extends React.Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = mutate => {
     axios({
       method: 'post',
       url: '/usrauthorization',
@@ -45,6 +48,7 @@ class SignIn extends React.Component {
       console.log('41, response Mateusz: ', response);
       if (response.data) {
         console.log('43, "Success" Mateusz: ', 'Success');
+        mutate({ variables: { userId: response.data.userId } });
         this.setState({ error: false, isAuthenticated: true });
         this.props.isAuthenticated();
       } else {
@@ -90,15 +94,21 @@ class SignIn extends React.Component {
                   error={this.state.error}
                 />
               </FormControl>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={this.handleSubmit}
-              >
-                Zaloguj się
-              </Button>
+              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Zapamiętaj mnie" />
+              <Mutation mutation={userLogged}>
+                {mutate => (
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    //component={dashboard} //Deprecated
+                    onClick={() => this.handleSubmit(mutate)}
+                  >
+                    Zaloguj się
+                  </Button>
+                )}
+              </Mutation>
             </form>
           </Paper>
         </main>

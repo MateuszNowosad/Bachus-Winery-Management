@@ -60,13 +60,13 @@ class ProductionPlans extends React.Component {
                 return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
               let productionPlans = data.PlanyProdukcyjne;
               return productionPlans.map(currElement => (
-                <MediaCard
-                  key={currElement.idPlanyProdukcyjne}
-                  heading={currElement.nazwa}
-                  contents={currElement.opis}
-                  id={currElement.idPlanyProdukcyjne}
-                />
-              ));
+                  <MediaCard
+                    key={currElement.idPlanyProdukcyjne}
+                    heading={currElement.nazwa}
+                    contents={currElement.opis}
+                    id={currElement.idPlanyProdukcyjne}
+                  />
+                ));
             }}
           </Query>
         </div>

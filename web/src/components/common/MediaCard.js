@@ -19,7 +19,7 @@ class MediaCard extends React.Component {
     return (
       <Card className={classes.card}>
         <CardActionArea component={this.MyLink}>
-          <SimpleRadialBarChart />
+          {/*<SimpleRadialBarChart />*/}
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
               {heading}

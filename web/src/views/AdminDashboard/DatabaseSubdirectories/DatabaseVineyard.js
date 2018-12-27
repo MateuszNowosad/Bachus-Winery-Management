@@ -48,6 +48,7 @@ class DatabaseVineyard extends React.Component {
                     dialogForm={<FormVineyard />}
                     dialogFormTitle={'Winnica'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
@@ -71,6 +72,7 @@ class DatabaseVineyard extends React.Component {
                     dialogForm={<FormGrapeHarvest />}
                     dialogFormTitle={'Winobranie'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
@@ -94,6 +96,7 @@ class DatabaseVineyard extends React.Component {
                     dialogForm={<FormVineyardOperation />}
                     dialogFormTitle={'Operacja na winnicy'}
                     editMode={true}
+                    showDetails={false}
                   />
                 );
               }}
@@ -117,6 +120,7 @@ class DatabaseVineyard extends React.Component {
                     dialogForm={<FormDictVineyardOperations />}
                     dialogFormTitle={'Dozwolona operacja na winnicy'}
                     editMode={true}
+                    showDetails={false}
                   />
                 );
               }}
@@ -138,6 +142,7 @@ class DatabaseVineyard extends React.Component {
                     dialogForm={<FormDictGrapeType />}
                     dialogFormTitle={'Odmiana winogron'}
                     editMode={true}
+                    showDetails={false}
                   />
                 );
               }}

@@ -46,6 +46,7 @@ class DatabaseContactsAndUsers extends React.Component {
                     dialogForm={<FormUsers />}
                     dialogFormTitle={'Użytkownik'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
@@ -69,6 +70,7 @@ class DatabaseContactsAndUsers extends React.Component {
                     dialogForm={<FormContractors />}
                     dialogFormTitle={'Kontrahent'}
                     editMode={true}
+                    showDetails={true}
                   />
                 );
               }}
@@ -109,6 +111,7 @@ class DatabaseContactsAndUsers extends React.Component {
                     dialogForm={<FormDictUserRole />}
                     dialogFormTitle={'Rola użytkownika'}
                     editMode={true}
+                    showDetails={false}
                   />
                 );
               }}
