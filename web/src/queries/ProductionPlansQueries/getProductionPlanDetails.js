@@ -6,23 +6,38 @@ export const getProductionPlanDetails = gql`
       idPartie
       ilosc
       dataUtworzenia
+    	opis
+    	typPartii{
+        nazwa,
+        jednostka
+      }
       operacje {
         idOperacja
         iloscPrzed
         iloscPo
+        dictProcesy{
+          nazwa,
+          opis
+        }
       }
-      partie {
-        idPartie
-        ilosc
-        operacje {
-          idOperacja
-          iloscPrzed
-          iloscPo
+      partie{
+      idPartie
+      ilosc
+      dataUtworzenia
+    	opis
+    	typPartii{
+        nazwa,
+        jednostka
+      }
+      operacje {
+        idOperacja
+        iloscPrzed
+        iloscPo
+        dictProcesy{
+          nazwa,
+          opis
         }
-        partie {
-          idPartie
-          ilosc
-        }
+      }
       }
     }
   }
