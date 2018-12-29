@@ -41,6 +41,7 @@ class DatabaseProduction extends React.Component {
                 let items = data.PozycjaWMagazynie;
                 return (
                   <AutoTable
+                    key={1}
                     query={getItemsInStock}
                     queryData={items}
                     querySize={items.length}
@@ -63,7 +64,9 @@ class DatabaseProduction extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let parcel = data.Przesylka;
-                return <AutoTable queryData={parcel} querySize={parcel.length} editMode={false} />;
+                return <AutoTable
+                  key={2}
+                  queryData={parcel} querySize={parcel.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>
