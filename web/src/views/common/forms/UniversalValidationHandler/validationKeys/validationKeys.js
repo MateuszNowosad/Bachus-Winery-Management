@@ -5,7 +5,7 @@ export const usersValidationKeys = {
   password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
   PESEL: /^\d{11}$/,
   eMail: /^(?=.{5,90}$)(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  phoneNumber: /^\d{14}$/,
+  phoneNumber: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
   photo: /^.{5,100}$/,
   userRole: /^.{5,100}$/
 };
@@ -14,7 +14,7 @@ export const addressValidationKeys = {
   street: new RegExp("^([\\p{L}\\d' ]{2,45})$", 'u'),
   buildingNumber: /^\d{1,4}$/,
   apartmentNumber: /^(|\d{1,2})$/,
-  postalCode: /^\d{1,12}$/,
+  phoneNumber: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
   city: new RegExp("^([\\p{L}\\d' ]{2,40})$", 'u'),
   country: new RegExp("^([\\p{L}' ()]{2,60})$", 'u')
 };
@@ -68,7 +68,7 @@ export const wineInformationValidationKeys = {
 export const contractorsValidationKeys = {
   NIP: /^($|\d{10})$/,
   companyName: new RegExp('^[\\s\\S]{2,40}$', 'u'),
-  phoneNumber: /^\d{14}$/,
+  phoneNumber: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
   eMail: /^(?=.{5,90}$)(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   wwwSite: /^(?=.{4,255}$)(|(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)$/,
   KRS: /^($|\d{10})$/,
