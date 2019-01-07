@@ -109,7 +109,7 @@ export const batchDatabaseLabels = {
   idPartie: 'ID Partii',
   ilosc: 'Ilość',
   opis: 'Opis',
-  dataUtworzenia: 'Data utowrzenia'
+  dataUtworzenia: 'Data utworzenia'
 };
 
 export const vineyardDatabaseLabels = {

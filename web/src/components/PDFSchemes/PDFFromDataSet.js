@@ -28,7 +28,9 @@ const formatLabels = dataLabels => {
 const formatData = (dataObject, dataLabels) => {
   let data = [];
 
-  dataLabels !== undefined ? data.push(formatLabels(dataLabels)) : null;
+  if (dataLabels !== undefined) {
+    data.push(formatLabels(dataLabels));
+  } else return null;
 
   dataObject.length !== 0
     ? dataObject.map(currElement => {

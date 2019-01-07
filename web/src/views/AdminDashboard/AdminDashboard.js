@@ -2,22 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import ExampleChart from '../../variables/AdminDashboard/ExampleChart';
-
 import AdminDashboardStyle from '../../assets/jss/common/views/AdminDashboard/AdminDashboardStyle.js';
 import AutoTable from '../../components/AutoTable/AutoTable';
-import data from '../../variables/AdminDashboard/AutoTableTestData';
-import OCBigTab from '../../components/Tab/OCBigTab.js';
-import TabContainer from '../../components/Tab/TabContainer';
-import getUsers from '../../queries/UsersQueries/getUsers';
-import { FormUsers } from '../common/forms/FormUsers';
-import getProductionPlans from '../../queries/ProductionPlansQueries/getProductionPlans';
 import { Query } from 'react-apollo';
 import getOperations from '../../queries/OperationQueries/getOperations';
-import getVineyardOperations from '../../queries/VineyardQueries/getVineyardOperations';
 import { FormOperations } from '../common/forms/FormOperations';
-import { FormVineyardOperation } from '../common/forms/FormVineyardOperation';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
+import Logo from '../../assets/img/logo_bachus.png';
 
 const labels = ['Ostatnie wydarzenia', 'Plany produkcyjne', 'Ostatnie operacje na partiach', 'Ostatnie na winnicach'];
 
@@ -32,44 +23,22 @@ class AdminDashboard extends React.Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <Typography variant="h4" gutterBottom component="h2">
-          Zamówienia
+        <Typography component="h2" variant="h1" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}} gutterBottom>
+         Witamy w Systemie Bachus!
         </Typography>
-        <Typography component="div" className={classes.chartContainer}>
-          <ExampleChart />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <img src={Logo} alt="Logo"/>
+        </div>
+        <Typography component="h2" variant="h4" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}} gutterBottom>
+         Ostatnio wykonane operacje
         </Typography>
-        {/*<OCTabs theme={standard} labels={['Użytkownicy', 'Kontrahenci', 'Coś tam jeszcze']}/>*/}
-        <OCBigTab labels={labels}>
-          <TabContainer>
-            <AutoTable queryData={data} querySubject={'hero'} querySize={259} editMode={false} />
-          </TabContainer>
-          <TabContainer>
-            <Query query={getProductionPlans}>
-              {({ loading, error, data }) => {
-                if (loading) return <CircularProgress />;
-                if (error)
-                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
-                let productionPlans = data.PlanyProdukcyjne;
-                return (
-                  <AutoTable
-                    queryData={productionPlans}
-                    // querySubject="hero"
-                    querySize={productionPlans.length}
-                    editMode={false}
-                    showDetails={false}
-                  />
-                );
-              }}
-            </Query>
-          </TabContainer>
-          <TabContainer>
             <Query query={getOperations}>
               {({ loading, error, data }) => {
                 if (loading) return <CircularProgress />;
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let operations = [].concat(data.Operacje);
-                operations = this.sortOperations(operations).slice(0, 15);
+                operations = this.sortOperations(operations).slice(0, 50);
                 return (
                   <AutoTable
                     queryData={operations}
@@ -78,39 +47,11 @@ class AdminDashboard extends React.Component {
                     dialogForm={<FormOperations />}
                     dialogFormTitle={'Operacja na partii'}
                     editMode={true}
-                    showDetails={true}
+                    showDetails={false}
                   />
                 );
               }}
             </Query>
-          </TabContainer>
-          <TabContainer>
-            <Query query={getVineyardOperations}>
-              {({ loading, error, data }) => {
-                if (loading) return <CircularProgress />;
-                if (error)
-                  return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
-                let vineyardOperations = [].concat(data.OperacjeNaWinnicy);
-                vineyardOperations = this.sortVineyardOperations(vineyardOperations).slice(0, 15);
-                return (
-                  <AutoTable
-                    queryData={vineyardOperations}
-                    // querySubject="hero"
-                    querySize={vineyardOperations.length}
-                    dialogForm={<FormVineyardOperation />}
-                    dialogFormTitle={'Operacja na winnicy'}
-                    editMode={true}
-                    showDetails={true}
-                  />
-                );
-              }}
-            </Query>
-          </TabContainer>
-        </OCBigTab>
-        <Typography variant="h4" gutterBottom component="h2">
-          Najnowsze zamówienia
-        </Typography>
-        <AutoTable queryData={data} querySubject={'hero'} querySize={259} editMode={false} />
       </React.Fragment>
     );
   }

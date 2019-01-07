@@ -26,7 +26,7 @@ class OCBigTab extends React.Component {
             onChange={this.handleChange}
             indicatorColor="primary"
             textColor="primary"
-            scrollable
+            centered
             scrollButtons="auto"
           >
             {labels.map((currElement, index) => (

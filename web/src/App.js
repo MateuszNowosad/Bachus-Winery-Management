@@ -8,7 +8,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline/CssBaseline';
 //OC
 import { standard } from './assets/jss/themes/standard';
-import './App.css';
+//import './App.css';
 import NoMatch from './components/common/NoMatch';
 import Redirect from 'react-router-dom/es/Redirect';
 import axios from 'axios';
@@ -43,16 +43,13 @@ class App extends Component {
   isAuthenticated = () => {
     axios({
       method: 'get',
-      url: 'http://localhost:8080/usrrole',
+      url: '/usrrole',
       withCredentials: true
     }).then(response => {
-      console.log('41, response Mateusz: ', response);
       if (response.data) {
-        console.log('43, "Success" Mateusz: ', 'Success');
-        this.setState({ role: response.data.role, waitingForServer: false });
+        this.setState({ role: response.data.role, waitingForServer: false, routeArr: null });
       } else {
-        console.log('45, "Error" Mateusz: ', 'Error');
-        this.setState({ waitingForServer: true });
+        this.setState({ waitingForServer: true, role: '', routeArr: null });
       }
     });
   };
@@ -89,7 +86,7 @@ class App extends Component {
 
   render() {
     const { role, waitingForServer, routeArr } = this.state;
-    let renderMatchWithProps = MatchedComponent => matchProps => <MatchedComponent {...matchProps} />;
+    //let renderMatchWithProps = MatchedComponent => matchProps => <MatchedComponent {...matchProps} />;
     return (
       <BrowserRouter>
         <React.Fragment>
@@ -104,10 +101,16 @@ class App extends Component {
               {routeArr !== null && (
                 <Route
                   path={'/admindashboard'}
-                  render={props => <AdminDashboardLayout {...props} role={role} waitingForServer={waitingForServer} />}
+                  render={props => (
+                    <AdminDashboardLayout
+                      {...props}
+                      role={role}
+                      waitingForServer={waitingForServer}
+                      isAuthenticated={this.isAuthenticated}
+                    />
+                  )}
                 />
               )}
-              {/*TODO Write PrivateRoute component. Use this to hide routes from drawer.*/}
               {routeArr !== null ? (
                 <Redirect from="/" to={'/admindashboard'} />
               ) : (

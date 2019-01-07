@@ -4,8 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 //import BackupStyle from "../../assets/jss/common/views/Users/BackupStyle.js";
 import AdminDashboardStyle from '../../assets/jss/common/views/AdminDashboard/AdminDashboardStyle.js';
-import userData from '../../variables/AdminDashboard/ExampleUser';
-import example from '../../assets/img/example.jpg';
 import Grid from '@material-ui/core/Grid/Grid';
 import { Query } from 'react-apollo';
 import getSpecificUser from '../../queries/UsersQueries/getSpecificUser';
@@ -24,7 +22,7 @@ class Users extends React.Component {
   componentDidMount() {
     axios({
       method: 'get',
-      url: 'http://localhost:8080/usrrole',
+      url: '/usrrole',
       withCredentials: true
     }).then(response => {
       console.log('41, response Mateusz: ', response);

@@ -10,7 +10,7 @@ class WarehouseDetails extends React.Component {
   render() {
     let warehouseId = this.props.match.params.id;
     return (
-      <React.Fragment>
+      <div style={{marginRight: '50px'}}>
         <Query query={getItemsFromWarehouse(warehouseId)}>
           {({ loading, error, data }) => {
             if (loading) return <p>Loading...</p>;
@@ -25,7 +25,7 @@ class WarehouseDetails extends React.Component {
             );
           }}
         </Query>
-      </React.Fragment>
+      </div>
     );
   }
 }

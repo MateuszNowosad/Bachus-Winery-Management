@@ -1,3 +1,1 @@
-export const repositories = {
-
-};
+export const repositories = {};

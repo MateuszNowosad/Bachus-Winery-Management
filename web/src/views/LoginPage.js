@@ -14,7 +14,6 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import LoginPageStyle from '../assets/jss/common/views/LoginPageStyle.js';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { selectUpsertForForm } from '../mutations/FormMutations/selectUpsertForForm';
 import { Mutation } from 'react-apollo';
@@ -39,7 +38,7 @@ class SignIn extends React.Component {
   handleSubmit = mutate => {
     axios({
       method: 'post',
-      url: 'http://localhost:8080/usrauthorization',
+      url: '/usrauthorization',
       data: {
         login: this.state.login,
         password: this.state.password
@@ -74,11 +73,11 @@ class SignIn extends React.Component {
             </Typography>
             <form className={classes.form}>
               <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="email">Email</InputLabel>
+                <InputLabel htmlFor="email">Login</InputLabel>
                 <Input
                   id="email"
-                  name="email"
-                  autoComplete="email"
+                  name="login"
+                  autoComplete="login"
                   autoFocus
                   onChange={this.handleChange('login')}
                   error={this.state.error}
@@ -95,7 +94,6 @@ class SignIn extends React.Component {
                   error={this.state.error}
                 />
               </FormControl>
-              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Zapamiętaj mnie" />
               <Mutation mutation={userLogged}>
                 {mutate => (
                   <Button

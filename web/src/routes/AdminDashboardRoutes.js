@@ -1,13 +1,11 @@
 import React from 'react';
 import AdminDashboard from '../views/AdminDashboard/AdminDashboard';
 import Database from '../views/AdminDashboard/Database';
-import Diagnostics from '../views/AdminDashboard/Diagnostics';
 import News from '../views/AdminDashboard/News';
 import Backup from '../views/AdminDashboard/Backup';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import DnsIcon from '@material-ui/icons/Dns';
 import LocalShipping from '@material-ui/icons/LocalShipping';
@@ -117,15 +115,6 @@ const AdminDashboardRoutes = [
     role: [1, 4, 3, 2]
   },
   {
-    path: '/admindashboard/diagnostics',
-    drawerName: 'Dane Diagnostyczne',
-    navbarName: 'Dane Diagnostyczne',
-    drawerIcon: <BarChartIcon />,
-    component: Diagnostics,
-    exact: false,
-    role: [1]
-  },
-  {
     path: '/admindashboard/news',
     drawerName: 'Najnowsze zdarzenia',
     navbarName: 'Najnowsze zdarzenia',
@@ -134,15 +123,15 @@ const AdminDashboardRoutes = [
     exact: false,
     role: [1, 4, 3, 2] //TODO special verification logic in component
   },
-  {
-    path: '/admindashboard/backup',
-    drawerName: 'Kopie zapasowe',
-    navbarName: 'Kopie zapasowe',
-    drawerIcon: <SaveIcon />,
-    component: Backup,
-    exact: false,
-    role: [1]
-  },
+  // {
+  //   path: '/admindashboard/backup',
+  //   drawerName: 'Kopie zapasowe',
+  //   navbarName: 'Kopie zapasowe',
+  //   drawerIcon: <SaveIcon />,
+  //   component: Backup,
+  //   exact: false,
+  //   role: [1]
+  // },
   {
     path: '/admindashboard/productionplans',
     drawerName: 'Plany produkcyjne',

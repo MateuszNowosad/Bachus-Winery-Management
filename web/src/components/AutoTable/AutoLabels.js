@@ -18,8 +18,8 @@ const AutoLabels = props => {
         labels.push(<TableCell key={property}>{property}</TableCell>);
       }
   } else
-    for (let currLabel in props.labelsArr)
-      labels.push(<TableCell key={currLabel}>{props.labelsArr[currLabel]}</TableCell>);
+    for (let len = props.labelsArr.length, i = 0; i < len; ++i)
+      labels.push(<TableCell key={i}>{props.labelsArr[i]}</TableCell>);
 
   labelCount = labels.length;
   //props.editMode && labelCount++;
