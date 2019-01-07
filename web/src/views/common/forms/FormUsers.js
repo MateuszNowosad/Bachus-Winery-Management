@@ -45,22 +45,20 @@ export class FormUsers extends React.Component {
     this.subForm = React.createRef();
   }
 
-  static scorePassword(pass) {
-    //TO BE CHANGED, UNLICENSED
+  static scorePassword(password) {
     let score = 0;
-    if (!pass) return score;
+    if (!password) return score;
 
-    // award every unique letter until 5 repetitions
     let letters = {};
-    for (let i = 0; i < pass.length; i++) {
-      letters[pass[i]] = (letters[pass[i]] || 0) + 1;
-      score += 5.0 / letters[pass[i]];
+    for (let i = 0; i < password.length; i++) {
+      letters[password[i]] = (letters[password[i]] || 0) + 1;
+      score += 5.0 / letters[password[i]];
     }
     let variations = {
-      digits: /\d/.test(pass),
-      lower: /[a-z]/.test(pass),
-      upper: /[A-Z]/.test(pass),
-      nonWords: /\W/.test(pass)
+      digits: /\d/.test(password),
+      lower: /[a-z]/.test(password),
+      upper: /[A-Z]/.test(password),
+      nonWords: /\W/.test(password)
     };
 
     let variationCount = 0;
@@ -70,7 +68,7 @@ export class FormUsers extends React.Component {
     score += (variationCount - 1) * 10;
     if (score > 100) score = 100;
 
-    return parseInt(score);
+    return score;
   }
 
   handleChange = name => event => {
@@ -144,9 +142,7 @@ export class FormUsers extends React.Component {
       this.props.onSubmit(this.props.mutation, dataObject);
     } else {
       let error = Object.assign({}, errorMap);
-      for (let errorField in arrayOfErrors) {
-        error[arrayOfErrors[errorField]] = true;
-      }
+      for (let len = arrayOfErrors.length, i = 0; i < len; ++i) error[arrayOfErrors[i]] = true;
       this.setState({ errors: error });
       this.props.submitAborted();
     }

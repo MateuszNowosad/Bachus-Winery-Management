@@ -2,14 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-//import BackupStyle from "../../assets/jss/common/views/Database/BackupStyle.js";
 import AdminDashboardStyle from '../../../assets/jss/common/views/AdminDashboard/AdminDashboardStyle.js';
 import AutoTable from '../../../components/AutoTable/AutoTable';
-import data from '../../../variables/AdminDashboard/AutoTableTestData';
 import OCBigTab from '../../../components/Tab/OCBigTab.js';
 import TabContainer from '../../../components/Tab/TabContainer';
 import DataToPDF from '../../../components/DataToPDF/DataToPDF';
-import getDictProcesses from '../../../queries/DictionaryQueries/getDictProcesses';
 import { Query } from 'react-apollo';
 import getReports from '../../../queries/ReportsQueries/getReports';
 import CircularProgress from '@material-ui/core/es/CircularProgress/CircularProgress';
@@ -34,7 +31,7 @@ class DatabaseReports extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let reports = data.Raporty;
-                return <AutoTable queryData={reports} querySize={reports.length} />;
+                return <AutoTable queryData={reports} querySize={reports.length} editMode={false}/>;
               }}
             </Query>
           </TabContainer>

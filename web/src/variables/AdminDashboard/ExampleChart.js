@@ -10,13 +10,13 @@ import Legend from 'recharts/lib/component/Legend';
 
 const data = [
   //temp
-  { name: 'Pon', 'Prognoza zamówień': 2200, Zamówienia: 3400 },
-  { name: 'Wto', 'Prognoza zamówień': 1280, Zamówienia: 2398 },
-  { name: 'Śro', 'Prognoza zamówień': 5000, Zamówienia: 4300 },
-  { name: 'Czw', 'Prognoza zamówień': 4780, Zamówienia: 2908 },
-  { name: 'Pią', 'Prognoza zamówień': 5890, Zamówienia: 4800 },
-  { name: 'Sob', 'Prognoza zamówień': 4390, Zamówienia: 3800 },
-  { name: 'Nie', 'Prognoza zamówień': 4490, Zamówienia: 4300 }
+  { name: 'Pon', vl1: 2200, vl2: 3400 },
+  { name: 'Wto', vl1: 1280, vl2: 2398 },
+  { name: 'Śro', vl1: 5000, vl2: 4300 },
+  { name: 'Czw', vl1: 4780, vl2: 2908 },
+  { name: 'Pią', vl1: 5890, vl2: 4800 },
+  { name: 'Sob', vl1: 4390, vl2: 3800 },
+  { name: 'Nie', vl1: 4490, vl2: 4300 }
 ];
 
 function ExampleChart() {
@@ -29,8 +29,8 @@ function ExampleChart() {
         <CartesianGrid vertical={false} strokeDasharray="3 3" />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="Prognoza zamówień" stroke="#82ca9d" />
-        <Line type="monotone" dataKey="Zamówienia" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Line type="monotone" name="Prognoza zamówień" dataKey="vl1" stroke="#82ca9d" />
+        <Line type="monotone" name="Zamówienia" dataKey="vl2" stroke="#8884d8" activeDot={{ r: 8 }} />
       </LineChart>
     </ResponsiveContainer>
   );

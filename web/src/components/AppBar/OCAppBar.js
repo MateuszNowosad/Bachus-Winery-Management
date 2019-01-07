@@ -5,15 +5,15 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 //Style
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import OCAppBarStyle from '../../assets/jss/common/components/OCAppBarStyle.js';
+import Link from 'react-router-dom/es/Link';
+import Arrow from '@material-ui/icons/ArrowBack';
+import axios from 'axios';
 
 class OCAppBar extends React.Component {
   handleClick = () => {
@@ -21,7 +21,25 @@ class OCAppBar extends React.Component {
     onToggleDrawer();
   };
 
+  logout = () => {
+    axios({
+      method: 'post',
+      url: '/usrlogout',
+      data: {},
+      withCredentials: true
+    }).then(response => {
+      console.log('41, response Mateusz: ', response);
+      if (response.data) {
+        console.log('43, "Success" Mateusz: ', 'Success');
+        this.props.isAuthenticated();
+      } else {
+        console.log('45, "Error" Mateusz: ', 'Error');
+      }
+    });
+  };
+
   render() {
+    const profileLink = props => <Link to="/admindashboard/profile" {...props} />;
     const { classes, drawerOpen } = this.props;
     return (
       <React.Fragment>
@@ -38,18 +56,11 @@ class OCAppBar extends React.Component {
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               Panel sterowania
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton color="inherit">
+            <IconButton color="inherit" component={profileLink}>
               <AccountCircle />
+            </IconButton>
+            <IconButton color="inherit" onClick={this.logout}>
+              <Arrow />
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -59,7 +70,8 @@ class OCAppBar extends React.Component {
 }
 
 OCAppBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.func.isRequired
 };
 
 export default withStyles(OCAppBarStyle)(OCAppBar);

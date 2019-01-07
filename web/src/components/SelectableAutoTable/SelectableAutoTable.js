@@ -48,7 +48,9 @@ class SelectableAutoTable extends React.Component {
       selected: row[Object.keys(row)[0]]
     });
     this.props.onSelect(param, row);
-    this.props.onClose ? this.props.onClose() : null;
+    if (this.props.onClose) {
+      this.props.onClose();
+    } else return null;
   };
 
   render() {
@@ -96,14 +98,14 @@ class SelectableAutoTable extends React.Component {
               />
               {emptyRows > 0 && (
                 <TableRow style={{ height: 48 * emptyRows }}>
-                  <TableCell colSpan={this.state.labelCount} />
+                  <TableCell colSpan={labelCount} />
                 </TableRow>
               )}
             </TableBody>
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  colSpan={this.state.labelCount}
+                  colSpan={labelCount}
                   count={querySize}
                   rowsPerPage={rowsPerPage}
                   page={page}

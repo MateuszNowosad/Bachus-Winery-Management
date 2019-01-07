@@ -29,9 +29,10 @@ class AutoTable extends React.Component {
     openEdit: false,
     openDetails: false,
     page: 0,
-    rowsPerPage: 5,
+    rowsPerPage: 10,
     anchorEl: null,
-    clickedRowId: null
+    clickedRowId: null,
+    queryData: this.props.queryData
   };
 
   handleChangePage = (event, page) => {
@@ -57,8 +58,32 @@ class AutoTable extends React.Component {
     );
   };
 
+  timeout = false;
+
+  onChangeSearch = async value => {
+    let recordTest = false;
+    if (!this.timeout) {
+      this.timeout = true;
+      setTimeout(() => {
+        this.timeout = false;
+        this.setState({
+          queryData: this.props.queryData.filter(prop => {
+            for (let propertyOfProp in prop) {
+              if (prop.hasOwnProperty(propertyOfProp)) {
+                if (!recordTest && new RegExp(value.toString(), 'i').test(prop[propertyOfProp])) return true;
+              }
+            }
+            recordTest = false;
+            return false;
+          })
+        });
+      }, 200);
+    }
+  };
+
   handleEdit = recordId => {
-    console.log('45, recordId Mateusz: ', recordId);
+    //console.log('38, this.props.dialogForm.type.name jakub: ', this.props.dialogForm.type.name);
+    //console.log('45, recordId Mateusz: ', recordId);
     this.handleMenuClose();
     this.setState({
       openEdit: true,
@@ -103,7 +128,7 @@ class AutoTable extends React.Component {
     return (
       <div style={{ minWidth: '100%' }}>
         <div className={classes.actions}>
-          <SearchBar />
+          <SearchBar onChange={this.onChangeSearch} />
         </div>
         <Paper className={classes.root}>
           <Table className={classes.table}>
@@ -112,7 +137,7 @@ class AutoTable extends React.Component {
               <AutoContent
                 // query={editMode && query}
                 // formName={editMode && dialogForm.type.name}
-                queryData={queryData}
+                queryData={this.state.queryData}
                 // querySubject={querySubject}
                 editMode={editMode}
                 page={page}
@@ -137,7 +162,7 @@ class AutoTable extends React.Component {
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  colSpan={this.state.labelCount}
+                  colSpan={labelCount}
                   count={querySize}
                   rowsPerPage={rowsPerPage}
                   page={page}
@@ -145,7 +170,7 @@ class AutoTable extends React.Component {
                   onChangeRowsPerPage={this.handleChangeRowsPerPage}
                   ActionsComponent={TablePaginationActions}
                   labelRowsPerPage={'Wiesze na stronę'}
-                  rowsPerPageOptions={[5, 25, 100, 250]}
+                  rowsPerPageOptions={[10, 25, 100, 250]}
                 />
               </TableRow>
             </TableFooter>

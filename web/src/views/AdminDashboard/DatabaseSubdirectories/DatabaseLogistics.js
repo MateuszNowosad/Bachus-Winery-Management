@@ -38,12 +38,12 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <CircularProgress />;
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
-                let items = data.PozycjaWMagazynie;
                 return (
                   <AutoTable
+                    key={1}
                     query={getItemsInStock}
-                    queryData={items}
-                    querySize={items.length}
+                    queryData={data.PozycjaWMagazynie}
+                    querySize={data.PozycjaWMagazynie.length}
                     dialogForm={<FormItemInStock />}
                     dialogFormTitle={'Pozycja w magazynie'}
                     editMode={true}
@@ -63,7 +63,9 @@ class DatabaseProduction extends React.Component {
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
                 let parcel = data.Przesylka;
-                return <AutoTable queryData={parcel} querySize={parcel.length} editMode={false} />;
+                return <AutoTable
+                  key={2}
+                  queryData={parcel} querySize={parcel.length} editMode={false} />;
               }}
             </Query>
           </TabContainer>
@@ -76,12 +78,11 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <CircularProgress />;
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
-                let waybill = data.ListPrzewozowy;
                 return (
                   <AutoTable
                     query={getWaybills}
-                    queryData={waybill}
-                    querySize={waybill.length}
+                    queryData={data.ListPrzewozowy}
+                    querySize={data.ListPrzewozowy.length}
                     dialogForm={<FormWaybill />}
                     dialogFormTitle={'List przewozowy'}
                     editMode={true}
@@ -100,12 +101,11 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <CircularProgress />;
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
-                let warehouses = data.Magazyn;
                 return (
                   <AutoTable
                     query={getWarehouses}
-                    queryData={warehouses}
-                    querySize={warehouses.length}
+                    queryData={data.Magazyn}
+                    querySize={data.Magazyn.length}
                     dialogForm={<FormWarehouse />}
                     dialogFormTitle={'Magazyn'}
                     editMode={true}
@@ -127,12 +127,11 @@ class DatabaseProduction extends React.Component {
                 if (loading) return <CircularProgress />;
                 if (error)
                   return <p>Wystąpił błąd podczas ładowania informacji z bazy danych. Spróbuj ponownie później.</p>;
-                let categories = data.DictKategorie;
                 return (
                   <AutoTable
                     query={getDictCategories}
-                    queryData={categories}
-                    querySize={categories.length}
+                    queryData={data.DictKategorie}
+                    querySize={data.DictKategorie.length}
                     dialogForm={<FormDictCategories />}
                     dialogFormTitle={'Kategoria przedmiotu w magazynie'}
                     editMode={true}

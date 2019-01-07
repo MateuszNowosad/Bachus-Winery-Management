@@ -9,10 +9,7 @@ import AdminDashboardRoutes from '../routes/AdminDashboardRoutes';
 import List from '@material-ui/core/List/List';
 import ListItemLink from '../components/Drawer/ListItemLink';
 import ExpandableListItem from '../components/Drawer/ExpandableListItem';
-import axios from 'axios';
-import indexRoutes from '../routes';
 import PropTypes from 'prop-types';
-import { FormProductionPlan } from '../views/common/forms/FormProductionPlan';
 import Loading from '../components/common/Loading';
 import NoMatch from '../components/common/NoMatch';
 
@@ -101,7 +98,11 @@ class AdminDashboardLayout extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.root}>
-          <OCAppBar onToggleDrawer={this.onDrawerToggle} drawerOpen={this.state.drawerOpen} />
+          <OCAppBar
+            onToggleDrawer={this.onDrawerToggle}
+            drawerOpen={this.state.drawerOpen}
+            isAuthenticated={this.props.isAuthenticated}
+          />
           <OCDrawer onToggleDrawer={this.onDrawerToggle} drawerOpen={this.state.drawerOpen}>
             {this.drawerList}
           </OCDrawer>
@@ -117,7 +118,8 @@ class AdminDashboardLayout extends React.Component {
 
 AdminDashboardLayout.propTypes = {
   role: PropTypes.number.isRequired,
-  waitingForServer: PropTypes.bool.isRequired
+  waitingForServer: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.func.isRequired
 };
 
 export default withStyles(AdminDashboardLayoutStyle)(AdminDashboardLayout);
