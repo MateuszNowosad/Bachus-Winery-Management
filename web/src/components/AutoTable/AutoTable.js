@@ -29,7 +29,7 @@ class AutoTable extends React.Component {
     openEdit: false,
     openDetails: false,
     page: 0,
-    rowsPerPage: 5,
+    rowsPerPage: 10,
     anchorEl: null,
     clickedRowId: null,
     queryData: this.props.queryData
@@ -170,7 +170,7 @@ class AutoTable extends React.Component {
                   onChangeRowsPerPage={this.handleChangeRowsPerPage}
                   ActionsComponent={TablePaginationActions}
                   labelRowsPerPage={'Wiesze na stronę'}
-                  rowsPerPageOptions={[5, 25, 100, 250]}
+                  rowsPerPageOptions={[10, 25, 100, 250]}
                 />
               </TableRow>
             </TableFooter>

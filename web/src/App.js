@@ -46,12 +46,9 @@ class App extends Component {
       url: '/usrrole',
       withCredentials: true
     }).then(response => {
-      console.log('41, response Mateusz: ', response);
       if (response.data) {
-        console.log('43, "Success" Mateusz: ', 'Success');
         this.setState({ role: response.data.role, waitingForServer: false, routeArr: null });
       } else {
-        console.log('45, "Error" Mateusz: ', 'Error');
         this.setState({ waitingForServer: true, role: '', routeArr: null });
       }
     });

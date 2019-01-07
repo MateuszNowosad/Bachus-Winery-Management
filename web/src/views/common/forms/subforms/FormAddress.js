@@ -186,7 +186,7 @@ export class FormAddress extends React.Component {
             onChange={this.handleChange('postalCode')}
             variant={'outlined'}
             inputProps={{
-              maxLength: '5'
+              maxLength: '12'
             }}
           />
         </Grid>
