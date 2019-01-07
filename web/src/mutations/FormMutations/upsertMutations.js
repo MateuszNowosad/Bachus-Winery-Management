@@ -273,11 +273,11 @@ export const waybillFK = countFK => gql`
     $idAdresNadania: String!
     $idAdresOdbioru: String!
     $idPrzesylka: String!
-    $senderJTId: ID!
-    $recipentJTId: ID!
-    $carrierJTId: ID!
-    $mailingAddressJTId: ID!
-    $pickupAddressJTId: ID!
+    $senderJTId: ID
+    $recipentJTId: ID
+    $carrierJTId: ID
+    $mailingAddressJTId: ID
+    $pickupAddressJTId: ID
     ${parcelVariables(countFK ? countFK.content : 0)}
     ${parcelDeleteVariables(countFK ? countFK.contentToDelete : 0)}
   ) {

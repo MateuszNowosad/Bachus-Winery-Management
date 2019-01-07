@@ -68,7 +68,7 @@ export const wineInformationValidationKeys = {
 export const contractorsValidationKeys = {
   NIP: /^($|\d{10})$/,
   companyName: new RegExp('^[\\s\\S]{2,40}$', 'u'),
-  phoneNumber: /^\d{14}$/,
+  phoneNumber: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
   eMail: /^(?=.{5,90}$)(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   wwwSite: /^(?=.{4,255}$)(|(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)$/,
   KRS: /^($|\d{10})$/,
